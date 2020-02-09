@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="sign-in-form">
+    <h3 class="text-center">Manage your account settings.</h3>
+    <p class="line-break"></p>
+    <%= render 'devise/shared/alerts'%>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name),
+    :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="form-group">
+        <%= f.label :full_name, class: 'control-label form-label' %>
+        <div>
+          <%= f.text_field :full_name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :current_password, class: 'form-label control-label' %>
+        <div>
+          <%= f.password_field :current_password, :autocomplete => "current-password", class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email, class: 'control-label form-label' %>
+        <div>
+          <%= f.email_field :email, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password, 'New Password', class: 'form-label control-label' %>
+        <div>
+          <%= f.password_field :password, :autocomplete => "new-password", class: 'form-control' %>
+        </div>
+		    
+      </div>
+			
+      <div class="form-group">
+        <%= f.label :password_confirmation, 'New Password Confirmation', class: 'form-label control-label' %>
+        <div>
+          <%= f.password_field :password_confirmation, :autocomplete => "new-password", class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit "Save Changes", class: 'btn btn-lg btn-purple' %> or
+        <%= link_to 'Cancel', root_path, class: 'grey-linky' %>
+      </div>
+    <% end %>
+	  <div class="line-break"></div>
+	  <div class="row">
+	    <div class="col-lg-12">
+	      <h3 class="text-danger">Cancel my account</h3>
+	      <p>If you are unhappy with our service, you can cancel your account at any time. No questions asked.</p>
+	      <p><%= link_to "Delete my account.", registration_path(resource_name),
+	        :data => { :confirm => "You are about to delete your account permanently. We will delete all your data from our servers." },
+	        :method => :delete, class: 'btn btn-lg btn-danger' %>
+	      </p>
+	    </div>
+	  </div>
+  </div>
+</div>
