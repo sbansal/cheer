@@ -4,10 +4,23 @@ html {
 }
 
 body {
-  color: #334E68;
-	font-size: 1.1rem;
-  font-family: 'proxima-nova','Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #F1F1F1;
+  color: #222;
+  font-size: 1.2rem;
+  font-family: 'benton-sans','Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #FFF;
+  font-weight: 500;
+  width: 80%;
+  margin: 40px auto;
+  header.logo {
+    font-weight: 800;
+    font-size: 32px;
+    color: #e44717;
+  }
+  main {
+    border-top: 1px solid #f5f5f5;
+    padding: 20px 0;
+    margin-top: 20px;
+  }
 }
 
 a.grey-linky {
@@ -22,12 +35,13 @@ a.grey-linky {
 
 .btn-primary {
 	color: #FFF;
-	background-color: #5D55FA;
-	font-size: 1.2rem;
+	background-color: #e44717;
+	azimuthfont-size: 1.2rem;
 	font-weight: bold;
+  border: none;
 	&:hover {
 		color: #FFF;
-		background-color: #5D55FA;
+		background-color: #e44717;
 	}
 }
 
