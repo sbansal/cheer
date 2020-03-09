@@ -7,4 +7,8 @@ class User < ApplicationRecord
  def has_no_posts?
    true
  end
+ 
+ def friendly_name
+   full_name.split(' ')&.first
+ end
 end

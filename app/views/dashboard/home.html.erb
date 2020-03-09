@@ -1,6 +1,6 @@
 <% if current_user.has_no_posts?%>
   <div id="name">
-    Welcome to Cheer! We are so glad you are here. Let's get you started quickly.
+    <%= current_user.friendly_name %>, Cheer Up! We are so glad you are here. Let's get you started quickly.
     <%= link_to 'How about a quick picture?', '', class: 'btn btn-primary' %>
   </div>
 <% else %>
