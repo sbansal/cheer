@@ -1,21 +1,14 @@
 <%= link_to 'Link Account', '', {id: 'plaid-link', remote: true, data: {authentication_token: form_authenticity_token }}%>
-<table class="table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Category</th>
-      <th scope="col">Description</th>
-      <th scope="col">Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @transactions.each do |transaction| %>
-      <tr>
-        <td scope="row"><%= transaction.occured_at.strftime('%m/%d/%Y') %></th>
-        <td><%= transaction.category_json %></td>
-        <td><%= transaction.description %></td>
-        <td><%= number_to_currency(transaction.amount)%></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% @bank_accounts.each do |account| %>
+  <p class="account-name">
+    <div id="">
+      <span><%= image_tag "data:image/jpeg;base64,#{account.login_item.institution.logo}", size: "30x30" %></span>
+      <span><%= account.name %></span>
+    </div>
+  </p>
+  <% if account.transactions.empty? %>
+    <div>No transactions found.</div>
+  <% else %>
+    <%= render 'transactions', transactions: account.transactions %>
+  <% end %>
+<% end %>

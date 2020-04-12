@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_04_12_035457) do
     t.integer "institution_id"
     t.datetime "consent_expires_at"
     t.jsonb "error_json"
-    t.datetime "last_successful_transaction_update_at"
+    t.datetime "last_successful_transaction_update_at"  
     t.datetime "last_failed_transaction_update_at"
     t.datetime "last_webhook_sent_at"
     t.string "last_webhook_code_sent"
