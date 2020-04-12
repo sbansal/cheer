@@ -7,6 +7,10 @@
     :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
       <%= devise_error_messages! %>
 
+      <div class="user-avatar">
+        <%= image_tag current_user.avatar.attached? ? current_user.avatar : "", size: '100x100', class: 'user-avatar' %>
+        <%= f.file_field :avatar, class: 'btn btn-sm avatar-upload-button' %>
+      </div>
       <div class="form-group">
         <%= f.label :full_name, class: 'control-label form-label' %>
         <div>
@@ -44,7 +48,7 @@
       </div>
 
       <div class="form-group">
-        <%= f.submit "Save Changes", class: 'btn btn-lg btn-purple' %> or
+        <%= f.submit "Save Changes", class: 'btn btn-primary' %> or
         <%= link_to 'Cancel', root_path, class: 'grey-linky' %>
       </div>
     <% end %>

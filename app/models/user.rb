@@ -4,10 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
- def has_no_posts?
-   true
- end
- 
+  has_one_attached :avatar
+  has_many :login_items
+  has_many :bank_accounts
+  has_many :transactions, ->{ order(:occured_at => 'DESC') }
+  
+  def has_no_posts?
+    true
+  end
+
  def friendly_name
    full_name.split(' ')&.first
  end

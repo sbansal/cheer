@@ -36,7 +36,7 @@ a.grey-linky {
 .btn-primary {
 	color: #FFF;
 	background-color: #e44717;
-	azimuthfont-size: 1.2rem;
+  font-size: 1.2rem;
 	font-weight: bold;
   border: none;
 	&:hover {
@@ -94,4 +94,15 @@ ul.simple-list {
 	font-weight: bold;
 	font-size: 24px;
 	color: #111;
+}
+
+.post-box {
+  margin: 10px 0;
+  border: 1px solid #DDD;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.new-greeting {
+  margin: 10px 0;
 }

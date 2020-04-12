@@ -1,7 +1,10 @@
 <% if current_user.has_no_posts?%>
-  <div id="name">
-    <%= current_user.friendly_name %>, Cheer Up! We are so glad you are here. Let's get you started quickly.
-    <%= link_to 'How about a quick picture?', '', class: 'btn btn-primary' %>
+  <div class="new-greeting">
+    <%= current_user.friendly_name %>, Cheer Up! We are so glad you are here.
   </div>
-<% else %>
+<% end %>
+
+<%= form_with do %>
+  <%= rich_text_area_tag :post, "", placeholder: 'So what are you upto today?', size: '100x4', class: 'post-box' %>
+  <%= button_tag 'Post', class: 'btn btn-primary' %>
 <% end %>

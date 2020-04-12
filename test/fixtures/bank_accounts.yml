@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  plaid_account_id: MyString
+  name: MyString
+  official_name: MyString
+  type: 
+  subtype: MyString
+  mask: MyString
+  balance_available: 1.5
+  balance_limit: 1.5
+  balance_currency_code: MyString
+  item_id: 1
+  user_id: 1
+
+two:
+  plaid_account_id: MyString
+  name: MyString
+  official_name: MyString
+  type: 
+  subtype: MyString
+  mask: MyString
+  balance_available: 1.5
+  balance_limit: 1.5
+  balance_currency_code: MyString
+  item_id: 1
+  user_id: 1

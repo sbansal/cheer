@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item_id: MyString
+  institution_id: 1
+  consent_expires_at: 2020-04-10 21:23:00
+  error_json: 
+  last_successful_transaction_update_at: 2020-04-10 21:23:00
+  last_failed_transaction_update_at: 2020-04-10 21:23:00
+  last_webhook_sent_at: 2020-04-10 21:23:00
+  last_webhook_code_sent: MyString
+  user_id: 1
+
+two:
+  item_id: MyString
+  institution_id: 1
+  consent_expires_at: 2020-04-10 21:23:00
+  error_json: 
+  last_successful_transaction_update_at: 2020-04-10 21:23:00
+  last_failed_transaction_update_at: 2020-04-10 21:23:00
+  last_webhook_sent_at: 2020-04-10 21:23:00
+  last_webhook_code_sent: MyString
+  user_id: 1
