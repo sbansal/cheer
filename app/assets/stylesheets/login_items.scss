@@ -1,0 +1,25 @@
+// Place all the styles related to the login_items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.login-items-container {
+  float: left;
+  padding: 0 30px;
+  width: 100%;
+}
+.login-item-container {
+  border: 1px solid #D9E2EC;
+  width: 21%;
+  text-align: center;
+  float:left;
+  margin: 20px;
+  padding: 0 10px;
+  background-color: #F0F4F8;
+  border-radius: 5px;
+}
+.institution-logo {
+  margin: 20px 0;
+}
+.institution-name {
+  font-size: 18px;
+  font-weight: 600;
+}

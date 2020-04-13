@@ -9,4 +9,8 @@ class Institution < ApplicationRecord
       url: institution_json.url,
     )
   end
+
+  def logo_source
+    "data:image/jpeg;base64,#{logo}"
+  end
 end

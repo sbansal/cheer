@@ -14,7 +14,7 @@ body {
   header.logo {
     font-weight: 800;
     font-size: 32px;
-    color: #e44717;
+    color: #7069FA;
   }
   main {
     border-top: 1px solid #f5f5f5;
@@ -35,13 +35,11 @@ a.grey-linky {
 
 .btn-primary {
 	color: #FFF;
-	background-color: #e44717;
-  font-size: 1.2rem;
-	font-weight: bold;
+	background-color: #7069FA;
   border: none;
 	&:hover {
 		color: #FFF;
-		background-color: #e44717;
+		background-color: #7069FA;
 	}
 }
 
@@ -105,4 +103,22 @@ ul.simple-list {
 
 .new-greeting {
   margin: 10px 0;
+}
+
+.small {
+  font-size: 11px;
+}
+
+.inactive {
+  color: #829AB1;
+}
+
+.status {
+//  border: 1px solid #BCCCDC;
+  padding: 1px 7px;
+  width: min-content;
+  margin: 5px auto;
+  background-color: #BCCCDC;
+  font-size: 10px;
+  border-radius: 4px;
 }

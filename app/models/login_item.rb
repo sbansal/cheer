@@ -1,5 +1,5 @@
 class LoginItem < ApplicationRecord
-  has_many :bank_accounts
+  has_many :bank_accounts, dependent: :destroy
   belongs_to :user
   belongs_to :institution
 
@@ -20,5 +20,18 @@ class LoginItem < ApplicationRecord
       last_webhook_code_sent: status_json&.last_webhook&.code_sent,
       user_id: user_id,
     )
+  end
+  
+  def active?
+    last_failed_transaction_update_at.nil? || 
+      (last_successful_transaction_update_at > last_failed_transaction_update_at)
+  end
+  
+  def status
+    active? ? "active" : "inactive"
+  end
+  
+  def transactions_count
+    bank_accounts.inject(0) { |sum, account| sum + account.transactions.count }
   end
 end

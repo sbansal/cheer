@@ -2,7 +2,7 @@
 <% @bank_accounts.each do |account| %>
   <p class="account-name">
     <div id="">
-      <span><%= image_tag "data:image/jpeg;base64,#{account.login_item.institution.logo}", size: "30x30" %></span>
+      <span><%= image_tag account.login_item.institution.logo_source, size: "30x30" %></span>
       <span><%= account.name %></span>
     </div>
   </p>
