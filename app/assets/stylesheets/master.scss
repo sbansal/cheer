@@ -4,10 +4,10 @@ html {
 }
 
 body {
-  color: #222;
-  font-size: 1rem;
+  color: #334E68;
+  font-size: 16px;
   font-family: 'benton-sans','Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #FFF;
+  background-color: #F0F4F8;
   font-weight: 500;
   margin: 20px auto;
   header.logo {
@@ -20,6 +20,11 @@ body {
     padding: 20px 0;
   }
 }
+
+div, table, p, span, section {
+  color: #334E68;
+}
+
 
 a.grey-linky {
   font-size: 13px;
@@ -105,6 +110,10 @@ ul.simple-list {
 
 .small {
   font-size: 11px;
+}
+
+.grey {
+  color: #829AB1;
 }
 
 .inactive {
