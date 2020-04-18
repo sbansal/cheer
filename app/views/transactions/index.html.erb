@@ -1,14 +1,16 @@
 <%= link_to 'Link Account', '', {id: 'plaid-link', remote: true, data: {authentication_token: form_authenticity_token }}%>
 <% @bank_accounts.each do |account| %>
-  <p class="account-name">
-    <div id="">
-      <span><%= image_tag account.login_item.institution.logo_source, size: "30x30" %></span>
-      <span><%= account.name %></span>
-    </div>
-  </p>
-  <% if account.transactions.empty? %>
-    <div>No transactions found.</div>
-  <% else %>
+  <% unless account.transactions.empty? %>
+      <p class="">
+        <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
+        <span><%= account.name %></span>
+        <div id="name">
+          <%= number_to_currency(account.total_credits)%> Credit
+        </div>
+        <div id="name">
+          <%= number_to_currency(account.total_debits)%> Debits
+        </div>
+      </p>
     <%= render 'transactions', transactions: account.transactions %>
   <% end %>
 <% end %>

@@ -27,4 +27,8 @@ class Transaction < ApplicationRecord
     end
     create!(transactions)
   end
+
+  def category_list
+    category_json.join(', ')
+  end
 end

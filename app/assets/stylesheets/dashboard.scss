@@ -1,3 +1,61 @@
 // Place all the styles related to the dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.metrics-container {
+  background-color: #F0F4F8;
+  float:left;
+  width: 100%;
+  margin: auto;
+  .metric-legend {
+    width: 80%;
+    font-weight: 600;
+    margin: 10px auto;
+    text-align: left;
+  }
+  .metric {
+    padding: 80px 0;
+    float:left;
+    width: 33%;
+    margin: 0 auto;
+    text-align: center;
+    .metric-title {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .metric-value {
+      font-weight: 800;
+      font-size: 32px;
+    }
+    .metric-trend {
+      .trend-timeframe {
+        color: #222;
+      }
+    }
+  }
+}
+
+.subscriptions {
+  .title {
+    font-weight: 800;
+  }
+  border: 1px solid #9FB3C8;
+  border-radius: 5px;
+  margin: 20px 10px;
+  padding: 10px;
+  width: 20%;
+}
+
+.budget-button {
+  text-align: center;
+}
+
+.btn-budget {
+  margin-top: -30px;
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: 800;
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -5,21 +5,19 @@ html {
 
 body {
   color: #222;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: 'benton-sans','Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #FFF;
   font-weight: 500;
-  width: 80%;
-  margin: 40px auto;
+  margin: 20px auto;
   header.logo {
     font-weight: 800;
     font-size: 32px;
     color: #7069FA;
+    margin-left: 20px;
   }
   main {
-    border-top: 1px solid #f5f5f5;
     padding: 20px 0;
-    margin-top: 20px;
   }
 }
 
@@ -121,4 +119,28 @@ ul.simple-list {
   background-color: #BCCCDC;
   font-size: 10px;
   border-radius: 4px;
+}
+
+.icon-small {
+  font-weight: bold;
+  height: 20px;
+  width: 20px;
+}
+
+.up {
+  color: #3EBD93;
+}
+
+.down {
+  color: #EF4E4E;
+}
+
+a.linky {
+  color: #222;
+  .hover {
+    text-decoration: underline;
+  }
+}
+.clear {
+  clear: both;
 }

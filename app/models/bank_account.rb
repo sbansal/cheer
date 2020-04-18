@@ -21,4 +21,12 @@ class BankAccount < ApplicationRecord
     end
     create!(banks_accounts)
   end
+
+  def total_credits
+    transactions.map { |tx| tx.amount > 0 ? tx.amount : 0 }.sum
+  end
+  
+  def total_debits
+    transactions.map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum
+  end
 end
