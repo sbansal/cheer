@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  helper DashboardHelper
   def home
   end
   

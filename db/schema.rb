@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_12_035457) do
+ActiveRecord::Schema.define(version: 2020_04_20_013629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_04_12_035457) do
     t.integer "institution_id"
     t.datetime "consent_expires_at"
     t.jsonb "error_json"
-    t.datetime "last_successful_transaction_update_at"  
+    t.datetime "last_successful_transaction_update_at"
     t.datetime "last_failed_transaction_update_at"
     t.datetime "last_webhook_sent_at"
     t.string "last_webhook_code_sent"
@@ -91,6 +91,16 @@ ActiveRecord::Schema.define(version: 2020_04_12_035457) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "last_transaction_id"
+    t.integer "user_id"
+    t.string "frequency"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "bank_account_id"
+    t.string "description"
   end
 
   create_table "transactions", force: :cascade do |t|

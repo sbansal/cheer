@@ -1,7 +1,8 @@
 class BankAccount < ApplicationRecord
-  has_many :transactions, dependent: :destroy
+  has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   belongs_to :user
   belongs_to :login_item
+  has_many :subscriptions, dependent: :destroy
   
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id)
     banks_accounts = accounts_json_array.map do |account_json|
@@ -22,11 +23,30 @@ class BankAccount < ApplicationRecord
     create!(banks_accounts)
   end
 
-  def total_credits
-    transactions.map { |tx| tx.amount > 0 ? tx.amount : 0 }.sum
+  def total_credits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
+    transactions.occured_between(start_date, end_date).map { |tx| tx.amount > 0 ? tx.amount : 0 }.sum
   end
   
-  def total_debits
-    transactions.map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum
+  def total_debits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
+    transactions.occured_between(start_date, end_date).map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum
+  end
+  
+  def recurring_transactions
+    transactions_hash = transactions.select(&:payment?).group_by { |tx| tx.description + tx.amount.to_s }
+    recurring_transactions = []
+    transactions_hash.each do |key, transactions|
+      if transactions.count > 1
+        dates = transactions.map(&:occured_at)
+        frequencies = dates.filter_map.with_index do |date, i|
+          (dates[i] - dates[i+1]).to_i unless dates[i+1].nil?
+        end
+        user_subscription = self.subscriptions.build(user_id: user.id).with_frequency(frequencies.uniq.sort)
+        if user_subscription.frequency?
+          user_subscription.last_transaction = transactions.first
+          recurring_transactions << user_subscription
+        end
+      end
+    end
+    recurring_transactions
   end
 end

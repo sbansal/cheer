@@ -1,6 +1,8 @@
 class Transaction < ApplicationRecord
   belongs_to :bank_account
   belongs_to :user
+  
+  scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = transactions_json_array.map do |transactions_json|
@@ -30,5 +32,9 @@ class Transaction < ApplicationRecord
 
   def category_list
     category_json.join(', ')
+  end
+  
+  def payment?
+    amount > 0 && (transaction_type == 'digital' || transaction_type == 'place')
   end
 end
