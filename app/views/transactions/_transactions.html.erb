@@ -3,7 +3,6 @@
     <tr>
       <th scope="col">Date</th>
       <th scope="col">Description</th>
-      <th scope="col">Category</th>
       <th scope="col">Amount</th>
     </tr>
   </thead>
@@ -11,8 +10,10 @@
     <% transactions.each do |transaction| %>
       <tr>
         <td scope="row"><%= transaction.occured_at.strftime('%b %d, %Y') %></th>
-        <td><%= transaction.description %></td>
-        <td><%= transaction.category_list %></td>
+        <td>
+          <div><%= transaction.description %></div>
+          <div class=""><%= transaction.category_list %></div>
+        </td>
         <td><%= number_to_currency(transaction.amount)%></td>
       </tr>
     <% end %>

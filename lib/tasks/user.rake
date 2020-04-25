@@ -4,6 +4,7 @@ namespace :user do
     User.all.each do |user|
       user.process_recurring_transactions
       puts "Total subscription for user #{user.id} = #{user.subscriptions.count}"
+      puts "First subscription for user #{user.id} = #{user.subscriptions.first.inspect}"
     end
   end
 end

@@ -1,3 +1,26 @@
 // Place all the styles related to the transactions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.account-title {
+  font-weight: 800;
+  vertical-align: middle;
+  margin-left: 5px;
+  color: #7069FA;
+}
+
+.account-header {
+  margin: 20px 0;
+  float: left;
+}
+
+.account-info {
+  font-size: 14px;
+  margin: 20px 0;
+  .table {
+    font-size: 12px;
+    text-align: right;  
+  }
+  .account-value {
+    text-align:right;
+  }
+}

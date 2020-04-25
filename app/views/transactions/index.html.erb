@@ -1,16 +1,30 @@
-<%= link_to 'Link Account', '', {id: 'plaid-link', remote: true, data: {authentication_token: form_authenticity_token }}%>
-<% @bank_accounts.each do |account| %>
-  <% unless account.transactions.empty? %>
-      <p class="">
-        <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
-        <span><%= account.name %></span>
-        <div id="name">
-          <%= number_to_currency(account.total_credits)%> Credit
+<div class="container">
+  <div style="background-color: #FFF;padding: 20px">
+    <div style="text-align:right">
+      <%= link_to 'Link Bank Account', '', 
+        {id: 'plaid-link', remote: true, data: {authentication_token: form_authenticity_token }, class: 'btn btn-primary btn-lg'} %>
+    </div>
+    <% @bank_accounts.each do |account| %>
+      <% unless account.transactions.empty? %>
+        <div class="account-info">
+          <div class="account-header">
+            <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
+            <span class="account-title"><%= account.descriptive_name %></span>
+          </div>
+          <div class="account-value">
+              <div class="value">
+                <div><%= number_to_currency(account.total_money_in(Date.today.at_beginning_of_month, Date.today))%></span>
+                <div>Income for <%= Date.today.at_beginning_of_month.strftime('%b %Y') %> </span>
+              </div>
+              <div class="value">
+                <div><%= number_to_currency(account.total_money_out(Date.today.at_beginning_of_month, Date.today))%></span>
+                <div>Expenses for <%= Date.today.at_beginning_of_month.strftime('%b %Y') %></span>
+              </div>
+          </div>
+
+          <%= render 'transactions', transactions: account.transactions %>
         </div>
-        <div id="name">
-          <%= number_to_currency(account.total_debits)%> Debits
-        </div>
-      </p>
-    <%= render 'transactions', transactions: account.transactions %>
-  <% end %>
-<% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

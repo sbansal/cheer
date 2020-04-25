@@ -21,16 +21,16 @@ class User < ApplicationRecord
    login_items.map { |item| item.bank_accounts.count }.sum
  end
  
- def total_debits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
-   login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_debits(start_date, end_date) + sum } }.sum
+ def total_money_in(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+   login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_money_in(start_date, end_date) + sum } }.sum
  end
  
- def total_credits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
-   login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_credits(start_date, end_date) + sum } }.sum
+ def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+   login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_money_out(start_date, end_date) + sum } }.sum
  end
  
  def total_savings
-   total_credits.abs - total_debits.abs
+   total_money_in.abs - total_money_out.abs
  end
  
  def process_recurring_transactions

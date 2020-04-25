@@ -3,7 +3,7 @@ class PlaidClientCreator < ApplicationService
 
   def call
     Plaid::Client.new(
-      env: :sandbox,
+      env: :development,
       client_id: Rails.application.credentials[:plaid][:client_id],
       secret: Rails.application.credentials[:plaid][:secret],
       public_key: Rails.application.credentials[:plaid][:public_key]

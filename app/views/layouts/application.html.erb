@@ -10,6 +10,7 @@
 
   <body class="body">
     <header class="logo">Cheer</header>
+    <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
     <main><%= yield %></main>
   </body>
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>

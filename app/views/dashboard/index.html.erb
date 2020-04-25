@@ -1,78 +1,12 @@
 <div class="metrics-container">
-  <%= render 'metric', title: 'total earnings', metric_value: current_user.total_credits %>
-  <%= render 'metric', title: 'total expenses', metric_value: current_user.total_debits %>
+  <%= render 'metric', title: 'total earnings', metric_value: current_user.total_money_in %>
+  <%= render 'metric', title: 'total expenses', metric_value: current_user.total_money_out %>
   <%= render 'metric', title: 'total savings', metric_value: current_user.total_savings %>
 </div>
 <div class="clear"></div>
 <div class="budget-button">
   <%= link_to 'Start setting up a budget', '', class: 'btn btn-primary btn-lg btn-budget'%>
 </div>
-<div class="container">
-  <div class="subscriptions">
-    <p class="title">Subscriptions</p>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td>
-            <div class="bold">Netflix</div>
-            <div class="small grey">Monthly, Entertainment</div>
-          </td>
-          <td>
-            <div class="">$9.00</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="bold">Spotify</div>
-            <div class="small grey">Monthly, Entertainment</div>
-          </td>
-          <td>
-            <div class="">$19.00</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="bold">Disney+</div>
-            <div class="small grey">Monthly, Entertainment</div>
-          </td>
-          <td>
-            <div class="">$7.00</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="bold">HBO Go</div>
-            <div class="small grey">Monthly, Entertainment</div>
-          </td>
-          <td>
-            <div class="">$11.00</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="bold">Cross Town Fitness</div>
-            <div class="small grey">Monthly, Gym</div>
-          </td>
-          <td>
-            <div class="">$265.00</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="bold">Apple TV+</div>
-            <div class="small grey">Monthly, Entertainment</div>
-          </td>
-          <td>
-            <div class="">$4.99</div>
-            <div class="small grey">Last paid on Apr 4, 2020</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<% if @subscriptions.count > 0 %>
+  <%= render 'subscriptions' %>
+<% end %>

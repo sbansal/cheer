@@ -3,6 +3,8 @@ class Transaction < ApplicationRecord
   belongs_to :user
   
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
+  
+  INTERNAL_ACCOUNT_TRANSFER = 'Internal Account Transfer'
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = transactions_json_array.map do |transactions_json|
@@ -36,5 +38,9 @@ class Transaction < ApplicationRecord
   
   def payment?
     amount > 0 && (transaction_type == 'digital' || transaction_type == 'place')
+  end
+  
+  def internal_account_transfer?
+    category_json.include?(INTERNAL_ACCOUNT_TRANSFER)
   end
 end

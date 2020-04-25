@@ -22,18 +22,22 @@ class BankAccount < ApplicationRecord
     end
     create!(banks_accounts)
   end
+  
+  def descriptive_name
+    (official_name || name) + " - " + mask
+  end
 
-  def total_credits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
-    transactions.occured_between(start_date, end_date).map { |tx| tx.amount > 0 ? tx.amount : 0 }.sum
+  def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    transactions.occured_between(start_date, end_date).map { |tx| tx.amount > 0 && !tx.internal_account_transfer? ? tx.amount : 0 }.sum.abs
   end
   
-  def total_debits(start_date=(Time.zone.now - 1.month), end_date=Time.zone.now)
-    transactions.occured_between(start_date, end_date).map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum
+  def total_money_in(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    transactions.occured_between(start_date, end_date).map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum.abs
   end
   
   def recurring_transactions
     transactions_hash = transactions.select(&:payment?).group_by { |tx| tx.description + tx.amount.to_s }
-    recurring_transactions = []
+    recurring_transactions = [] 
     transactions_hash.each do |key, transactions|
       if transactions.count > 1
         dates = transactions.map(&:occured_at)
@@ -43,6 +47,7 @@ class BankAccount < ApplicationRecord
         user_subscription = self.subscriptions.build(user_id: user.id).with_frequency(frequencies.uniq.sort)
         if user_subscription.frequency?
           user_subscription.last_transaction = transactions.first
+          user_subscription.save!
           recurring_transactions << user_subscription
         end
       end

@@ -11,6 +11,7 @@
       <div class="small inactive">Added on <%= item.created_at.strftime('%b, %d %Y') %></div>
       <div class="btn-container" style="margin: 30px 0">
         <%= link_to 'Update Login', '', class: 'btn btn-sm btn-secondary' %>
+        <%= link_to 'Refresh', refresh_transactions_path(item), class: 'btn btn-sm btn-secondary' %>
         <%= link_to 'Delete', login_item_path(item), 
           :data => { :confirm => "We will delete all accounts and transactions related to this login item." },
           :method => :delete, 

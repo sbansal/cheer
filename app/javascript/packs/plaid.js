@@ -1,7 +1,7 @@
 var handler = Plaid.create({
   clientName: 'cheer',
   countryCodes: ['US'],
-  env: 'sandbox',
+  env: 'development',
   key: 'c2e1ee0a92965331268d3fc4473ba7',
   product: ['transactions'],
   // webhook: 'https://requestb.in',

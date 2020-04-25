@@ -8,7 +8,7 @@ class PlaidLoginItemCreator < ApplicationService
   def call
     login_item = create_login_item
     bank_accounts = create_accounts(login_item)
-    add_transactions_for_accounts(bank_accounts)
+    PlaidTransactionsCreator.call(@access_token, @user, 6.months.ago.to_date.iso8601, Date.today.iso8601)
   end
 
   private
@@ -35,24 +35,5 @@ class PlaidLoginItemCreator < ApplicationService
     accounts_response = @client.accounts.get(@access_token)
     accounts_array_json = accounts_response[:accounts]
     BankAccount.create_accounts_from_json(accounts_array_json, login_item.id, @user.id)
-  end
-
-  def add_transactions_for_accounts(bank_accounts)
-    transactions_response = @client.transactions.get(
-      @access_token,
-      6.months.ago.to_date.iso8601,
-      Date.today.iso8601
-    )
-    transactions_json_array = transactions_response[:transactions]
-    Rails.logger.info "Total transactions that need to be fetched - #{transactions_response[:total_transactions]}"
-    while transactions_json_array.length < transactions_response[:total_transactions]
-      transactions_response = @client.transactions.get(
-        @access_token,
-        6.months.ago.to_date.iso8601,
-        Date.today.iso8601
-      )
-      transactions_json_array << transactions_response[:transactions]
-    end
-    Transaction.create_transactions_from_json(transactions_json_array, @user.id)
   end
 end

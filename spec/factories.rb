@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :bank_account do 
     plaid_account_id { '7mNNDWvLw4hBXMMQkXwvFQa9WzXe9EUgG4lPp' }
     name { 'Chase Credit Card'}
-    official_name { 'Chase Sapphire Reserve' }
+    official_name { 'Chase Something Platinum' }
     account_type { 'credit' }
     account_subtype { 'credit card' }
     mask { '1111' }
@@ -47,8 +47,8 @@ FactoryBot.define do
     currency_code { 'USD' }
     category_json { '["Food and Drink", "Restaurants", "Fast Food"]' }
     plaid_category_id { 21005000 }
-    occured_at { Date.new }
-    authorized_at { Date.new }
+    occured_at { Date.today }
+    authorized_at { Date.today }
     location_json {}
     description { 'Madison Bicycle Shop' }
     transaction_type { 'place' }
