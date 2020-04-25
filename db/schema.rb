@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_013629) do
+ActiveRecord::Schema.define(version: 2020_04_25_223653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 2020_04_20_013629) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "group"
+    t.jsonb "hierarchy"
+    t.string "plaid_category_id"
+    t.integer "rank"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
+  end
+
   create_table "institutions", force: :cascade do |t|
     t.string "plaid_institution_id"
     t.string "name"
@@ -107,8 +117,6 @@ ActiveRecord::Schema.define(version: 2020_04_20_013629) do
     t.string "plaid_transaction_id"
     t.float "amount"
     t.string "currency_code"
-    t.jsonb "category_json"
-    t.string "plaid_category_id"
     t.date "occured_at"
     t.date "authorized_at"
     t.jsonb "location_json"
@@ -123,6 +131,7 @@ ActiveRecord::Schema.define(version: 2020_04_20_013629) do
     t.integer "bank_account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "category_id"
   end
 
   create_table "users", force: :cascade do |t|

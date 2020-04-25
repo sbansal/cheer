@@ -1,0 +1,25 @@
+<div class="container" style="background-color: #FFF; font-size: 14px; padding: 20px">
+  <h4 class="title">All Categories</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Group</th>
+        <th scope="col">Hierarchy</th>
+        <th scope="col">Plaid Category ID</th>
+        <th scope="col">Rank</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @categories.each_with_index do |category, index| %>
+        <tr>
+          <td><%= index + 1%></td>
+          <td scope="row"><%= category.group.humanize %></th>
+          <td><%= category.hierarchy %></td>
+          <td><%= category.plaid_category_id %></td>
+          <td><%= category.rank%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

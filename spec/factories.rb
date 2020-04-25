@@ -1,4 +1,11 @@
 FactoryBot.define do
+  factory :category do
+    group { "MyString" }
+    hierarchy { "" }
+    plaid_category_id { "MyString" }
+    rank { 1 }
+  end
+
   factory :user do
     full_name { "Joe Black" }
     sequence :email do |n|
