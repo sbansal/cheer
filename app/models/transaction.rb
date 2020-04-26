@@ -4,8 +4,7 @@ class Transaction < ApplicationRecord
   belongs_to :category
   
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
-  
-  INTERNAL_ACCOUNT_TRANSFER = 'Internal Account Transfer'
+  scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = transactions_json_array.map do |transactions_json|
@@ -33,15 +32,7 @@ class Transaction < ApplicationRecord
     create!(transactions)
   end
 
-  def category_list
-    category.hierarchy.join(', ')
-  end
-  
   def payment?
     amount > 0 && (transaction_type == 'digital' || transaction_type == 'place')
-  end
-  
-  def internal_account_transfer?
-    category.hierarchy.include?(INTERNAL_ACCOUNT_TRANSFER)
   end
 end

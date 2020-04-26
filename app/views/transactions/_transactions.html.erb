@@ -12,7 +12,7 @@
         <td scope="row"><%= transaction.occured_at.strftime('%b %d, %Y') %></th>
         <td>
           <div><%= transaction.description %></div>
-          <div class=""><%= transaction.category_list %></div>
+          <div class=""><%= transaction.category.category_list %></div>
         </td>
         <td><%= number_to_currency(transaction.amount)%></td>
       </tr>

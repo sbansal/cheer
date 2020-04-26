@@ -40,4 +40,16 @@ class User < ApplicationRecord
  def subscriptions
    bank_accounts.map { |account| account.subscriptions }.flatten
  end
+ 
+ def transactions_amount_by_top_category
+   Category.where(rank: 1).map {
+     |category| [category.category_list, add_transactions(transactions.with_category(category.hierarchy))]
+   }.to_h.sort_by(&:last).reverse
+ end
+ 
+ private
+ 
+ def add_transactions(transactions=[])
+   transactions.inject(0) { |sum, tx| sum + tx.amount }
+ end
 end

@@ -22,7 +22,7 @@
               </div>
           </div>
 
-          <%= render 'transactions', transactions: account.transactions %>
+          <%= render 'transactions', transactions: account.transactions.includes(:category) %>
         </div>
       <% end %>
     <% end %>

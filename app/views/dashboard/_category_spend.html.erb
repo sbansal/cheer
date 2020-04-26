@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="subscriptions">
+    <p class="title">Spend by top categories</p>
+    <table class="table">
+      <tbody>
+        <% @spend_by_category.each do |spend| %>
+        <tr>
+          <td>
+            <div class="bold"><%= spend[0] %></div>
+          </td>
+          <td>
+            <div class=""><%= number_to_currency(spend[1])%></div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

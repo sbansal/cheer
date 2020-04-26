@@ -28,7 +28,9 @@ class BankAccount < ApplicationRecord
   end
 
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.occured_between(start_date, end_date).map { |tx| tx.amount > 0 && !tx.internal_account_transfer? ? tx.amount : 0 }.sum.abs
+    transactions.includes(:category).occured_between(start_date, end_date).map { 
+      |tx| tx.amount > 0 && !tx.category.internal_account_transfer? ? tx.amount : 0 
+    }.sum.abs
   end
   
   def total_money_in(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
