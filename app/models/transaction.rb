@@ -32,7 +32,7 @@ class Transaction < ApplicationRecord
     create!(transactions)
   end
 
-  def payment?
-    amount > 0 && (transaction_type == 'digital' || transaction_type == 'place')
+  def charge?
+    amount > 0
   end
 end

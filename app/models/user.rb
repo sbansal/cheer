@@ -43,7 +43,7 @@ class User < ApplicationRecord
  
  def transactions_amount_by_top_category
    Category.where(rank: 1).map {
-     |category| [category.category_list, add_transactions(transactions.with_category(category.hierarchy))]
+     |category| [category.category_list, add_transactions(transactions.with_category(category.hierarchy).filter(&:payment?))]
    }.to_h.sort_by(&:last).reverse
  end
  

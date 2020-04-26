@@ -9,8 +9,23 @@
   </head>
 
   <body class="body">
-    <header class="logo">Cheer</header>
-    <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+    <header>
+      <nav>
+        <ul class="simple-list logo">
+          <li>Cheer</li>
+        </ul>
+        <ul class="simple-list main-nav">
+        </ul>
+        <ul class="simple-list">
+          <li><%= link_to 'Link Bank Account', '', {id: 'plaid-link', remote: true, 
+            data: {authentication_token: form_authenticity_token }, class: 'btn btn-primary btn-lg bold'} %>
+          </li>
+          <li><%= image_tag current_user.avatar.attached? ? current_user.avatar : "", size: '25x25', class: 'small-avatar' %></li>
+          <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+        </ul>
+      </nav>
+    </header>
+    
     <main><%= yield %></main>
   </body>
   <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>

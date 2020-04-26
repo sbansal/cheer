@@ -24,7 +24,7 @@ class BankAccount < ApplicationRecord
   end
   
   def descriptive_name
-    (official_name || name) + " - " + mask
+    (official_name || name) + " - xxxx" + mask
   end
 
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
@@ -55,5 +55,9 @@ class BankAccount < ApplicationRecord
       end
     end
     recurring_transactions
+  end
+  
+  def balance
+    balance_available || balance_limit || 'N/A'
   end
 end
