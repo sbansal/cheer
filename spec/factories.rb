@@ -1,11 +1,4 @@
 FactoryBot.define do
-  factory :category do
-    group { "MyString" }
-    hierarchy { "" }
-    plaid_category_id { "MyString" }
-    rank { 1 }
-  end
-
   factory :user do
     full_name { "Joe Black" }
     sequence :email do |n|
@@ -48,12 +41,19 @@ FactoryBot.define do
     user
   end
   
+  factory :category do
+    group { 'special' }
+    hierarchy { ["Food and Drink", "Restaurants", "Fast Food"] }
+    plaid_category_id { SecureRandom.hex(8) }
+    rank { '3' }
+    essential { true }
+    descriptive_name { 'Restaurants' } 
+  end
+  
   factory :transaction do
-    plaid_transaction_id { '7mNNDWvLw4hBXMMQkXwvFQa9Wzadjssp' }
+    plaid_transaction_id { SecureRandom.hex(32) }
     amount { 25 }
     currency_code { 'USD' }
-    category_json { '["Food and Drink", "Restaurants", "Fast Food"]' }
-    plaid_category_id { 21005000 }
     occured_at { Date.today }
     authorized_at { Date.today }
     location_json {}
@@ -62,9 +62,10 @@ FactoryBot.define do
     payment_meta_json {}
     payment_channel { 'in store' }
     pending { false }
-    plaid_pending_transaction_id { '15BBEDrLvzT8e44gRe97coAXx56aXqt5wbKKA' }
+    plaid_pending_transaction_id { SecureRandom.hex(32) }
     transaction_code {}
     user
     bank_account
+    category
   end
 end

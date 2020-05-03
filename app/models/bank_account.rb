@@ -38,7 +38,7 @@ class BankAccount < ApplicationRecord
   end
   
   def recurring_transactions
-    transactions_hash = transactions.select(&:payment?).group_by { |tx| tx.description + tx.amount.to_s }
+    transactions_hash = transactions.select(&:charge?).group_by { |tx| tx.description + tx.amount.to_s }
     recurring_transactions = [] 
     transactions_hash.each do |key, transactions|
       if transactions.count > 1
