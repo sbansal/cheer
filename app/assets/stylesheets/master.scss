@@ -11,12 +11,22 @@ body {
   font-weight: 500;
 }
 
-div, table, p, span, section {
+div, table, p, section {
   color: #334E68;
 }
 
 .primary {
   color: #7069FA;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-box {
+  display: flex;
+  justify-content: center;
 }
 
 nav {
@@ -44,6 +54,11 @@ a {
   border: 1px solid #D9E2EC;
 }
 
+.main {
+  background-color: transparent;
+  border: none;
+}
+
 .bold {
   font-weight: 800;
 }
@@ -53,6 +68,10 @@ a {
   font-size: 32px;
   color: #7069FA;
   margin-left: 20px;
+  &:hover {
+   text-decoration: none; 
+   color: #5D55FA;
+  }
 }
 
 a.grey-linky {

@@ -5,6 +5,8 @@ class Transaction < ApplicationRecord
   
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
+  scope :essential, -> { joins(:category).where("essential = TRUE") }
+  scope :non_essential, -> { joins(:category).where("essential = FALSE") }
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = transactions_json_array.map do |transactions_json|
@@ -33,6 +35,6 @@ class Transaction < ApplicationRecord
   end
 
   def charge?
-    amount > 0
+    amount > 0 && !pending? && category.charge?
   end
 end

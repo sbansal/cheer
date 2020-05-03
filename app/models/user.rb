@@ -42,14 +42,26 @@ class User < ApplicationRecord
  end
  
  def transactions_amount_by_top_category
-   Category.where(rank: 1).map {
-     |category| [category.category_list, add_transactions(transactions.with_category(category.hierarchy).filter(&:payment?))]
-   }.to_h.sort_by(&:last).reverse
+   Category.where(rank: 1).map { 
+     |category| CategorizedTransaction.new(category, transactions.with_category(category.hierarchy)) 
+   }.sort_by(&:total_spend).reverse
  end
  
- private
+ def transactions_amount_by_categories
+   transactions.group_by(&:category_id).map { 
+     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
+   }.sort_by(&:total_spend).reverse
+ end
  
- def add_transactions(transactions=[])
-   transactions.inject(0) { |sum, tx| sum + tx.amount }
+ def essential_transactions_by_categories
+   transactions.essential.group_by(&:category_id).map { 
+     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
+   }.sort_by(&:total_spend).reverse
+ end
+ 
+ def non_essential_transactions_by_categories
+   transactions.non_essential.group_by(&:category_id).map { 
+     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
+   }.sort_by(&:total_spend).reverse
  end
 end

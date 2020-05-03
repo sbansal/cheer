@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   end
   
   def index
-    @subscriptions = current_user.subscriptions
-    @spend_by_category = current_user.transactions_amount_by_top_category
+    @spend_by_category = current_user.non_essential_transactions_by_categories
+    @essential_transactions_by_categories = current_user.essential_transactions_by_categories
   end
 end

@@ -1,0 +1,24 @@
+<div class="">
+  <div class="subscriptions">
+    <p class="title">Connected Accounts</p>
+    <table class="table">
+      <tbody>
+        <% @accounts.each do |account| %>
+        <tr>
+          <td>
+            <div>
+              <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
+              <span><%= account.descriptive_name %></span>
+            </div>
+            <div class="small grey">Last Updated on <%= account.updated_at.strftime('%b %d, %Y') %></div>
+          </td>
+          <td>
+            <div><%= number_to_currency(account.balance_available) || 'N/A'%></div>
+            <div class="small grey">BALANCE</div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

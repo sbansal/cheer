@@ -6,8 +6,8 @@ class Category < ApplicationRecord
     hierarchy.join(', ')
   end
 
-  def internal_account_transfer?
-    hierarchy.include?(INTERNAL_ACCOUNT_TRANSFER)
+  def charge?
+    !hierarchy.include?(INTERNAL_ACCOUNT_TRANSFER)
   end
 
   def self.find_all_for_category(category_name)
@@ -16,5 +16,17 @@ class Category < ApplicationRecord
   
   def root_name
     hierarchy.first
+  end
+  
+  def secondary_names
+    hierarchy.drop(1)
+  end
+  
+  def primary_name
+    hierarchy.last
+  end
+  
+  def descriptive_name
+    hierarchy.reverse.join(' ')
   end
 end

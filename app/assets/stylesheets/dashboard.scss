@@ -40,7 +40,7 @@
   }
   border: 1px solid #D9E2EC;
   border-radius: 5px;
-  margin: 50px -20px;
+  margin: 50px 20px;
   padding: 20px;
   background-color: #FFF;
 }
@@ -57,4 +57,28 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.tx-date {
+  width:20%;
+  text-align: left;
+}
+
+.tx-desc {
+  width:60%;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tx-amount {
+  width:20%;
+  text-align: right;
+}
+
+.category-spend {
+  margin: 10px 0;
+  border-top: 1px solid #D9E2EC;
+  padding-top: 10px;
 }

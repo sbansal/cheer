@@ -1,17 +1,22 @@
 <div class="subscriptions">
-  <p class="title">Spend by top categories</p>
-  <table class="table">
-    <tbody>
-      <% @spend_by_category.each do |spend| %>
-      <tr>
-        <td>
-          <div><%= spend[0] %></div>
-        </td>
-        <td>
-          <div><%= number_to_currency(spend[1])%></div>
-        </td>
-      </tr>
+  <p class="title"><%= title %></p>
+  <div class="">
+    <% transactions_by_categories.each do |spend| %>
+      <% if spend.transactions.count > 0 %>
+        <div class="flex-container category-spend">
+          <div><%= spend.root_category.primary_name %></div>
+          <div><%= number_to_currency(spend.total_spend)%></div>
+        </div>
+        <div class="tx-container">
+          <% spend.transactions.each do |tx| %>
+            <div class="flex-container small">
+              <div class="tx-date grey"><%= tx.occured_at.strftime('%b %d, %Y') %></div>
+              <div class="tx-desc grey"><%= tx.description %></div>
+              <div class="tx-amount grey"><%= number_to_currency(tx.amount)%></div>
+            </div>
+          <% end %>
+        </div>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </div>
 </div>
