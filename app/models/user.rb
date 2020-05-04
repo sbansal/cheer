@@ -21,11 +21,11 @@ class User < ApplicationRecord
    login_items.map { |item| item.bank_accounts.count }.sum
  end
  
- def total_money_in(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+ def total_money_in(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
    login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_money_in(start_date, end_date) + sum } }.sum
  end
  
- def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+ def total_money_out(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
    login_items.map { |item| item.bank_accounts.inject(0) { |sum, account| account.total_money_out(start_date, end_date) + sum } }.sum
  end
  
@@ -53,15 +53,15 @@ class User < ApplicationRecord
    }.sort_by(&:total_spend).reverse
  end
  
- def essential_transactions_by_categories
-   transactions.essential.group_by(&:category_id).map { 
-     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
+ def essential_transactions_by_categories(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
+   Category.where(rank: 1).map { 
+     |category| CategorizedTransaction.new(category, transactions.occured_between(start_date, end_date).essential.with_category(category.hierarchy)) 
    }.sort_by(&:total_spend).reverse
  end
  
- def non_essential_transactions_by_categories
-   transactions.non_essential.group_by(&:category_id).map { 
-     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
+ def non_essential_transactions_by_categories(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
+   Category.where(rank: 1).map { 
+     |category| CategorizedTransaction.new(category, transactions.occured_between(start_date, end_date).non_essential.with_category(category.hierarchy)) 
    }.sort_by(&:total_spend).reverse
  end
 end

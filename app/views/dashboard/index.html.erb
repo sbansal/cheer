@@ -7,7 +7,7 @@
 <div class="budget-button">
   <%= link_to 'Start setting up a budget', '', class: 'btn btn-primary btn-lg btn-budget'%>
 </div>
-<div class="container main flex-box">
+<div class="container main flex-container">
   <%= render 'category_spend', transactions_by_categories: @essential_transactions_by_categories, title: 'Essentials' %>
   <%= render 'category_spend', transactions_by_categories: @spend_by_category, title: 'Extras' %>
 </div>

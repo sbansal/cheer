@@ -33,7 +33,7 @@
   }
 }
 
-.subscriptions {
+.spend-container {
   .title {
     font-size: 16px;
     font-weight: 600;
@@ -43,6 +43,7 @@
   margin: 50px 20px;
   padding: 20px;
   background-color: #FFF;
+  flex-grow: 1;
 }
 
 .budget-button {
@@ -59,21 +60,27 @@
   }
 }
 
+.hide {
+  display: none;
+}
+
 .tx-date {
   width:20%;
   text-align: left;
 }
 
+.tx-category-list {
+  width:25%;
+  text-align: left;
+}
+
 .tx-desc {
-  width:60%;
+  width:40%;
   text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .tx-amount {
-  width:20%;
+  width:15%;
   text-align: right;
 }
 

@@ -1,22 +1,24 @@
-<div class="subscriptions">
-  <p class="title"><%= title %></p>
-  <div class="">
-    <% transactions_by_categories.each do |spend| %>
-      <% if spend.transactions.count > 0 %>
-        <div class="flex-container category-spend">
-          <div><%= spend.root_category.primary_name %></div>
-          <div><%= number_to_currency(spend.total_spend)%></div>
-        </div>
-        <div class="tx-container">
-          <% spend.transactions.each do |tx| %>
-            <div class="flex-container small">
-              <div class="tx-date grey"><%= tx.occured_at.strftime('%b %d, %Y') %></div>
-              <div class="tx-desc grey"><%= tx.description %></div>
-              <div class="tx-amount grey"><%= number_to_currency(tx.amount)%></div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
+<div class="spend-container">
+  <div class="flex-container">
+    <div class="title"><%= title %></div>
+    <div class="small"><%= link_to 'Details', '', class: 'details-link' %></div>
   </div>
+  <% transactions_by_categories.each do |spend| %>
+    <% if spend.transactions.count > 0 %>
+      <div class="flex-container category-spend">
+        <div><%= spend.root_category.primary_name %></div>
+        <div><%= number_to_currency(spend.total_spend)%></div>
+      </div>
+      <div class="tx-container">
+        <% spend.transactions.each do |tx| %>
+          <div class="flex-container small dotted-border">
+            <div class="tx-date grey"><%= tx.occured_at.strftime('%b %d, %Y') %></div>
+            <div class="tx-category-list grey"><%= tx.category.category_list %></div>
+            <div class="tx-desc grey"><%= tx.description %></div>
+            <div class="tx-amount grey"><%= number_to_currency(tx.amount)%></div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

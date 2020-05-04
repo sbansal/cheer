@@ -22,6 +22,7 @@ div, table, p, section {
 .flex-container {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .flex-box {
@@ -173,7 +174,6 @@ ul.simple-list {
 }
 
 .status {
-//  border: 1px solid #BCCCDC;
   padding: 1px 7px;
   width: min-content;
   margin: 5px auto;
@@ -208,4 +208,9 @@ a.linky {
 }
 .clear {
   clear: both;
+}
+
+.dotted-border {
+  border-top: 1px dotted #BCCCDC;
+  padding: 3px 0;
 }
