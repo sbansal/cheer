@@ -26,10 +26,6 @@ class Category < ApplicationRecord
     hierarchy.last
   end
   
-  def descriptive_name
-    hierarchy.reverse.join(' ')
-  end
-  
   def parent
     category_names = hierarchy.slice(0, hierarchy.length - 1)
     if category_names.empty?

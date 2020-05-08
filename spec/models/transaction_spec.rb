@@ -27,6 +27,40 @@ RSpec.describe Transaction, type: :model do
     expect(@user.subscriptions.count).to eq 5
   end
   
+  describe "#create_transactions_from_json" do
+    let(:transaction_id) { SecureRandom.hex(32) }
+    let(:transaction) {
+      {
+        account_id: @bank_account.plaid_account_id,
+        amount: 123.52, 
+        category_id: @category.plaid_category_id,
+        date: Date.today.iso8601,
+        iso_currency_code: "USD",
+        name: "Amazon.com",
+        payment_channel:"online",
+        payment_meta: nil,
+        pending: false,
+        transaction_id: transaction_id,
+        transaction_type: "place"
+      }
+    }
+
+    it 'creates transactions' do
+      expect(Transaction.create_transactions_from_json([transaction], @user.id).count).to eq 1
+    end
+
+    it 'raises an exception for duplicate records' do
+      Transaction.create_transactions_from_json([transaction], @user.id)
+      expect(Transaction.find_by_plaid_transaction_id(transaction_id).occured_at).to eq Date.today
+      new_date = Date.today + 1.day
+      amount = 50
+      updated_tx = transaction.merge(date: new_date.iso8601, amount: amount)
+      Transaction.create_transactions_from_json([updated_tx], @user.id)
+      updated_tx = Transaction.find_by_plaid_transaction_id(transaction_id)
+      expect(updated_tx.occured_at).to eq new_date
+    end
+  end
+  
   after(:all) do 
     Category.destroy_all
     BankAccount.destroy_all
@@ -53,5 +87,21 @@ RSpec.describe Transaction, type: :model do
         category: @category
       )
     end
+  end
+  
+  def transaction_json(account_id, category_id, transaction_id)
+    {
+      account_id: account_id,
+      amount: 123.52, 
+      category_id: category_id,
+      date: Date.today.iso8601,
+      iso_currency_code: "USD",
+      name: "Amazon.com",
+      payment_channel:"online",
+      payment_meta: nil,
+      pending: false,
+      transaction_id: transaction_id,
+      transaction_type: "place"
+    }
   end
 end

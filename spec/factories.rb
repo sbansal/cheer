@@ -47,7 +47,7 @@ FactoryBot.define do
     plaid_category_id { SecureRandom.hex(8) }
     rank { '3' }
     essential { true }
-    descriptive_name { 'Restaurants' } 
+    descriptive_name { 'Food and Drink' } 
   end
   
   factory :transaction do

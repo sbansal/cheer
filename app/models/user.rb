@@ -41,27 +41,15 @@ class User < ApplicationRecord
    bank_accounts.map { |account| account.subscriptions }.flatten
  end
  
- def transactions_amount_by_top_category
-   Category.where(rank: 1).map { 
-     |category| CategorizedTransaction.new(category, transactions.with_category(category.hierarchy)) 
-   }.sort_by(&:total_spend).reverse
- end
- 
- def transactions_amount_by_categories
-   transactions.group_by(&:category_id).map { 
-     |category_id, transactions| CategorizedTransaction.new(Category.find(category_id), transactions) 
-   }.sort_by(&:total_spend).reverse
- end
- 
  def essential_transactions_by_categories(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
-   Category.where(rank: 1).map { 
-     |category| CategorizedTransaction.new(category, transactions.occured_between(start_date, end_date).essential.with_category(category.hierarchy)) 
+   transactions.occured_between(start_date, end_date).includes(:category).essential.group_by { |tx| tx.category.descriptive_name }.map {
+     |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
    }.sort_by(&:total_spend).reverse
  end
  
  def non_essential_transactions_by_categories(start_date=(Time.zone.now.beginning_of_month - 1.month), end_date=Time.zone.now)
-   Category.where(rank: 1).map { 
-     |category| CategorizedTransaction.new(category, transactions.occured_between(start_date, end_date).non_essential.with_category(category.hierarchy)) 
+   transactions.occured_between(start_date, end_date).includes(:category).non_essential.group_by { |tx| tx.category.descriptive_name }.map {
+     |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
    }.sort_by(&:total_spend).reverse
  end
 end

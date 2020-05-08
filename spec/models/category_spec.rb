@@ -38,10 +38,6 @@ RSpec.describe Category, type: :model do
     expect(@category_root.secondary_names).to eq []
   end
   
-  it 'has a descriptive name' do
-    expect(@category.descriptive_name).to eq 'Chase QuickPay Third Party Transfer'
-  end
-  
   it 'has a parent category' do
     expect(@category.parent).to eq @category_sec
     expect(@category_sec.parent).to eq @category_root

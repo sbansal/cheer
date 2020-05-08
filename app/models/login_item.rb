@@ -36,6 +36,7 @@ class LoginItem < ApplicationRecord
   end
   
   def last_transaction_pulled_at
-    bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact&.max || 6.months.ago.to_date
+    2.weeks.ago.to_date
+    # bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact&.max || 6.months.ago.to_date
   end
 end
