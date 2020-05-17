@@ -1,0 +1,24 @@
+require 'rails_helper'
+
+RSpec.describe Cashflow, type: :model do
+  before(:all) do 
+    @user = create(:user)
+    @bank_account = create(:bank_account, user: @user)
+    @category = create(:category)
+    (1..5).each { |n| create(:transaction, description: "tx#{n}", user: @user, bank_account: @bank_account, category: @category)}
+    (6..10).each { |n| create(:transaction, description: "tx#{n}", amount: -10, user: @user, bank_account: @bank_account, category: @category)}
+  end
+  
+  it 'calculates cashflow' do
+    cashflow = Cashflow.new(@user.transactions)
+    expect(cashflow.total_money_out).to eq 125
+    expect(cashflow.total_money_in).to eq -50
+  end
+  
+  after(:all) do
+    Category.destroy_all
+    BankAccount.destroy_all
+    Transaction.destroy_all
+    User.destroy_all
+  end
+end

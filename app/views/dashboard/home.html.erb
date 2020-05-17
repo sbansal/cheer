@@ -1,10 +1,252 @@
-<% if current_user.has_no_posts?%>
-  <div class="new-greeting">
-    <%= current_user.friendly_name %>, Cheer Up! We are so glad you are here.
-  </div>
-<% end %>
+<!--
+<link rel="stylesheet" href="https://leeoniya.github.io/uPlot/src/uPlot.css">
+<script src="https://leeoniya.github.io/uPlot/dist/uPlot.iife.js"></script>
+<div id="chart-bars" style="background-color: #FFF; padding: 50px">
+  <%= javascript_tag do -%>
+    function seriesBarsPlugin(opts) {
+      const labels   = opts.labels;
+      const barWidth = Math.round(20 * devicePixelRatio);
+      const font     = Math.round(10 * devicePixelRatio) + "px Arial";
+      const margin   = 0.5;
 
-<%= form_with do %>
-  <%= rich_text_area_tag :post, "", placeholder: 'So what are you upto today?', size: '100x4', class: 'post-box' %>
-  <%= button_tag 'Post', class: 'btn btn-primary' %>
-<% end %>
+      function drawThings(u, sidx, i0, i1, draw) {
+        const s       = u.series[sidx];
+        const xdata   = u.data[0];
+        const ydata   = u.data[sidx];
+        const scaleX  = 'x';
+        const scaleY  = s.scale;
+
+        const totalWidth = (u.series.length - 1) * barWidth;    //.show
+        const offs       = (sidx-1) * barWidth;
+
+        for (let i = i0; i <= i1; i++) {
+          let x0 = Math.round(u.valToPos(xdata[i], scaleX, true));
+          let y0 = Math.round(u.valToPos(ydata[i], scaleY, true));
+
+          draw(i, x0, y0, offs, totalWidth);
+        }
+      }
+
+      function drawBars(u, sidx, i0, i1) {
+        const scaleY  = u.series[sidx].scale;
+        const zeroY = Math.round(u.valToPos(0, scaleY, true));
+        const fill = new Path2D();
+
+        drawThings(u, sidx, i0, i1, (i, x0, y0, offs, totalWidth) => {
+          fill.rect(
+          x0 - totalWidth/2 + offs,
+          y0,
+          barWidth,
+          zeroY-y0
+          );
+        });
+
+        return {fill};
+      }
+
+      function drawPoints(u, sidx, i0, i1) {
+        u.ctx.font = font;
+        u.ctx.textAlign = "center";
+        u.ctx.textBaseline = "bottom";
+        u.ctx.fillStyle = "black";
+
+        drawThings(u, sidx, i0, i1, (i, x0, y0, offs, totalWidth) => {
+          u.ctx.fillText(
+          u.data[sidx][i],
+          x0 - totalWidth/2 + offs + barWidth/2,
+          y0
+          );
+        });
+      }
+
+      function range(u, dataMin, dataMax) {
+        let [min, max] = uPlot.rangeNum(dataMin, dataMax, 0.2, true);
+        return [0, max];
+      }
+
+      return {
+        opts: (u, opts) => {
+          uPlot.assign(opts, {
+            cursor: {show: false},
+            select: {show: false},
+            scales: {
+              x: {
+                time: true,
+                range: u => [
+                u.data[0][0] - margin,
+                u.data[0][u.data[0].length - 1] + margin,
+                ],
+              },
+              in: {range},
+              out: {range},
+              left:  {range},
+            }
+          });
+
+          uPlot.assign(opts.axes[0], {
+            split:      () => u.data[0],
+            values:     () => labels(),
+            gap:        15,
+            size:       40,
+            labelSize:  20,
+            grid:       {show: false},
+            ticks:      {show: false},
+          });
+
+          opts.series.forEach((s, i) => {
+            if (i > 0) {
+              uPlot.assign(s, {
+                width: 0,
+                paths: drawBars,
+                points: {
+                  show: drawPoints
+                }
+              });
+            }
+          });
+        }
+      };
+    }
+    
+    var histCashflow = JSON.parse('<%= @historical_cashflow_chart_data.to_json.html_safe -%>');
+    const opts = {
+      width: 1200,
+      height: 600,
+      title: "",
+      class: 'bar-chart',
+      id: 'chart-bars',
+      axes: [
+      {
+        grid: {show: false},
+      },
+      {
+        show: false,
+      },
+      ],
+      gutters: {
+        x: false,
+      },
+      series: [
+      {},
+      {
+        label: "Money In",
+        fill: "#33BB55",
+        scale: "in",
+      },
+      {
+        label:  "Money Out",
+        fill: "#B56FAB",
+        scale: "out",
+      },
+      {
+        label:  "Money Leftover",
+        fill: "#BB1133",
+        scale: "left",
+      },
+      ],
+      plugins: [
+      seriesBarsPlugin({
+        labels: () => []
+      }),
+      ],
+    };
+
+    function makeData(d) {
+      return [
+        d["money_in"].map(lib => Date.parse(lib[0])),
+        d["money_in"].map(lib => lib[1].toFixed(2)),
+        d["money_out"].map(lib => lib[1].toFixed(2)),
+        d["money_saved"].map(lib => lib[1].toFixed(2)),
+      ];
+    }
+    
+    window.addEventListener('load', (event) => {
+      let u = new uPlot(opts, makeData(histCashflow), document.body);
+      return u;
+    });
+
+    
+  <% end -%>
+</div>
+
+
+
+<div id="chart-uplot" style="background-color: #FFF"></div>
+<%= javascript_tag do -%>
+function makeChart() {
+  var money_in = JSON.parse('<%= @historical_cashflow_chart_data[:money_in].to_json.html_safe -%>');
+  var dates = money_in.map(function(item) { return Date.parse(item[0])});
+  var amounts = money_in.map(function(item) { return item[1]});
+
+  let width  = 600;
+  let height = 150;
+  
+  const opts = {
+    width,
+    height,
+    class: "spark",
+    cursor: {
+      show: false
+    },
+    select: {
+      show: false,
+    },
+    legend: {
+      show: false,
+    },
+    scales: {
+      x: {
+        time: false,
+      },
+    },
+    axes: [
+    {
+      show: false,
+    },
+    {
+      show: false,
+    }
+    ],
+    series: [
+    {},
+    {
+      stroke: "#03a9f4",
+      fill: "#b3e5fc",
+    },
+    ],
+  };
+
+  let uplot = new uPlot(opts, [dates, amounts], document.body);
+  return uplot;
+}
+
+window.addEventListener('load', (event) => {
+  console.log("everything loaded.")
+  makeChart();
+});
+
+<% end -%>
+
+<div id="chart-dygraph" style="width:600px; height: 100px; background-color: #FFF"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
+
+<%= javascript_tag do -%>
+  var data = JSON.parse('<%= @historical_cashflow_chart_data[:money_in].to_json.html_safe -%>');
+  data = data.map(function(item) { return [new Date(item[0]), item[1]] });
+  var graph = new Dygraph(
+    document.getElementById("chart-dygraph"),
+    data,
+    {
+      axisTickSize: 5,
+      axes: {
+        x: {
+          axisLabelFormatter: function(d, gran, opts) {
+              return Dygraph.dateAxisLabelFormatter(new Date(d), Dygraph.WEEKLY, opts);
+          }
+        }
+      }
+    }
+  );
+<% end -%>-->

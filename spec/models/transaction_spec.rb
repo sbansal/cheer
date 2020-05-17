@@ -64,6 +64,7 @@ RSpec.describe Transaction, type: :model do
   after(:all) do 
     Category.destroy_all
     BankAccount.destroy_all
+    Transaction.destroy_all
     User.destroy_all
   end
 

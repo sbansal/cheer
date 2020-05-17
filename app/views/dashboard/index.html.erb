@@ -1,14 +1,40 @@
 <div class="metrics-container">
-  <%= render 'metric', title: 'total earnings', metric_value: current_user.total_money_in %>
-  <%= render 'metric', title: 'total expenses', metric_value: current_user.total_money_out %>
-  <%= render 'metric', title: 'total savings', metric_value: current_user.total_savings %>
+  <div class="metrics flex-container">
+    <%= render 'metric', title: 'money in', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
+    <%= render 'metric', title: 'money out', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]  %>
+    <%= render 'metric', title: 'money leftover', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
+  </div>
+
 </div>
 <div class="clear"></div>
 <div class="budget-button">
   <%= link_to 'Start setting up a budget', '', class: 'btn btn-primary btn-lg btn-budget'%>
 </div>
-<div class="container main flex-container">
-  <%= render 'category_spend', transactions_by_categories: @essential_transactions_by_categories, title: 'Essentials' %>
-  <%= render 'category_spend', transactions_by_categories: @spend_by_category, title: 'Extras' %>
+<div class="flex-container">
+  <%= render 'category_spend', transactions_by_categories: @essential_transactions_by_categories, title: 'Essential Spend' %>
+  <%= render 'category_spend', transactions_by_categories: @spend_by_category, title: 'Extra Spend' %>
+  <div class="container" style="margin-top: 40px;width: 30%">
+    <div class="title" style="font-size: 16px; font-weight: 500; padding: 10px;border-bottom: 1px solid #FFF">Recent Transactions</div>
+    <div class="transactions" style="margin-top: 20px">
+      <% @transactions.each do |date, transactions| %>
+        <div style="border-top: 1px solid #EEE; margin: 10px 0 20px 0">
+          <div class="tx-occured-at text-center" style="font-size: 12px; margin-top: -10px; padding: 2px 0">
+            <span class="" style="background-color: #EEE; border-radius: 5px;padding: 4px 8px"><%= date.strftime('%a, %b %d, %Y') %></span>
+          </div>
+          <div style="margin: 10px 0" class="transaction-details">
+            <% transactions.each do |tx| %>
+              <div class="flex-container" style="font-size: 12px; padding: 5px;">
+                <div style="width: 70%;color: #627D98;font-weight: 400"><%= tx.description %></div>
+                <div style="width: 30%; text-align: right; font-weight: 400;color: #486581"><%= number_to_currency(tx.amount)%></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        
+      <% end %>
+    </div>
+  </div>
 </div>
+
+
 

@@ -19,4 +19,5 @@ require("channels")
 require("trix")
 require("@rails/actiontext")
 require("packs/plaid")
+require("packs/uplot")
 import "controllers"

@@ -8,8 +8,10 @@ class LoginItemsController < ApplicationController
     PlaidTransactionsCreator.call(
       @login_item.plaid_access_token, 
       current_user,
-      @login_item.last_transaction_pulled_at.iso8601,
-      Date.today.iso8601
+      (Date.today.beginning_of_year + 1.month).iso8601,
+      (Date.today.beginning_of_year + 2.month).iso8601
+      # @login_item.last_transaction_pulled_at.iso8601,
+#       Date.today.iso8601
     )
     redirect_to login_items_url
   end

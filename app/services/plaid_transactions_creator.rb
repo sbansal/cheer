@@ -30,6 +30,6 @@ class PlaidTransactionsCreator < ApplicationService
       )
       transactions_json_array << transactions_response[:transactions]
     end
-    Transaction.create_transactions_from_json(transactions_json_array, @user.id)
+    Transaction.create_transactions_from_json(transactions_json_array.flatten, @user.id)
   end
 end
