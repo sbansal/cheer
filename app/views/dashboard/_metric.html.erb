@@ -15,6 +15,6 @@
       </svg>
       <span class="trend-value down"><%= format_historical_data(delta)%></span>
     <% end %>
-    <span class="trend-timeframe"><%= @cashflow.time_period %></span>
+    <div class="trend-timeframe"><%= @start_date.strftime('%b %d') %> - <%= @end_date.strftime('%b %d') %></div>
   </div>
 </div>

@@ -18,7 +18,7 @@ class User < ApplicationRecord
  end
  
  def historical_cashflow
-   HistoricalCashflow.new(transactions.occured_between(Time.zone.now.beginning_of_month - 1.month, Time.zone.now).includes(:category))
+   HistoricalCashflow.new(transactions)
  end
  
  def accounts_count

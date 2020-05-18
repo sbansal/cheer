@@ -23,7 +23,7 @@
     .metric-trend {
       font-size: 14px;
       .trend-timeframe {
-        color: #222;
+        color: #BCCCDC;
       }
     }
   }
@@ -129,4 +129,8 @@
 .total-spend {
   font-size: 16px;
   font-weight: 600;
+}
+
+.dygraph-axis-label {
+  color: #EEE;
 }
