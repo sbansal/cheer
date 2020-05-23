@@ -1,19 +1,63 @@
-<div class="spend-container">
-  <div>
-    <div class="spend-title"><%= title %></div>
-    <div class="total-spend"><%= number_to_currency(transactions_by_categories.map { |spend| spend.total_spend }.sum) %></div>
+<div class="money-container row">
+  <div class="col-lg-12">
+    <div class="small bold-1">Total Money Out (<%= @cashflow.time_period %>)</div>
+    <div class="cashflow-value lg-24"><%= number_to_currency(@cashflow.total_money_out.abs) %></div>
   </div>
-  <% transactions_by_categories.each do |spend| %>
-    <% if spend.transactions.count > 0 %>
-      <div class="flex-container category-spend">
-        <div><%= spend.category_name %></div>
-        <div><%= number_to_currency(spend.total_spend)%></div>
-      </div>
-      <div class="tx-container hide">
-        <% spend.transactions.each do |tx| %>
-          <%= render 'transaction_summary', tx: tx %>
+  <div class="money-out-type col-lg-12">
+    <div class="small grey-1"><span>Essential Spend</span></div>
+    <div><%= number_to_currency(@spend_by_categories[:essentials_total]) %></div>
+  </div>
+  <div class="category-spend small col-lg-12">
+    <table class="table table-borderless hoverable">
+      <tbody>
+        <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
+          <% if spend.transactions.count > 0 %>
+          <tr>
+            <td class="w-75">
+              <div><%= spend.category_name %></div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" 
+                  style="width:<%=  100*(spend.total_spend/@spend_by_categories[:essentials_total]) %>%"
+                  aria-valuenow="<%=  100*(spend.total_spend/@spend_by_categories[:essentials_total]) %>" 
+                  aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </td>
+            <td class="text-right align-bottom w-25 bold-2"><%= number_to_currency(spend.total_spend)%></td>
+          </tr>
+          <% end %>
         <% end %>
-      </div>
-    <% end %>
-  <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="money-out-type col-lg-12">
+    <div class="small grey-1">Non-Essential Spend</div>
+    <div><%= number_to_currency(@spend_by_categories[:extras_total]) %></div>
+  </div>
+  <div class="category-spend small col-lg-12">
+    <table class="table table-borderless hoverable">
+      <tbody>
+        <% @spend_by_categories[:extras_by_categories].each do |spend| %>
+          <% if spend.transactions.count > 0 %>
+          <tr>
+            <td class="w-75">
+              <div><%= spend.category_name %></div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" 
+                  style="width:<%=  100*(spend.total_spend/@spend_by_categories[:extras_total]) %>%"
+                  aria-valuenow="<%=  100*(spend.total_spend/@spend_by_categories[:extras_total]) %>" 
+                  aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </td>
+            <td class="text-right align-bottom w-25 bold-2">
+              <%= number_to_currency(spend.total_spend)%>
+            </td>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

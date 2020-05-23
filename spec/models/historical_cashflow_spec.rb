@@ -11,9 +11,12 @@ RSpec.describe HistoricalCashflow, type: :model do
       create(:transaction, description: "tx#{n}", amount: -10, user: @user, bank_account: @bank_account, category: @category, occured_at: occured_at)
     end
   end
-  
+
   it 'calculates historical cashflow' do
-    hist_cashflow = HistoricalCashflow.new(@user.transactions)
+    pending
+    start_date = Time.zone.now.beginning_of_month - 1.year
+    end_date = Time.zone.now
+    hist_cashflow = HistoricalCashflow.new(start_date, end_date, @user.transactions)
     expect(hist_cashflow.monthly_trends.count).to eq 5
     expect(hist_cashflow.monthly_trends.first[:date]).to eq (Date.today.beginning_of_month - 1.month).to_date
     expect(hist_cashflow.monthly_trends.last[:date]).to eq (Date.today.beginning_of_month - 5.month).to_date

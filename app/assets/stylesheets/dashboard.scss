@@ -3,25 +3,19 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 .metrics-container {
   background-color: #FFF;
-  width: 100%;
-  border-top: 1px solid #D9E2EC;
   border-bottom: 1px solid #D9E2EC;
   .metric {
-    padding: 80px 0;
-    width: 33%;
+    padding: 60px 0;
     text-align: center;
     .metric-title {
       font-weight: 600;
       text-transform: uppercase;
-      font-size: 14px;
     }
     .metric-value {
       font-weight: 800;
-      font-size: 36px;
       color: #8888FC;
     }
     .metric-trend {
-      font-size: 14px;
       .trend-timeframe {
         color: #BCCCDC;
       }
@@ -29,29 +23,23 @@
   }
 }
 
-.spend-container {
-  .title {
-    font-size: 16px;
-    font-weight: 600;
+.money-container {
+  .cashflow-value {
+    padding: 5px 0;
   }
   border: 1px solid #D9E2EC;
   border-radius: 5px;
-  margin: 50px 20px;
-  padding: 20px;
+  margin: 20px 0;
+  padding: 20px 10px;
   background-color: #FFF;
-  flex-grow: 1;
 }
 
 .transactions-container {
-  .title {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  border: 1px solid #D9E2EC;
+  border: 1px solid #F0F4F8;
   border-radius: 5px;
-  margin: 50px 20px;
-  padding: 20px;
+  margin-top: 20px;
   background-color: #FFF;
+  box-shadow: 0px 12px 24px rgba(0,0,0,0.06), 0px -12px 24px rgba(0,0,0,0.06);
 }
 
 .budget-button {
@@ -61,7 +49,6 @@
 .btn-budget {
   margin-top: -30px;
   padding: 15px 40px;
-  font-size: 20px;
   font-weight: 800;
   &:hover {
     text-decoration: underline;
@@ -94,7 +81,6 @@
 
 .category-spend {
   margin: 10px 0;
-  border-top: 1px solid #D9E2EC;
   padding-top: 10px;
 }
 
@@ -108,29 +94,30 @@
 }
 
 .time-slice {
-  font-size: 13px;
-  font-weight: 800;
-  color: #829AB1;
+  color: #BCCCDC;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 3px;
   &:hover {
     color: #7069FA;
     text-decoration: none;
   }
   &.active {
     color: #7069FA;
-    border-bottom: 1px solid #7069FA;
+    font-weight: 600;
+    border-bottom: 3px solid #7069FA;
   }
 }
 
 .spend-title {
-  font-size: 13px;
   font-weight: 400;
-}
-
-.total-spend {
-  font-size: 16px;
-  font-weight: 600;
+  color: #829AB1;
 }
 
 .dygraph-axis-label {
   color: #EEE;
+}
+
+.money-out-type {
+  margin: 20px 0 10px 0;
 }

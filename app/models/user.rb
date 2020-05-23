@@ -14,11 +14,11 @@ class User < ApplicationRecord
   end
  
  def cashflow(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
-   Cashflow.new(transactions.includes(:category).occured_between(start_date, end_date))
+   Cashflow.new(start_date, end_date, transactions.includes(:category))
  end
  
- def historical_cashflow
-   HistoricalCashflow.new(transactions)
+ def historical_cashflow(start_date=Time.zone.now.beginning_of_year, end_date=Time.zone.now)
+   HistoricalCashflow.new(start_date, end_date, transactions.includes(:category))
  end
  
  def accounts_count
@@ -33,16 +33,31 @@ class User < ApplicationRecord
    bank_accounts.map { |account| account.subscriptions }.flatten
  end
  
- def essential_transactions_by_categories(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
-   transactions.occured_between(start_date, end_date).includes(:category).essential.group_by { |tx| tx.category.descriptive_name }.map {
+ def money_in_by_categories(start_date, end_date)
+   transactions.occured_between(start_date, end_date).includes(:category).filter(&:non_charge?).group_by { 
+     |tx| tx.category.descriptive_name 
+   }.map {
      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
-   }.sort_by(&:total_spend).reverse
+   }.sort_by(&:total_spend)
  end
  
- def non_essential_transactions_by_categories(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
-   transactions.occured_between(start_date, end_date).includes(:category).non_essential.group_by { |tx| tx.category.descriptive_name }.map {
+ def spend_by_categories(start_date, end_date)
+   essentials_by_categories = transactions.occured_between(start_date, end_date).includes(:category).essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
    }.sort_by(&:total_spend).reverse
+   essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
+   
+   extras_by_categories = transactions.occured_between(start_date, end_date).includes(:category).non_essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
+     |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
+   }.sort_by(&:total_spend).reverse
+   extras_total = extras_by_categories.map { |spend| spend.total_spend }.sum
+   
+   {
+     essentials_total: essentials_total,
+     essentials_by_categories: essentials_by_categories,
+     extras_total: extras_total,
+     extras_by_categories: extras_by_categories,
+   }
  end
  
  def this_month_transactions

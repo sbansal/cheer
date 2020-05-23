@@ -72,6 +72,7 @@ Dygraph.Plugins.Crosshair = (function() {
 
     ctx.stroke();
     ctx.closePath();
+    ctx.fillText('Hello', 0,0);
   };
 
   crosshair.prototype.deselect = function(e) {

@@ -42,4 +42,16 @@ class Transaction < ApplicationRecord
   def charge?
     amount > 0 && !pending? && category.charge?
   end
+  
+  def non_charge?
+    amount < 0 && category.charge?
+  end
+  
+  def formatted_occurred_at
+    if Date.today.year == occured_at.year
+      occured_at.strftime('%b %-d')
+    else
+      occured_at.strftime('%b %-d, %Y')
+    end
+  end
 end
