@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
 
   def index
     @start_date, @end_date = parse_params(params)
-    @time_period = params[:period] || 'This Month'
+    @time_period = params[:period] || 'this_month'
     @cashflow = current_user.cashflow(@start_date, @end_date)
     @spend_by_categories = current_user.spend_by_categories(@start_date, @end_date)
     @earning_transactions = current_user.money_in_by_categories(@start_date, @end_date)
