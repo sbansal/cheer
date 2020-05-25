@@ -164,6 +164,10 @@ ul.simple-list {
   margin: 10px 0;
 }
 
+.hide {
+  display: none;
+}
+
 .xs { font-size: 0.75rem;}
 .small { font-size: 0.8125rem;}
 .med { font-size: 0.875rem;}
@@ -215,13 +219,6 @@ a.linky {
   .hover {
     text-decoration: underline;
   }
-}
-
-.fl-left {
-  float: left;
-}
-.clear {
-  clear: both;
 }
 
 .dotted-border {

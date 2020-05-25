@@ -1,0 +1,23 @@
+<div class="row header">
+  <div class="text-left col-lg-6 lg-18" id="tx-header">Transactions</div>
+  <div class="text-right small col-lg-6 py-2 grey"><%= formatted_time_period(@start_date, @end_date) %></div>
+</div>
+
+<table class="table transactions hoverable">
+  <tbody>
+  <% @transactions.each do |tx| %>
+  <tr class="small tx-row" data-id="<%= tx.id %>">
+    <td>
+      <div class="small"><%= tx.description %></div>
+      <div class="small grey"><%= tx.formatted_occurred_at %></div>
+    </td>
+    <td class="text-right small"><%= number_to_currency(tx.amount)%></td>
+  </tr>
+  <tr class="tx-details hide"  id="tx-details-<%= tx.id%>">
+    <td colspan="12">
+      <%= render 'transactions/transaction_detail', tx: tx %>
+    </td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -25,7 +25,7 @@ class Category < ApplicationRecord
   def primary_name
     hierarchy.last
   end
-  
+
   def parent
     category_names = hierarchy.slice(0, hierarchy.length - 1)
     if category_names.empty?

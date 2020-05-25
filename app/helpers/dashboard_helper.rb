@@ -15,4 +15,12 @@ module DashboardHelper
       "#{start_date.strftime('%b %-d, %Y')} - #{end_date.strftime('%b %-d, %Y')}"
     end
   end
+
+  def transaction_to_currency(amount, currency)
+    if currency == 'USD'
+      number_to_currency(amount)
+    else
+      number_to_currency(amount, unit: currency)
+    end
+  end
 end
