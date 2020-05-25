@@ -24,10 +24,10 @@ class Cashflow
   end
   
   def time_period
-    if start_date.month == end_date.month
+    if (start_date.month == end_date.month) && (start_date.year == end_date.year) 
       "#{start_date.strftime('%b %Y')}"
     else
-      "#{start_date.strftime('%b %d %Y')} - #{end_date.strftime('%b %d %Y')}"
+      "#{start_date.strftime('%b %-d, %Y')} - #{end_date.strftime('%b %-d, %Y')}"
     end
   end
   
