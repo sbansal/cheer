@@ -10,7 +10,16 @@ class DashboardController < ApplicationController
     @cashflow = current_user.cashflow(@start_date, @end_date)
     @spend_by_categories = current_user.spend_by_categories(@start_date, @end_date)
     @earning_transactions = current_user.money_in_by_categories(@start_date, @end_date)
-    @transactions = current_user.transactions.occured_between(@start_date, @end_date)
+    @transactions = current_user.transactions.occured_between(@start_date, @end_date).includes([:category, :bank_account])
+  end
+  
+  def transactions
+    @start_date = Time.zone.parse(params[:start])
+    @end_date = Time.zone.parse(params[:end])
+    @transactions = current_user.find_transactions(@start_date, @end_date, params)
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

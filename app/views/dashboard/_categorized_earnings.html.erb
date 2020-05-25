@@ -9,9 +9,9 @@
       <tbody>
         <% @earning_transactions.each do |earning| %>
         <% if earning.transactions.count > 0 %>
-        <tr>
+        <tr class="category-row" data-cashflow-type="money_in" data-essential="true">
           <td class="w-75">
-            <div><%= earning.category_name %></div>
+            <div class="category-desc"><%= earning.category_name %></div>
             <div class="progress">
               <div class="progress-bar" role="progressbar" 
                 style="width:<%=  100*(earning.total_spend/@cashflow.total_money_in).abs %>%"

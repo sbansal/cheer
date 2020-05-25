@@ -63,4 +63,17 @@ class User < ApplicationRecord
  def this_month_transactions
    transactions.occured_between(Time.zone.now.beginning_of_month, Time.zone.now).includes(:category)
  end
+ 
+ def find_transactions(start_date, end_date, args={})
+   descriptive_name = args[:category_desc]
+   if args[:cashflow_type] == 'money_in'
+     transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).with_category_description(descriptive_name).filter(&:non_charge?)
+   else
+     if args[:essential] == 'true'
+       transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).essential.with_category_description(descriptive_name).filter(&:charge?)
+     else
+       transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).non_essential.with_category_description(descriptive_name).filter(&:charge?)
+     end
+   end
+ end
 end

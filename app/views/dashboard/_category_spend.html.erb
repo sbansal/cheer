@@ -12,13 +12,13 @@
       <tbody>
         <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
           <% if spend.transactions.count > 0 %>
-          <tr>
+          <tr class="category-row" data-cashflow-type="money_out" data-essential="true">
             <td class="w-75">
-              <div><%= spend.category_name %></div>
+              <div class="category-desc"><%= spend.category_name %></div>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" 
                   style="width:<%=  100*(spend.total_spend/@spend_by_categories[:essentials_total]) %>%"
-                  aria-valuenow="<%=  100*(spend.total_spend/@spend_by_categories[:essentials_total]) %>" 
+                  aria-valuenow="<%=  100*(spend.total_spend/@spend_by_categories[:essentials_total]) %>"
                   aria-valuemin="0" aria-valuemax="100">
                 </div>
               </div>
@@ -40,9 +40,9 @@
       <tbody>
         <% @spend_by_categories[:extras_by_categories].each do |spend| %>
           <% if spend.transactions.count > 0 %>
-          <tr>
+          <tr class="category-row" data-cashflow-type="money_out" data-essential="false">
             <td class="w-75">
-              <div><%= spend.category_name %></div>
+              <div class="category-desc"><%= spend.category_name %></div>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" 
                   style="width:<%=  100*(spend.total_spend/@spend_by_categories[:extras_total]) %>%"

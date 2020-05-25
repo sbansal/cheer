@@ -1,3 +1,5 @@
+<%= hidden_field_tag 'start', @start_date %>
+<%= hidden_field_tag 'end', @end_date %>
 <div class="metrics-container">
   <div class="metrics container-fluid">
     <div class="row">
@@ -14,8 +16,11 @@
       <%= render 'categorized_earnings' %>
       <%= render 'category_spend' %>
     </div>
-    <div class="col-lg-5 transactions-container scrollable content">
-      <%= render 'transactions_container' %>
+    <div class="col-lg-5">
+      <div class="loader hide" id="dash-tx-loader">Loading...</div>
+      <div class="scrollable content transactions-container" id="transactions-container">
+        <%= render 'transactions_container' %>
+      </div>
     </div>
   </div>
 </div>

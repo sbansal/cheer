@@ -5,7 +5,7 @@ class Transaction < ApplicationRecord
   
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
-  scope :with_category_decription, ->(root_name) { joins(:category).where("descriptive_name = ?", root_name) }
+  scope :with_category_description, ->(root_name) { joins(:category).where("descriptive_name = ?", root_name) }
   scope :essential, -> { joins(:category).where("essential = TRUE") }
   scope :non_essential, -> { joins(:category).where("essential = FALSE") }
 
