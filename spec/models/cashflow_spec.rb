@@ -19,7 +19,7 @@ RSpec.describe Cashflow, type: :model do
     cashflow = Cashflow.new(Time.zone.now.beginning_of_month, Time.zone.now, @user.transactions)
     expect(cashflow.time_period).to eq Time.zone.now.strftime('%b %Y')
     cashflow = Cashflow.new(Time.zone.now.beginning_of_month - 1.month, Time.zone.now, @user.transactions)
-    expect(cashflow.time_period).to eq "#{cashflow.start_date.strftime('%b %d %Y')} - #{cashflow.end_date.strftime('%b %d %Y')}"
+    expect(cashflow.time_period).to eq "#{cashflow.start_date.strftime('%b %-d, %Y')} - #{cashflow.end_date.strftime('%b %-d, %Y')}"
   end
   
   after(:all) do
