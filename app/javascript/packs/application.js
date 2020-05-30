@@ -20,5 +20,5 @@ require("trix")
 require("@rails/actiontext")
 require("packs/plaid")
 require("packs/dashboard")
-require("packs/crosshair")
+// require("packs/crosshair")
 import "controllers"
