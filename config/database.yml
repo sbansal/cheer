@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
-  database: cheer_production
-  username: cheer
-  password: <%= ENV['CHEER_DATABASE_PASSWORD'] %>
+  host: <%= Rails.application.credentials[:db_host] %>
+  database: <%= Rails.application.credentials[:db_name] %>
+  username: <%= Rails.application.credentials[:db_user] %>
+  password: <%= Rails.application.credentials[:db_password] %>
