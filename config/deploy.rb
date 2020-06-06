@@ -31,9 +31,9 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
 
 ## Linked Files & Directories (Default None):
-append :linked_files, %w{config/database.yml}
-set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system .bundle public/uploads}
-# append :linked_files, %w{'config/credentials/production.key'}
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
+append :linked_files, 'config/database.yml', 'config/credentials/production.key'
+
 set :keep_releases, 5
 
 ## Defaults:
@@ -56,6 +56,16 @@ namespace :puma do
 end
 
 namespace :deploy do
+  namespace :check do
+    before :linked_files, :set_master_key do
+      on roles(:app), in: :sequence, wait: 10 do
+        unless test("[ -f #{shared_path}/config/credentials/production.key ]")
+          upload! 'config/credentials/production.key', "#{shared_path}/config/credentials/production.key"
+        end
+      end
+    end
+  end
+
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
