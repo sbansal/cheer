@@ -31,9 +31,9 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml}
+append :linked_files, %w{config/database.yml}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system .bundle public/uploads}
-append :linked_files, 'config/credentials/production.key'
+# append :linked_files, %w{'config/credentials/production.key'}
 set :keep_releases, 5
 
 ## Defaults:
