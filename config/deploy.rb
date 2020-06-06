@@ -30,8 +30,10 @@ set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rben
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all # default value
 
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
-append :linked_files, 'config/database.yml', 'config/credentials/production.key'
+## Linked Files & Directories (Default None):
+set :linked_files, %w{config/database.yml}
+set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system .bundle public/uploads}
+append :linked_files, 'config/credentials/production.key'
 set :keep_releases, 5
 
 ## Defaults:
@@ -40,10 +42,6 @@ set :keep_releases, 5
 # set :format,        :pretty
 # set :log_level,     :debug
 # set :keep_releases, 5
-
-## Linked Files & Directories (Default None):
-# set :linked_files, %w{config/database.yml}
-# set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
