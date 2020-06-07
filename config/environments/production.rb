@@ -112,4 +112,5 @@ Rails.application.configure do
 
   config.hosts << /.*\.usecheer\.com/
   config.active_storage.service = :amazon
+  config.force_ssl = true
 end
