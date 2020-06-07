@@ -27,11 +27,15 @@
     </div>
     <% end %>
     <div class="btn-container">
-      <p><%= f.submit "Sign in", :class => 'btn btn-primary btn-lg btn-block bold' %></p>
+      <p><%= f.submit "Sign in", :class => 'btn btn-primary btn-block bold' %></p>
     </div>
     <% end %>
-    <p class="line-break"></p>
-    <p class="text-center">Don't have an account? <%= link_to 'Create New Account', new_registration_path(resource_name), class: "linky" %></p>
+    <% if Rails.application.credentials[:registrations_enabled] %>
+      <p class="line-break"></p>
+      <p class="text-center">
+        Don't have an account? <%= link_to 'Create New Account', new_registration_path(resource_name), class: "linky" %>
+      </p>
+    <% end %>
 
   </div>
 
