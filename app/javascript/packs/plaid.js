@@ -1,8 +1,8 @@
 var handler = Plaid.create({
   clientName: 'cheer',
   countryCodes: ['US'],
-  env: 'development',
-  key: 'c2e1ee0a92965331268d3fc4473ba7',
+  env: $('#plaid_environment').val(),
+  key: $('#plaid_pk').val(),
   product: ['transactions'],
   // webhook: 'https://requestb.in',
   language: 'en',
@@ -22,7 +22,7 @@ var handler = Plaid.create({
       body: JSON.stringify(
         { 
           public_token: public_token,
-          authenticity_token: document.getElementById('plaid-link').getAttribute('data-authentication-token'),
+          authenticity_token: $('#plaid-link').attr('data-authentication-token'),
         }
       ),
     })
@@ -58,7 +58,7 @@ const plaidLinkHandler = function(event) {
   handler.open();
 };
 
-window.addEventListener('load', (event) => {
-    var linkElement = document.getElementById('plaid-link');
-    linkElement.addEventListener('click', plaidLinkHandler);
+$(document).ready(function() {
+  var linkElement = document.getElementById('plaid-link');
+  linkElement.addEventListener('click', plaidLinkHandler);
 });

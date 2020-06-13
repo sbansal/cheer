@@ -10,18 +10,25 @@ class LoginItemsController < ApplicationController
       current_user,
       (Date.today.beginning_of_year + 1.month).iso8601,
       (Date.today.beginning_of_year + 2.month).iso8601
-      # @login_item.last_transaction_pulled_at.iso8601,
-#       Date.today.iso8601
     )
     redirect_to login_items_url
   end
 
   def destroy
     @login_item = current_user.login_items.find(params[:id])
-    @login_item.destroy
-    respond_to do |format|
-      format.html { redirect_to login_items_path }
-      format.json { head :no_content }
+    client = PlaidClientCreator.call
+    response = client.item.remove(@login_item.plaid_access_token)
+    if response.removed
+      @login_item.destroy
+      respond_to do |format|
+        format.html { redirect_to login_items_path }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to login_items_path, flash: { error: 'Login item could not be deleted.' } }
+        format.json { head :unprocessable_entity }
+      end
     end
   end
 end

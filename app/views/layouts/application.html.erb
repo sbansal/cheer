@@ -9,6 +9,8 @@
   </head>
 
   <body class="body">
+    <%= hidden_field_tag 'plaid_environment', Rails.application.credentials[:plaid][:environment] %>
+    <%= hidden_field_tag 'plaid_pk', Rails.application.credentials[:plaid][:public_key] %>
     <header>
       <nav>
         <ul class="simple-list">
