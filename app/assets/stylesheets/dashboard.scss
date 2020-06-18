@@ -101,3 +101,22 @@
     font-size: 0.75rem;
   }
 }
+
+div.intro {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 80px;
+  h1 {
+    margin: 20px 0;
+    font-weight: 800;
+    font-size: 36px;
+  }
+  p.subtext {
+    margin: 20px 0;
+  }
+  div.connect {
+    a {
+      margin-top: 20px;
+    }
+  }
+}

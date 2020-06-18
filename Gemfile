@@ -50,6 +50,7 @@ group :development do
   gem 'capistrano-rbenv', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano3-puma', require: false
+  gem 'seed_dump'
 end
 
 group :test do

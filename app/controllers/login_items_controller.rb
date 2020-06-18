@@ -21,7 +21,7 @@ class LoginItemsController < ApplicationController
     if response.removed
       @login_item.destroy
       respond_to do |format|
-        format.html { redirect_to login_items_path }
+        format.html { redirect_to current_user.login_items.empty? ? root_path : login_items_path }
         format.json { head :no_content }
       end
     else

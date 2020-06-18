@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     if devise_controller?
       "devise"
+    elsif user_signed_in? && current_user.login_items.empty?
+      "intro"
     else
       "application"
     end

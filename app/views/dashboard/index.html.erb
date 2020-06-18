@@ -1,28 +1,41 @@
-<%= hidden_field_tag 'start', @start_date %>
-<%= hidden_field_tag 'end', @end_date %>
-<div class="metrics-container">
-  <div class="metrics container-fluid">
-    <div class="row">
-      <%= render 'metric', title: 'money in', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
-      <%= render 'metric', title: 'money out', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]  %>
-      <%= render 'metric', title: 'money leftover', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
+<% if current_user.login_items.empty? %>
+  <div class="intro">
+    <h1>Hello there! Welcome to Cheer.</h1>
+    <p class="subtext">
+      In order to get started, let's first connect your bank account. And then we will start building 
+      your cashflow snapshot and provide more visibility into your net worth.
+    </p>
+    <div class="connect">
+      <%= link_to 'Connect your first account', '', {id: 'connect-link', 
+        data: { authentication_token: form_authenticity_token }, class: 'btn btn-primary btn-lg bold-2 connect-link'} %>
     </div>
-    <%= render 'time_period_scale' %>
   </div>
-</div>
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-lg-7 pl-0">
-      <%= render 'categorized_earnings' %>
-      <%= render 'category_spend' %>
+<% else %>
+  <%= hidden_field_tag 'start', @start_date %>
+  <%= hidden_field_tag 'end', @end_date %>
+  <div class="metrics-container">
+    <div class="metrics container-fluid">
+      <div class="row">
+        <%= render 'metric', title: 'money in', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
+        <%= render 'metric', title: 'money out', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]  %>
+        <%= render 'metric', title: 'money leftover', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
+      </div>
+      <%= render 'time_period_scale' %>
     </div>
-    <div class="col-lg-5">
-      <div class="loader hide" id="dash-tx-loader">Loading...</div>
-      <div class="scrollable content transactions-container" id="transactions-container">
-        <%= render 'transactions_container' %>
+  </div>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-7 pl-0">
+        <%= render 'categorized_earnings' %>
+        <%= render 'category_spend' %>
+      </div>
+      <div class="col-lg-5">
+        <div class="loader hide" id="dash-tx-loader">Loading...</div>
+        <div class="scrollable content transactions-container" id="transactions-container">
+          <%= render 'transactions_container' %>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
+<% end %>
   
