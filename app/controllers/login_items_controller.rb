@@ -3,6 +3,17 @@ class LoginItemsController < ApplicationController
     @login_items = current_user.login_items
   end
   
+  def status
+    @login_item = current_user.login_items.find(params[:id])
+    client = PlaidClientCreator.call
+    response = client.item.get(@login_item.plaid_access_token)
+    @item_status = response['status']
+    @item_metadata = response['item']
+    respond_to do |format|
+      format.json { render json: {item: @item_metadata, item_status: @item_status} }
+    end
+  end
+
   def refresh_transactions
     @login_item = current_user.login_items.find(params[:id])
     PlaidTransactionsCreator.call(

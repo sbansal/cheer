@@ -39,4 +39,14 @@ class LoginItem < ApplicationRecord
     2.weeks.ago.to_date
     # bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact&.max || 6.months.ago.to_date
   end
+
+  def register_webhook
+    client = PlaidClientCreator.call
+    client.item.webhook.update(plaid_access_token, Rails.application.credentials[:login_item_webhook])
+  end
+
+  def fire_webhook(type='DEFAULT_UPDATE')
+    client = PlaidClientCreator.call
+    client.sandbox.sandbox_item.fire_webhook(plaid_access_token, type)
+  end
 end

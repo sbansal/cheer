@@ -64,5 +64,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'app.usecheer.test', port: 3000 }
   config.hosts << /.*\.usecheer\.test/
+  config.hosts << /[a-z0-9]+\.ngrok\.io/
   config.force_ssl = true
+
+  logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
+  logger.formatter = config.log_formatter
+  config.logger    = ActiveSupport::TaggedLogging.new(logger)
 end
