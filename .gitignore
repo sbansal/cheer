@@ -24,6 +24,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/*.key
+/config/routes_hook.rb
 
 /public/packs
 /public/packs-test
