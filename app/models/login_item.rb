@@ -34,11 +34,6 @@ class LoginItem < ApplicationRecord
   def transactions_count
     bank_accounts.inject(0) { |sum, account| sum + account.transactions.count }
   end
-  
-  def last_transaction_pulled_at
-    2.weeks.ago.to_date
-    # bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact&.max || 6.months.ago.to_date
-  end
 
   def register_webhook
     client = PlaidClientCreator.call

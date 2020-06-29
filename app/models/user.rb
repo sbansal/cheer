@@ -76,4 +76,8 @@ class User < ApplicationRecord
      end
    end
  end
+
+ def last_transaction_pulled_at
+   user.transactions&.first&.occured_at || 1.month.ago.to_date
+ end
 end

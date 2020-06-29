@@ -12,28 +12,46 @@ class TransactionsEventProcessor < EventProcessor
   private
   
   def process_event
-    Rails.logger.tagged("TransactionsEvent") do
-      case event_code
-      when INITIAL_UPDATE_CODE
+    case event_code
+    when INITIAL_UPDATE_CODE
+      Rails.logger.tagged("TransactionsEvent") {
         Rails.logger.info("Intial pull complete. Total new transactions=#{metadata['new_transactions']}")
-        # TODO: schedule data pull
-      when HISTORICAL_UPDATE_CODE
+      }
+      # Disregard this. We care about HISTORICAL_UPDATE_CODE event to pull data.
+    when HISTORICAL_UPDATE_CODE
+      Rails.logger.tagged("TransactionsEvent") {
         Rails.logger.info("Historical pull complete. Total new transactions=#{metadata['new_transactions']}")
-        # TODO: schedule data pull
-      when DEFAULT_UPDATE_CODE
+      }
+      # TODO: schedule historical data pull
+    when DEFAULT_UPDATE_CODE
+      Rails.logger.tagged("TransactionsEvent") {
         Rails.logger.info("New transaction data available. Total new transactions=#{metadata['new_transactions']}")
-        # TODO: schedule data pull
-      when TRANSACTIONS_REMOVED_CODE
-        removed_transactions = metadata['removed_transactions']
+      }
+      fetch_new_transactions
+    when TRANSACTIONS_REMOVED_CODE
+      removed_transactions = metadata['removed_transactions']
+      Rails.logger.tagged("TransactionsEvent") {
         Rails.logger.info("#{removed_transactions.count} transactions removed. Deleting from the database.")
-        remove_transactions(remove_transactions)
-      else
+      }
+      remove_transactions(remove_transactions)
+    else
+      Rails.logger.tagged("TransactionsEvent") {
         Rails.logger.error("Unable to process transactions event code = #{event_code}")
-      end
+      }
     end
   end
-  
+
   def remove_transactions(removed_transactions)
     Transaction.destroy_by(plaid_transaction_id: removed_transactions)
+  end
+
+  def fetch_new_transactions
+    user = login_item.user
+    PlaidTransactionsCreator.call(
+      login_item.plaid_access_token,
+      user,
+      (user.last_transaction_pulled_at - 1.day).iso8601,
+      Date.today.iso8601,
+    )
   end
 end
