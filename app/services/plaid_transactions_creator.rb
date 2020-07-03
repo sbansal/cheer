@@ -6,13 +6,13 @@ class PlaidTransactionsCreator < ApplicationService
     @start_date_iso8601_str = start_date
     @end_date_iso8601_str = end_date
   end
-  
+
   def call
     add_transactions
   end
-  
+
   private
-  
+
   def add_transactions
     Rails.logger.tagged("TransactionPull") do
       Rails.logger.info("Fetching transactions for start_date: #{@start_date_iso8601_str}, end_date: #{@end_date_iso8601_str}")
