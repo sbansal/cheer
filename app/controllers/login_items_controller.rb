@@ -2,7 +2,7 @@ class LoginItemsController < ApplicationController
   def index
     @login_items = current_user.login_items
   end
-  
+
   def status
     @login_item = current_user.login_items.find(params[:id])
     client = PlaidClientCreator.call
@@ -17,9 +17,9 @@ class LoginItemsController < ApplicationController
   def refresh_transactions
     @login_item = current_user.login_items.find(params[:id])
     PlaidTransactionsCreator.call(
-      @login_item.plaid_access_token, 
+      @login_item.plaid_access_token,
       current_user,
-      (Date.today.beginning_of_year + 3.month).iso8601,
+      current_user.last_transaction_pulled_at.iso8601,
       Date.today.iso8601
     )
     redirect_to login_items_url
