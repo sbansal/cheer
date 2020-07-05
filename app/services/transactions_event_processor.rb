@@ -8,34 +8,35 @@ class TransactionsEventProcessor < EventProcessor
   def initialize(event_code, item_id, metadata={})
     super(event_code, item_id, metadata)
   end
-  
+
   private
-  
+
   def process_event
     case event_code
     when INITIAL_UPDATE_CODE
-      Rails.logger.tagged("TransactionsEvent") {
+      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.info("Intial pull complete. Total new transactions=#{metadata['new_transactions']}")
       }
       # Disregard this. We care about HISTORICAL_UPDATE_CODE event to pull data.
     when HISTORICAL_UPDATE_CODE
-      Rails.logger.tagged("TransactionsEvent") {
-        Rails.logger.info("Historical pull complete. Total new transactions=#{metadata['new_transactions']}")
+      transactions_count = metadata['new_transactions']
+      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
+        Rails.logger.info("Historical pull complete. Total new transactions=#{transactions_count}")
       }
-      # TODO: schedule historical data pull
+      fetch_historical_transactions(transactions_count)
     when DEFAULT_UPDATE_CODE
-      Rails.logger.tagged("TransactionsEvent") {
+      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.info("New transaction data available. Total new transactions=#{metadata['new_transactions']}")
       }
       fetch_new_transactions
     when TRANSACTIONS_REMOVED_CODE
       removed_transactions = metadata['removed_transactions']
-      Rails.logger.tagged("TransactionsEvent") {
+      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.info("#{removed_transactions.count} transactions removed. Deleting from the database.")
       }
       remove_transactions(remove_transactions)
     else
-      Rails.logger.tagged("TransactionsEvent") {
+      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.error("Unable to process transactions event code = #{event_code}")
       }
     end
@@ -52,6 +53,14 @@ class TransactionsEventProcessor < EventProcessor
       user,
       (user.last_transaction_pulled_at - 1.day).iso8601,
       Date.today.iso8601,
+    )
+  end
+
+  def fetch_historical_transactions(transactions_count)
+    HistoricalTransactionsCreator.call(
+      login_item.plaid_access_token,
+      login_item.user,
+      transactions_count,
     )
   end
 end
