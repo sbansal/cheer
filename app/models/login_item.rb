@@ -21,18 +21,18 @@ class LoginItem < ApplicationRecord
       user_id: user_id,
     )
   end
-  
+
   def active?
-    last_failed_transaction_update_at.nil? || 
+    last_failed_transaction_update_at.nil? ||
       (last_successful_transaction_update_at > last_failed_transaction_update_at)
   end
-  
+
   def status
     active? ? "active" : "inactive"
   end
-  
+
   def transactions_count
-    bank_accounts.inject(0) { |sum, account| sum + account.transactions.count }
+    bank_accounts.includes(:transactions).inject(0) { |sum, account| sum + account.transactions.count }
   end
 
   def register_webhook
@@ -43,5 +43,11 @@ class LoginItem < ApplicationRecord
   def fire_webhook(type='DEFAULT_UPDATE')
     client = PlaidClientCreator.call
     client.sandbox.sandbox_item.fire_webhook(plaid_access_token, type)
+  end
+
+  def transactions_history_period
+    min_date = bank_accounts.map { |account| account.transactions&.last&.occured_at }.compact.min
+    max_date = bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact.max
+    return [min_date, max_date]
   end
 end

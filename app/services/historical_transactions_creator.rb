@@ -1,5 +1,5 @@
 class HistoricalTransactionsCreator < ApplicationService
-  def initialize(access_token, user, transaction_count=0)
+  def initialize(access_token, user, transaction_count)
     @client = PlaidClientCreator.call
     @access_token = access_token
     @user = user
@@ -16,7 +16,7 @@ class HistoricalTransactionsCreator < ApplicationService
     transactions_fetched_count = 0
     transactions_json_array = []
     end_date = Date.today
-    back_off_date = Date.today - 2.years
+    back_off_date = Date.today - 3.years
     until transactions_fetched_count >= @transaction_count  do
       Rails.logger.tagged("TransactionPull") {
         Rails.logger.info { "Total #{transactions_fetched_count}/#{@transaction_count} transactions pulled from Plaid."}

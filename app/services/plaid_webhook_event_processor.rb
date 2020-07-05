@@ -5,13 +5,13 @@ class PlaidWebhookEventProcessor < ApplicationService
   TRANSACTIONS_TYPE = 'TRANSACTIONS'
   ITEM_TYPE = 'ITEM'
 
-  class InvalidWebhookEventError < StandardError; end 
+  class InvalidWebhookEventError < StandardError; end
 
   def initialize(plaid_header, raw_body)
     @plaid_header = plaid_header
     @raw_body = raw_body
   end
-  
+
   def call
     begin
       verify_request
@@ -22,19 +22,22 @@ class PlaidWebhookEventProcessor < ApplicationService
       return false
     end
   end
-  
+
   private
-  
+
   def process_event
-    Rails.logger.info("Processing webhook event = #{@raw_body}")
     metadata = JSON.parse(@raw_body)
     event_type = metadata['webhook_type']
     event_code = metadata['webhook_code']
     item_id = metadata['item_id']
-    if event_type = TRANSACTIONS_TYPE
+    if event_type == TRANSACTIONS_TYPE
       TransactionsEventProcessor.call(event_code, item_id, metadata)
-    elsif event_type = ITEM_TYPE
+    elsif event_type == ITEM_TYPE
       LoginItemEventProcessor.call(event_code, item_id, metadata)
+    else
+      Rails.logger.tagged("WebhookEvent") {
+        Rails.logger.error("Unknown webhook event received with metadata=#{metadata}")
+      }
     end
   end
 

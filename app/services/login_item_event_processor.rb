@@ -4,14 +4,14 @@ class LoginItemEventProcessor < EventProcessor
   PENDING_EXPIRATION_CODE = "PENDING_EXPIRATION"
   ERROR_CODE = "ERROR"
 
-  def initialize(event_type, item_id, metadata={})
+  def initialize(event_code, item_id, metadata={})
     super(event_code, item_id, metadata)
   end
 
   private
 
   def process_event
-    Rails.logger.tagged("LoginItemEvent") do
+    Rails.logger.tagged("WebhookEvent:LoginItemEvent") do
       case event_code
       when WEBHOOK_UPDATE_ACKNOWLEDGED_CODE
         Rails.logger.info("LoginItem webhook updated to #{metadata['new_webhook_url']}")
