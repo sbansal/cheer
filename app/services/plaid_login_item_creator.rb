@@ -9,8 +9,7 @@ class PlaidLoginItemCreator < ApplicationService
     login_item = create_login_item
     login_item.register_webhook
     bank_accounts = create_accounts(login_item)
-    # wait for historical update
-    # PlaidTransactionsCreator.call(@access_token, @user, 2.months.ago.to_date.iso8601, Date.today.iso8601)
+    PlaidTransactionsCreator.call(@access_token, @user, 3.months.ago.to_date.iso8601, Date.today.iso8601)
   end
 
   private
