@@ -23,7 +23,8 @@
         </div>
       </div>
       <div class="btn-container" style="margin: 30px 0">
-        <%= link_to 'Update Login', '', class: 'xs btn btn-primary btn-sm' %>
+        <%= link_to_if(item.expired?, 'Update Login', '', class: 'xs btn btn-primary btn-sm', data: {controller: 'plaid',
+          action: 'click->plaid#updateLoginItem', token: item.fetch_public_token}){} %>
         <%= link_to 'Refresh', refresh_transactions_path(item), class: 'xs btn btn-secondary btn-sm' %>
         <%= link_to 'Delete', login_item_path(item),
           :data => { :confirm => "We will delete all accounts and transactions related to this login item." },
