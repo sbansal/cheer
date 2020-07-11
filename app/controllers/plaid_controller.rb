@@ -1,5 +1,10 @@
 class PlaidController < ApplicationController
-  def index
+  skip_before_action :verify_authenticity_token, only: [:update_link, :get_access_token]
+
+  def update_link
+    @login_item = current_user.login_items.find_by(public_token: params[:public_token])
+    @login_item.activate
+    redirect_to login_items_path
   end
 
   def get_access_token

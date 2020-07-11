@@ -33,6 +33,10 @@ FactoryBot.define do
     last_failed_transaction_update_at {}
     last_webhook_sent_at {}
     last_webhook_code_sent {}
+    expired_at { }
+    expired { false }
+    public_token {}
+    public_token_expired_at {}
     user
     institution
   end

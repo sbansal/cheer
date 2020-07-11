@@ -50,4 +50,30 @@ class LoginItem < ApplicationRecord
     max_date = bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact.max
     return [min_date, max_date]
   end
+
+  def expire
+    update(expired: true, expired_at: Time.zone.now )
+  end
+
+  def activate
+    update(expired: false, expired_at: nil, public_token: nil, public_token_expired_at: nil)
+  end
+
+  def fetch_public_token
+    if public_token_expired?
+      response = PlaidPublicTokenCreator.call(plaid_access_token)
+      Rails.logger.info("New Public token created to update the login item.")
+      update(
+        public_token_expired_at: DateTime.parse(response['expiration']),
+        public_token: response['public_token']
+      )
+    end
+    public_token
+  end
+
+  private
+
+  def public_token_expired?
+    public_token_expired_at.nil? || public_token_expired_at.before?(Time.zone.now)
+  end
 end
