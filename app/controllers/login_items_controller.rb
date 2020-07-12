@@ -39,7 +39,7 @@ class LoginItemsController < ApplicationController
       PlaidTransactionsCreator.call(
         @login_item.plaid_access_token,
         current_user,
-        (end_date - 1.month).iso8601,
+        (end_date - 3.month).iso8601,
         end_date.iso8601,
       )
     rescue Plaid::ItemError => e
