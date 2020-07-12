@@ -22,13 +22,8 @@ class LoginItem < ApplicationRecord
     )
   end
 
-  def active?
-    last_failed_transaction_update_at.nil? ||
-      (last_successful_transaction_update_at > last_failed_transaction_update_at)
-  end
-
   def status
-    active? ? "active" : "inactive"
+    expired? ? "inactive" : "active"
   end
 
   def transactions_count
