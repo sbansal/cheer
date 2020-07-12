@@ -9,7 +9,7 @@ class PlaidLoginItemCreator < ApplicationService
     login_item = create_login_item
     login_item.register_webhook
     bank_accounts = create_accounts(login_item)
-    PlaidTransactionsCreator.call(@access_token, @user, 6.months.ago.to_date.iso8601, Date.today.iso8601)
+    PlaidTransactionsCreator.call(@access_token, @user, 3.months.ago.to_date.iso8601, Date.today.iso8601)
   end
 
   private
@@ -19,7 +19,6 @@ class PlaidLoginItemCreator < ApplicationService
     login_item_json = login_item_response[:item]
     status_json = login_item_response[:status]
     institution = create_institution(login_item_json[:institution_id])
-    # create login item
     LoginItem.create_from_json(login_item_json, status_json, institution.id, @access_token, @user.id)
   end
 

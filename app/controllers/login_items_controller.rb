@@ -1,8 +1,8 @@
 class LoginItemsController < ApplicationController
   def index
-    @login_items = current_user.login_items
+    @login_items = current_user.login_items.includes(bank_accounts: [:transactions])
   end
-  
+
   def status
     @login_item = current_user.login_items.find(params[:id])
     client = PlaidClientCreator.call
@@ -16,12 +16,38 @@ class LoginItemsController < ApplicationController
 
   def refresh_transactions
     @login_item = current_user.login_items.find(params[:id])
-    PlaidTransactionsCreator.call(
-      @login_item.plaid_access_token, 
-      current_user,
-      (Date.today.beginning_of_year + 1.month).iso8601,
-      (Date.today.beginning_of_year + 2.month).iso8601
-    )
+    begin
+      PlaidTransactionsCreator.call(
+        @login_item.plaid_access_token,
+        current_user,
+        current_user.last_transaction_pulled_at.iso8601,
+        Date.today.iso8601
+      )
+    rescue Plaid::ItemError => e
+      Rails.logger.error(e)
+      if e.error_code == 'ITEM_LOGIN_REQUIRED'
+        @login_item.expire
+      end
+    end
+    redirect_to login_items_url
+  end
+
+  def refresh_historical_transactions
+    @login_item = current_user.login_items.find(params[:id])
+    begin
+      end_date = @login_item.transactions_history_period[0] || Date.today
+      PlaidTransactionsCreator.call(
+        @login_item.plaid_access_token,
+        current_user,
+        (end_date - 3.month).iso8601,
+        end_date.iso8601,
+      )
+    rescue Plaid::ItemError => e
+      Rails.logger.error(e)
+      if e.error_code == 'ITEM_LOGIN_REQUIRED'
+        @login_item.expire
+      end
+    end
     redirect_to login_items_url
   end
 

@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     get '/dashboard/home', to: 'dashboard#home'
     get '/dashboard/transactions', to: 'dashboard#transactions'
     post '/plaid/get_access_token', to: 'plaid#get_access_token'
+    post '/plaid/update_link', to: 'plaid#update_link'
     get '/login_items/:id/refresh_transactions/', to: 'login_items#refresh_transactions', as: :refresh_transactions
+    get '/login_items/:id/refresh_historical_transactions', to: 'login_items#refresh_historical_transactions', as: :refresh_historical_transactions
     post '/events/login_item_callback', to: 'events#login_item_callback'
     get '/login_items/:id/status', to: 'login_items#status'
   end

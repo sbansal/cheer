@@ -21,23 +21,13 @@ class LoginItem < ApplicationRecord
       user_id: user_id,
     )
   end
-  
-  def active?
-    last_failed_transaction_update_at.nil? || 
-      (last_successful_transaction_update_at > last_failed_transaction_update_at)
-  end
-  
+
   def status
-    active? ? "active" : "inactive"
+    expired? ? "inactive" : "active"
   end
-  
+
   def transactions_count
-    bank_accounts.inject(0) { |sum, account| sum + account.transactions.count }
-  end
-  
-  def last_transaction_pulled_at
-    2.weeks.ago.to_date
-    # bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact&.max || 6.months.ago.to_date
+    bank_accounts.includes(:transactions).inject(0) { |sum, account| sum + account.transactions.count }
   end
 
   def register_webhook
@@ -48,5 +38,37 @@ class LoginItem < ApplicationRecord
   def fire_webhook(type='DEFAULT_UPDATE')
     client = PlaidClientCreator.call
     client.sandbox.sandbox_item.fire_webhook(plaid_access_token, type)
+  end
+
+  def transactions_history_period
+    min_date = bank_accounts.map { |account| account.transactions&.last&.occured_at }.compact.min
+    max_date = bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact.max
+    return [min_date, max_date]
+  end
+
+  def expire
+    update(expired: true, expired_at: Time.zone.now )
+  end
+
+  def activate
+    update(expired: false, expired_at: nil, public_token: nil, public_token_expired_at: nil)
+  end
+
+  def fetch_public_token
+    if public_token_expired?
+      response = PlaidPublicTokenCreator.call(plaid_access_token)
+      Rails.logger.info("New Public token created to update the login item.")
+      update(
+        public_token_expired_at: DateTime.parse(response['expiration']),
+        public_token: response['public_token']
+      )
+    end
+    public_token
+  end
+
+  private
+
+  def public_token_expired?
+    public_token_expired_at.nil? || public_token_expired_at.before?(Time.zone.now)
   end
 end
