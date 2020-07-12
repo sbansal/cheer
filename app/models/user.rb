@@ -81,3 +81,4 @@ class User < ApplicationRecord
    transactions&.first&.occured_at || 1.month.ago.to_date
  end
 end
+
