@@ -57,8 +57,8 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "cheer_production"
+  config.active_job.queue_adapter     = :resque
+  config.active_job.queue_name_prefix = "cheer_production"
 
   config.action_mailer.perform_caching = false
 
@@ -113,4 +113,14 @@ Rails.application.configure do
   config.hosts << /.*\.usecheer\.com/
   config.active_storage.service = :amazon
   config.force_ssl = true
+
+  ActionMailer::Base.smtp_settings = {
+    :port           => Rails.application.credentials[:sendgrid][:smtp_port],
+    :address        => Rails.application.credentials[:sendgrid][:smtp_server],
+    :user_name      => Rails.application.credentials[:sendgrid][:smtp_username],
+    :password       => Rails.application.credentials[:sendgrid][:smtp_password],
+    :domain         => 'usecheer.test',
+    :authentication => :plain,
+  }
+  ActionMailer::Base.delivery_method = :smtp
 end

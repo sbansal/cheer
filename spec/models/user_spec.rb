@@ -11,4 +11,13 @@ RSpec.describe User, type: :model do
     user = create(:user_with_transactions)
     expect(user.last_transaction_pulled_at).to eq user.transactions.first.occured_at
   end
+
+  it 'has a friendly name' do
+    user = build(:user)
+    expect(user.friendly_name).to eq 'Joe'
+    user = build(:user, full_name: nil)
+    expect(user.friendly_name).to eq 'there'
+    user = build(:user, full_name: 'Jack')
+    expect(user.friendly_name).to eq 'Jack'
+  end
 end
