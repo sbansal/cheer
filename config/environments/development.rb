@@ -32,7 +32,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -62,7 +62,20 @@ Rails.application.configure do
 
   config.active_storage.service = :amazon
 
-  config.action_mailer.default_url_options = { host: 'app.usecheer.test', port: 3000 }
+  config.active_job.queue_adapter = :resque
+
+  config.action_mailer.default_url_options = { host: 'app.usecheer.test' }
+
+  ActionMailer::Base.smtp_settings = {
+    :port           => Rails.application.credentials[:sendgrid][:smtp_port],
+    :address        => Rails.application.credentials[:sendgrid][:smtp_server],
+    :user_name      => Rails.application.credentials[:sendgrid][:smtp_username],
+    :password       => Rails.application.credentials[:sendgrid][:smtp_password],
+    :domain         => 'usecheer.test',
+    :authentication => :plain,
+  }
+  ActionMailer::Base.delivery_method = :smtp
+
   config.hosts << /.*\.usecheer\.test/
   config.hosts << /[a-z0-9]+\.ngrok\.io/
   config.force_ssl = true

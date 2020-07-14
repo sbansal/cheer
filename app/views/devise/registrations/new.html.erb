@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="sign-in-form">
-    <h3 class="text-center">Sign up in less than a minute.</h3>
+  <div class="auth-form">
+    <div class="text-center lg-20">Welcome, let's get started.</div>
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
 
@@ -29,11 +29,10 @@
     </div>
 
     <div class="btn-container">
-      <p><%= f.submit "Create your account", :class => 'btn btn-primary btn-lg btn-block' %></p>
-      <p class="tiny-text grey-text text-center">By clicking, you agree to our <%= link_to 'terms of service', '', class: 'linky' %>.</p>
+      <p><%= f.submit "Create your account", :class => 'btn btn-primary btn-small btn-block' %></p>
+      <p class="small grey-text text-center">By clicking, you agree to our <%= link_to 'terms of service', '', class: 'linky' %>.</p>
     </div>
     <% end %>
-    <p class="line-break"></p>
-    <p class="text-center">Already have an account? <%= link_to 'Sign In', new_user_session_path, class: "linky" %></p>
   </div>
+  <p class="text-center med">Already have an account? <%= link_to 'Sign In', new_user_session_path, class: "purple-linky" %></p>
 </div>

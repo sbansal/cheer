@@ -5,10 +5,10 @@ ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3.2'
-# Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
 gem 'puma', '~> 4.1'
+
+# frontend
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -68,3 +68,6 @@ gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'plaid'
 gem 'json-jwt'
+
+# jobs
+gem 'resque'

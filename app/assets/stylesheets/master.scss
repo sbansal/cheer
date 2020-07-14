@@ -125,7 +125,7 @@ ul.simple-list {
   min-height: 52vh;
 }
 
-.sign-in-form {
+.auth-form {
   width: 400px;
   margin: 20px auto;
   padding: 20px;
@@ -216,7 +216,14 @@ ul.simple-list {
 
 a.linky {
   color: #222;
-  .hover {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+a.purple-linky {
+  color: #7069FA;
+  &:hover {
     text-decoration: underline;
   }
 }
@@ -262,3 +269,16 @@ table.hoverable {
   border-bottom: 1px solid #9FB3C8;
 }
 
+.alert {
+  color: #E12D39;
+  border: 1px solid #FF9B9B;
+  padding: 10px;
+  margin: 15px 0;
+  font-size: 0.8125rem;
+}
+
+ul.basic {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
