@@ -113,6 +113,7 @@ Rails.application.configure do
   config.hosts << /.*\.usecheer\.com/
   config.active_storage.service = :amazon
   config.force_ssl = true
+  config.action_mailer.default_url_options = { host: 'app.usecheer.com' }
 
   ActionMailer::Base.smtp_settings = {
     :port           => Rails.application.credentials[:sendgrid][:smtp_port],
