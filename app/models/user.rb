@@ -16,7 +16,6 @@ class User < ApplicationRecord
   end
 
   def send_devise_notification(notification, *args)
-    Rails.logger.tagged("Email") { Rails.logger.info("Sending email to user - #{self.inspect}")}
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
