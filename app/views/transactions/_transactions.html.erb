@@ -9,6 +9,7 @@
       <% if current_user.admin? %>
       <th scope="col">Other ID</th>
       <% end %>
+      <th></th>
     </tr>
   </thead>
   <tbody class="small">
@@ -34,6 +35,11 @@
         <% if current_user.admin? %>
         <td><code><%= transaction.plaid_transaction_id %></code></td>
         <% end %>
+        <td>
+          <%= link_to 'Delete', transaction_path(transaction),
+            :method => :delete,
+            class: 'grey-linky underline' %>
+        </td>
       </tr>
     <% end %>
   </tbody>

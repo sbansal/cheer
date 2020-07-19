@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   constraints subdomain: 'app' do
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
     root to: 'dashboard#index'
-    resources :transactions, only: [:index, :show]
+    resources :transactions, only: [:index, :show, :destroy]
     resources :login_items, only: [:index, :destroy]
     resources :categories, only: [:index]
     get '/dashboard/home', to: 'dashboard#home'
