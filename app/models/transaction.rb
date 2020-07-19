@@ -25,6 +25,10 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def status
+    pending? ? 'pending' : 'settled'
+  end
+
   def charge?
     amount > 0 && !pending? && category.charge?
   end

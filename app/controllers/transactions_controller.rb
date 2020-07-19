@@ -1,8 +1,8 @@
 class TransactionsController < ApplicationController
   def index
-    @bank_accounts = current_user.bank_accounts
+    @transactions = current_user.transactions.includes([:category, :bank_account])
   end
-  
+
   def show
     @transaction = current_user.transactions.find(params[:id])
     respond_to do |format|

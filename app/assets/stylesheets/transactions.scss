@@ -15,7 +15,7 @@
   justify-content: space-between;
   align-items:center;
   .table {
-    text-align: right;  
+    text-align: right;
   }
   .account-value {
     display: flex;
@@ -36,4 +36,26 @@
 
 .transactions-table {
   text-align: right;
+}
+
+.account-list {
+  margin-right: 30px;
+  li {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px;
+  }
+}
+
+.status {
+  &.pending {
+    background-color: #F0B429;
+  }
+  &.settled {
+    background-color: #D9E2EC;
+    color: #555;
+  }
+  border-radius: 10px;
+  padding: 2px 10px;
+  color: #FFF;
+  text-align: center;
 }

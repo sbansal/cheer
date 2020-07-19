@@ -1,20 +1,39 @@
 <table class="table">
   <thead>
-    <tr>
+    <tr class="table-header">
+      <th></th>
       <th scope="col">Date</th>
       <th scope="col">Description</th>
+      <th scope="col">Account</th>
       <th scope="col">Amount</th>
+      <% if current_user.admin? %>
+      <th scope="col">Other ID</th>
+      <% end %>
     </tr>
   </thead>
-  <tbody>
-    <% transactions.each do |transaction| %>
+  <tbody class="small">
+    <% @transactions.each do |transaction| %>
       <tr>
-        <td scope="row"><%= transaction.occured_at.strftime('%b %d, %Y') %></th>
+        <td><div class="status <%= transaction.status %>"><%= transaction.status.humanize %></div></td>
+        <td scope="row">
+          <%= transaction.occured_at.strftime('%b %d, %Y') %>
+        </td>
         <td>
           <div><%= transaction.description %></div>
-          <div class="small grey"><%= transaction.category.category_list %></div>
+          <div class="inactive"><%= transaction.category.category_list %></div>
         </td>
-        <td><%= number_to_currency(transaction.amount)%></td>
+
+        <td>
+          <div id="name"><%= transaction.bank_account.name %></div>
+          <div class="inactive">Account ending in <%= transaction.bank_account.mask %></div>
+        </td>
+        <td>
+          <div><%= number_to_currency(transaction.amount)%></div>
+          <div class="inactive"><%= transaction.payment_channel&.humanize %></div>
+        </td>
+        <% if current_user.admin? %>
+        <td><code><%= transaction.plaid_transaction_id %></code></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

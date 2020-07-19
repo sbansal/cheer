@@ -83,4 +83,11 @@ Rails.application.configure do
   logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
   logger.formatter = config.log_formatter
   config.logger    = ActiveSupport::TaggedLogging.new(logger)
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = true
+    Bullet.add_footer = true
+  end
 end

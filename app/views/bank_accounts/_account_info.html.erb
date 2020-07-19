@@ -1,0 +1,23 @@
+<div class="account-info">
+  <div class="account-header">
+    <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
+    <span class="account-title primary"><%= account.descriptive_name %></span><br/>
+    <span class="small grey">Last updated <%= account.updated_at.strftime('%b %d, %Y') %></span><br/>
+  </div>
+  <div class="account-value">
+    <div class="value">
+      <div class="amount primary"><%= number_to_currency(account.total_money_in(Date.today.at_beginning_of_month, Date.today))%></div>
+      <div class="amount-label">Income</div>
+    </div>
+    <div class="value">
+      <div class="amount primary">
+        <%= number_to_currency(account.total_money_out(Date.today.at_beginning_of_month, Date.today))%>
+      </div>
+      <div class="amount-label">Expenses</div>
+    </div>
+    <div class="value">
+      <div class="amount primary"><%= number_to_currency(account.balance)%></div>
+      <div class="amount-label">Balance</div>
+    </div>
+  </div>
+</div>

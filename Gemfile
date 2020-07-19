@@ -36,6 +36,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'guard'
   gem 'guard-rspec', require: false
+  gem 'bullet'
 end
 
 group :development do
