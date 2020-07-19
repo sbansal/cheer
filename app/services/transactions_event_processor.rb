@@ -34,7 +34,7 @@ class TransactionsEventProcessor < EventProcessor
       Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.info("#{removed_transactions.count} transactions removed. Deleting from the database.")
       }
-      remove_transactions(remove_transactions)
+      remove_transactions(removed_transactions)
     else
       Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.error("Unable to process transactions event code = #{event_code}")
