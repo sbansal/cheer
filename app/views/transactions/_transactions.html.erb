@@ -6,9 +6,6 @@
       <th scope="col">Description</th>
       <th scope="col">Account</th>
       <th scope="col">Amount</th>
-      <% if current_user.admin? %>
-      <th scope="col">Other ID</th>
-      <% end %>
       <th></th>
     </tr>
   </thead>
@@ -25,16 +22,13 @@
         </td>
 
         <td>
-          <div id="name"><%= transaction.bank_account.name %></div>
+          <div id="name"><%= transaction.bank_account.official_name %></div>
           <div class="inactive">Account ending in <%= transaction.bank_account.mask %></div>
         </td>
         <td>
           <div><%= number_to_currency(transaction.amount)%></div>
           <div class="inactive"><%= transaction.payment_channel&.humanize %></div>
         </td>
-        <% if current_user.admin? %>
-        <td><code><%= transaction.plaid_transaction_id %></code></td>
-        <% end %>
         <td>
           <%= link_to 'Delete', transaction_path(transaction),
             :method => :delete,
