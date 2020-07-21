@@ -6,7 +6,6 @@
     <%= csp_meta_tag %>
     <meta name="plaid-env" content="<%= Rails.application.credentials[:plaid][:environment] %>">
     <meta name="plaid-pk" content="<%= Rails.application.credentials[:plaid][:public_key] %>">
-    <link rel="stylesheet" href="https://use.typekit.net/okr8bkv.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity = "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>

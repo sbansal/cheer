@@ -27,6 +27,10 @@ class BankAccount < ApplicationRecord
     (official_name || name) + " - xxxx" + mask
   end
 
+  def display_name
+    official_name || name
+  end
+
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
     transactions.includes(:category).occured_between(start_date, end_date).map {
       |tx| tx.charge? ? tx.amount : 0

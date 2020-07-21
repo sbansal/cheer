@@ -1,35 +1,36 @@
 <table class="table">
   <thead>
-    <tr class="table-header">
-      <th></th>
-      <th scope="col">Date</th>
-      <th scope="col">Description</th>
-      <th scope="col">Account</th>
-      <th scope="col">Amount</th>
-      <th></th>
+    <tr class="table-header row">
+      <th scope="col" class="col-2 text-left">Date</th>
+      <th scope="col" class="col-5 text-left">Description</th>
+      <th scope="col" class="col-3 text-left">Account</th>
+      <th scope="col" class="col-1">Amount</th>
+      <th class="col-1"></th>
     </tr>
   </thead>
   <tbody class="small">
     <% @transactions.each do |transaction| %>
-      <tr>
-        <td><div class="status <%= transaction.status %>"><%= transaction.status.humanize %></div></td>
-        <td scope="row">
+      <tr class="row">
+        <td scope="row" class="col-2 text-left">
           <%= transaction.occured_at.strftime('%b %d, %Y') %>
         </td>
-        <td>
-          <div><%= transaction.description %></div>
-          <div class="inactive"><%= transaction.category.category_list %></div>
+        <td class="col-5 text-left">
+          <div>
+            <span class="primary med"><%= transaction.description %></span>
+            <% if transaction.pending? %>
+            <span class="status <%= transaction.status %>"><%= transaction.status.humanize %></span>
+            <% end %>
+          </div>
+          <div class="inactive xs"><%= transaction.category.category_list %></div>
         </td>
-
-        <td>
-          <div id="name"><%= transaction.bank_account.official_name %></div>
-          <div class="inactive">Account ending in <%= transaction.bank_account.mask %></div>
+        <td class="col-3 text-left">
+          <div><%= transaction.bank_account.display_name %></div>
+          <div class="inactive xs">Account ending in <%= transaction.bank_account.mask %></div>
         </td>
-        <td>
-          <div><%= number_to_currency(transaction.amount)%></div>
-          <div class="inactive"><%= transaction.payment_channel&.humanize %></div>
+        <td class="col-1">
+          <div class="med <%=tx_amount_type(transaction.amount).downcase%>"><%= number_to_currency(transaction.amount)%></div>
         </td>
-        <td>
+        <td class="col-1">
           <%= link_to 'Delete', transaction_path(transaction),
             :method => :delete,
             class: 'grey-linky underline' %>
