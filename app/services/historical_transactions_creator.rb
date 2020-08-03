@@ -8,6 +8,7 @@ class HistoricalTransactionsCreator < ApplicationService
 
   def call
     fetch_historical_transactions
+    Resque.enqueue(RefreshBalance, @access_token)
   end
 
   private
