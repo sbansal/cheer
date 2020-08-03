@@ -1,6 +1,6 @@
 class LoginItemsController < ApplicationController
   def index
-    @login_items = current_user.login_items.includes(bank_accounts: [:transactions])
+    @login_items = current_user.login_items.includes([:institution, bank_accounts: [:transactions]])
   end
 
   def status

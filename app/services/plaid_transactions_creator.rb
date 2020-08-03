@@ -9,6 +9,7 @@ class PlaidTransactionsCreator < ApplicationService
 
   def call
     add_transactions
+    Resque.enqueue(RefreshBalance, @access_token)
   end
 
   private

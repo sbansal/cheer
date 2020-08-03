@@ -1,4 +1,13 @@
 FactoryBot.define do
+  factory :balance do
+    available { 1.5 }
+    current { 1.5 }
+    limit { 1.5 }
+    currency_code { "MyString" }
+    bank_account_id { 1 }
+    user_id { 1 }
+  end
+
   factory :user do
     full_name { "Joe Black" }
     sequence :email do |n|
@@ -25,8 +34,8 @@ FactoryBot.define do
   end
 
   factory :login_item do
-    plaid_item_id { 'y1R8xw8QWpSvb1P5gzaZsLMZp36W58tyqvylb' }
-    plaid_access_token { 'access-sandbox-01' }
+    plaid_item_id { SecureRandom.hex(32) }
+    plaid_access_token { SecureRandom.hex(32) }
     consent_expires_at {}
     error_json {}
     last_successful_transaction_update_at { Time.zone.now }
@@ -42,13 +51,13 @@ FactoryBot.define do
   end
 
   factory :bank_account do
-    plaid_account_id { '7mNNDWvLw4hBXMMQkXwvFQa9WzXe9EUgG4lPp' }
+    plaid_account_id { SecureRandom.hex(32) }
     name { 'Chase Credit Card'}
     official_name { 'Chase Something Platinum' }
     account_type { 'credit' }
     account_subtype { 'credit card' }
     mask { '1111' }
-    balance_available {}
+    balance_available { 1000 }
     balance_limit { 2000 }
     balance_currency_code { 'USD' }
     login_item

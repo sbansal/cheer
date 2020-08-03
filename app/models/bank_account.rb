@@ -3,6 +3,12 @@ class BankAccount < ApplicationRecord
   belongs_to :user
   belongs_to :login_item
   has_many :subscriptions, dependent: :destroy
+  has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
+
+  INVESTMENT_TYPE = "investment"
+  LOAN_TYPE = "loan"
+  DEPOSITORY_TYPE = "depository"
+  CREDIT_TYPE = "credit"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id)
     banks_accounts = accounts_json_array.map do |account_json|
@@ -29,6 +35,26 @@ class BankAccount < ApplicationRecord
 
   def display_name
     official_name || name
+  end
+
+  def last_balance
+    balances&.first
+  end
+
+  def investment_account?
+    account_type == INVESTMENT_TYPE
+  end
+
+  def loan_account?
+    account_type == LOAN_TYPE
+  end
+
+  def depository_account?
+    account_type == DEPOSITORY_TYPE
+  end
+
+  def credit_account?
+    account_type == CREDIT_TYPE
   end
 
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
@@ -62,6 +88,10 @@ class BankAccount < ApplicationRecord
   end
 
   def balance
-    balance_available || balance_limit || 'N/A'
+    if depository_account?
+      last_balance.available || 'N/A'
+    else
+      last_balance.current || 'N/A'
+    end
   end
 end
