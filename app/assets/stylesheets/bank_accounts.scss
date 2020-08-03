@@ -1,8 +1,9 @@
 .bank-account-info {
-  border: 1px solid #DDD;
-  border-radius: 5px;
-  margin: 15px;
-  padding: 20px;
+  border-bottom: 1px solid #DDD;
+  padding: 10px;
+  display:flex;
+  justify-content: space-between;
+  align-items:baseline;
 }
 
 .bank-logo {
@@ -10,6 +11,6 @@
 }
 
 .bank-account-details {
+  display:flex;
   padding: 20px 0;
-  min-height: 200px;
 }
