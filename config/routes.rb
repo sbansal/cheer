@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     get '/login_items/:id/refresh_historical_transactions', to: 'login_items#refresh_historical_transactions', as: :refresh_historical_transactions
     post '/events/login_item_callback', to: 'events#login_item_callback'
     get '/login_items/:id/status', to: 'login_items#status'
+    get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
     end

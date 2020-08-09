@@ -89,9 +89,9 @@ class BankAccount < ApplicationRecord
 
   def balance
     if depository_account?
-      last_balance.available || 'N/A'
+      last_balance&.available || 'N/A'
     else
-      last_balance.current || 'N/A'
+      last_balance&.current || 'N/A'
     end
   end
 end
