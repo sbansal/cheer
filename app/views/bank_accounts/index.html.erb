@@ -1,0 +1,5 @@
+<div id="name">
+  <% @bank_accounts.each do |account|%>
+    <%= render 'account_info', account: account %>
+  <% end %>
+</div>
