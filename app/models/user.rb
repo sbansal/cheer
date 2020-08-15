@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :login_items, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
+  
+  belongs_to :account
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
 
