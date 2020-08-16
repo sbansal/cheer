@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     post '/events/login_item_callback', to: 'events#login_item_callback'
     get '/login_items/:id/status', to: 'login_items#status'
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
+    get 'accounts/settings'
+    post '/users/invite_person'
+    post '/users/:id/reinvite', to: 'users#reinvite', as: :reinvite_user
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
     end

@@ -1,4 +1,14 @@
 FactoryBot.define do
+  factory :account do
+    name { "SB account" }
+
+    factory :account_with_users do
+      after(:create) do |account|
+        create_list(:user, 1, account: account)
+      end
+    end
+  end
+
   factory :balance do
     available { 1.5 }
     current { 1.5 }
@@ -14,6 +24,7 @@ FactoryBot.define do
       "#{SecureRandom.hex(8)}@example.com"
     end
     password { "blahblah" }
+    account
 
     factory :user_with_transactions do
       transient do

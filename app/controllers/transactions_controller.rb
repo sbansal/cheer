@@ -1,10 +1,10 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = current_user.transactions.includes([:category, :bank_account])
+    @transactions = current_account.transactions.includes([:category, :bank_account])
   end
 
   def show
-    @transaction = current_user.transactions.find(params[:id])
+    @transaction = current_account.transactions.find(params[:id])
     respond_to do |format|
       format.js
       format.json { render json: @transaction }
@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
-    @transaction = current_user.transactions.find(params[:id])
+    @transaction = current_account.transactions.find(params[:id])
     if @transaction.destroy
       respond_to do |format|
         format.html { redirect_to transactions_path }
