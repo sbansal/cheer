@@ -2,13 +2,13 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-  :recoverable, :rememberable, :validatable
+  :recoverable, :rememberable, :validatable, :trackable
 
   has_one_attached :avatar
   has_many :login_items, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
-  
+
   belongs_to :account
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
@@ -21,8 +21,31 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def cashflow(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
-    Cashflow.new(start_date, end_date, transactions.includes(:category))
+  def activated?
+    sign_in_count > 0
+  end
+
+  def new_account?
+    account.login_items.empty?
+  end
+
+  def invite_person(email, full_name)
+    self.email = email
+    self.full_name = full_name
+    self.password = Devise.friendly_token
+    self.skip_confirmation!
+  end
+
+  def send_invitation_message(invitee_name)
+    GenericMailer.invite_person_email(id, invitee_name).deliver_later
+  end
+
+  def regenerate_password_token
+    raw_token, hashed_token = Devise.token_generator.generate(User, :reset_password_token)
+    self.reset_password_token = hashed_token
+    self.reset_password_sent_at = Time.now.utc
+    self.save
+    raw_token
   end
 
   def historical_cashflow(start_date=Time.zone.now.beginning_of_year, end_date=Time.zone.now)
@@ -41,48 +64,8 @@ class User < ApplicationRecord
     bank_accounts.map { |account| account.subscriptions }.flatten
   end
 
-  def money_in_by_categories(start_date, end_date)
-    transactions.occured_between(start_date, end_date).includes(:category).filter(&:non_charge?).group_by {
-      |tx| tx.category.descriptive_name
-    }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
-    }.sort_by(&:total_spend)
-  end
-
-  def spend_by_categories(start_date, end_date)
-    essentials_by_categories = transactions.occured_between(start_date, end_date).includes(:category).essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
-    }.sort_by(&:total_spend).reverse
-    essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
-
-    extras_by_categories = transactions.occured_between(start_date, end_date).includes(:category).non_essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
-    }.sort_by(&:total_spend).reverse
-    extras_total = extras_by_categories.map { |spend| spend.total_spend }.sum
-
-    {
-      essentials_total: essentials_total,
-      essentials_by_categories: essentials_by_categories,
-      extras_total: extras_total,
-      extras_by_categories: extras_by_categories,
-    }
-  end
-
   def this_month_transactions
     transactions.occured_between(Time.zone.now.beginning_of_month, Time.zone.now).includes(:category)
-  end
-
-  def find_transactions(start_date, end_date, args={})
-    descriptive_name = args[:category_desc]
-    if args[:cashflow_type] == 'money_in'
-      transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).with_category_description(descriptive_name).filter(&:non_charge?)
-    else
-      if args[:essential] == 'true'
-        transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).essential.with_category_description(descriptive_name).filter(&:charge?)
-      else
-        transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).non_essential.with_category_description(descriptive_name).filter(&:charge?)
-      end
-    end
   end
 
   def last_transaction_pulled_at

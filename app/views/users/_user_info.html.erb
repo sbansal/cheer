@@ -1,0 +1,20 @@
+<li class="user-info-container">
+  <div>
+    <span class="bold"><%= user.full_name%></span>
+    <% if user.account_owner? %>
+    <span class="badge badge-pill badge-warning">Owner</span>
+    <% end %>
+  </div>
+  <div class="med"><%= user.email%></div>
+  <div class="med">
+    <% if user.activated? %>
+      Joined on <%= user.created_at.strftime("%B %d, %Y")%>
+    <% else %>
+      Invited on <%= user.created_at.strftime("%B %d, %Y")%>
+    <% end %>
+  </div>
+  <%= link_to 'Edit Profile', edit_user_registration_path, class: 'purple-linky small underline'%>
+  <% unless user.activated? %>
+  | <%= link_to 'Resend invitation email', reinvite_user_path(user), method: :post, class: 'purple-linky small underline'%>
+  <% end %>
+</li>

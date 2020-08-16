@@ -1,0 +1,21 @@
+<div>
+  <h1 class="header lg-24">Account Settings</h1>
+  <div class="lg-18 title">People who can access this account.</div>
+  <ul class="basic">
+    <% current_user.account.users.each do |user| %>
+      <%= render 'users/user_info', user: user %>
+    <% end %>
+  </ul>
+  <section class="invite-member">
+    <div class="bold title">Invite others to this account.</div>
+    <%= render 'devise/shared/alerts'%>
+    <%= form_tag '/users/invite_person', class: 'form-inline' do %>
+    <div class="form-group invitation-form">
+      <%= text_field_tag 'email', '', { class: 'form-control', placeholder: 'Email address', size: 40 } %>
+      <%= text_field_tag 'full_name', '', { class: 'form-control', placeholder: 'Full Name', size: 40 } %>
+      <%= button_tag 'Send Invite', class: 'btn btn-primary invite-person'%>
+    </div>
+    <% end %>
+  </section>
+</div>
+

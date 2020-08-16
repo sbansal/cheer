@@ -1,0 +1,11 @@
+<p>Hello <%= @user.friendly_name %>.</p>
+
+<p><%= @invitee_name %> is inviting you to join their Cheer account. Cheer is helping people take control of their finances together. Please click on the link below to access the account.</p>
+
+<p><%= link_to "Get Access to the Account", edit_password_url(@user, :reset_password_token => @token) %></p>
+
+<p>Once you click the link, you will be asked to enter a password for your account. The same password will be used to access your account in future.</p>
+
+<p>In case you have questions or need any help please feel free to reply to this email.</p>
+
+<p>Hope you have a <i>Cheerful</i> day.</p>

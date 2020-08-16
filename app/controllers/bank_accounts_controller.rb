@@ -1,10 +1,10 @@
 class BankAccountsController < ApplicationController
   def index
-    @bank_accounts = current_user.bank_accounts.includes([login_item: [:institution]])
+    @bank_accounts = current_account.bank_accounts.includes([login_item: [:institution]])
   end
 
   def refresh
-    @bank_account = current_user.bank_accounts.find(params[:id])
+    @bank_account = current_account.bank_accounts.find(params[:id])
     begin
       response = PlaidBalanceProcessor.call(@bank_account.login_item.plaid_access_token)
       respond_to do |format|

@@ -1,10 +1,10 @@
 class LoginItemsController < ApplicationController
   def index
-    @login_items = current_user.login_items.includes([:institution, bank_accounts: [:transactions]])
+    @login_items = current_account.login_items.includes([:institution, bank_accounts: [:transactions]])
   end
 
   def status
-    @login_item = current_user.login_items.find(params[:id])
+    @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
     response = client.item.get(@login_item.plaid_access_token)
     @item_status = response['status']
@@ -15,7 +15,7 @@ class LoginItemsController < ApplicationController
   end
 
   def refresh_transactions
-    @login_item = current_user.login_items.find(params[:id])
+    @login_item = current_account.login_items.find(params[:id])
     begin
       PlaidTransactionsCreator.call(
         @login_item.plaid_access_token,
@@ -33,7 +33,7 @@ class LoginItemsController < ApplicationController
   end
 
   def refresh_historical_transactions
-    @login_item = current_user.login_items.find(params[:id])
+    @login_item = current_account.login_items.find(params[:id])
     begin
       end_date = @login_item.transactions_history_period[0] || Date.today
       PlaidTransactionsCreator.call(
@@ -52,7 +52,7 @@ class LoginItemsController < ApplicationController
   end
 
   def destroy
-    @login_item = current_user.login_items.find(params[:id])
+    @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
     response = client.item.remove(@login_item.plaid_access_token)
     if response.removed
