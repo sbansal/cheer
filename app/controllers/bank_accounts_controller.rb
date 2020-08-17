@@ -19,4 +19,19 @@ class BankAccountsController < ApplicationController
       end
     end
   end
+
+  def destroy
+    @bank_account = current_account.bank_accounts.find(params[:id])
+    if @bank_account.destroy
+      respond_to do |format|
+        format.html { redirect_to bank_accounts_path }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to bank_accounts_path, flash: { error: 'Bank account could not be deleted.' } }
+        format.json { head :unprocessable_entity }
+      end
+    end
+  end
 end

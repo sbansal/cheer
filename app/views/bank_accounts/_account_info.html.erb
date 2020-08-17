@@ -9,6 +9,11 @@
   </div>
   <div>
     <div class="primary lg-18 bold-1"><%= number_to_currency(account.balance)%></div>
-    <div class="small"><%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey underline'%></div>
+    <div class="small">
+      <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey underline'%> |
+      <%= link_to 'Delete', bank_account_path(account),
+        :method => :delete,
+        class: 'xs grey-linky underline' %>
+    </div>
   </div>
 </div>
