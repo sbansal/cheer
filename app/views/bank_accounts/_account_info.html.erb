@@ -12,6 +12,7 @@
     <div class="small">
       <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey underline'%> |
       <%= link_to 'Delete', bank_account_path(account),
+        :data => { :confirm => "We will delete all transactions related to this bank account." },
         :method => :delete,
         class: 'xs grey-linky underline' %>
     </div>
