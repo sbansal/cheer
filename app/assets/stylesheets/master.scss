@@ -70,10 +70,13 @@ a {
   font-weight: 800;
 }
 
+.logo-item {
+  margin: 10px 0 40px 0;
+}
+
 .logo {
   font-weight: 800;
   color: #7069FA;
-  margin-left: 20px;
   &:hover {
     text-decoration: none;
     color: #5D55FA;
@@ -293,4 +296,47 @@ ul.basic {
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+
+.primary-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav-container {
+  border-right: 1px solid #D9E2EC;
+  padding: 0 60px 0 30px;
+  width: 20%;
+}
+
+.main-container {
+  padding: 20px;
+  width: 80%;
+}
+
+.welcome {
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.icon {
+  a {
+    color: #829AB1;
+    line-height: 2rem;
+    font-size: 0.9rem;
+    &:hover {
+      text-decoration: none;
+      color: #7069FA;
+      font-weight: bold;
+    }
+    &.active {
+      color: #8888FC;
+      font-weight: bold;
+    }
+    svg {
+      fill: currentColor;
+      margin-right: 5px;
+      width: 24px;
+      height: 24px;
+    }
+  }
 }

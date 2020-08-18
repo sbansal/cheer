@@ -13,21 +13,13 @@
   </head>
 
   <body class="body">
-    <header>
-      <nav>
-        <ul class="simple-list">
-          <li><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></li>
-        </ul>
-        <ul class="simple-list main-nav">
-        </ul>
-        <ul class="simple-list">
-          <li><%= link_to 'Link Bank Account', '', {id: 'plaid-link', 
-            data: {authentication_token: form_authenticity_token, turbolinks: false }, class: 'btn btn-primary bold-2 connect-link'} %>
-          </li>
-          <li><%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'med' %></li>
-        </ul>
-      </nav>
-    </header>
-    <main class="container"><%= yield %></main>
+    <div class="primary-container">
+      <div class="nav-container">
+        <%= render 'layouts/side_nav' %>
+      </div>
+      <div class="main-container">
+        <main><%= yield %></main>
+      </div>
+    </div>
   </body>
 </html>
