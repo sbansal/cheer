@@ -14,17 +14,15 @@ RSpec.describe Transaction, type: :model do
     expect(@user.subscriptions.count).to eq 0
   end
 
-  # it 'has 5 recurring transaction' do
-  #   pending 'pending subscription fix'
-  #   create_recurring_transactions('monthly-sub', 'monthly')
-  #   create_recurring_transactions('yearly-sub', 'yearly')
-  #   create_recurring_transactions('daily-sub', 'daily')
-  #   create_recurring_transactions('weekly-sub', 'weekly')
-  #   create_recurring_transactions('quarterly-sub', 'quarterly')
-  #   expect(@user.transactions.count).to eq 25
-  #   hash = @user.process_recurring_transactions
-  #   expect(@user.subscriptions.count).to eq 5
-  # end
+  it 'has 5 recurring transaction' do
+    create_recurring_transactions('monthly-sub', 'monthly')
+    create_recurring_transactions('yearly-sub', 'yearly')
+    create_recurring_transactions('daily-sub', 'daily')
+    create_recurring_transactions('weekly-sub', 'weekly')
+    create_recurring_transactions('quarterly-sub', 'quarterly')
+    hash = @user.process_recurring_transactions
+    expect(@user.subscriptions.count).to eq 5
+  end
 
   describe "#create_transactions_from_json" do
     it 'creates transactions' do

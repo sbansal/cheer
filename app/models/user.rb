@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :login_items, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   belongs_to :account
 
@@ -57,11 +58,7 @@ class User < ApplicationRecord
   end
 
   def process_recurring_transactions
-    bank_accounts.map { |account| [account.id, account.recurring_transactions] }.to_h
-  end
-
-  def subscriptions
-    bank_accounts.map { |account| account.subscriptions }.flatten
+    bank_accounts.map { |bank_account| bank_account.create_recurring_transactions }
   end
 
   def this_month_transactions

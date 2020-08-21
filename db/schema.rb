@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_201221) do
+ActiveRecord::Schema.define(version: 2020_08_21_030857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_08_16_201221) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "bank_account_id"
     t.string "description"
+    t.index ["bank_account_id", "frequency", "description"], name: "unique_subscriptions_by_frequency", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

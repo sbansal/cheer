@@ -70,7 +70,7 @@ class BankAccount < ApplicationRecord
     transactions.occured_between(start_date, end_date).map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum.abs
   end
 
-  def recurring_transactions
+  def create_recurring_transactions
     transactions_hash = transactions.select(&:charge?).group_by { |tx| tx.description + tx.amount.to_s }
     recurring_transactions = []
     transactions_hash.each do |key, transactions|
@@ -79,11 +79,17 @@ class BankAccount < ApplicationRecord
         frequencies = dates.filter_map.with_index do |date, i|
           (dates[i] - dates[i+1]).to_i unless dates[i+1].nil?
         end
-        user_subscription = self.subscriptions.build(user_id: user.id).with_frequency(frequencies.uniq.sort)
+        user_subscription = self.subscriptions.build(user_id: user_id).with_frequency(frequencies.uniq.sort)
         if user_subscription.frequency?
-          user_subscription.last_transaction = transactions.first
-          user_subscription.save!
-          recurring_transactions << user_subscription
+          last_transaction = transactions.first
+          user_subscription.last_transaction = last_transaction
+          user_subscription.description = last_transaction.description
+          begin
+            user_subscription.save!
+            recurring_transactions << user_subscription
+          rescue => e
+            Rails.logger.error("Unable to create subscription with params: #{user_subscription.to_json}. Exception=#{e}")
+          end
         end
       end
     end

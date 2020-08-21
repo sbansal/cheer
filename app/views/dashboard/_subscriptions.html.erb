@@ -1,21 +1,20 @@
-<div class="container">
-  <div class="subscriptions">
-    <p class="title">Subscriptions</p>
-    <table class="table">
-      <tbody>
-        <% @subscriptions.each do |subscription| %>
-        <tr>
-          <td>
-            <div class="bold"><%= subscription.last_transaction.description %></div>
-            <div class="small grey"><%= subscription.frequency %>, <%= subscription.last_transaction.category_list %></div>
-          </td>
-          <td>
-            <div class=""><%= number_to_currency(subscription.last_transaction.amount)%></div>
-            <div class="small grey">Last paid on <%= subscription.last_transaction.occured_at %></div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+<div class="money-container subscriptions">
+  <p class="title">Subscriptions</p>
+  <table class="table">
+    <tbody>
+      <% @subscriptions.each do |subscription| %>
+      <tr>
+        <td class="med"><%= subscription.frequency.humanize %></td>
+        <td>
+          <div class="med"><%= subscription.last_transaction.description %></div>
+          <div class="xs grey"><%= subscription.last_transaction.category.category_list %></div>
+        </td>
+        <td class="text-right">
+          <div class="med"><%= number_to_currency(subscription.last_transaction.amount)%></div>
+          <div class="xs grey">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = current_account.transactions.includes([:category, :bank_account])
+    @transactions = current_account.transactions
   end
 
   def show

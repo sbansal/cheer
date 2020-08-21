@@ -3,6 +3,7 @@ class Account < ApplicationRecord
   has_many :transactions, through: :users
   has_many :login_items, through: :users
   has_many :bank_accounts, through: :users
+  has_many :subscriptions, through: :users
 
   def money_in_by_categories(start_date, end_date)
     transactions.occured_between(start_date, end_date).includes(:category).filter(&:non_charge?).group_by {
@@ -34,16 +35,16 @@ class Account < ApplicationRecord
   def cashflow(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
     Cashflow.new(start_date, end_date, transactions.includes(:category))
   end
-  
+
   def find_transactions(start_date, end_date, args={})
     descriptive_name = args[:category_desc]
     if args[:cashflow_type] == 'money_in'
-      transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).with_category_description(descriptive_name).filter(&:non_charge?)
+      transactions.occured_between(start_date, end_date).with_category_description(descriptive_name).filter(&:non_charge?)
     else
       if args[:essential] == 'true'
-        transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).essential.with_category_description(descriptive_name).filter(&:charge?)
+        transactions.occured_between(start_date, end_date).essential.with_category_description(descriptive_name).filter(&:charge?)
       else
-        transactions.occured_between(start_date, end_date).includes([:category, :bank_account]).non_essential.with_category_description(descriptive_name).filter(&:charge?)
+        transactions.occured_between(start_date, end_date).non_essential.with_category_description(descriptive_name).filter(&:charge?)
       end
     end
   end
