@@ -10,7 +10,7 @@ body {
   font-weight: 400;
 }
 
-div, table, p, section {
+div, table, p, section, h1, h2, h3, h4 {
   color: #334E68;
 }
 
@@ -267,11 +267,6 @@ table.hoverable {
   height: 1000px;
 }
 
-.header {
-  padding: 10px 0;
-  border-bottom: 1px solid #9FB3C8;
-}
-
 .alert {
   color: #E12D39;
   border: 1px solid #FF9B9B;
@@ -339,4 +334,15 @@ ul.basic {
       height: 24px;
     }
   }
+}
+
+.page-container {
+  padding: 20px 0;
+}
+
+.header {
+  font-weight: 400;
+  border-bottom: 1px solid #D9E2EC;
+  line-height: 1.5rem;
+  padding: 10px;
 }

@@ -33,7 +33,7 @@ class BankAccount < ApplicationRecord
   end
 
   def descriptive_name
-    (official_name || name) + " - xxxx" + mask
+    (official_name || name) + "••••" + mask
   end
 
   def display_name

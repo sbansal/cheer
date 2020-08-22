@@ -11,6 +11,8 @@ module ApplicationHelper
       "active " if (controller_name == "login_items" && action_name == "index")
     when "account_settings"
       "active " if (controller_name == "accounts" && action_name == "settings")
+    when "subscriptions"
+      "active " if (controller_name == "subscriptions")
     else
       ""
     end

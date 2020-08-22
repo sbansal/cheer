@@ -102,4 +102,12 @@ FactoryBot.define do
     bank_account
     category
   end
+
+  factory :subscription do
+    description { 'Madison Bicycle Shop'}
+    association :last_transaction, factory: :transaction
+    frequency { 'monthly' }
+    bank_account
+    user
+  end
 end
