@@ -44,30 +44,36 @@ class BankAccount < ApplicationRecord
     balances&.first
   end
 
-  def investment_account?
-    account_type == INVESTMENT_TYPE
-  end
-
-  def loan_account?
-    account_type == LOAN_TYPE
-  end
-
   def depository_account?
     account_type == DEPOSITORY_TYPE
   end
 
-  def credit_account?
-    account_type == CREDIT_TYPE
+  def money_in_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    if depository_account?
+      transactions.includes(:category).occured_between(start_date, end_date).filter(&:non_charge?)
+    else
+      []
+    end
+  end
+
+  def money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    transactions.includes(:category).occured_between(start_date, end_date).filter { |tx| tx.amount > 0 }
+  end
+
+  def essential_money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    transactions.includes(:category).occured_between(start_date, end_date).essential.filter { |tx| tx.amount > 0 }
+  end
+
+  def non_essential_money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
+    transactions.includes(:category).occured_between(start_date, end_date).non_essential.filter { |tx| tx.amount > 0 }
   end
 
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.includes(:category).occured_between(start_date, end_date).map {
-      |tx| tx.charge? ? tx.amount : 0
-    }.sum.abs
+    money_out_transactions(start_date, end_date).map { |tx| tx.amount || 0 }.sum.abs
   end
 
   def total_money_in(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.occured_between(start_date, end_date).map { |tx| tx.amount < 0 ? tx.amount : 0 }.sum.abs
+    money_in_transactions.map { |tx| tx.amount || 0 }.sum.abs
   end
 
   def create_recurring_transactions

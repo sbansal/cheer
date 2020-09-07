@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
     @cashflow = current_account.cashflow(@start_date, @end_date)
     @spend_by_categories = current_account.spend_by_categories(@start_date, @end_date)
     @earning_transactions = current_account.money_in_by_categories(@start_date, @end_date)
-    @transactions = current_account.transactions.occured_between(@start_date, @end_date).includes([:bank_account])
+    @transactions = current_account.transactions.includes([:bank_account]).occured_between(@start_date, @end_date)
   end
 
   def transactions

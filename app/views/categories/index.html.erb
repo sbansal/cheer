@@ -4,6 +4,7 @@
     <thead>
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Descriptive Name</th>
         <th scope="col">Group</th>
         <th scope="col">Hierarchy</th>
         <th scope="col">Plaid Category ID</th>
@@ -15,6 +16,7 @@
       <% @categories.each_with_index do |category, index| %>
         <tr>
           <td><%= index + 1%></td>
+          <td><%= category.descriptive_name %></td>
           <td scope="row"><%= category.group.humanize %></th>
           <td><%= category.hierarchy %></td>
           <td><%= category.plaid_category_id %></td>

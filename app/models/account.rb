@@ -6,20 +6,21 @@ class Account < ApplicationRecord
   has_many :subscriptions, through: :users
 
   def money_in_by_categories(start_date, end_date)
-    transactions.occured_between(start_date, end_date).includes(:category).filter(&:non_charge?).group_by {
-      |tx| tx.category.descriptive_name
-    }.map {
+    txs = bank_accounts.map { |ba| ba.money_in_transactions(start_date, end_date) }.flatten
+    txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend)
   end
 
   def spend_by_categories(start_date, end_date)
-    essentials_by_categories = transactions.occured_between(start_date, end_date).includes(:category).essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
+    essential_txs = bank_accounts.map { |ba| ba.essential_money_out_transactions(start_date, end_date) }.flatten
+    essentials_by_categories = essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend).reverse
     essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
 
-    extras_by_categories = transactions.occured_between(start_date, end_date).includes(:category).non_essential.filter(&:charge?).group_by { |tx| tx.category.descriptive_name }.map {
+    non_essential_txs = bank_accounts.map { |ba| ba.non_essential_money_out_transactions(start_date, end_date) }.flatten
+    extras_by_categories = non_essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend).reverse
     extras_total = extras_by_categories.map { |spend| spend.total_spend }.sum
@@ -39,12 +40,12 @@ class Account < ApplicationRecord
   def find_transactions(start_date, end_date, args={})
     descriptive_name = args[:category_desc]
     if args[:cashflow_type] == 'money_in'
-      transactions.occured_between(start_date, end_date).with_category_description(descriptive_name).filter(&:non_charge?)
+      transactions.includes([:category]).occured_between(start_date, end_date).with_category_description(descriptive_name).filter(&:non_charge?)
     else
       if args[:essential] == 'true'
-        transactions.occured_between(start_date, end_date).essential.with_category_description(descriptive_name).filter(&:charge?)
+        transactions.includes([:category]).occured_between(start_date, end_date).essential.with_category_description(descriptive_name).filter(&:charge?)
       else
-        transactions.occured_between(start_date, end_date).non_essential.with_category_description(descriptive_name).filter(&:charge?)
+        transactions.includes([:category]).occured_between(start_date, end_date).non_essential.with_category_description(descriptive_name).filter(&:charge?)
       end
     end
   end
