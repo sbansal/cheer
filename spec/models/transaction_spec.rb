@@ -50,7 +50,7 @@ RSpec.describe Transaction, type: :model do
       expect {
         Transaction.create_transactions_from_json([tx], @user.id)
       }.to change { @user.transactions.count }.by(0)
-      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).description).to eq 'netflix.com'
+      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).custom_description).to eq 'netflix.com'
     end
 
     it 'does not create transaction with invalid account' do

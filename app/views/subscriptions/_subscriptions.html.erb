@@ -5,7 +5,7 @@
     <div class="subscription" data-controller="container" data-action="click->container#toggle_target"
       data-container-target="subscription-transactions">
       <div>
-        <div class="bold"><%= subscription.last_transaction.description %></div>
+        <div class="bold"><%= subscription.last_transaction.custom_description %></div>
         <div class="xs grey"><%= subscription.all_transactions.count %> recurring transactions</div>
       </div>
       <div class="text-right">

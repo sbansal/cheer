@@ -16,7 +16,7 @@
         </td>
         <td class="col-5 text-left">
           <div>
-            <span class="primary med"><%= transaction.description %></span>
+            <span class="primary med"><%= transaction.custom_description %></span>
             <% if transaction.pending? %>
             <span class="status <%= transaction.status %>"><%= transaction.status.humanize %></span>
             <% end %>
