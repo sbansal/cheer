@@ -92,6 +92,7 @@ FactoryBot.define do
     authorized_at { Date.today }
     location_json {}
     description { 'Madison Bicycle Shop' }
+    custom_description { 'Madison Bicycle Shop' }
     transaction_type { 'place' }
     payment_meta_json {}
     payment_channel { 'in store' }

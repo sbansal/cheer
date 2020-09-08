@@ -63,6 +63,7 @@ class Transaction < ApplicationRecord
           authorized_at: transactions_json[:authorized_date],
           location_json: transactions_json[:location],
           description: transactions_json[:name],
+          custom_description: transactions_json[:name],
           transaction_type: transactions_json[:transaction_type],
           payment_meta_json: transactions_json[:payment_meta],
           payment_channel: transactions_json[:payment_channel],

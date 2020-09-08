@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_21_030857) do
+ActiveRecord::Schema.define(version: 2020_09_08_184108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_030857) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category_id"
+    t.text "custom_description"
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true
   end
 
