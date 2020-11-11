@@ -73,6 +73,7 @@ FactoryBot.define do
     balance_currency_code { 'USD' }
     login_item
     user
+    institution
   end
 
   factory :category do

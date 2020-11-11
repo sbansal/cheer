@@ -20,4 +20,14 @@ RSpec.describe User, type: :model do
     user = build(:user, full_name: 'Jack')
     expect(user.friendly_name).to eq 'Jack'
   end
+
+  it 'has total assets value' do
+    user = build(:user)
+    expect(user.total_assets).to eq 0
+  end
+
+  it 'has total liability value' do
+    user = build(:user)
+    expect(user.total_liabilities).to eq 0
+  end
 end

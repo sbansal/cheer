@@ -68,5 +68,13 @@ class User < ApplicationRecord
   def last_transaction_pulled_at
     transactions&.first&.occured_at || 1.month.ago.to_date
   end
+
+  def total_assets
+    0
+  end
+
+  def total_liabilities
+    0
+  end
 end
 
