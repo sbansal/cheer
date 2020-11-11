@@ -1,6 +1,10 @@
 <div class="logo-item"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></div>
 <ul class="basic my-4">
   <li class="welcome">Welcome, <%= current_user.friendly_name %>!</li>
+  <li class="plaid-button">
+    <%= link_to('Link bank account', '', class: 'btn btn-primary bold-2', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link', remote: true) %>
+  </li>
   <li class="med icon">
     <a href="/" class="<%= active_menu_item('home')%>">
       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="icon-item">

@@ -25,7 +25,11 @@ class PlaidLoginItemCreator < ApplicationService
   def create_institution(institution_id)
     institution = Institution.find_by_plaid_institution_id(institution_id)
     unless institution.present?
-      institution_response = @client.institutions.get_by_id(institution_id, options: { include_optional_metadata: true })
+      institution_response = @client.institutions.get_by_id(
+        institution_id,
+        Rails.application.credentials[:plaid][:country_codes],
+        options: { include_optional_metadata: true }
+      )
       institution = Institution.create_from_json(institution_response[:institution])
     end
     institution
@@ -34,6 +38,6 @@ class PlaidLoginItemCreator < ApplicationService
   def create_accounts(login_item)
     accounts_response = @client.accounts.get(@access_token)
     accounts_array_json = accounts_response[:accounts]
-    BankAccount.create_accounts_from_json(accounts_array_json, login_item.id, @user.id)
+    BankAccount.create_accounts_from_json(accounts_array_json, login_item.id, @user.id, login_item.institution_id)
   end
 end

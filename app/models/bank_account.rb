@@ -2,6 +2,7 @@ class BankAccount < ApplicationRecord
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   belongs_to :user
   belongs_to :login_item
+  belongs_to :institution
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
@@ -10,9 +11,9 @@ class BankAccount < ApplicationRecord
   DEPOSITORY_TYPE = "depository"
   CREDIT_TYPE = "credit"
 
-  def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id)
+  def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
-      accounts = BankAccount.where(name: account_json[:name], mask: account_json[:mask])
+      accounts = BankAccount.where(name: account_json[:name], mask: account_json[:mask], institution_id: institution_id)
       if accounts.count == 0
         {
           plaid_account_id: account_json[:account_id],
@@ -26,6 +27,7 @@ class BankAccount < ApplicationRecord
           balance_currency_code: account_json[:balances][:iso_currency_code] || account_json[:balances][:unofficial_currency_code],
           login_item_id: login_item_id,
           user_id: user_id,
+          institution_id: institution_id,
         }
       end
     end

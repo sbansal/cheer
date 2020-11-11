@@ -35,11 +35,6 @@ class LoginItem < ApplicationRecord
     client.item.webhook.update(plaid_access_token, Rails.application.credentials[:login_item_webhook])
   end
 
-  def fire_webhook(type='DEFAULT_UPDATE')
-    client = PlaidClientCreator.call
-    client.sandbox.sandbox_item.fire_webhook(plaid_access_token, type)
-  end
-
   def transactions_history_period
     min_date = bank_accounts.map { |account| account.transactions&.last&.occured_at }.compact.min
     max_date = bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact.max

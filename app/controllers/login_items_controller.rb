@@ -54,14 +54,14 @@ class LoginItemsController < ApplicationController
   def destroy
     @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
-    response = client.item.remove(@login_item.plaid_access_token)
-    if response.removed
+    begin
+      response = client.item.remove(@login_item.plaid_access_token)
       @login_item.destroy
       respond_to do |format|
         format.html { redirect_to login_items_path }
         format.json { head :no_content }
       end
-    else
+    rescue Exception => e
       respond_to do |format|
         format.html { redirect_to login_items_path, flash: { error: 'Login item could not be deleted.' } }
         format.json { head :unprocessable_entity }

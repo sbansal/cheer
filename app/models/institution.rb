@@ -1,6 +1,7 @@
 class Institution < ApplicationRecord
   has_many :login_items
-  
+  has_many :bank_accounts
+
   def self.create_from_json(institution_json)
     create(
       plaid_institution_id: institution_json.institution_id,

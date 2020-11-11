@@ -10,14 +10,14 @@ RSpec.describe BankAccount, type: :model do
   describe '#create_accounts_from_json' do
     it 'has 1 bank account' do
       expect {
-        BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id)
+        BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id, @login_item.institution_id)
       }.to change { @user.bank_accounts.count }.by(1)
     end
 
     it 'should not create bank account with same account numbers' do
-      BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id)
+      BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id, @login_item.institution_id)
       expect {
-        BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id)
+        BankAccount.create_accounts_from_json([bank_account_json], @login_item.id, @user.id, @login_item.institution_id)
       }.to change { @user.bank_accounts.count }.by(0)
     end
   end

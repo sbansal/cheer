@@ -11,8 +11,9 @@ Rails.application.routes.draw do
     resources :subscriptions, only: [:index, :destroy]
     get '/dashboard/home', to: 'dashboard#home'
     get '/dashboard/transactions', to: 'dashboard#transactions'
-    post '/plaid/get_access_token', to: 'plaid#get_access_token'
+    post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
     post '/plaid/update_link', to: 'plaid#update_link'
+    post '/plaid/create_link_token', to: 'plaid#create_link_token'
     get '/login_items/:id/refresh_transactions/', to: 'login_items#refresh_transactions', as: :refresh_transactions
     get '/login_items/:id/refresh_historical_transactions', to: 'login_items#refresh_historical_transactions', as: :refresh_historical_transactions
     post '/events/login_item_callback', to: 'events#login_item_callback'
