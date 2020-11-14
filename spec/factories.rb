@@ -10,12 +10,12 @@ FactoryBot.define do
   end
 
   factory :balance do
-    available { 1.5 }
-    current { 1.5 }
-    limit { 1.5 }
+    available { 1000 }
+    current { 1000 }
+    limit { 2000 }
     currency_code { "MyString" }
-    bank_account_id { 1 }
-    user_id { 1 }
+    bank_account
+    user
   end
 
   factory :user do
@@ -74,6 +74,16 @@ FactoryBot.define do
     login_item
     user
     institution
+
+    factory :bank_account_with_balances do
+      transient do
+        count { 2 }
+      end
+
+      after(:create) do |account, evaluator|
+        create_list(:balance, evaluator.count, bank_account: account)
+      end
+    end
   end
 
   factory :category do

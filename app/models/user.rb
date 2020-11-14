@@ -70,11 +70,15 @@ class User < ApplicationRecord
   end
 
   def total_assets
-    0
+    bank_accounts.includes(:balances).assets.map { |account| account.balance || 0 }.sum
   end
 
   def total_liabilities
-    0
+    bank_accounts.includes(:balances).liabilities.map { |account| account.balance || 0 }.sum
+  end
+
+  def net_worth
+    total_assets - total_liabilities
   end
 end
 

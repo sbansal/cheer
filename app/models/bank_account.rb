@@ -6,6 +6,9 @@ class BankAccount < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
+  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE]) }
+  scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE]) }
+
   INVESTMENT_TYPE = "investment"
   LOAN_TYPE = "loan"
   DEPOSITORY_TYPE = "depository"
@@ -105,10 +108,6 @@ class BankAccount < ApplicationRecord
   end
 
   def balance
-    if depository_account?
-      last_balance&.available || 'N/A'
-    else
-      last_balance&.current || 'N/A'
-    end
+    last_balance&.current
   end
 end
