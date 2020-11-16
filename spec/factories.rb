@@ -55,8 +55,8 @@ FactoryBot.define do
     last_webhook_code_sent {}
     expired_at { }
     expired { false }
-    public_token {}
-    public_token_expired_at {}
+    link_token {}
+    link_token_expires_at {}
     user
     institution
   end

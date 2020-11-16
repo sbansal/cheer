@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_171716) do
+ActiveRecord::Schema.define(version: 2020_11_15_204752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -117,8 +117,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_171716) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "expired", default: false
     t.datetime "expired_at"
-    t.string "public_token"
-    t.datetime "public_token_expired_at"
+    t.string "link_token"
+    t.datetime "link_token_expires_at"
   end
 
   create_table "posts", force: :cascade do |t|
