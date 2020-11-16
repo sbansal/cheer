@@ -3,36 +3,27 @@ import { Controller } from "stimulus"
 export default class extends Controller {
 
   updateLoginItem(event) {
+    var token = this.element.dataset['token']
     var linkHandler = Plaid.create({
-      token: this.element.dataset['token'],
+      token: token,
       onSuccess: function(public_token, metadata) {
-        console.log(metadata)
         fetch('/plaid/update_link', {
           method: 'POST',
-          body: JSON.stringify({
-            public_token: public_token,
-          }),
           headers: {
-            'Content-type': 'application/json; charset=UTF-8'
-          }
-        }).then(function (response) {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(response);
-        }).then(function (data) {
-          console.log(data);
-        }).catch(function (error) {
-          console.warn('Something went wrong.', error);
-        });
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ link_token: token}),
+        })
       },
       onExit: function(err, metadata) {
+        console.log(metadata)
         if (err != null) {
-          console.log("Error - (" + err)
+          console.error("Error: ", error)
         }
       }
-    });
+    })
     linkHandler.open()
+    event.preventDefault()
   }
 
   createLoginItem(event) {
@@ -43,11 +34,8 @@ export default class extends Controller {
         return responseJSON.link_token;
       };
       const configs = {
-        // 1. Pass a new link_token to Link.
         token: await fetchLinkToken(),
         onSuccess: async function(public_token, metadata) {
-          console.log("Sending fetch request with token = " + public_token)
-          console.log(metadata)
           fetch('/plaid/generate_access_token', {
             method: 'POST',
             headers: {
@@ -67,13 +55,13 @@ export default class extends Controller {
               })
             }
           }
-          console.log("Exiting the plaid link creator.")
           location.reload()
         },
       }
       var linkHandler = Plaid.create(configs)
       linkHandler.open()
     })()
+    event.preventDefault()
   }
 
 }

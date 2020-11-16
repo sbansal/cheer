@@ -2,7 +2,7 @@ class PlaidController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update_link, :generate_access_token, :create_link_token]
 
   def update_link
-    @login_item = current_user.login_items.find_by(public_token: params[:public_token])
+    @login_item = current_user.login_items.find_by(link_token: params['link_token'])
     @login_item.activate
     redirect_to login_items_path
   end
@@ -15,9 +15,9 @@ class PlaidController < ApplicationController
   end
 
   def create_link_token
-    link_token = PlaidLinkTokenCreator.call(current_user.id)
+    response = PlaidLinkTokenCreator.call(current_user.id)
     respond_to do |format|
-      format.json { render json: {link_token: link_token} }
+      format.json { render json: {link_token: response['link_token']} }
     end
   end
 end

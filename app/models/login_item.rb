@@ -46,24 +46,16 @@ class LoginItem < ApplicationRecord
   end
 
   def activate
-    update(expired: false, expired_at: nil, public_token: nil, public_token_expired_at: nil)
+    update(expired: false, expired_at: nil, link_token: nil, link_token_expires_at: nil)
   end
 
-  def fetch_public_token
-    if public_token_expired?
-      response = PlaidPublicTokenCreator.call(plaid_access_token)
-      Rails.logger.info("New Public token created to update the login item.")
-      update(
-        public_token_expired_at: DateTime.parse(response['expiration']),
-        public_token: response['public_token']
-      )
-    end
-    public_token
-  end
-
-  private
-
-  def public_token_expired?
-    public_token_expired_at.nil? || public_token_expired_at.before?(Time.zone.now)
+  def fetch_link_token
+    response = PlaidLinkTokenCreator.call(self.user_id, self.plaid_access_token, true)
+    link_token = response['link_token']
+    update(
+      link_token_expires_at: DateTime.parse(response['expiration']),
+      link_token: link_token,
+    )
+    link_token
   end
 end

@@ -34,7 +34,7 @@
             </div>
             <div>
               <%= link_to('Update Login', '', class: 'xs btn btn-primary btn-sm', data: {controller: 'plaid',
-                action: 'click->plaid#updateLoginItem', token: item.fetch_public_token}) %>
+                action: 'click->plaid#updateLoginItem', token: item.fetch_link_token}, id: 'update-link') %>
             </div>
           </div>
         <% end %>
