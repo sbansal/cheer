@@ -6,6 +6,7 @@ class Account < ApplicationRecord
   has_many :subscriptions, through: :users
 
   def money_in_by_categories(start_date, end_date)
+    #TODO - Revisit the use of bank accounts here.
     txs = bank_accounts.map { |ba| ba.money_in_transactions(start_date, end_date) }.flatten
     txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
@@ -13,6 +14,7 @@ class Account < ApplicationRecord
   end
 
   def spend_by_categories(start_date, end_date)
+    #TODO - Revisit the use of bank accounts here.
     essential_txs = bank_accounts.map { |ba| ba.essential_money_out_transactions(start_date, end_date) }.flatten
     essentials_by_categories = essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
@@ -48,5 +50,17 @@ class Account < ApplicationRecord
         transactions.includes([:category]).occured_between(start_date, end_date).non_essential.with_category_description(descriptive_name).filter(&:charge?)
       end
     end
+  end
+
+  def total_assets
+    users.map { |user| user.total_assets }.sum
+  end
+
+  def total_liabilities
+    users.map { |user| user.total_liabilities }.sum
+  end
+
+  def net_worth
+    users.map { |user| user.net_worth }.sum
   end
 end

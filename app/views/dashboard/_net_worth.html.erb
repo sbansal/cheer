@@ -1,7 +1,7 @@
 <div class="money-container row">
   <div class="col-lg-12">
     <div class="small">Your Net Worth</div>
-    <div class="cashflow-value lg-24"><%= number_to_currency(current_user.net_worth) %></div>
+    <div class="cashflow-value lg-24"><%= number_to_currency(current_user.account.net_worth) %></div>
   </div>
 
   <div class="category-spend small col-lg-12">
@@ -12,7 +12,7 @@
             <div class="category-desc">Total Assets</div>
           </td>
           <td class="text-right w-25 bold-2">
-            <%= number_to_currency(current_user.total_assets)%>
+            <%= number_to_currency(current_user.account.total_assets)%>
           </td>
         </tr>
         <tr class="category-row" data-cashflow-type="money_in" data-essential="true">
@@ -20,7 +20,7 @@
             <div class="category-desc">Total Liabilities</div>
           </td>
           <td class="text-right w-25 bold-2">
-            <%= number_to_currency(current_user.total_liabilities)%>
+            <%= number_to_currency(current_user.account.total_liabilities)%>
           </td>
         </tr>
       </tbody>
