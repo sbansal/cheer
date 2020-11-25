@@ -1,0 +1,86 @@
+<div class="container">
+  <div>
+    <h1 class="lg-20">Add an account</h1>
+    <p class="line-break"></p>
+    <p class="">
+      We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank", class: 'underline' %>
+      to securely connect your bank account to Cheer. We only use this information to pull your balance and transaction data.
+    </p>
+    <p class="text-center">
+      <%= link_to('Link an account using Plaid', '', class: 'btn btn-primary btn-lg bold-2 my-3', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </p>
+
+    <div class="my-5 line-side-header px-5">
+      <h2 class="text-center lg-24 grey-1 bolder">OR</h2>
+    </div>
+
+    <section class="invite-member">
+      <div class="bold title">You can manually enter your account details below.</div>
+      <%= form_for(@bank_account, html: { class: 'cheer-form'}) do |f| %>
+
+      <div class="form-group row py-1">
+        <div class="col-sm-12 med my-2">Is this a home loan account?</div>
+        <div class="col-sm-12 med" data-controller='accounts'>
+          <%= radio_button :mortgage_account, 'mortgage_account', 'Yes', { data: { action: 'change->accounts#showAddress'}}%>
+          <span>Yes</span>
+        </div>
+        <div class="col-sm-12 med" data-controller='accounts'>
+          <%= radio_button :mortgage_account, 'mortgage_account', 'No', { checked: true,
+            data: { action: 'change->accounts#hideAddress'} } %>
+          <span>No</span>
+        </div>
+      </div>
+      <div class="form-group row py-1 hide" id="property-data">
+        <div class="col-sm-6">
+          <%= f.label :official_name, 'Property address', class: 'med' %>
+          <div data-controller="search">
+            <%= f.text_field :official_name,
+            { class: 'form-control', data: { target: 'search.query', action: 'input->search#addressLookup'},
+            placeholder: '123 Agnus St, Chicago IL 60611', autocomplete: 'off' } %>
+            <div id="places-container" data-target="search.results"></div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <%= f.label 'Estimated price of the property', class: 'med' %>
+          <div>
+            <%= f.text_field :asset_value, class: 'form-control', placeholder: '$300,000' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row py-1">
+        <div class="col-sm-6">
+          <%= f.label :name, 'Account name or nickname', class: 'med' %>
+          <div>
+            <%= f.text_field :name, class: 'form-control', placeholder: 'Chase Debit Card account #1234' %>
+          </div>
+        </div>
+        <div class="col-sm-6" data-controller="dropdown">
+          <%= f.label :account_type, 'Account type', class: 'med' %>
+          <div>
+            <%= f.grouped_collection_select(:account_type, AccountType.objectify, :subtype_array, :name, :name, :description,
+            { prompt: 'Select account type' }, {class: 'form-control',
+              data: {target: "dropdown.source", action: "change->dropdown#fetchData"}}) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <%= f.label :balance, 'Available balance', class: 'med' %>
+          <div>
+            <%= f.text_field :balance, class: 'form-control', placeholder: '$10,000' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <%= f.submit "Add account", :class => 'btn btn-primary bold-2' %>
+      </div>
+      <% end %>
+    </section>
+
+
+  </div>
+</div>

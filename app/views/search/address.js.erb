@@ -1,0 +1,5 @@
+document.getElementById('places-container').textContent = ''
+var newNode = document.createElement('div')
+newNode.classList.add('search-container')
+newNode.innerHTML = ("<%= j (render 'places') %>")
+document.getElementById('places-container').appendChild(newNode)

@@ -371,6 +371,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_bot_rails
+  faraday
   guard
   guard-rspec
   jbuilder (~> 2.7)

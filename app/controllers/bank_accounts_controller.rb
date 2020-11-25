@@ -34,4 +34,18 @@ class BankAccountsController < ApplicationController
       end
     end
   end
+
+  def new
+    @bank_account = current_user.bank_accounts.new
+  end
+
+  def create
+    @bank_account = current_user.bank_accounts.build(bank_account_params)
+  end
+
+  private
+
+  def bank_account_params
+    params.permit(:name, :account_type, :account_subtype)
+  end
 end

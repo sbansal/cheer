@@ -7,8 +7,10 @@ Rails.application.routes.draw do
     resources :transactions, only: [:index, :show, :destroy]
     resources :login_items, only: [:index, :destroy]
     resources :categories, only: [:index]
-    resources :bank_accounts, only: [:index, :destroy]
+    resources :bank_accounts
     resources :subscriptions, only: [:index, :destroy]
+    get '/search/address', to: 'search#address'
+    get '/search/institution', to: 'search#institution'
     get '/dashboard/home', to: 'dashboard#home'
     get '/dashboard/transactions', to: 'dashboard#transactions'
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
