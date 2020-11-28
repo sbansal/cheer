@@ -2,94 +2,90 @@ class CreateAccountTypes < ActiveRecord::Migration[6.0]
   def change
     create_table :account_types do |t|
       t.string :name
+      t.string :description
+      t.boolean :asset_category
       t.jsonb :subtype_array
 
       t.timestamps
     end
 
     AccountType.create(
-      name: 'depository', subtype_array: [
-        {'name': 'checking', 'description': 'Checking account'},
-        {'name': 'savings', 'description': 'Savings account'},
-        {'name': 'hsa', 'description': 'Health Savings account'},
-        {'name': 'cd', 'description': 'Certificate of deposit account'},
-        {'name': 'money market', 'description': 'Money market account'},
-        {'name': 'paypal', 'description': 'Paypal depository account'},
-        {'name': 'prepaid', 'description': 'Prepaid debit card'},
-        {'name': 'cash management', 'description': 'Cash management account'},
-        {'name': 'ebt', 'description': 'Electronic Benefit Transfer account'},
+      name: 'depository', description: 'Bank', asset_category: true, subtype_array: [
+        {'name': 'checking', 'description': 'Checking'},
+        {'name': 'savings', 'description': 'Savings'},
+        {'name': 'hsa', 'description': 'Health Savings Account (HSA)'},
+        {'name': 'cd', 'description': 'Certificate of Deposit (CD)'},
+        {'name': 'money market', 'description': 'Money Market'},
+        {'name': 'other', 'description': 'Other'},
       ]
     )
     AccountType.create(
-      name: 'credit', subtype_array: [
-        {'name': 'credit card', 'description': 'Bank issued credit card'},
-        {'name': 'paypal', 'description': 'Paypal issued credit card'},
+      name: 'credit', description: 'Credit Card', asset_category: false, subtype_array: [
+        {'name': 'credit card', 'description': 'Credit Card'},
       ]
     )
     AccountType.create(
-      name: 'loan', subtype_array: [
-        {'name': 'auto', 'description': 'Auto loan'},
-        {'name': 'commercial', 'description': 'Commercial loan'},
-        {'name': 'construction', 'description': 'Construction loan'},
-        {'name': 'consumer', 'description': 'Consumer loan'},
-        {'name': 'home equity', 'description': 'Home Equity Line of Credit (HELOC)'},
-        {'name': 'loan', 'description': 'General loan'},
-        {'name': 'mortgage', 'description': 'Mortgage loan'},
-        {'name': 'overdraft', 'description': 'Pre-approved overdraft account'},
-        {'name': 'line of credit', 'description': 'Pre-approved line of credit'},
-        {'name': 'student', 'description': 'Student loan'},
-        {'name': 'other', 'description': 'Other loan type'},
+      name: 'cash', description: 'Cash', asset_category: true, subtype_array: [
+        {'name': 'cash', 'description': 'Cash'},
       ]
     )
     AccountType.create(
-      name: 'investment', subtype_array: [
-        {'name': '529', 'description': 'Tax-advantaged college savings and prepaid tuition 529 plans'},
-        {'name': '401a', 'description': 'Employer-sponsored money-purchase 401(a) retirement plan'},
-        {'name': '401k', 'description': 'Standard 401(k) retirement account'},
-        {'name': '403b', 'description': '403(b) retirement savings account for non-profits and schools'},
-        {'name': '457b', 'description': 'Tax-advantaged deferred-compensation 457(b) retirement plan for governments and non-profits'},
-        {'name': 'brokerage', 'description': 'Standard brokerage account'},
-        {'name': 'cash isa', 'description': 'Individual Savings Account (ISA) that pays interest tax-free'},
-        {'name': 'education savings account', 'description': 'Tax-advantaged Coverdell Education Savings Account (ESA)'},
-        {'name': 'fixed annuity', 'description': 'Fixed annuity'},
-        {'name': 'gic', 'description': 'Guaranteed Investment Certificate (Canada)'},
-        {'name': 'health reimbursement arrangement', 'description': 'Tax-advantaged Health Reimbursement Arrangement (HRA) benefit plan'},
-        {'name': 'hsa', 'description': 'Non-cash tax-advantaged medical Health Savings Account (HSA) '},
-        {'name': 'ira', 'description': 'Traditional Invididual Retirement Account (IRA)'},
-        {'name': 'isa', 'description': 'Non-cash Individual Savings Account (ISA)'},
-        {'name': 'keogh', 'description': 'Keogh self-employed retirement plan'},
-        {'name': 'lif', 'description': 'Life Income Fund (LIF) retirement account'},
-        {'name': 'lira', 'description': 'Locked-in Retirement Account (LIRA)'},
-        {'name': 'lrif', 'description': 'Locked-in Retirement Income Fund (LRIF)'},
-        {'name': 'lrsp', 'description': 'Locked-in Retirement Savings Plan'},
-        {'name': 'mutual fund', 'description': 'Mutual fund account'},
-        {'name': 'non-taxable brokerage account', 'description': 'Non-taxable brokerage account'},
-        {'name': 'pension', 'description': 'Standard pension account'},
-        {'name': 'prif', 'description': 'Prescribed Registered Retirement Income Fund'},
-        {'name': 'profit sharing plan', 'description': 'Plan that gives employees share of company profits'},
-        {'name': 'qshr', 'description': 'Qualifying share account'},
-        {'name': 'rdsp', 'description': 'Registered Disability Savings Plan (RSDP)'},
-        {'name': 'resp', 'description': 'Registered Education Savings Plan'},
-        {'name': 'retirement', 'description': 'Retirement account'},
-        {'name': 'rlif', 'description': 'Restricted Life Income Fund (RLIF)'},
-        {'name': 'roth', 'description': 'Roth IRA'},
-        {'name': 'roth 401k', 'description': 'Employer-sponsored Roth 401(k) plan'},
-        {'name': 'rrif', 'description': 'Registered Retirement Income Fund (RRIF) '},
-        {'name': 'rrsp', 'description': 'Registered Retirement Savings Plan'},
-        {'name': 'sarsep', 'description': 'Salary Reduction Simplified Employee Pension Plan'},
-        {'name': 'sep ira', 'description': 'Simplified Employee Pension IRA (SEP IRA)'},
-        {'name': 'simple ira', 'description': 'Savings Incentive Match Plan for Employees IRA'},
-        {'name': 'sipp', 'description': 'Self-Invested Personal Pension (SIPP)'},
-        {'name': 'stock plan', 'description': 'Standard stock plan account'},
-        {'name': 'tfsa', 'description': 'Tax-Free Savings Account (TFSA)'},
-        {'name': 'trust', 'description': 'Trust Account'},
-        {'name': 'ugma', 'description': 'Uniform Gift to Minors Act'},
-        {'name': 'utma', 'description': 'Uniform Transfers to Minors Act'},
-        {'name': 'variable annuity', 'description': 'Tax-deferred capital accumulation annuity contract'},
+      name: 'collectible', description: 'Collectibles', asset_category: true, subtype_array: [
+        {'name': 'art', 'description': 'Art'},
+        {'name': 'wine', 'description': 'Wine'},
+        {'name': 'jewelery', 'description': 'Jewelery'},
+        {'name': 'other', 'description': 'Other'},
       ]
     )
     AccountType.create(
-      name: 'other', subtype_array: []
+      name: 'loan', description: 'Loan', asset_category: false, subtype_array: [
+        {'name': 'auto', 'description': 'Auto'},
+        {'name': 'business', 'description': 'Business'},
+        {'name': 'commercial', 'description': 'Commerical Mortgage'},
+        {'name': 'mortgage', 'description': 'Home Mortgage'},
+        {'name': 'line of credit', 'description': 'Line of Credit'},
+        {'name': 'student', 'description': 'Student'},
+        {'name': 'other', 'description': 'Other'},
+      ]
+    )
+    AccountType.create(
+      name: 'investment', description: 'Investment', asset_category: true, subtype_array: [
+        {'name': '529', 'description': '529 College Savings Plan'},
+        {'name': '401a', 'description': '401(a) Retirement'},
+        {'name': '401k', 'description': '401(k) Retirement'},
+        {'name': '403b', 'description': '403(b) Retirement'},
+        {'name': '457b', 'description': '457(b) Retirement'},
+        {'name': 'brokerage', 'description': 'Brokerage'},
+        {'name': 'hsa', 'description': 'Medical Health Savings Account (HSA) '},
+        {'name': 'ira', 'description': 'Traditional IRA (pre-tax)'},
+        {'name': 'mutual fund', 'description': 'Mutual Fund'},
+        {'name': 'pension', 'description': 'Pension'},
+        {'name': 'roth', 'description': 'Roth IRA (after-tax)'},
+        {'name': 'roth 401k', 'description': 'Roth 401(k)'},
+        {'name': 'simple ira', 'description': 'SIMPLE IRA'},
+        {'name': 'stock options', 'description': 'Stock Options'},
+        {'name': 'rsu', 'description': 'RSUs'},
+        {'name': 'trust', 'description': 'Trust'},
+        {'name': 'other', 'description': 'Other'},
+      ]
+    )
+    AccountType.create(
+      name: 'real estate', description: 'Real Estate', asset_category: true, subtype_array: [
+        {'name': 'primary residence', 'description': 'Primary Residence'},
+        {'name': 'secondary residence', 'description': 'Secondary Residence'},
+        {'name': 'commerical', 'description': 'Commerical'},
+        {'name': 'other', 'description': 'Other'},
+      ]
+    )
+    AccountType.create(
+      name: 'other asset', description: 'Other Asset', asset_category: true, subtype_array: [
+        {'name': 'other', 'description': 'Other'},
+      ]
+    )
+    AccountType.create(
+      name: 'other liability', description: 'Other Liability', asset_category: false, subtype_array: [
+        {'name': 'other', 'description': 'Other'},
+      ]
     )
   end
 end

@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import Rails from "@rails/ujs";
+import Rails from "@rails/ujs"
 
 export default class extends Controller {
   static targets = [ "query", "selection", "results", "hiddenSelection" ]

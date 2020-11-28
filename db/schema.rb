@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_205200) do
+ActiveRecord::Schema.define(version: 2020_11_22_042437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2020_11_23_205200) do
 
   create_table "account_types", force: :cascade do |t|
     t.string "name"
+    t.string "description"
+    t.boolean "asset_category"
     t.jsonb "subtype_array"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -86,7 +88,6 @@ ActiveRecord::Schema.define(version: 2020_11_23_205200) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "institution_id"
-    t.float "asset_value"
   end
 
   create_table "categories", force: :cascade do |t|
