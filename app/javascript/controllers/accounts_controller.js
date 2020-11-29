@@ -7,7 +7,7 @@ export default class extends Controller {
   loadFields(event) {
     const value = document.querySelector("input[name=account_category]:checked").value
     Rails.ajax({
-      url: '/bank_accounts/new?account_type='+value,
+      url: '/bank_accounts/new?account_category='+value,
       type: 'GET',
       dataType: 'script',
       success: function(data) {},
@@ -27,14 +27,32 @@ export default class extends Controller {
   toggleDropdown(event) {
     if (event.type == 'focus') {
       this.dropdownTarget.classList.remove('hide')
-    } else if (event.type == 'blur'){
-      //TODO implement this
     } else {
       if (this.data.get("inView") == "false") {
         this.dropdownTarget.classList.add('hide')
       }
     }
     event.preventDefault()
+  }
+
+  allowNumbersOnly(event) {
+    var charCode = (event.which) ? event.which : event.keyCode
+    var fieldValue = event.target.value
+    fieldValue = fieldValue.replace(/\D/g, "")
+    fieldValue = fieldValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    if (fieldValue.length > 0) {
+      event.target.value = '$' + fieldValue
+    }
+  }
+
+  validateSubmit(event) {
+    var button = document.getElementById('submit-button')
+    if (document.getElementById('name').value.length > 0
+      && document.getElementById('balance').value.length > 0) {
+      button.disabled = false
+    } else {
+      button.disabled = true
+    }
   }
 
   showTypes(event) {

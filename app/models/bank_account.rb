@@ -42,10 +42,12 @@ class BankAccount < ApplicationRecord
     self.official_name = params['name']
     self.account_type = params['account_type']
     self.account_subtype = params['account_subtype']
+    self.classification = params['account_category']
     self.balance_currency_code = 'USD'
     self.save
     unless params['balance'].nil?
-      self.balances.create(current: params['balance'], currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
+      current_value = params['balance']&.gsub(',',"")&.gsub('$',"")
+      self.balances.create(current: current_value, currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
     end
     self
   end

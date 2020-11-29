@@ -1,75 +1,8 @@
 <% if @account_category == 'real_estate' %>
-<div class="form-group row py-1" id="property-data">
-  <div class="col-sm-6">
-    <%= label_tag :name, 'Property address', class: 'med bold-2' %>
-    <div data-controller="search">
-      <%= text_field_tag :name, nil,
-      { class: 'form-control', data: { target: 'search.query', action: 'input->search#addressLookup'},
-      placeholder: '123 Agnus St, Chicago IL 60611', autocomplete: 'off' } %>
-      <div id="places-container" data-target="search.results"></div>
-    </div>
-  </div>
-</div>
-<div class="form-group row py-1">
-  <div class="col-sm-6" data-controller="accounts" data-action="mouseenter->accounts#trackIn mouseleave->accounts#trackOut">
-    <%= label_tag :account_type, 'Property type', class: 'med bold-2' %>
-    <div>
-      <%= text_field_tag :account_type, nil, class: 'form-control med', placeholder: 'Enter property type',
-      data: {action: 'focus->accounts#toggleDropdown blur->accounts#toggleDropdown'}, autocomplete: 'off' %>
-    </div>
-    <%= render 'accounts_dropdown'%>
-  </div>
-</div>
+<%= render 'real_estate_account_fields' %>
 <% elsif @account_category == 'liability' %>
-<div class="form-group row py-1">
-  <div class="col-sm-6">
-    <%= label_tag :name, 'Account Nickname', class: 'med bold-2' %>
-    <div>
-      <%= text_field_tag :name, nil, class: 'form-control med', placeholder: 'e.g. Credit Card Account' %>
-    </div>
-  </div>
-</div>
-<div class="form-group row py-1">
-  <div class="col-sm-6" data-controller="accounts" data-action="mouseenter->accounts#trackIn mouseleave->accounts#trackOut">
-    <%= label_tag :account_type, 'Liability type', class: 'med bold-2' %>
-    <div>
-      <%= text_field_tag :account_type, nil, class: 'form-control med', placeholder: 'Enter liability type',
-      data: {action: 'focus->accounts#toggleDropdown blur->accounts#toggleDropdown'}, autocomplete: 'off' %>
-    </div>
-    <%= render 'accounts_dropdown'%>
-  </div>
-</div>
+<%= render 'liability_account_fields' %>
 <% else %>
-<div class="form-group row py-1">
-  <div class="col-sm-6">
-    <%= label_tag :name, 'Account Nickname', class: 'med bold-2' %>
-    <div>
-      <%= text_field_tag :name, nil, class: 'form-control med', placeholder: 'e.g. My checking account' %>
-    </div>
-  </div>
-</div>
-<div class="form-group row py-1">
-  <div class="col-sm-6" data-controller="accounts" data-action="mouseenter->accounts#trackIn mouseleave->accounts#trackOut">
-    <%= label_tag :account_type, 'Asset type', class: 'med bold-2'%>
-    <div>
-      <%= text_field_tag :account_type_field, nil, class: 'form-control med', placeholder: 'Enter asset type',
-      data: {action: 'focus->accounts#toggleDropdown blur->accounts#toggleDropdown'}, autocomplete: 'off' %>
-    </div>
-    <%= render 'accounts_dropdown'%>
-  </div>
-</div>
+<%= render 'asset_account_fields' %>
 <% end %>
-<div class="form-group row">
-  <div class="col-sm-6">
-    <%=label_tag :balance, 'Current Value', class: 'med bold-2' %>
-    <div>
-      <%= text_field_tag :balance, nil, class: 'form-control med', placeholder: 'Enter amount e.g. 10,000' %>
-    </div>
-  </div>
-</div>
 
-<div class="btn-container row py1">
-  <div class="col-sm-6">
-    <%= button_tag "Add account", :class => 'btn btn-primary bold-2' %>
-  </div>
-</div>

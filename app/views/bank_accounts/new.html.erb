@@ -11,11 +11,11 @@
       </div>
     </div>
 
-    <section class="form-background">
+    <section class="form-background" data-controller='accounts'>
       <div class="title lg-18 bold">Or you can manually enter your account details.</div>
       <%= form_tag(@bank_account, class: 'cheer-form') do %>
         <%= render 'shared/error_messages', object: @bank_account %>
-        <div class="form-group row py-1" data-controller='accounts'>
+        <div class="form-group row py-1">
           <div class="col-sm-12 my-2 bold-2 ">What would you like to track?</div>
           <div class="col-sm-12 med py-1" >
             <%= radio_button_tag 'account_category', 'asset', true,

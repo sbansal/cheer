@@ -36,7 +36,7 @@ class BankAccountsController < ApplicationController
   end
 
   def new
-    @account_category = params['account_type'] || 'asset'
+    @account_category = params['account_category'] || 'asset'
     @bank_account = current_user.bank_accounts.new
     @account_types = AccountType.find_all_for_category(@account_category)
     respond_to do |format|

@@ -11,14 +11,12 @@
   </head>
 
   <body class="body">
-    <% flash.each do |key, message| %>
-      <p><%= message %></p>
-    <% end %>
     <div class="primary-container">
       <div class="nav-container">
         <%= render 'layouts/side_nav' %>
       </div>
       <div class="main-container">
+        <%= render 'shared/alerts' %>
         <main><%= yield %></main>
       </div>
     </div>

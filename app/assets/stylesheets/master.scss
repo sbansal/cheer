@@ -1,6 +1,7 @@
 $default-color: #334E68;
 $primary: #7069FA;
 $primary-dark: #5D55FA;
+$primary-grey: #829AB1;
 html {
   height: 100%;
   font-size: 16px;
@@ -97,11 +98,15 @@ a.grey-linky {
 
 .btn-primary {
   color: #FFF;
-  background-color: #8888FC;
+  background-color: $primary;
   border: none;
-  &:hover {
+  &:hover, &:focus {
     color: #FFF;
-    background-color: #8888FC;
+    background-color: $primary;
+  }
+  &:disabled {
+    background-color: $primary-grey;
+    cursor: auto;
   }
 }
 
@@ -327,7 +332,7 @@ ul.basic {
       font-weight: bold;
     }
     &.active {
-      color: #8888FC;
+      color: $primary;
       font-weight: bold;
     }
     svg {
@@ -354,6 +359,10 @@ ul.basic {
   margin: 10px 0 30px 0;
 }
 
+.form-control {
+  box-shadow: none;
+}
+
 .form-control:focus {
   box-shadow: none;
   outline: none;
@@ -362,14 +371,6 @@ ul.basic {
 
 .form-control::placeholder {
   color: #9AA5B1;
-}
-
-.form-control {
-  optgroup {
-    color: #CCC;
-    font-size: 14px;
-    text-transform: capitalize;
-  }
 }
 
 .line-side-header {
@@ -439,4 +440,14 @@ ul.basic {
   padding: 20px;
   background-color: #F0F4F8;
   border-radius: 5px;
+}
+
+.flash-container {
+  padding: 15px 15px;
+  text-align: center;
+  background: #E6E6FF;
+  width: 50%;
+  margin: 0 auto;
+  color: #111;
+  border-radius: 10px;
 }
