@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_many :login_items, dependent: :destroy
-  has_many :bank_accounts, dependent: :destroy
+  has_many :bank_accounts, ->{ order(:created_at => 'DESC') }, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 

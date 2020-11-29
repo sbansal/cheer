@@ -1,22 +1,26 @@
+$default-color: #334E68;
+$primary: #7069FA;
+$primary-dark: #5D55FA;
+$primary-grey: #829AB1;
 html {
   height: 100%;
   font-size: 16px;
 }
 
 body {
-  color: #334E68;
+  color: $default-color;
   font-size: 1rem;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue","Ubuntu",sans-serif;
   font-weight: 400;
 }
 
+
 div, table, p, section, h1, h2, h3, h4 {
-  color: #334E68;
+  color: $default-color;
 }
 
-.primary {
-  color: #7069FA;
-}
+.primary {color: $primary;}
+.primary-dark {color: $primary-dark;}
 
 .flex-container {
   display: flex;
@@ -41,11 +45,11 @@ nav {
 }
 
 a {
-  color: #334E68;
+  color: $default-color;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
-    color: #334E68;
+    color: $default-color;
   }
 }
 
@@ -76,7 +80,7 @@ a {
 
 .logo {
   font-weight: 800;
-  color: #7069FA;
+  color: $primary;
   &:hover {
     text-decoration: none;
     color: #5D55FA;
@@ -94,11 +98,15 @@ a.grey-linky {
 
 .btn-primary {
   color: #FFF;
-  background-color: #8888FC;
+  background-color: $primary;
   border: none;
-  &:hover {
+  &:hover, &:focus {
     color: #FFF;
-    background-color: #8888FC;
+    background-color: $primary;
+  }
+  &:disabled {
+    background-color: $primary-grey;
+    cursor: auto;
   }
 }
 
@@ -225,7 +233,7 @@ a.linky {
 }
 
 a.purple-linky {
-  color: #7069FA;
+  color: $primary;
   &:hover {
     text-decoration: underline;
   }
@@ -284,7 +292,7 @@ ul.basic {
 .table-header {
   text-transform: uppercase;
   font-weight: 500;
-  color: #334E68;
+  color: $default-color;
   background-color: #F0F4F8;
 }
 
@@ -320,11 +328,11 @@ ul.basic {
     font-size: 0.9rem;
     &:hover {
       text-decoration: none;
-      color: #7069FA;
+      color: $primary;
       font-weight: bold;
     }
     &.active {
-      color: #8888FC;
+      color: $primary;
       font-weight: bold;
     }
     svg {
@@ -349,4 +357,97 @@ ul.basic {
 
 .plaid-button {
   margin: 10px 0 30px 0;
+}
+
+.form-control {
+  box-shadow: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+  border-color: $primary;
+}
+
+.form-control::placeholder {
+  color: #9AA5B1;
+}
+
+.line-side-header {
+  h2 {
+      display: grid;
+      grid-template-columns: minmax(20px, 1fr) auto minmax(20px, 1fr);
+      align-items: center;
+      text-align: center;
+      grid-gap: 20px;
+      width: 100%;
+  }
+
+  h2:before,
+  h2:after {
+      content: '';
+      border-top: 2px solid;
+  }
+}
+
+.search-container {
+  background-color: #FEFEFE;
+  border: 1px solid #CCC;
+  border-radius: 5px;
+  ul {
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
+    li {
+      border-bottom: 1px solid #DDD;
+      padding: 5px;
+      &:hover {
+        background-color: #F7F7F7;
+        cursor: pointer;
+      }
+    }
+    li:last-child { border-bottom: none; }
+  }
+}
+
+.drop-container {
+  background-color: #FEFEFE;
+  border: 1px solid #CCC;
+  border-radius: 5px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      padding: 10px 0;
+      border-bottom: 1px solid #DDD;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    li.subitem {
+      padding-left: 10px;
+      &:hover {
+        background-color: #5D55FA;
+        color: #FFF;
+      };
+    }
+    li:last-child { border-bottom: none; }
+  }
+}
+
+.form-background {
+  padding: 20px;
+  background-color: #F0F4F8;
+  border-radius: 5px;
+}
+
+.flash-container {
+  padding: 15px 15px;
+  text-align: center;
+  background: #E6E6FF;
+  width: 50%;
+  margin: 0 auto;
+  color: #111;
+  border-radius: 10px;
 }

@@ -1,0 +1,26 @@
+<div class="container drop-container med hide" data-target='accounts.dropdown'>
+  <ul>
+    <% @account_types.each do |at|%>
+    <li data-account-type="<%= at.name%>" data-action="click->accounts#showTypes" class="superitem row">
+      <div class="col-sm-10 py-1 primary bold-2"><%= at.description %></div>
+      <div class="col-sm-2 text-right py-1">
+        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-right-short primary text-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+        </svg>
+      </div>
+      <div class="col-sm-12">
+        <ul class="hide" data-account-type-name="<%= at.name%>" id="<%= at.name%>" data-account-type-description="<%= at.description%>">
+          <% at.subtype_array.each do |subtype| %>
+          <li data-subtype-name="<%= subtype['name']%>" data-subtype-description="<%= subtype['description']%>"
+             class="subitem" data-action="click->accounts#selectItem">
+            <%= subtype['description'] %>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<%= hidden_field_tag :account_subtype, '' %>
+<%= hidden_field_tag :account_type, '' %>

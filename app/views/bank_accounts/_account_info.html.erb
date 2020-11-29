@@ -1,6 +1,8 @@
 <div class="bank-account-info">
   <div class="bank-account-details">
-    <div class="bank-logo"><%= image_tag account.login_item.institution.logo_source, size: "30x30" %></div>
+    <% if account.login_item %>
+      <div class="bank-logo"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+    <% end %>
     <div class="account-title">
       <div><%= account.display_name %></div>
       <div class="small grey">Account Ending in <%= account.mask %></div>

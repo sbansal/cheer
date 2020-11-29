@@ -34,4 +34,32 @@ class BankAccountsController < ApplicationController
       end
     end
   end
+
+  def new
+    @account_category = params['account_category'] || 'asset'
+    @bank_account = current_user.bank_accounts.new
+    @account_types = AccountType.find_all_for_category(@account_category)
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def create
+    @bank_account = current_user.bank_accounts.build
+    @bank_account = @bank_account.create_from_params(account_params)
+    respond_to do |format|
+      if @bank_account.persisted?
+        format.html { redirect_to bank_accounts_path, flash: { notice: "#{@bank_account.name} - added successfully. " } }
+      else
+        format.html  { render :action => "new" }
+      end
+    end
+  end
+
+  private
+
+  def account_params
+    params.permit(:name, :account_type, :account_subtype, :balance, :account_category)
+  end
 end

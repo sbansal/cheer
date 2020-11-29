@@ -1,0 +1,9 @@
+<ul class="med search-list">
+  <% @predictions.each do |prediction|%>
+    <li data-place-id="<%=prediction['place_id']%>" data-action="click->search#selectItem" 
+      data-selection="<%= prediction['description']%>" data-target="search.selection">
+      <div><%= prediction['structured_formatting']['main_text']%></div>
+      <div><%= prediction['structured_formatting']['secondary_text']%></div>
+    </li>
+  <% end %>
+</ul>

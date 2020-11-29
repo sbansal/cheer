@@ -1,4 +1,9 @@
 FactoryBot.define do
+  factory :account_type do
+    name { "credit" }
+    subtype_array { '[{"name": "credit card", "description": "Bank issued credit card"}]' }
+  end
+
   factory :account do
     name { "SB account" }
 

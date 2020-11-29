@@ -1,8 +1,8 @@
 class BankAccount < ApplicationRecord
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   belongs_to :user
-  belongs_to :login_item
-  belongs_to :institution
+  belongs_to :login_item, optional: true
+  belongs_to :institution, optional: true
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
@@ -35,6 +35,21 @@ class BankAccount < ApplicationRecord
       end
     end
     create!(banks_accounts)
+  end
+
+  def create_from_params(params)
+    self.name = params['name']
+    self.official_name = params['name']
+    self.account_type = params['account_type']
+    self.account_subtype = params['account_subtype']
+    self.classification = params['account_category']
+    self.balance_currency_code = 'USD'
+    self.save
+    unless params['balance'].nil?
+      current_value = params['balance']&.gsub(',',"")&.gsub('$',"")
+      self.balances.create(current: current_value, currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
+    end
+    self
   end
 
   def descriptive_name

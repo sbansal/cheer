@@ -1,0 +1,5 @@
+currentNode = document.getElementById('new-account-fields')
+var newNode = document.createElement('section')
+newNode.id='new-account-fields'
+newNode.innerHTML = ("<%= j (render 'account_fields') %>")
+currentNode.replaceWith(newNode)
