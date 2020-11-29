@@ -6,13 +6,14 @@ class BankAccount < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
-  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE]) }
+  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE]) }
   scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE]) }
 
   INVESTMENT_TYPE = "investment"
   LOAN_TYPE = "loan"
   DEPOSITORY_TYPE = "depository"
   CREDIT_TYPE = "credit"
+  REAL_ESTATE = "real estate"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
