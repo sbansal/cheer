@@ -61,6 +61,18 @@ class BankAccount < ApplicationRecord
     official_name || name
   end
 
+  def asset?
+    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE].include?(account_type)
+  end
+
+  def real_estate?
+    [REAL_ESTATE].include?(account_type)
+  end
+
+  def liability?
+    [LOAN_TYPE, CREDIT_TYPE].include?(account_type)
+  end
+
   def last_balance
     balances&.first
   end

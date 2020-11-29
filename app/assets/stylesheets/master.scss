@@ -2,6 +2,8 @@ $default-color: #334E68;
 $primary: #7069FA;
 $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
+$primary-teal: #3EBD93;
+
 html {
   height: 100%;
   font-size: 16px;
@@ -21,6 +23,8 @@ div, table, p, section, h1, h2, h3, h4 {
 
 .primary {color: $primary;}
 .primary-dark {color: $primary-dark;}
+.grey-900 {color: $primary-grey;}
+.primary-teal {color: $primary-teal;}
 
 .flex-container {
   display: flex;
@@ -100,6 +104,20 @@ a.grey-linky {
   color: #FFF;
   background-color: $primary;
   border: none;
+  &:hover, &:focus {
+    color: #FFF;
+    background-color: $primary;
+  }
+  &:disabled {
+    background-color: $primary-grey;
+    cursor: auto;
+  }
+}
+
+.btn-outline-primary {
+  color: $primary;
+  background-color: #FFF;
+  border-color: $primary;
   &:hover, &:focus {
     color: #FFF;
     background-color: $primary;
@@ -450,4 +468,27 @@ ul.basic {
   margin: 0 auto;
   color: #111;
   border-radius: 10px;
+}
+
+.icon {
+  a {
+    color: #829AB1;
+    line-height: 2rem;
+    font-size: 0.9rem;
+    &:hover {
+      text-decoration: none;
+      color: #7069FA;
+      font-weight: bold;
+    }
+    &.active {
+      color: #8888FC;
+      font-weight: bold;
+    }
+    svg {
+      fill: currentColor;
+      margin-right: 5px;
+      width: 24px;
+      height: 24px;
+    }
+  }
 }

@@ -2,15 +2,16 @@
   <div class="bank-account-details">
     <% if account.login_item %>
       <div class="bank-logo"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+    <% else %>
+      <%= render 'placeholder_logo', account: account %>
     <% end %>
     <div class="account-title">
       <div><%= account.display_name %></div>
-      <div class="small grey">Account Ending in <%= account.mask %></div>
-
+      <div class="small grey"><%= account.account_subtype&.upcase %></div>
     </div>
   </div>
   <div>
-    <div class="primary lg-18 bold-1"><%= number_to_currency(account.balance)%></div>
+    <div class="bold-1"><%= number_to_currency(account.balance)%></div>
     <div class="small">
       <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey underline'%> |
       <%= link_to 'Delete', bank_account_path(account),

@@ -1,5 +1,33 @@
-<div id="name">
-  <% @bank_accounts.each do |account|%>
-    <%= render 'account_info', account: account %>
-  <% end %>
+<div class="table-content">
+  <div class="header row">
+    <h2 class="col-sm-9">Assets</h2>
+    <div class="col-sm-3 text-right py-2">
+      <%= link_to 'Link another account', new_bank_account_path(account_category: 'asset'), class: 'btn btn-sm btn-outline-primary med'%>
+    </div>
+  </div>
+  <div class="px-2 py-2">
+    <p class="mt-2 mb-4 grey-900">Your assets include all of the cash accounts, investments, collectibles and the real estate properties
+      you are currently tracking.</p>
+    <div class="accounts-content">
+      <% @asset_accounts.each do |account|%>
+        <%= render 'account_info', account: account %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <div class="header row">
+    <h2 class="col-sm-9">Liabilities</h2>
+    <div class="col-sm-3 text-right py-2">
+      <%= link_to 'Link another account', new_bank_account_path(account_category: 'liability'), class: 'btn btn-sm btn-outline-primary med'%>
+    </div>
+  </div>
+  <div class="px-2 py-2">
+  <p class="mt-2 mb-4 grey-900">Your liabilities include all of the credit cards, loans, or any other liabilities you are currently tracking.</p>
+  <div class="accounts-content">
+    <% @liability_accounts.each do |account|%>
+      <%= render 'account_info', account: account %>
+    <% end %>
+  </div>
 </div>
