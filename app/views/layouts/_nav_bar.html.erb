@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="mr-auto">
+    <%= link_to 'Cheer', root_path, class: 'logo lg-32' %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+
+  <div class="collapse navbar-collapse med" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ml-5">
+      <li class="nav-item bold grey-900 <%= active_menu_item('home')%> mx-2">
+        <a href="/" class="nav-link">
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item bold-1 grey-900 <%= active_menu_item('transactions')%> mx-2">
+        <a class="nav-link" href="/transactions">
+          <span>Transactions</span>
+        </a>
+      </li>
+      <li class="nav-item bold-1 grey-900 <%= active_menu_item('subscriptions')%> mx-2">
+        <a class="nav-link" href="/subscriptions">
+          <span>Subscriptions</span>
+        </a>
+      </li>
+      <li class="nav-item bold-1 grey-900 <%= active_menu_item('bank_accounts')%> mx-2">
+        <a class="nav-link" href="/bank_accounts">
+          <span>Accounts</span>
+        </a>
+      </li>
+      <li class="nav-item bold-1 grey-900 <%= active_menu_item('login_items')%> mx-2">
+        <a class="nav-link" href="/login_items">
+          <span>Logins</span>
+        </a>
+      </li>
+    </ul>
+    <div>
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="placeholder-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon"><g><path class="secondary" d="M3.66 17.52a10 10 0 1 1 16.68 0C19.48 16.02 17.86 16 16 16H8c-1.86 0-3.48.01-4.34 1.52z"/><path class="primary" d="M3.66 17.52A5 5 0 0 1 8 15h8a5 5 0 0 1 4.34 2.52 10 10 0 0 1-16.68 0zM12 13a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></g></svg>
+        <%= current_user.friendly_name%>
+        </span>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/accounts/settings">Account Settings</span></a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item med" rel="nofollow" data-method="delete" href="/logout">Log Out</a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -11,10 +11,10 @@
   </head>
 
   <body class="body">
-    <div class="primary-container">
-      <div class="nav-container">
-        <%= render 'layouts/side_nav' %>
-      </div>
+    <header class="nav-container">
+      <%= render 'layouts/nav_bar' %>
+    </header>
+    <div class="container">
       <div class="main-container">
         <%= render 'shared/alerts' %>
         <main><%= yield %></main>

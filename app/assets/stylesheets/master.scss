@@ -25,6 +25,7 @@ div, table, p, section, h1, h2, h3, h4 {
 .primary-dark {color: $primary-dark;}
 .grey-900 {color: $primary-grey;}
 .primary-teal {color: $primary-teal;}
+.active { color: $default-color;}
 
 .flex-container {
   display: flex;
@@ -325,14 +326,11 @@ ul.basic {
 }
 
 .nav-container {
-  border-right: 1px solid #D9E2EC;
-  padding: 0 60px 0 30px;
-  width: 20%;
+  border-bottom: 1px solid #D9E2EC;
 }
 
 .main-container {
-  padding: 20px;
-  width: 80%;
+  padding: 40px 0;
 }
 
 .welcome {
