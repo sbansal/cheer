@@ -1,73 +1,43 @@
-<div class="flex-container">
-  <% @login_items.each do |item| %>
-    <div class="login-item-container">
-      <div class="institution-logo"><%= image_tag item.institution.logo_source, size: '60x60' %></div>
-      <div class="institution-name lg-24"><%= item.institution.name %></div>
-      <div class="status xs"><%= item.status.humanize %></div>
-      <div class="small inactive">Added on <%= item.created_at.strftime('%b, %d %Y') %></div>
-      <div class="item-details flex-container mt-4">
-        <div>
-          <div class="lg-24"><%= item.bank_accounts.count %></div>
-          <div class="xs inactive">Bank Accounts</div>
-        </div>
-        <div>
-          <div class="lg-24"><%= item.transactions_count %></div>
-          <div class="xs inactive">Transactions</div>
-        </div>
-      </div>
-      <div class=info-section>
-        <p class="bold">Transactions History</p>
-        <div class="flex-container my-3">
-          <div>
-            <div class="med">Transactions pulled from</div>
-          </div>
-          <div class="small">
-            <%= item.transactions_history_period[0]&.strftime('%-m/%-d/%y') || 'N/A'%> -
-            <%= item.transactions_history_period[1]&.strftime('%-m/%-d/%y') || 'N/A'%>
-          </div>
-        </div>
-        <% if item.expired? %>
-          <div class="flex-container mx-1">
-            <div class="double">
-              <div class="med">Update login information</div>
-              <div class="small">Your login has expired.</div>
-            </div>
-            <div>
-              <%= link_to('Update Login', '', class: 'xs btn btn-primary btn-sm', data: {controller: 'plaid',
-                action: 'click->plaid#updateLoginItem', token: item.fetch_link_token}, id: 'update-link') %>
-            </div>
-          </div>
-        <% end %>
-        <div class="flex-container my-2">
-          <div>
-            <div class="med">Fetch recent transactions</div>
-            <div class="xs inactive">After <%= item.transactions_history_period[1]&.strftime('%b %-d %Y')%></div>
-          </div>
-          <div><%= link_to "Refresh", refresh_transactions_path(item), class: 'xs btn btn-secondary btn-sm' %></div>
-        </div>
-        <div class="flex-container my-2">
-          <div>
-            <div class="med">Fetch historical transactions</div>
-            <div class="xs inactive">Before <%= item.transactions_history_period[0]&.strftime('%b %-d %Y')%></div>
-          </div>
-          <div><%= link_to "Pull History", refresh_historical_transactions_path(item), class: 'xs btn btn-secondary btn-sm' %></div>
-        </div>
-      </div>
-      <div class="info-section">
-        <p class="bold">Danger Zone</p>
-        <div class="flex-container my-2">
-          <div>
-            <div class="med">Delete this login</div>
-            <div class="xs inactive">Removes login and all transaction data.</div>
-          </div>
-          <div>
-            <%= link_to 'Delete', login_item_path(item),
-              :data => { :confirm => "We will delete all accounts and transactions related to this login item." },
-              :method => :delete,
-              class: 'xs btn btn-outline-danger btn-sm' %>
-          </div>
-        </div>
-      </div>
+<div class="table-content">
+  <div class="header row">
+    <h2 class="col-sm-6">Linked Accounts</h2>
+    <div class="col-sm-6 text-right py-2">
+      <%= link_to 'Link another account', new_bank_account_path(account_category: 'asset'), class: 'btn btn-sm btn-outline-primary med'%>
     </div>
-  <% end %>
+  </div>
+  <div class="px-2 py-2">
+    <p class="mt-2 mb-4">This is a list of all your connected accounts through Plaid. We automatically fetch transactions and balances for these accounts.</p>
+    <div class="accounts-content">
+      <% @login_items.each do |login_item|%>
+        <div class="bank-account-info">
+          <div class="bank-account-details">
+            <div class="bank-logo"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+            <div class="account-title">
+              <div><%= login_item.institution.name.humanize %></div>
+              <div class="small grey">
+                Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="med"><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
+            <% if login_item.expired? %>
+            <div>
+              <%= link_to('Renew link', '', class: 'primary med underline', data: {controller: 'plaid',
+              action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %>
+            </div>
+            <% else %>
+              <div>
+                <%= link_to 'Delete Link', login_item_path(login_item),
+                  :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
+                  :method => :delete,
+                  class: 'danger med underline' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
+

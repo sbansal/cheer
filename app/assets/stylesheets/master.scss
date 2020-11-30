@@ -3,6 +3,7 @@ $primary: #7069FA;
 $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
 $primary-teal: #3EBD93;
+$danger: #EF4E4E;
 
 html {
   height: 100%;
@@ -25,7 +26,11 @@ div, table, p, section, h1, h2, h3, h4 {
 .primary-dark {color: $primary-dark;}
 .grey-900 {color: $primary-grey;}
 .primary-teal {color: $primary-teal;}
-.active { color: $default-color;}
+.active {
+  color: $primary;
+  font-weight: 700;
+}
+.danger { color: $danger;}
 
 .flex-container {
   display: flex;
@@ -468,6 +473,13 @@ ul.basic {
   border-radius: 10px;
 }
 
+.notice {
+  padding: 10px;
+  background: #E6E6FF;
+  color: $default-color;
+  border-radius: 10px;
+}
+
 .icon {
   a {
     color: #829AB1;
@@ -488,5 +500,14 @@ ul.basic {
       width: 24px;
       height: 24px;
     }
+  }
+}
+
+.icon-item {
+  color: $primary-grey;
+  svg {
+    fill: currentColor;
+    width: 24px;
+    height: 24px;
   }
 }
