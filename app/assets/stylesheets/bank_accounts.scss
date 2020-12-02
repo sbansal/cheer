@@ -3,8 +3,7 @@
 }
 
 .bank-account-details {
-  display:flex;
-  padding: 20px 0;
+  padding: 20px;
 }
 
 .new-account {
@@ -35,10 +34,6 @@
   width: 75%;
   .bank-account-info {
     border-bottom: 1px solid #DDD;
-    padding: 10px;
-    display:flex;
-    justify-content: space-between;
-    align-items:baseline;
   }
   .bank-account-info:last-child {
     border: none;
