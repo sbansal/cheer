@@ -11,13 +11,19 @@
   </head>
 
   <body class="body">
-    <header class="nav-container">
-      <%= render 'layouts/nav_bar' %>
-    </header>
-    <div class="container">
-      <div class="main-container">
-        <%= render 'shared/alerts' %>
-        <main><%= yield %></main>
+    <div class="row m-0">
+      <div class="col-lg-2 border-right">
+        <div class="nav-container">
+          <%= render 'layouts/side_nav' %>
+        </div>
+      </div>
+      <div class="col-lg-10 px-0">
+        <div class="container-fluid">
+          <div class="main-container">
+            <%= render 'shared/alerts' %>
+            <div><%= yield %></div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

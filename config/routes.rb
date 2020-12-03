@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get '/search/address', to: 'search#address'
     get '/search/institution', to: 'search#institution'
     get '/dashboard/home', to: 'dashboard#home'
+    get '/cashflow', to: 'dashboard#cashflow'
     get '/dashboard/transactions', to: 'dashboard#transactions'
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
     post '/plaid/update_link', to: 'plaid#update_link'

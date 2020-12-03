@@ -22,6 +22,11 @@ class DashboardController < ApplicationController
     end
   end
 
+  def cashflow
+    @asset_accounts = current_account.bank_accounts.assets.sort_by { |item| item.balance }.reverse
+    @liability_accounts = current_account.bank_accounts.liabilities.sort_by { |item| item.balance }.reverse
+  end
+
   private
 
   def parse_params(params)

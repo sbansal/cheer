@@ -3,6 +3,8 @@ module ApplicationHelper
     case nav_item
     when "home"
       "active " if (controller_name == "dashboard" && action_name == "index")
+    when "cashflow"
+      "active " if (controller_name == "dashboard" && action_name == "cashflow")
     when "transactions"
       "active " if (controller_name == "transactions" && action_name == "index")
     when "bank_accounts"
