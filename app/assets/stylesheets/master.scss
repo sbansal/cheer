@@ -330,8 +330,13 @@ ul.basic {
   justify-content: flex-start;
 }
 
+//Nav
 .nav-container {
-  border-bottom: 1px solid #D9E2EC;
+  height: 100%;
+  padding: 0 20px;
+}
+.top-nav-container {
+  padding-right: 30px;
 }
 
 .main-container {
