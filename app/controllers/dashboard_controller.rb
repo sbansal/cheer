@@ -23,8 +23,8 @@ class DashboardController < ApplicationController
   end
 
   def cashflow
-    @asset_accounts = current_account.bank_accounts.assets.sort_by { |item| item.balance }.reverse
-    @liability_accounts = current_account.bank_accounts.liabilities.sort_by { |item| item.balance }.reverse
+    @asset_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).assets.sort_by { |item| item.balance }.reverse
+    @liability_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).liabilities.sort_by { |item| item.balance }.reverse
   end
 
   private
