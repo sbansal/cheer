@@ -22,7 +22,6 @@ export default class extends Controller {
   }
 
   loadCashflowTrends() {
-    console.log("chart loading")
     let opts = {
       title: "Assets vs Liabilities ",
       id: "cashflow-trend",
@@ -31,7 +30,7 @@ export default class extends Controller {
       height: 300,
       series: [
         {
-          value: (self, rawValue) => new Date(rawValue).toLocaleDateString(),
+          value: (self, rawValue) => new Date(rawValue*1000).toLocaleDateString(),
         },
         {
           label: 'Assets Value',
