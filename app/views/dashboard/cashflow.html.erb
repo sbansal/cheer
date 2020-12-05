@@ -13,7 +13,9 @@
       <h2 class="bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
     </div>
   </div>
-  <div class="col-lg-6 border-left"></div>
+  <div class="col-lg-6 border-left" data-controller="container">
+    <div id="cashflow-trend"></div>
+  </div>
 </div>
 <div class="row">
   <div class="col-lg-6 mt-5">

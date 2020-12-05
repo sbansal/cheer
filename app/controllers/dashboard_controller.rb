@@ -25,6 +25,8 @@ class DashboardController < ApplicationController
   def cashflow
     @asset_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).assets.sort_by { |item| item.balance }.reverse
     @liability_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).liabilities.sort_by { |item| item.balance }.reverse
+    @assets_trend = current_account.assets_trend
+    @liabilities_trend = current_account.liabilities_trend
   end
 
   private

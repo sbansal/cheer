@@ -63,4 +63,22 @@ class Account < ApplicationRecord
   def net_worth
     users.map { |user| user.net_worth }.sum
   end
+
+  def assets_trend
+    aggregated_daily_balances_for_accounts(bank_accounts.assets).map { |k,v| [k,v] }
+  end
+
+  def liabilities_trend
+    aggregated_daily_balances_for_accounts(bank_accounts.liabilities).map { |k,v| [k,v] }
+  end
+
+  private
+
+  def aggregated_daily_balances_for_accounts(accounts)
+    accounts.includes([:balances]).map(&:balances).flatten.group_by {
+      |item| item.created_at.beginning_of_day
+    }.map {
+      |k,v| [ k.to_i, v.inject(0) { |sum, hash| sum + hash[:current] }]
+    }.to_h
+  end
 end
