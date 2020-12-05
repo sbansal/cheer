@@ -1,5 +1,6 @@
 import { Controller } from "stimulus"
 import uPlot from "uplot"
+import Rails from "@rails/ujs"
 
 export default class extends Controller {
 
@@ -75,16 +76,26 @@ export default class extends Controller {
         },
       ]
     }
-    let data = [
-      [1605398400, 1606608000, 1606694400, 1606780800],
-      [-105418.2215, -418.2215, 100418.2215, 305418.2215],
-      [125418.2215, 105418.2215, 188292, 28472.7405],
-    ]
-    let uplot = new uPlot(opts,data,document.getElementById('cashflow-trend'))
+
+    Rails.ajax({
+      url: "/accounts/cashflow_trend",
+      type: "get",
+      dataType: 'json',
+      success: function(data_response) {
+        var assets_trend_map = new Map(Object.entries(data_response['assets_trend']))
+        let liabilities_trend_map = new Map(Object.entries(data_response['liabilities_trend']))
+        let data = [
+          Array.from(assets_trend_map.keys(), date_str => new Date(date_str).getTime() / 1000),
+          Array.from(assets_trend_map.values()),
+          Array.from(liabilities_trend_map.values()),
+        ]
+        let uplot = new uPlot(opts,data,document.getElementById('cashflow-trend'))
+      },
+      error: function(data) {}
+    })
   }
 
   connect() {
-    console.log("Container connected")
     if (document.getElementById('cashflow-trend')) {
       this.loadCashflowTrends()
     }

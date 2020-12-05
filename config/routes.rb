@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     get '/login_items/:id/status', to: 'login_items#status'
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
     get 'accounts/settings'
+    get 'accounts/cashflow_trend'
     post '/users/invite_person'
     post '/users/:id/reinvite', to: 'users#reinvite', as: :reinvite_user
     authenticate :user, lambda {|u| u.admin? } do

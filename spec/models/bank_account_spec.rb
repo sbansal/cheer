@@ -22,6 +22,19 @@ RSpec.describe BankAccount, type: :model do
     end
   end
 
+  describe '#historical_balances' do
+    it 'has historical balances' do
+      time_in_past = 5.days.ago
+      account = create(:bank_account, created_at: time_in_past, user: @user)
+      balance1 = create(:balance, created_at: time_in_past, current: 1000, bank_account: account, user: @user)
+      balance3 = create(:balance, created_at: time_in_past + 2.day, current: 2000, bank_account: account, user: @user)
+      balance5 = create(:balance, created_at: time_in_past + 4.day, current: 4000, bank_account: account, user: @user)
+      expect(account.balances.count).to eq 3
+      expect(account.historical_balances.count).to eq 6
+      expect(account.historical_balances.values.last).to eq balance5.current
+    end
+  end
+
   private
 
   def bank_account_json
