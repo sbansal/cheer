@@ -20,7 +20,10 @@
 <div class="row">
   <div class="col-lg-6 mt-5">
     <div class="border rounded-lg">
-      <div class="font-weight-bold header px-3">Assets</div>
+      <div class="header px-2 py-3 row m-0">
+        <div class="col font-weight-bold ">Assets</div>
+        <div class="col text-right"><%= number_to_currency(current_user.account.total_assets)%></div>
+      </div>
       <% @asset_accounts.each do |account|%>
         <%= render 'bank_accounts/account_details', account: account %>
       <% end %>
@@ -28,7 +31,10 @@
   </div>
   <div class="col-lg-6 mt-5">
     <div class="border rounded-lg">
-      <div class="font-weight-bold header px-3">Liabilities</div>
+      <div class="header px-2 py-3 row m-0">
+        <div class="col font-weight-bold ">Liabilities</div>
+        <div class="col text-right"><%= number_to_currency(current_user.account.total_liabilities)%></div>
+      </div>
       <% @liability_accounts.each do |account|%>
         <%= render 'bank_accounts/account_details', account: account %>
       <% end %>
