@@ -29,6 +29,15 @@ class DashboardController < ApplicationController
     @liabilities_trend = current_account.liabilities_trend
   end
 
+  def income_expense
+    @start_date, @end_date = parse_params(params)
+    @time_period = params[:period] || 'this_month'
+    @cashflow = current_account.cashflow(@start_date, @end_date)
+    @spend_by_categories = current_account.spend_by_categories(@start_date, @end_date)
+    @earning_transactions = current_account.money_in_by_categories(@start_date, @end_date)
+    @transactions = current_account.transactions.includes([:bank_account, :category]).occured_between(@start_date, @end_date)
+  end
+
   private
 
   def parse_params(params)
