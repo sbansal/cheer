@@ -1,6 +1,6 @@
 <div class="row m-0 border-bottom">
   <div class="col font-weight-bold p-3" id="tx-header">Transactions</div>
-  <div class="col font-weight-bold p-3 text-right"><%= formatted_time_period(@start_date, @end_date) %></div>
+  <div class="col p-3 text-right small"><%= formatted_time_period(@start_date, @end_date) %></div>
 </div>
 
 <% @transactions.each do |tx| %>

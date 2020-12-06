@@ -1,6 +1,8 @@
 <div class="border rounded-lg">
   <div class="border-bottom row m-0">
-    <div class="col-lg-6 font-weight-bold p-3">Total Money In (<%= @cashflow.time_period %>)</div>
+    <div class="col-lg-6 p-3">
+      <div class="font-weight-bold">Total Money In</div>
+    </div>
     <div class="col-lg-6 text-right p-3"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
   </div>
   <% @earning_transactions.each do |earning| %>

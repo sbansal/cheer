@@ -7,7 +7,7 @@ module DashboardHelper
       "#{number_to_currency(value)} (#{number_to_percentage(historical_data[:percentage], precision: 2)})"
     end
   end
-  
+
   def formatted_time_period(start_date, end_date)
     if (start_date.year == end_date.year) && (start_date.year == Date.today.year)
       "#{start_date.strftime('%b %-d')} - #{end_date.strftime('%b %-d')}"
