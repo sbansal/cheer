@@ -30,6 +30,7 @@ export default class extends Controller {
       height: 300,
       series: [
         {
+          label: 'Date'
           value: (self, rawValue) => new Date(rawValue*1000).toLocaleDateString(),
         },
         {
