@@ -1,14 +1,14 @@
 <% if current_user.new_account? %>
-  <div class="intro">
-    <h1>Hello there! Welcome to Cheer.</h1>
-    <p class="subtext">
-      In order to get started, let's connect your accounts first. And then we will start building
-      your income/expense snapshot and provide more visibility into your net worth.
-    </p>
-    <div class="connect">
-      <%= link_to 'Link your accounts', new_bank_account_path, class: 'btn btn-primary btn-lg bold-2 connect-link' %>
-    </div>
+<div class="intro">
+  <h1>Hello there! Welcome to Cheer.</h1>
+  <p class="subtext">
+    In order to get started, let's connect your accounts first. And then we will start building
+    your income/expense snapshot and provide more visibility into your net worth.
+  </p>
+  <div class="connect">
+    <%= link_to 'Link your accounts', new_bank_account_path, class: 'btn btn-primary btn-lg bold-2 connect-link' %>
   </div>
+</div>
 <% else %>
 <%= hidden_field_tag 'start', @start_date %>
 <%= hidden_field_tag 'end', @end_date %>

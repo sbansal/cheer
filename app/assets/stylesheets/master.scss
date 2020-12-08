@@ -2,6 +2,7 @@ $default-color: #334E68;
 $primary: #7069FA;
 $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
+$grey-900: #F0F4F8;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
 
@@ -24,13 +25,16 @@ div, table, p, section, h1, h2, h3, h4 {
 
 .primary {color: $primary;}
 .primary-dark {color: $primary-dark;}
-.grey-900 {color: $primary-grey;}
+.grey-500 {color: $primary-grey;}
+.grey-900 {color: $grey-900;}
+.grey-100 {color: $primary-grey;}
 .primary-teal {color: $primary-teal;}
 .active {
   color: $primary;
   font-weight: 700;
 }
 .danger { color: $danger;}
+.default-color { color: $default-color;}
 
 .flex-container {
   display: flex;
@@ -514,5 +518,13 @@ ul.basic {
     fill: currentColor;
     width: 24px;
     height: 24px;
+  }
+}
+
+.icon-item-double {
+  svg {
+    fill: currentColor;
+    width: 48px;
+    height: 48px;
   }
 }
