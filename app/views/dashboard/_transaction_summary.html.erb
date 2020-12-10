@@ -1,6 +1,5 @@
-<div class="flex-container dotted-border">
-  <div class="tx-date"><%= tx.occured_at.strftime('%b %d, %Y') %></div>
-  <div class="tx-category-list"><%= tx.category.primary_name %></div>
-  <div class="tx-desc"><%= tx.custom_description %></div>
-  <div class="tx-amount"><%= number_to_currency(tx.amount)%></div>
+<div class="row m-0 tx-row p-3" data-id="<%= tx.id %>">
+  <div class="col-lg-2"><%= tx.formatted_occurred_at %></div>
+  <div class="col-lg-8"><%= tx.custom_description %></div>
+  <div class="col-lg-2 text-right"><%= number_to_currency(tx.amount)%></div>
 </div>

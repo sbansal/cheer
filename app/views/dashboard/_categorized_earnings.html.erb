@@ -1,32 +1,32 @@
-<div class="money-container row">
-  <div class="col-lg-12">
-    <div class="small">Total Money In (<%= @cashflow.time_period %>)</div>
-    <div class="cashflow-value lg-24"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
+<div class="border rounded-lg">
+  <div class="border-bottom row m-0">
+    <div class="col-lg-6 p-3">
+      <div class="font-weight-bold">Total Money In</div>
+    </div>
+    <div class="col-lg-6 text-right p-3"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
   </div>
-
-  <div class="category-spend small col-lg-12">
-    <table class="table table-borderless hoverable">
-      <tbody>
-        <% @earning_transactions.each do |earning| %>
-        <% if earning.transactions.count > 0 %>
-        <tr class="category-row" data-cashflow-type="money_in" data-essential="true">
-          <td class="w-75">
-            <div class="category-desc"><%= earning.category_name %></div>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" 
-                style="width:<%=  100*(earning.total_spend/@cashflow.total_money_in).abs %>%"
-                aria-valuenow="<%=  100*(earning.total_spend/@cashflow.total_money_in).abs %>" 
-                aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </td>
-          <td class="text-right w-25 bold-2">
-            <%= number_to_currency(earning.total_spend.abs)%>
-          </td>
-        </tr>
-        <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <% if @earning_transactions.empty? %>
+    <div class="row m-0">
+      <div class="col-lg-12 py-3">
+        <div class="text-center grey font-italic med">No transactions yet.</div>
+      </div>
+    </div>
+  <% else %>
+    <% @earning_transactions.each do |earning| %>
+      <% if earning.transactions.count > 0 %>
+      <div class="row m-0 border-bottom category-row" data-controller="transactions" data-action="click->transactions#showTransactions">
+        <div class="col-lg-9 p-3">
+          <div class=""><%= earning.category_name %></div>
+          <div class="small grey">
+            <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary underline'%>
+          </div>
+        </div>
+        <div class="col-lg-3 p-3 text-right"><%= number_to_currency(earning.total_spend.abs)%></div>
+        <div class="small col-lg-12 transactions-summary hide primary-900-bg my-3">
+          <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>

@@ -20,5 +20,4 @@ require("uplot")
 // require("trix")
 // require("@rails/actiontext")
 
-require("packs/dashboard")
 import "controllers"

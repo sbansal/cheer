@@ -14,7 +14,7 @@ class Cashflow
     Rails.logger.info "Prev transactions count = #{prev_transactions.count} for #{start_date - diff} to #{end_date - diff}"
     @prev_total_money_in, @prev_total_money_out, @prev_total_money_saved = build_cashflow(prev_transactions)
   end
-  
+
   def delta
     {
      delta_money_in: compute_value(total_money_in, prev_total_money_in),
@@ -22,17 +22,17 @@ class Cashflow
      delta_money_saved: compute_value(total_money_saved, prev_total_money_saved),
     }
   end
-  
+
   def time_period
-    if (start_date.month == end_date.month) && (start_date.year == end_date.year) 
+    if (start_date.month == end_date.month) && (start_date.year == end_date.year)
       "#{start_date.strftime('%b %Y')}"
     else
-      "#{start_date.strftime('%b %-d, %Y')} - #{end_date.strftime('%b %-d, %Y')}"
+      "Since #{start_date.strftime('%b %-d, %Y')}"
     end
   end
-  
+
   private
-  
+
   def build_cashflow(transactions)
     total_money_out = 0
     total_money_in = 0
@@ -46,13 +46,13 @@ class Cashflow
     total_money_saved = (total_money_in.abs - total_money_out.abs)
     return total_money_in, total_money_out, total_money_saved
   end
-  
+
   def compute_value(current_value, prev_value)
     value = '-'
     percentage = '-'
     if prev_value
       diff = current_value.abs - prev_value.abs
-      
+
       percentage = prev_value == 0 ? 'N/A' : 100 * (diff/prev_value.abs)
     end
     {value: diff, percentage: percentage}

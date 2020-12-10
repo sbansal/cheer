@@ -1,45 +1,45 @@
-<div class="time-period text-center">
+<div class="time-period text-center border-bottom">
   <% if @time_period == 'this_month' %>
-    <%= link_to 'This Month', root_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: 'this_month'), 
+    <%= link_to 'This Month', income_expense_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: 'this_month'),
       class: 'time-slice small active'%>
   <% else %>
-    <%= link_to 'This Month', root_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: 'this_month'), 
+    <%= link_to 'This Month', income_expense_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: 'this_month'),
       class: 'time-slice small'%>
   <% end %>
 
   <% if @time_period == 'last_month' %>
-    <%= link_to 'Last Month', 
-      root_path(start: (Time.zone.now.beginning_of_month - 1.month), end: (Time.zone.now - 1.month).end_of_month, period: 'last_month'),
+    <%= link_to 'Last Month',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 1.month), end: (Time.zone.now - 1.month).end_of_month, period: 'last_month'),
       class: 'time-slice small active'%>
   <% else %>
-    <%= link_to 'Last Month', 
-      root_path(start: (Time.zone.now.beginning_of_month - 1.month), end: (Time.zone.now - 1.month).end_of_month, period: 'last_month'),
+    <%= link_to 'Last Month',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 1.month), end: (Time.zone.now - 1.month).end_of_month, period: 'last_month'),
       class: 'time-slice small'%>
   <% end %>
 
   <% if @time_period == 'three_months' %>
-    <%= link_to 'Last 3 Months', 
-      root_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: 'three_months'),
+    <%= link_to 'Last 3 Months',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: 'three_months'),
       class: 'time-slice small active'%>
   <% else %>
-    <%= link_to 'Last 3 Months', 
-      root_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: 'three_months'),
+    <%= link_to 'Last 3 Months',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: 'three_months'),
       class: 'time-slice small'%>
   <% end %>
 
   <% if @time_period == 'last_year' %>
-    <%= link_to 'Last 1 Year', root_path(start: (Time.zone.now.beginning_of_month - 1.year), end: Time.zone.now, period: 'last_year'),
+    <%= link_to 'Last 1 Year', income_expense_path(start: (Time.zone.now.beginning_of_month - 1.year), end: Time.zone.now, period: 'last_year'),
       class: 'time-slice small active'%>
   <% else %>
-    <%= link_to 'Last 1 Year', root_path(start: (Time.zone.now.beginning_of_month - 1.year), end: Time.zone.now, period: 'last_year'),
+    <%= link_to 'Last 1 Year', income_expense_path(start: (Time.zone.now.beginning_of_month - 1.year), end: Time.zone.now, period: 'last_year'),
       class: 'time-slice small'%>
   <% end %>
 
   <% if @time_period == 'all_time' %>
-    <%= link_to 'All Time', root_path(start: (Time.zone.now.beginning_of_month - 10.years), end: Time.zone.now, period: 'all_time'),
+    <%= link_to 'All Time', income_expense_path(start: (Time.zone.now.beginning_of_month - 10.years), end: Time.zone.now, period: 'all_time'),
       class: 'time-slice small active'%>
   <% else %>
-    <%= link_to 'All Time', root_path(start: (Time.zone.now.beginning_of_month - 10.years), end: Time.zone.now, period: 'all_time'),
+    <%= link_to 'All Time', income_expense_path(start: (Time.zone.now.beginning_of_month - 10.years), end: Time.zone.now, period: 'all_time'),
       class: 'time-slice small'%>
   <% end %>
 </div>

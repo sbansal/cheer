@@ -5,6 +5,8 @@ module ApplicationHelper
       "active " if (controller_name == "dashboard" && action_name == "index")
     when "cashflow"
       "active " if (controller_name == "dashboard" && action_name == "cashflow")
+    when "income_expense"
+      "active " if (controller_name == "dashboard" && action_name == "income_expense")
     when "transactions"
       "active " if (controller_name == "transactions" && action_name == "index")
     when "bank_accounts"
