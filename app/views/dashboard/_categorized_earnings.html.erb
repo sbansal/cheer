@@ -14,14 +14,17 @@
   <% else %>
     <% @earning_transactions.each do |earning| %>
       <% if earning.transactions.count > 0 %>
-      <div class="row m-0 border-bottom category-row" data-cashflow-type="money_in" data-essential="true">
+      <div class="row m-0 border-bottom category-row" data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-lg-9 p-3">
           <div class=""><%= earning.category_name %></div>
           <div class="small grey">
-            <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '', data: {remote: true}, class: 'grey underline'%>
+            <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary underline'%>
           </div>
         </div>
         <div class="col-lg-3 p-3 text-right"><%= number_to_currency(earning.total_spend.abs)%></div>
+        <div class="small col-lg-12 transactions-summary hide primary-900-bg my-3">
+          <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
+        </div>
       </div>
       <% end %>
     <% end %>
