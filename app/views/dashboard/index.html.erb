@@ -33,7 +33,7 @@
       <div class="col-lg-5">
         <div class="loader hide" id="dash-tx-loader">Loading...</div>
         <div class="scrollable content transactions-container" id="transactions-container">
-          <%= render 'transactions_container' %>
+          <%= render 'transactions_container', transactions: @transactions %>
         </div>
       </div>
     </div>
