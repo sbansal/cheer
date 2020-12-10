@@ -68,3 +68,10 @@
 .credit {
   color: #27AB83;
 }
+
+.transactions-summary {
+  div.tx-row {
+    border-bottom: 1px solid #EEE;
+  }
+  div.tx-row:last-child { border-bottom: none}
+}

@@ -17,7 +17,9 @@
       <div class="row m-0 border-bottom category-row" data-cashflow-type="money_in" data-essential="true">
         <div class="col-lg-9 p-3">
           <div class=""><%= earning.category_name %></div>
-          <div class="small grey"><%= pluralize(earning.transactions.count, 'transactions') %></div>
+          <div class="small grey">
+            <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '', data: {remote: true}, class: 'grey underline'%>
+          </div>
         </div>
         <div class="col-lg-3 p-3 text-right"><%= number_to_currency(earning.total_spend.abs)%></div>
       </div>

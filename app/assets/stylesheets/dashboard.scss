@@ -93,6 +93,9 @@
 
 .tx-row, .category-row {
   cursor: pointer;
+  &:hover {
+    background-color: #F8F9FB;
+  }
 }
 
 .tx-details {

@@ -3,6 +3,7 @@ $primary: #7069FA;
 $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
 $grey-900: #F0F4F8;
+$primary-900: #F8F9FB;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
 
@@ -29,6 +30,8 @@ div, table, p, section, h1, h2, h3, h4 {
 .grey-900 {color: $grey-900;}
 .grey-100 {color: $primary-grey;}
 .primary-teal {color: $primary-teal;}
+.primary-900 {color: $primary-900;}
+.primary-900-bg {background: $primary-900;}
 .active {
   color: $primary;
   font-weight: 700;

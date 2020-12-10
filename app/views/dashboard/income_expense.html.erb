@@ -29,14 +29,10 @@
 
 <div class="row">
   <div class="col-lg-6 mt-5">
-    <%= render 'categorized_earnings' %>
     <%= render 'category_spend' %>
   </div>
   <div class="col-lg-6 mt-5">
-    <div class="loader hide" id="dash-tx-loader">Loading...</div>
-    <div class="scrollable content border rounded-lg" id="transactions-container">
-      <%= render 'transactions_container' %>
-    </div>
+    <%= render 'categorized_earnings' %>
   </div>
 </div>
 <% end %>
