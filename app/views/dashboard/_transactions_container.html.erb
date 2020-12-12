@@ -1,6 +1,6 @@
 <div class="row m-0 border-bottom">
-  <div class="col font-weight-bold p-3" id="tx-header">Transactions</div>
-  <div class="col p-3 text-right small"><%= formatted_time_period(@start_date, @end_date) %></div>
+  <div class="col fw-bold p-3" id="tx-header">Transactions</div>
+  <div class="col p-3 text-end small"><%= formatted_time_period(@start_date, @end_date) %></div>
 </div>
 <% if transactions.empty? %>
   <div class="row m-0">
@@ -15,7 +15,7 @@
         <div class=""><%= tx.custom_description %></div>
         <div class="small grey"><%= tx.formatted_occurred_at %></div>
       </div>
-      <div class="col-lg-3 p-3 text-right"><%= number_to_currency(tx.amount)%></div>
+      <div class="col-lg-3 p-3 text-end"><%= number_to_currency(tx.amount)%></div>
       <div class="col-lg-12 p-3 tx-details hide"  id="tx-details-<%= tx.id%>">
         <%= render 'transactions/transaction_detail', tx: tx %>
       </div>

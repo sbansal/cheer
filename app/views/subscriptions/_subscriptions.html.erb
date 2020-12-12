@@ -8,7 +8,7 @@
         <div class="bold"><%= subscription.last_transaction.custom_description %></div>
         <div class="xs grey"><%= subscription.all_transactions.count %> recurring transactions</div>
       </div>
-      <div class="text-right">
+      <div class="text-end">
         <div class="bold primary"><%= number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
         <div class="xs grey">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
       </div>
@@ -17,11 +17,11 @@
       <% subscription.all_transactions.each do |tx| %>
         <div class="subscription-transaction">
           <div class="small"><%= tx.occured_at.strftime('%b %d %Y') %></div>
-          <div class="small text-right">
+          <div class="small text-end">
             <span><%= image_tag tx.bank_account.login_item.institution.logo_source, size: '20x20' %></span>
             <span class="small"><%= tx.bank_account.display_name %></span>
           </div>
-          <div class="small text-right"><%= number_to_currency(tx.amount) %></div>
+          <div class="small text-end"><%= number_to_currency(tx.amount) %></div>
         </div>
       <% end %>
     </div>

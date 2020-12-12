@@ -8,11 +8,11 @@
           <%= render 'bank_accounts/placeholder_logo', account: account %>
         <% end %>
       </div>
-      <div class="">
+      <div class="col-10 p-0">
         <div><%= account.display_name %></div>
         <div class="small grey"><%= account.account_subtype&.upcase %></div>
       </div>
     </div>
   </div>
-  <div class="col-lg-3 p-3 text-right med"><%= number_to_currency(account.balance) %></div>
+  <div class="col-lg-3 p-3 text-end med"><%= number_to_currency(account.balance) %></div>
 </div>

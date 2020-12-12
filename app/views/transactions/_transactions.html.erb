@@ -1,9 +1,9 @@
 <table class="table">
   <thead>
     <tr class="table-header row">
-      <th scope="col" class="col-2 text-left">Date</th>
-      <th scope="col" class="col-5 text-left">Description</th>
-      <th scope="col" class="col-3 text-left">Account</th>
+      <th scope="col" class="col-2 text-start">Date</th>
+      <th scope="col" class="col-5 text-start">Description</th>
+      <th scope="col" class="col-3 text-start">Account</th>
       <th scope="col" class="col-1">Amount</th>
       <th class="col-1"></th>
     </tr>
@@ -11,10 +11,10 @@
   <tbody class="small">
     <% @transactions.each do |transaction| %>
       <tr class="row">
-        <td scope="row" class="col-2 text-left">
+        <td scope="row" class="col-2 text-start">
           <%= transaction.occured_at.strftime('%b %d, %Y') %>
         </td>
-        <td class="col-5 text-left">
+        <td class="col-5 text-start">
           <div>
             <span class="primary med"><%= transaction.custom_description %></span>
             <% if transaction.pending? %>
@@ -23,7 +23,7 @@
           </div>
           <div class="inactive xs"><%= transaction.category.category_list %></div>
         </td>
-        <td class="col-3 text-left">
+        <td class="col-3 text-start">
           <div><%= transaction.bank_account.display_name %></div>
           <div class="inactive xs">Account ending in <%= transaction.bank_account.mask %></div>
         </td>

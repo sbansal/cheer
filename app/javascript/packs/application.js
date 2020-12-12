@@ -8,6 +8,8 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("uplot")
+require("bootstrap")
+require("@popperjs/core")
 // require("trix")
 // require("@rails/actiontext")
 

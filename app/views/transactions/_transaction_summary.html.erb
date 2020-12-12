@@ -1,5 +1,5 @@
 <div class="row m-0 border-bottom tx-row" data-id="<%= tx.id %>">
   <div class="col-lg-2 p-3"><%= tx.formatted_occurred_at %></div>
   <div class="col-lg-8 p-3"><%= tx.custom_description %></div>
-  <div class="col-lg-2 p-3 text-right"><%= number_to_currency(tx.amount)%></div>
+  <div class="col-lg-2 p-3 text-end"><%= number_to_currency(tx.amount)%></div>
 </div>
