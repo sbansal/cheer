@@ -1,46 +1,30 @@
-.bank-logo {
-  padding: 5px 10px 5px 5px;
-}
+//.bank-logo {
+//  padding: 5px 10px 5px 5px;
+//}
+//
+//.bank-account-details {
+//  display:flex;
+//  padding: 20px 0;
+//}
+//
+//.new-account {
+//  margin: 40px;
+//}
+//
 
-.bank-account-details {
-  display:flex;
-  padding: 20px 0;
-}
-
-.new-account {
-  margin: 40px;
-}
-
-.placeholder-logo {
-  color: #7069fa;
-  padding: 3px;
-  margin-right: 10px;
-  svg {
-    fill: #8888FC;
-    background: #E6E6FF;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    padding: 5px;
-    &.teal {
-      fill: #3EBD93;
-      background: #EFFCF6;
-    }
-  }
-}
-
-.accounts-content {
-  border: 1px solid #EEE;
-  border-radius: 10px;
-  width: 75%;
-  .bank-account-info {
-    border-bottom: 1px solid #DDD;
-    padding: 10px;
-    display:flex;
-    justify-content: space-between;
-    align-items:baseline;
-  }
-  .bank-account-info:last-child {
-    border: none;
-  }
-}
+//
+//.accounts-content {
+//  border: 1px solid #EEE;
+//  border-radius: 10px;
+//  width: 75%;
+//  .bank-account-info {
+//    border-bottom: 1px solid #DDD;
+//    padding: 10px;
+//    display:flex;
+//    justify-content: space-between;
+//    align-items:baseline;
+//  }
+//  .bank-account-info:last-child {
+//    border: none;
+//  }
+//}

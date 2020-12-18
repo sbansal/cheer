@@ -1,4 +1,4 @@
-<div class="container drop-container med hide" data-target='accounts.dropdown'>
+<div class="container drop-container med hide border rounded-3" data-target='accounts.dropdown'>
   <ul>
     <% @account_types.each do |at|%>
     <li data-account-type="<%= at.name%>" data-action="click->accounts#showTypes" class="superitem row">

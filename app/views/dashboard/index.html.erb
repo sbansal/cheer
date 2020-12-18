@@ -25,12 +25,11 @@
   </div>
   <div class="container mt-4">
     <div class="row">
-      <div class="col-lg-7 ps-0">
-        <%= render 'net_worth' %>
+      <div class="col-sm-7 ps-0">
         <%= render 'categorized_earnings' %>
         <%= render 'category_spend' %>
       </div>
-      <div class="col-lg-5">
+      <div class="col-sm-5">
         <div class="loader hide" id="dash-tx-loader">Loading...</div>
         <div class="scrollable content transactions-container" id="transactions-container">
           <%= render 'transactions_container', transactions: @transactions %>

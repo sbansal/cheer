@@ -1,16 +1,16 @@
-<div class="subscriptions">
-  <h4 class="header lg-24"><%= label.humanize %> subscriptions</h4>
+<div class="mb-5">
+  <h4><%= label.humanize %> subscriptions</h4>
   <% if subscriptions.present? %>
     <% subscriptions.each do |subscription| %>
     <div class="subscription" data-controller="container" data-action="click->container#toggle_target"
       data-container-target="subscription-transactions">
       <div>
-        <div class="bold"><%= subscription.last_transaction.custom_description %></div>
-        <div class="xs grey"><%= subscription.all_transactions.count %> recurring transactions</div>
+        <div class="fw-bold"><%= subscription.last_transaction.custom_description %></div>
+        <div class="xs grey-100"><%= subscription.all_transactions.count %> recurring transactions</div>
       </div>
       <div class="text-end">
-        <div class="bold primary"><%= number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
-        <div class="xs grey">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
+        <div class="fw-bold primary"><%= number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
+        <div class="xs grey-100">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
       </div>
     </div>
     <div class="subscription-transactions hide">
@@ -27,6 +27,6 @@
     </div>
     <% end %>
   <% else %>
-    <div>You don't have any <%= label %> subscriptions.</div>
+    <div class="grey-500 med">You don't have any <%= label %> subscriptions.</div>
   <% end %>
 </div>

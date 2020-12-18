@@ -1,42 +1,39 @@
-<div class="container">
-  <div>
-    <h1 class="lg-20">Add an account</h1>
-    <p class="line-break"></p>
-    <div class="med">
-      We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank", class: 'underline' %>
-      to securely connect your bank account to Cheer. We only use this information to pull your balance and transaction data.
-      <div>
-        <%= link_to('Link an account using Plaid', '', class: 'btn btn-primary my-3', data: {controller: 'plaid',
-        action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+<% title "Add an account" %>
+<div>
+  <div class="med">
+    We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank", class: 'text-decoration-underline ' %>
+    to securely connect your bank account to Cheer. We only use this information to pull your balance and transaction data.
+    <div>
+      <%= link_to('Link an account using Plaid', '', class: 'btn btn-primary my-3', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+
+  <section class="form-background" data-controller='accounts'>
+    <div class="title lg-18 fw-bold">Or you can manually enter your account details.</div>
+    <%= form_tag(@bank_account, class: 'cheer-form') do %>
+    <%= render 'shared/error_messages', object: @bank_account %>
+    <div class="form-group row py-1">
+      <div class="col-sm-12 my-2 bold-2 ">What would you like to track?</div>
+      <div class="col-sm-12 med py-1" >
+        <%= radio_button_tag 'account_category', 'asset', true,
+        { data: { action: 'change->accounts#loadFields'}}%>
+        <span>An asset (cash, checking, investments, etc.)</span>
+      </div>
+      <div class="col-sm-12 med py-1">
+        <%= radio_button_tag 'account_category', 'liability', false,
+        { data: { action: 'change->accounts#loadFields'}}%>
+        <span>A liability (credit card, mortgage, etc.)</span>
+      </div>
+      <div class="col-sm-12 med py-1">
+        <%= radio_button_tag 'account_category', 'real_estate', false,
+        { data: { action: 'change->accounts#loadFields'}}%>
+        <span>A real estate property (home, commerical, etc.)</span>
       </div>
     </div>
-
-    <section class="form-background" data-controller='accounts'>
-      <div class="title lg-18 bold">Or you can manually enter your account details.</div>
-      <%= form_tag(@bank_account, class: 'cheer-form') do %>
-        <%= render 'shared/error_messages', object: @bank_account %>
-        <div class="form-group row py-1">
-          <div class="col-sm-12 my-2 bold-2 ">What would you like to track?</div>
-          <div class="col-sm-12 med py-1" >
-            <%= radio_button_tag 'account_category', 'asset', true,
-            { data: { action: 'change->accounts#loadFields'}}%>
-            <span>An asset (cash, checking, investments, etc.)</span>
-          </div>
-          <div class="col-sm-12 med py-1">
-            <%= radio_button_tag 'account_category', 'liability', false,
-            { data: { action: 'change->accounts#loadFields'}}%>
-            <span>A liability (credit card, mortgage, etc.)</span>
-          </div>
-          <div class="col-sm-12 med py-1">
-            <%= radio_button_tag 'account_category', 'real_estate', false,
-            { data: { action: 'change->accounts#loadFields'}}%>
-            <span>A real estate property (home, commerical, etc.)</span>
-          </div>
-        </div>
-        <section id="new-account-fields">
-          <%= render 'account_fields' %>
-        </section>
-      <% end %>
+    <section id="new-account-fields">
+      <%= render 'account_fields' %>
     </section>
-  </div>
+    <% end %>
+  </section>
 </div>

@@ -1,23 +1,23 @@
-<div class="bank-account-info">
-  <div class="bank-account-details">
+<div class="row border-bottom py-3 m-0 px-2">
+  <div class="p-2 col-1 d-none d-sm-block">
     <% if account.login_item %>
-      <div class="bank-logo"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+      <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
     <% else %>
       <%= render 'placeholder_logo', account: account %>
     <% end %>
-    <div class="account-title">
-      <div><%= account.display_name %></div>
-      <div class="small grey"><%= account.account_subtype&.upcase %></div>
-    </div>
   </div>
-  <div>
-    <div class="bold-1"><%= number_to_currency(account.balance)%></div>
+  <div class="col-6 p-0">
+    <div><%= account.display_name %></div>
+    <div class="small grey-100"><%= account.account_subtype&.upcase %></div>
+  </div>
+  <div class="col-5 text-end p-0">
+    <div><%= number_to_currency(account.balance)%></div>
     <div class="small">
-      <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey underline'%> |
+      <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey-100 text-decoration-underline '%> |
       <%= link_to 'Delete', bank_account_path(account),
         :data => { :confirm => "We will delete all transactions related to this bank account." },
         :method => :delete,
-        class: 'xs grey-linky underline' %>
+        class: 'xs grey-linky text-decoration-underline ' %>
     </div>
   </div>
 </div>

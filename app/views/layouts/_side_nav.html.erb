@@ -1,74 +1,75 @@
-<div class="logo-item"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></div>
-<ul class="basic my-4">
-  <li class="welcome">Welcome, <%= current_user.friendly_name %>!</li>
-  <li class="plaid-button">
-    <%= link_to('Link an account', new_bank_account_path, class: 'btn btn-primary bold-2', id: 'plaid-link') %>
-  </li>
-  <li class="med icon">
-    <a href="/income_expense" class="<%= active_menu_item('income_expense')%>">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="icon-item">
-        <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h3a1 1 0 0 0 .83-.45L10 8.8l5.17 7.75a1 1 0 0 0 1.66 0l1.7-2.55H21z"></path>
-        <path d="M21 12h-3a1 1 0 0 0-.83.45L16 14.2l-5.17-7.75a1 1 0 0 0-1.66 0L5.47 12H3V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v7z"></path>
-      </svg>
-      <span>Income/Expenses</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a href="/cashflow" class="<%= active_menu_item('cashflow')%>">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-scale">
-        <path d="M11 6.39L6.32 7.95a1 1 0 0 1-.64 0l-3-1a1 1 0 0 1 .64-1.9l2.68.9 5-1.67V3a1 1 0 0 1 2 0v1.28l5 1.67 2.68-.9a1 1 0 0 1 .64 1.9l-3 1a1 1 0 0 1-.64 0L13 6.39V18c0 1.1.9 2 2 2h1v2H8v-2h1a2 2 0 0 0 2-2V6.39z"/>
-        <path d="M17.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 18 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM19.61 15L18 10.16 16.39 15h3.22zM5.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 6 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM7.61 15L6 10.16 4.39 15H7.6z"/>
-      </svg>
-      <span>Cashflow</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a class="<%= active_menu_item('transactions')%>" href="/transactions">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
-        <path d="M18 14.74a4 4 0 0 0-8 .26H3a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-1 1.74zM10 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
-        <path d="M7 9h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2zm7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
-      </svg>
-      <span>Transactions</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a class="<%= active_menu_item('subscriptions')%>" href="/subscriptions">
-        <svg viewBox="0 0 20 20" fill="currentColor" class="icon-item">
-          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-        </svg>
-      <span>Subscriptions</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a class="<%= active_menu_item('bank_accounts')%>" href="/bank_accounts">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
-        <path d="M3 8h18v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8zm6 3l-1 1v4l1 1H4l1-1v-4l-1-1h5zm5.5 0l-1 1v4l1 1h-5l1-1v-4l-1-1h5zm5.5 0l-1 1v4l1 1h-5l1-1v-4l-1-1h5zM3 20h18a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2z"></path>
-        <path d="M4 18h16a1 1 0 0 1 1 1v1H3v-1a1 1 0 0 1 1-1zm8.4-15.91l9 4c1 .43.68 1.91-.4 1.91H3c-1.08 0-1.4-1.48-.4-1.91l9-4a1 1 0 0 1 .8 0z"></path>
-      </svg>
-      <span>Bank Accounts</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a class="<%= active_menu_item('login_items')%>" href="/login_items">
-<svg viewBox="0 0 20 20" fill="currentColor" class="icon-item"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-      <span>Logins</span>
-    </a>
-  </li>
-</ul>
-<ul class="basic">
-  <li class="med icon">
-    <a class="<%= active_menu_item('account_settings')%>" href="/accounts/settings">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
-        <path d="M6.8 3.45c.87-.52 1.82-.92 2.83-1.17a2.5 2.5 0 0 0 4.74 0c1.01.25 1.96.65 2.82 1.17a2.5 2.5 0 0 0 3.36 3.36c.52.86.92 1.8 1.17 2.82a2.5 2.5 0 0 0 0 4.74c-.25 1.01-.65 1.96-1.17 2.82a2.5 2.5 0 0 0-3.36 3.36c-.86.52-1.8.92-2.82 1.17a2.5 2.5 0 0 0-4.74 0c-1.01-.25-1.96-.65-2.82-1.17a2.5 2.5 0 0 0-3.36-3.36 9.94 9.94 0 0 1-1.17-2.82 2.5 2.5 0 0 0 0-4.74c.25-1.01.65-1.96 1.17-2.82a2.5 2.5 0 0 0 3.36-3.36zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
-        <circle cx="12" cy="12" r="2" class="secondary"></circle>
-      </svg>
-      <span>Account Settings</span>
-    </a>
-  </li>
-  <li class="med icon">
-    <a class="med" rel="nofollow" data-method="delete" href="/logout">
-      <svg viewBox="0 0 20 20" fill="currentColor" class="icon-item"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
-      <span>Log Out</span>
-    </a>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light ">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="basic">
+      <li class="nav-item"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></li>
+      <li class="nav-item med icon mt-5">
+        <a href="/income_expense" class="<%= active_menu_item('income_expense')%>">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="icon-item">
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h3a1 1 0 0 0 .83-.45L10 8.8l5.17 7.75a1 1 0 0 0 1.66 0l1.7-2.55H21z"></path>
+            <path d="M21 12h-3a1 1 0 0 0-.83.45L16 14.2l-5.17-7.75a1 1 0 0 0-1.66 0L5.47 12H3V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v7z"></path>
+          </svg>
+          <span>Income/Expenses</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a href="/cashflow" class="<%= active_menu_item('cashflow')%>">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-scale">
+            <path d="M11 6.39L6.32 7.95a1 1 0 0 1-.64 0l-3-1a1 1 0 0 1 .64-1.9l2.68.9 5-1.67V3a1 1 0 0 1 2 0v1.28l5 1.67 2.68-.9a1 1 0 0 1 .64 1.9l-3 1a1 1 0 0 1-.64 0L13 6.39V18c0 1.1.9 2 2 2h1v2H8v-2h1a2 2 0 0 0 2-2V6.39z"/>
+            <path d="M17.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 18 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM19.61 15L18 10.16 16.39 15h3.22zM5.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 6 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM7.61 15L6 10.16 4.39 15H7.6z"/>
+          </svg>
+          <span>Cashflow</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a class="<%= active_menu_item('transactions')%>" href="/transactions">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
+            <path d="M18 14.74a4 4 0 0 0-8 .26H3a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-1 1.74zM10 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+            <path d="M7 9h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2zm7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+          </svg>
+          <span>Transactions</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a class="<%= active_menu_item('subscriptions')%>" href="/subscriptions">
+            <svg viewBox="0 0 20 20" fill="currentColor" class="icon-item">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+            </svg>
+          <span>Subscriptions</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a class="<%= active_menu_item('bank_accounts')%>" href="/bank_accounts">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
+            <path d="M3 8h18v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8zm6 3l-1 1v4l1 1H4l1-1v-4l-1-1h5zm5.5 0l-1 1v4l1 1h-5l1-1v-4l-1-1h5zm5.5 0l-1 1v4l1 1h-5l1-1v-4l-1-1h5zM3 20h18a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2z"></path>
+            <path d="M4 18h16a1 1 0 0 1 1 1v1H3v-1a1 1 0 0 1 1-1zm8.4-15.91l9 4c1 .43.68 1.91-.4 1.91H3c-1.08 0-1.4-1.48-.4-1.91l9-4a1 1 0 0 1 .8 0z"></path>
+          </svg>
+          <span>Accounts</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a class="<%= active_menu_item('login_items')%>" href="/login_items">
+    <svg viewBox="0 0 20 20" fill="currentColor" class="icon-item"><path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+          <span>Linked Accounts</span>
+        </a>
+      </li>
+      <li class="med icon">
+        <a class="<%= active_menu_item('account_settings')%>" href="/accounts/settings">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item">
+            <path d="M6.8 3.45c.87-.52 1.82-.92 2.83-1.17a2.5 2.5 0 0 0 4.74 0c1.01.25 1.96.65 2.82 1.17a2.5 2.5 0 0 0 3.36 3.36c.52.86.92 1.8 1.17 2.82a2.5 2.5 0 0 0 0 4.74c-.25 1.01-.65 1.96-1.17 2.82a2.5 2.5 0 0 0-3.36 3.36c-.86.52-1.8.92-2.82 1.17a2.5 2.5 0 0 0-4.74 0c-1.01-.25-1.96-.65-2.82-1.17a2.5 2.5 0 0 0-3.36-3.36 9.94 9.94 0 0 1-1.17-2.82 2.5 2.5 0 0 0 0-4.74c.25-1.01.65-1.96 1.17-2.82a2.5 2.5 0 0 0 3.36-3.36zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+            <circle cx="12" cy="12" r="2" class="secondary"></circle>
+          </svg>
+          <span>Account Settings</span>
+        </a>
+      </li>
+      <li class="med icon">
+        <a class="med" rel="nofollow" data-method="delete" href="/logout">
+          <svg viewBox="0 0 20 20" fill="currentColor" class="icon-item"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
+          <span>Log Out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
