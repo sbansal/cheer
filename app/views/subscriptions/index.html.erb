@@ -1,4 +1,5 @@
-<div class="page-container">
+<% title "Subscriptions" %>
+<div>
   <%= render 'subscriptions', subscriptions: @active_subscriptions, label: 'active' %>
   <%= render 'subscriptions', subscriptions: @expired_subscriptions, label: 'expired' %>
 </div>

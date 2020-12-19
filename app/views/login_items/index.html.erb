@@ -1,43 +1,35 @@
-<div class="table-content">
-  <div class="header row">
-    <h2 class="col-sm-6">Linked Accounts</h2>
-    <div class="col-sm-6 text-right py-2">
-      <%= link_to 'Link another account', new_bank_account_path(account_category: 'asset'), class: 'btn btn-sm btn-outline-primary med'%>
-    </div>
-  </div>
-  <div class="px-2 py-2">
-    <p class="mt-2 mb-4">This is a list of all your connected accounts through Plaid. We automatically fetch transactions and balances for these accounts.</p>
-    <div class="accounts-content">
-      <% @login_items.each do |login_item|%>
-        <div class="bank-account-info">
-          <div class="bank-account-details">
-            <div class="bank-logo"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
-            <div class="account-title">
-              <div><%= login_item.institution.name.humanize %></div>
-              <div class="small grey">
-                Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="med"><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
-            <% if login_item.expired? %>
-            <div>
-              <%= link_to('Renew link', '', class: 'primary med underline', data: {controller: 'plaid',
-              action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %>
-            </div>
-            <% else %>
-              <div>
-                <%= link_to 'Delete Link', login_item_path(login_item),
-                  :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
-                  :method => :delete,
-                  class: 'danger med underline' %>
-              </div>
-            <% end %>
+<% title "Linked Accounts" %>
+<div class="px-2 py-2">
+  <div class="fw-bold">Bank accounts linked via Plaid</div>
+  <div class="mt-2 mb-4 grey-500 med">This is a list of all your connected accounts through Plaid. We automatically fetch transactions and balances for these accounts.</div>
+  <div class="border rounded-3">
+    <% @login_items.each do |login_item|%>
+      <div class="row border-bottom py-3 m-0 px-2">
+        <div class="p-2 col-1 d-none d-sm-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+        <div class="col-6">
+          <div><%= login_item.institution.name.humanize %></div>
+          <div class="small grey-100">
+            Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
           </div>
         </div>
-      <% end %>
-    </div>
+        <div class="col-5 text-end">
+          <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
+          <% if login_item.expired? %>
+          <div>
+            <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
+            action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %>
+          </div>
+          <% else %>
+            <div>
+              <%= link_to 'Delete Link', login_item_path(login_item),
+                :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
+                :method => :delete,
+                class: 'danger small text-decoration-underline ' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 

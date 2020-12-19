@@ -1,39 +1,40 @@
+<% title "Cashflow" %>
 <div class="row border-bottom">
-  <div class="col-lg-6 text-center">
+  <div class="col-sm-6 text-center">
     <div class="mb-5">
       <div class="primary text-uppercase bold-2 med">Your Net Worth</div>
-      <h2 class="bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
+      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
     </div>
     <div class="mb-5">
       <div class="primary text-uppercase bold-2 med">Assets</div>
-      <h2 class="bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
+      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
     </div>
     <div class="mb-5">
       <div class="primary text-uppercase bold-2 med">Liabilities</div>
-      <h2 class="bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
     </div>
   </div>
-  <div class="col-lg-6 border-left" data-controller="container">
+  <div class="col-sm-6 border-start" data-controller="container">
     <div id="cashflow-trend"></div>
   </div>
 </div>
 <div class="row">
-  <div class="col-lg-6 mt-5">
-    <div class="border rounded-lg">
+  <div class="col-sm-6 mt-5">
+    <div class="border rounded-3">
       <div class="header px-2 py-3 row m-0">
-        <div class="col font-weight-bold ">Assets</div>
-        <div class="col text-right"><%= number_to_currency(current_user.account.total_assets)%></div>
+        <div class="col fw-bold ">Assets</div>
+        <div class="col text-end"><%= number_to_currency(current_user.account.total_assets)%></div>
       </div>
       <% @asset_accounts.each do |account|%>
         <%= render 'bank_accounts/account_details', account: account %>
       <% end %>
     </div>
   </div>
-  <div class="col-lg-6 mt-5">
-    <div class="border rounded-lg">
+  <div class="col-sm-6 mt-5">
+    <div class="border rounded-3">
       <div class="header px-2 py-3 row m-0">
-        <div class="col font-weight-bold ">Liabilities</div>
-        <div class="col text-right"><%= number_to_currency(current_user.account.total_liabilities)%></div>
+        <div class="col fw-bold ">Liabilities</div>
+        <div class="col text-end"><%= number_to_currency(current_user.account.total_liabilities)%></div>
       </div>
       <% @liability_accounts.each do |account|%>
         <%= render 'bank_accounts/account_details', account: account %>

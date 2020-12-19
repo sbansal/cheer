@@ -1,17 +1,17 @@
 <div class="container">
-  <div class="auth-form">
+  <div class="auth-form border rounded-3 p-5">
     <h3 class="text-center">Hello there, Welcome. </h3>
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
 
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-vertical'}) do |f| %>
-    <div class="form-group">
+    <div class="mb-3">
       <%= f.label :email, class: 'control-label form-label' %>
       <div>
         <%= f.email_field :email, class: 'form-control' %>
       </div>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
       <%= f.label :password, class: 'control-label' %>
       <div>
         <%= f.password_field :password, :autocomplete => "off", class: 'form-control' %>
@@ -19,15 +19,15 @@
     </div>
 
 		<% if devise_mapping.rememberable? %>
-    <div class="form-group small">
+    <div class="mb-3 small">
       <%= f.check_box :remember_me %> <%= f.label :remember_me %>
       <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
-      <%= link_to 'Forgot your password?', new_password_path(resource_name), class: 'float-right grey-linky'%>
+      <%= link_to 'Forgot your password?', new_password_path(resource_name), class: 'float-end primary'%>
       <% end %>
     </div>
     <% end %>
-    <div class="btn-container">
-      <p><%= f.submit "Sign in", :class => 'btn btn-primary btn-block bold' %></p>
+    <div class="btn-container d-grid gap-2">
+      <%= f.submit "Sign in", :class => 'btn btn-primary fw-bold' %>
     </div>
     <% end %>
   </div>

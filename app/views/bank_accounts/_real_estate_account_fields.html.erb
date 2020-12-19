@@ -19,7 +19,7 @@
     <%= render 'accounts_dropdown'%>
   </div>
 </div>
-<div class="form-group row">
+<div class="row py-1">
   <div class="col-sm-6">
     <%=label_tag :balance, 'Current Value', class: 'med bold-2' %>
     <div>
@@ -28,7 +28,7 @@
     </div>
   </div>
 </div>
-<div class="btn-container row py1">
+<div class="btn-container row py-1">
   <div class="col-sm-6">
     <%= button_tag "Add account", :class => 'btn btn-primary bold-2', disabled: true, id: 'submit-button' %>
   </div>

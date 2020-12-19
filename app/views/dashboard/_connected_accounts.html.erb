@@ -10,11 +10,11 @@
               <span><%= image_tag account.login_item.institution.logo_source, size: "20x20" %></span>
               <span><%= account.descriptive_name %></span>
             </div>
-            <div class="small grey">Last Updated on <%= account.updated_at.strftime('%b %d, %Y') %></div>
+            <div class="small grey-100">Last Updated on <%= account.updated_at.strftime('%b %d, %Y') %></div>
           </td>
           <td>
             <div><%= number_to_currency(account.balance_available) || 'N/A'%></div>
-            <div class="small grey">BALANCE</div>
+            <div class="small grey-100">BALANCE</div>
           </td>
         </tr>
         <% end %>

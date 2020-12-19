@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-lg-4">
-    <div class="grey">
+  <div class="col-sm-4">
+    <div class="grey-100">
       Occured on
     </div>
     <div class="">
       <%= tx.occured_at.strftime('%b %-d, %Y') %>
     </div>
   </div>
-  <div class="col-lg-4">
-    <div class="grey">
+  <div class="col-sm-4">
+    <div class="grey-100">
       Type
     </div>
     <div class="">
       <%= tx.category.primary_name %>
     </div>
   </div>
-  <div class="col-lg-4">
-    <div class="grey">
+  <div class="col-sm-4">
+    <div class="grey-100">
       Amount
     </div>
     <div class="">
@@ -25,24 +25,24 @@
   </div>
 </div>
 <div class="row my-4">
-  <div class="col-lg-8">
-    <div class="grey">
+  <div class="col-sm-8">
+    <div class="grey-100">
       Account Name
     </div>
     <div class="">
       <%= tx.bank_account.descriptive_name %>
     </div>
   </div>
-  <div class="col-lg-4">
-    <div class="grey">
+  <div class="col-sm-4">
+    <div class="grey-100">
       Account Type
     </div>
     <div class="">
       <%= tx.bank_account.account_subtype.humanize %>
     </div>
   </div>
-  <div class="col-lg-4">
-    <div class="grey">
+  <div class="col-sm-4">
+    <div class="grey-100">
     </div>
     <div class="">
     </div>
