@@ -7,10 +7,6 @@ $primary-900: #F8F9FB;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
 
-$enable-responsive-font-sizes: true;
-@import '../node_modules/bootstrap/scss/bootstrap';
-
-
 html {
   height: 100%;
   font-size: 16px;
@@ -51,31 +47,18 @@ a {
   }
 }
 
-.main {
-  background-color: transparent;
-  border: none;
+.form-control {
+  box-shadow: none;
 }
 
-.bold-2 {
-  font-weight: 600;
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+  border-color: #7069FA;
 }
 
-.logo {
-  color: $primary;
-  font-weight: 800;
-  &:hover {
-    text-decoration: none;
-    color: #5D55FA;
-  }
-}
-
-a.grey-linky {
-  text-decoration: none;
-  color: #627D98;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
+.form-control::placeholder {
+  color: #9AA5B1;
 }
 
 .btn-primary {
@@ -103,6 +86,33 @@ a.grey-linky {
   &:disabled {
     background-color: $primary-grey;
     cursor: auto;
+  }
+}
+
+.main {
+  background-color: transparent;
+  border: none;
+}
+
+.bold-2 {
+  font-weight: 600;
+}
+
+.logo {
+  color: $primary;
+  font-weight: 800;
+  &:hover {
+    text-decoration: none;
+    color: #5D55FA;
+  }
+}
+
+a.grey-linky {
+  text-decoration: none;
+  color: #627D98;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 }
 
