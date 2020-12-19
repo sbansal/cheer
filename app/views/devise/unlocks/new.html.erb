@@ -1,22 +1,22 @@
 <div class="container">
-  <div class="auth-form">
+  <div class="auth-form border rounded-3 p-5">
     <div class="text-center lg-20">Resend unlock instructions</div>
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
     <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :email, class: 'control-label form-label' %>
         <div>
           <%= f.text_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
         </div>
       </div>
 
-      <div class="btn-container">
-        <p><%= f.submit "Continue", :class => 'btn btn-primary btn-small btn-block' %></p>
+      <div class="btn-container d-grid gap-2">
+        <%= f.submit "Continue", :class => 'btn btn-primary btn-small' %>
       </div>
     <% end %>
   </div>
-  <p class="text-center med">Want to sign in instead? <%= link_to 'Sign In', new_user_session_path, class: "purple-linky" %>.</p>
+  <p class="text-center med mt-3">Want to sign in instead? <%= link_to 'Sign In', new_user_session_path, class: "purple-linky" %>.</p>
 </div>

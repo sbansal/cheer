@@ -1,18 +1,18 @@
 <div class="container">
-  <div class="auth-form">
+  <div class="auth-form border rounded-3 p-5">
     <div class="lg-20">Confirm your account.</div>
     <p class="line-break"></p>
 
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
-    <div class="form-group">
+    <div class="mb-3">
       <%= f.label :email, class: 'control-label form-label' %>
       <div>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control' %>
       </div>
     </div>
-    <div class="btn-container">
-      <p><%= f.submit "Continue", :class => 'btn btn-primary btn-small btn-block' %></p>
+    <div class="btn-container d-grid gap-2">
+      <%= f.submit "Continue", :class => 'btn btn-primary' %>
     </div>
     <% end %>
   </div>

@@ -135,12 +135,8 @@ ul.simple-list {
 }
 
 .auth-form {
-  width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid #BCCCDC;
-  background-color: #FFF;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .hide {

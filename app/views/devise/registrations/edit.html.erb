@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="auth-form">
+  <div class="auth-form border rounded-3 p-5">
     <h3 class="text-center">Manage your account settings.</h3>
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
@@ -7,21 +7,21 @@
     :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
       <%= devise_error_messages! %>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :full_name, class: 'control-label form-label' %>
         <div>
           <%= f.text_field :full_name, class: 'form-control' %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :email, class: 'control-label form-label' %>
         <div>
           <%= f.email_field :email, class: 'form-control' %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :password, 'New Password', class: 'form-label control-label' %>
         <div>
           <%= f.password_field :password, :autocomplete => "new-password", class: 'form-control' %>
@@ -30,21 +30,21 @@
 
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :password_confirmation, 'New Password Confirmation', class: 'form-label control-label' %>
         <div>
           <%= f.password_field :password_confirmation, :autocomplete => "new-password", class: 'form-control' %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.label :current_password, 'Your current password', class: 'form-label control-label' %>
         <div>
           <%= f.password_field :current_password, :autocomplete => "current-password", class: 'form-control' %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <%= f.submit "Save Changes", class: 'btn btn-primary med' %> or
         <%= link_to 'Cancel', root_path, class: 'grey-linky small' %>
       </div>
