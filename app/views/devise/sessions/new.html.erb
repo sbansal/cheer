@@ -22,7 +22,7 @@
     <div class="mb-3 small">
       <%= f.check_box :remember_me %> <%= f.label :remember_me %>
       <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
-      <%= link_to 'Forgot your password?', new_password_path(resource_name), class: 'float-end primary'%>
+      <%= link_to 'Forgot password?', new_password_path(resource_name), class: 'float-end primary'%>
       <% end %>
     </div>
     <% end %>

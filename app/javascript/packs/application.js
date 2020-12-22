@@ -20,4 +20,15 @@ require("@popperjs/core")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+import {Toast} from 'bootstrap'
 import "controllers"
+
+document.addEventListener("turbolinks:load", function() {
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+  var toastList = toastElList.map(function (toastEl) {
+    return new Toast(toastEl)
+  })
+  toastList.map(function (toastEl) {
+    toastEl.show()
+  })
+})

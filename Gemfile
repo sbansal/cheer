@@ -69,6 +69,7 @@ gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'plaid'
 gem 'json-jwt'
+gem 'rotp'
 
 # jobs
 gem 'resque'

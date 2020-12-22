@@ -2,20 +2,35 @@
 <div class="row border-bottom pb-4 mb-4">
   <div class="col-sm-4 mb-3">
     <div class="fw-bold">Profile</div>
-    <div class="grey-500 med">
-      You can update all your personal settings here.
-    </div>
+    <div class="grey-500 med pe-5">You can update all your personal settings here.</div>
   </div>
   <div class="col-sm-8">
     <%= render partial: 'users/profile_form'%>
   </div>
 </div>
+<div class="row border-bottom pb-4 mb-4">
+  <div class="col-sm-4 mb-3">
+    <div class="fw-bold">Security</div>
+    <div class="grey-500 med pe-5">Setup two factor authentication to add an additional layer of security.</div>
+  </div>
+  <div class="col-sm-8">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="med">Two Factor Authentication <span class="2fa">is OFF</span></div>
+      </div>
+      <div class="form-check form-switch col-sm-1 text-end">
+        <input class="form-check-input  primary-switch" type="checkbox" id="flexSwitchCheckChecked">
+      </div>
+      <div>
+        <%= render partial: 'users/two_factor_setup' %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row border-bottom pb-4">
   <div class="col-sm-4 mb-3">
     <div class="fw-bold">Manage your family accounts</div>
-    <div class="grey-500 med">
-      Here is everyone that has access to this account.
-    </div>
+    <div class="grey-500 med pe-5">Here is everyone that has access to this account.</div>
   </div>
   <div class="col-sm-8">
     <ul class="basic">
@@ -25,20 +40,7 @@
     </ul>
     <section class="form-background">
       <div class="fw-bold med">Want to add members?</div>
-      <%= render 'devise/shared/alerts'%>
-      <%= form_tag '/users/invite_person', class: 'form-inline' do %>
-      <div class="row m-0">
-        <div class="col-sm-5 my-2 p-0 pe-2">
-          <%= text_field_tag 'email', '', { class: 'form-control med', placeholder: 'Email address', size: 40 } %>
-        </div>
-        <div class="col-sm-5 my-2 p-0 pe-2">
-          <%= text_field_tag 'full_name', '', { class: 'form-control med', placeholder: 'Full Name', size: 40 } %>
-        </div>
-        <div class="col-sm-2 my-2 p-0 pe-2">
-          <%= button_tag 'Send Invite', class: 'btn btn-primary invite-person med'%>
-        </div>
-      </div>
-      <% end %>
+      <%= render partial: 'users/invite_person_form' %>
     </section>
   </div>
 </div>
