@@ -1,0 +1,39 @@
+<div class="row p-4" id="two-factor-form">
+  <div class="row">
+    <div class="col-sm-4">
+      <figure class="figure">
+        <img width="200" height="200" class="u-display-b" src="<%= @qr_code%>">
+        <figcaption class="figure-caption text-center">Point your camera here.</figcaption>
+      </figure>
+    </div>
+    <div class="col-sm-4 py-2">
+      <ol>
+        <li class="med">Download an Authentication App. We suggest <strong>Google Authenticator</strong> for
+          <%= link_to 'iPhone', 'https://apps.apple.com/us/app/google-authenticator/id388497605', target: '_blank',
+          class: 'grey-linky text-decoration-underline' %>
+           or <%= link_to 'Android', 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US&gl=US', target: '_blank',
+           class: 'grey-linky text-decoration-underline'%>.
+         </li>
+        <li class="med">Open the authenticator app, tap "Scan QR code" or "+" button.</li>
+        <li class="med">Point your phone's camera at the QR code on the left.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <section class="form-background col-8">
+      <%= form_tag '/two_factor_authentication/', method: :post, class: 'form-inline', remote: true do %>
+      <%= hidden_field_tag :otp_secret, @otp_secret %>
+      <p class="med">Enter the six-digit code generated in the authenticator app.</p>
+      <div class="row m-0">
+        <div class="col-sm-6 my-1 p-0 pe-2">
+          <%= text_field_tag 'otp_code', nil, { class: 'form-control med', placeholder: '6-digit code', size: 40, autocomplete: 'off'} %>
+        </div>
+        <div class="col-sm-6 my-1 p-0 pe-2">
+          <%= button_tag 'Verify code', class: 'btn btn-primary med'%>
+        </div>
+        <div class="col-sm-12 px-0 py-1 danger small" id="tfa-error"></div>
+      </div>
+      <% end %>
+    </section>
+  </div>
+</div>

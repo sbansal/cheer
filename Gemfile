@@ -70,5 +70,10 @@ gem 'aws-sdk-s3', require: false
 gem 'plaid'
 gem 'json-jwt'
 
+#security
+gem 'rotp'
+gem 'rqrcode'
+gem 'lockbox'
+
 # jobs
 gem 'resque'

@@ -1,0 +1,43 @@
+<%= form_for(current_user, :as => :user, :url => registration_path(:user),
+  :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+<div class="mb-3 col-sm-8">
+  <%= f.label :full_name, 'Name', class: 'control-label form-label med bold-2' %>
+  <div>
+    <%= f.text_field :full_name, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="mb-3 col-sm-8">
+  <%= f.label :email, class: 'control-label form-label med bold-2' %>
+  <div>
+    <%= f.email_field :email, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="mb-3 col-sm-8">
+  <%= f.label :current_password, 'Your current password', class: 'form-label control-label med bold-2' %>
+  <div>
+    <%= f.password_field :current_password, :autocomplete => "current-password", class: 'form-control' %>
+  </div>
+</div>
+
+<div class="mb-3 col-sm-8">
+  <%= f.label :password, 'Create a new password', class: 'form-label control-label med bold-2' %>
+  <div>
+    <%= f.password_field :password, :autocomplete => "new-password", class: 'form-control' %>
+  </div>
+  <span class="small">Make sure your password is at least 8 characters.</span>
+
+</div>
+
+<div class="mb-3 col-sm-8">
+  <%= f.label :password_confirmation, 'Confirm your new password', class: 'form-label control-label med bold-2' %>
+  <div>
+    <%= f.password_field :password_confirmation, :autocomplete => "new-password", class: 'form-control' %>
+  </div>
+</div>
+
+<div class="mb-3">
+  <%= f.submit "Update profile changes", class: 'btn btn-primary med' %>
+</div>
+<% end %>

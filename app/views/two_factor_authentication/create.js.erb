@@ -1,0 +1,5 @@
+<% if @last_otp_at %>
+document.getElementById('tfa-container').replaceChildren("<%= j (render 'setting') %>")
+<% else %>
+document.getElementById('tfa-error').innerHTML = "<%= @alert %>"
+<% end %>

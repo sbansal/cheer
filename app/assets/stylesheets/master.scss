@@ -24,13 +24,14 @@ div, table, p, section, h1, h2, h3, h4 {
 }
 
 .primary {color: $primary;}
+.primary-bg {background-color: $primary;}
 .primary-dark {color: $primary-dark;}
 .grey-500 {color: $primary-grey;}
 .grey-900 {color: $grey-900;}
 .grey-100 {color: $primary-grey;}
 .primary-teal {color: $primary-teal;}
 .primary-900 {color: $primary-900;}
-.primary-900-bg {background: $primary-900;}
+.primary-900-bg {background-color: $primary-900;}
 .active {
   color: $primary;
   font-weight: 700;
@@ -45,6 +46,11 @@ a {
     text-decoration: underline;
     color: $default-color;
   }
+}
+
+svg {
+  width: 20px;
+  height: 20px;
 }
 
 .form-control {
@@ -359,4 +365,18 @@ ul.basic {
       background: #EFFCF6;
     }
   }
+}
+
+.form-switch {
+  padding-left: 15px;
+  .primary-switch {
+    filter: hue-rotate(35deg);
+    margin-left: 0;
+    width:3em;
+    height: 1.5em;
+  }
+}
+
+.z-1000 {
+  z-index: 1000;
 }

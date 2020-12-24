@@ -2,7 +2,8 @@ require 'resque/server'
 
 Rails.application.routes.draw do
   constraints subdomain: 'app' do
-    devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
+    devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
+      controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#income_expense'
     resources :transactions, only: [:index, :show, :destroy]
 
@@ -47,5 +48,9 @@ Rails.application.routes.draw do
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
     end
+
+    #two factor authentication routes
+    resources :two_factor_authentication, only: [:new, :create]
+    delete '/two_factor_authentication', to:'two_factor_authentication#destroy'
   end
 end

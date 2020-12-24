@@ -1,0 +1,13 @@
+<%= form_tag '/users/invite_person', class: 'form-inline' do %>
+<div class="row m-0">
+  <div class="col-sm-5 my-2 p-0 pe-2">
+  <%= text_field_tag 'email', '', { class: 'form-control med', placeholder: 'Email address', size: 40 } %>
+  </div>
+  <div class="col-sm-5 my-2 p-0 pe-2">
+  <%= text_field_tag 'full_name', '', { class: 'form-control med', placeholder: 'Full Name', size: 40 } %>
+  </div>
+  <div class="col-sm-2 my-2 p-0 pe-2">
+  <%= button_tag 'Send Invite', class: 'btn btn-primary invite-person med'%>
+  </div>
+</div>
+<% end %>
