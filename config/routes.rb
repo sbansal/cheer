@@ -47,5 +47,9 @@ Rails.application.routes.draw do
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
     end
+
+    #two factor authentication routes
+    resources :two_factor_authentication, only: [:new, :create]
+    delete '/two_factor_authentication', to:'two_factor_authentication#destroy'
   end
 end

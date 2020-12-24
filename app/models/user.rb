@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  encrypts :otp_secret
+
   devise :database_authenticatable, :registerable, :confirmable,
   :recoverable, :rememberable, :validatable, :trackable
 
@@ -79,6 +79,18 @@ class User < ApplicationRecord
 
   def net_worth
     total_assets - total_liabilities
+  end
+
+  def two_factor_enabled?
+    !self.otp_secret.blank?
+  end
+
+  def two_factor_status
+    if two_factor_enabled?
+      "ON"
+    else
+      "OFF"
+    end
   end
 end
 

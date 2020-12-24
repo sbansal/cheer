@@ -1,0 +1,7 @@
+<div class="col-sm-7">
+  <div class="med">Two Factor Authentication is <%= current_user.two_factor_status %></div>
+</div>
+<div class="col-sm-1 form-check form-switch" data-controller="tfa">
+  <%= check_box_tag 'tfa_switcher', current_user.two_factor_status, current_user.two_factor_enabled?,
+    {class: 'primary-switch form-check-input', id: 'tfa-switcher', data: {action: 'change->tfa#toggle'}}%>
+</div>

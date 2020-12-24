@@ -367,6 +367,16 @@ ul.basic {
   }
 }
 
-.primary-switch {
-  filter: hue-rotate(35deg)
+.form-switch {
+  padding-left: 15px;
+  .primary-switch {
+    filter: hue-rotate(35deg);
+    margin-left: 0;
+    width:3em;
+    height: 1.5em;
+  }
+}
+
+.z-1000 {
+  z-index: 1000;
 }

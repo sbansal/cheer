@@ -14,16 +14,8 @@
     <div class="grey-500 med pe-5">Setup two factor authentication to add an additional layer of security.</div>
   </div>
   <div class="col-sm-8">
-    <div class="row">
-      <div class="col-sm-7">
-        <div class="med">Two Factor Authentication <span class="2fa">is OFF</span></div>
-      </div>
-      <div class="form-check form-switch col-sm-1 text-end">
-        <input class="form-check-input  primary-switch" type="checkbox" id="flexSwitchCheckChecked">
-      </div>
-      <div>
-        <%= render partial: 'users/two_factor_setup' %>
-      </div>
+    <div class="row" id="tfa-container">
+      <%= render partial: 'two_factor_authentication/setting'%>
     </div>
   </div>
 </div>
