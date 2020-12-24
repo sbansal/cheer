@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
   :recoverable, :rememberable, :validatable, :trackable
 
+  attr_accessor :otp_attempt
   has_one_attached :avatar
   has_many :login_items, dependent: :destroy
   has_many :bank_accounts, ->{ order(:created_at => 'DESC') }, dependent: :destroy
@@ -90,6 +91,16 @@ class User < ApplicationRecord
       "ON"
     else
       "OFF"
+    end
+  end
+
+  def verify_otp_attempt?(otp_attempt)
+    last_otp_at = OtpVerifier.verify_otp_attempt(self.otp_secret, otp_attempt, self.last_otp_at)
+    if last_otp_at
+      self.update(last_otp_at: last_otp_at)
+      true
+    else
+      false
     end
   end
 end
