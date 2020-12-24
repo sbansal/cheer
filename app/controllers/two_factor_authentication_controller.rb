@@ -9,7 +9,7 @@ class TwoFactorAuthenticationController < ApplicationController
   def create
     @otp_secret = params[:otp_secret]
     @last_otp_at = OtpVerifier.verify_during_setup(@otp_secret, params[:otp_code])
-    if @last_otp_at
+    if @last_otp_at.present?
       current_user.update(otp_secret: @otp_secret, last_otp_at: @last_otp_at)
       redirect_to accounts_settings_path, flash: { notice_header: 'Two Factor authentication enabled',
         notice: 'You have enabled two factor authentication and added an extra layer of security to your account.'}
