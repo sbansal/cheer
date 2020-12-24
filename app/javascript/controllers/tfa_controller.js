@@ -4,7 +4,6 @@ import Rails from "@rails/ujs"
 export default class extends Controller {
 
   toggle(event) {
-    console.log("toggling 2FA")
     const enable_tfa = document.getElementById('tfa-switcher').checked
     if (enable_tfa) {
       Rails.ajax({
