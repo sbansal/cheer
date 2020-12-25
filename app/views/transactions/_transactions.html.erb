@@ -1,41 +1,37 @@
-<table class="table">
-  <thead>
-    <tr class="table-header row">
-      <th scope="col" class="col-2 text-start">Date</th>
-      <th scope="col" class="col-5 text-start">Description</th>
-      <th scope="col" class="col-3 text-start">Account</th>
-      <th scope="col" class="col-1">Amount</th>
-      <th class="col-1"></th>
-    </tr>
-  </thead>
-  <tbody class="small">
-    <% @transactions.each do |transaction| %>
-      <tr class="row">
-        <td scope="row" class="col-2 text-start">
-          <%= transaction.occured_at.strftime('%b %d, %Y') %>
-        </td>
-        <td class="col-5 text-start">
-          <div>
-            <span class="primary med"><%= transaction.custom_description %></span>
-            <% if transaction.pending? %>
-            <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
-            <% end %>
-          </div>
-          <div class="grey-100 xs"><%= transaction.category.category_list %></div>
-        </td>
-        <td class="col-3 text-start">
-          <div><%= transaction.bank_account.display_name %></div>
-          <div class="grey-100 xs">Account ending in <%= transaction.bank_account.mask %></div>
-        </td>
-        <td class="col-1">
-          <div class="med <%=tx_amount_type(transaction.amount).downcase%>"><%= number_to_currency(transaction.amount)%></div>
-        </td>
-        <td class="col-1">
-          <%= link_to 'Delete', transaction_path(transaction),
-            :method => :delete,
-            class: 'grey-linky text-decoration-underline ' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row border-bottom py-2">
+  <div class="col-3 text-uppercase small grey-100">Date</div>
+  <div class="col-6 text-uppercase small grey-100">Description</div>
+  <div class="col-3 text-uppercase small grey-100">Amount</div>
+</div>
+<% @transactions.each do |transaction| %>
+<div class="row py-2 border-bottom">
+  <div class="col-3 med">
+    <div><%= transaction.formatted_occurred_at %></div>
+  </div>
+  <div class="col-6">
+    <div>
+      <span class="med"><%= transaction.custom_description %></span>
+      <% if transaction.pending? %>
+      <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
+      <% end %>
+      <div class="grey-100 med"><%= transaction.category.category_list%></div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="row">
+      <div class="col-sm-9 text-start">
+        <div class="<%=tx_amount_type(transaction.amount).downcase%>">
+          <span class="text-normal"><%= number_to_currency(-transaction.amount)%></span>
+        </div>
+      </div>
+      <div class="col-sm-3 med text-start">
+        <%= link_to transaction_path(transaction), :method => :delete, class: 'ellipsis-link' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+        </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

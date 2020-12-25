@@ -12,3 +12,4 @@ module TransactionsHelper
     end
   end
 end
+

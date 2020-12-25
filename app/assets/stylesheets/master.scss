@@ -228,7 +228,6 @@ ul.basic {
   text-transform: uppercase;
   font-weight: 500;
   color: $default-color;
-  background-color: #F0F4F8;
 }
 
 .header {
@@ -379,4 +378,20 @@ ul.basic {
 
 .z-1000 {
   z-index: 1000;
+}
+
+.ellipsis-link {
+  padding: 4px;
+  &:hover {
+    border: 1px solid #dee2e6 !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    border-radius: 5px;
+  }
+}
+
+.credit {
+  color: $primary-teal;
+}
+
+.debit {
 }
