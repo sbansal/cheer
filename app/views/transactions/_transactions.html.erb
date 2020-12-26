@@ -1,10 +1,11 @@
-<div class="row border-bottom py-2">
+<div class="row py-2">
   <div class="col-3 text-uppercase small grey-100">Date</div>
   <div class="col-6 text-uppercase small grey-100">Description</div>
   <div class="col-3 text-uppercase small grey-100">Amount</div>
 </div>
 <% @transactions.each do |transaction| %>
-<div class="row py-2 border-bottom">
+<div class="row py-3 border-top tx-row" id="tx-<%= transaction.id %>" data-controller="transactions"
+  data-tx-id="<%= transaction.id%>" data-action="click->transactions#fetchTransactionDetails">
   <div class="col-3 med">
     <div><%= transaction.formatted_occurred_at %></div>
   </div>
@@ -19,9 +20,13 @@
   </div>
   <div class="col-3">
     <div class="row">
-      <div class="col-sm-9 text-start">
+      <div class="col-sm-9 text-start med">
         <div class="<%=tx_amount_type(transaction.amount).downcase%>">
-          <span class="text-normal"><%= number_to_currency(-transaction.amount)%></span>
+          <% if transaction.amount < 0 %>
+            +<%= number_to_currency(transaction.amount.abs)%>
+          <% else %>
+            <%= number_to_currency(transaction.amount.abs)%>
+          <% end %>
         </div>
       </div>
       <div class="col-sm-3 med text-start">

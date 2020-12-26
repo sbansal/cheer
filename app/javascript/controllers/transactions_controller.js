@@ -9,4 +9,14 @@ export default class extends Controller {
     this.element.querySelector('.transactions-summary').classList.toggle('hide')
     event.preventDefault()
   }
+  
+  fetchTransactionDetails(event) {
+    const transactionId = this.element.dataset.txId
+    Rails.ajax({
+      url: "/transactions/" + transactionId,
+      type: "GET",
+      success: function(data) {},
+      error: function(data) {}
+    })
+  }
 }
