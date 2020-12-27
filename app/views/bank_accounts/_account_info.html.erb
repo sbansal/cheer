@@ -12,6 +12,7 @@
   </div>
   <div class="col-5 text-end p-0">
     <div><%= number_to_currency(account.balance)%></div>
+    <div class="grey-100 small"><%= account.last_balance&.updated_at&.strftime('Last updated on %b %e, %Y %l:%M %p') %></div>
     <div class="small">
       <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey-100 text-decoration-underline '%> |
       <%= link_to 'Delete', bank_account_path(account),
