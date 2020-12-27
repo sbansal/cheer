@@ -1,0 +1,11 @@
+<%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true }) do |f| %>
+<div class="row">
+  <div class="mt-2">
+    <%= f.text_field @attribute, class: 'form-control xs' %>
+  </div>
+  <div class="mt-2">
+    <%= f.submit "Save", class: 'btn btn-primary btn-sm xs' %>
+    <%= link_to "Cancel", '', class: 'btn btn-outline-primary btn-sm xs' %>
+  </div>
+</div>
+<% end %>

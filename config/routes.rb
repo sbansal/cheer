@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#income_expense'
-    resources :transactions, only: [:index, :show, :destroy]
+    resources :transactions, only: [:index, :show, :destroy, :edit, :update]
 
     resources :categories, only: [:index]
 

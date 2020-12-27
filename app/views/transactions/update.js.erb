@@ -1,0 +1,4 @@
+var oldNode = document.getElementById("transaction-detail-<%= @transaction.id%>")
+var newNode = document.createElement("template")
+newNode.innerHTML = "<%= j (render 'transaction_detail', tx: @transaction) %>"
+oldNode.replaceWith(newNode.content.firstChild)
