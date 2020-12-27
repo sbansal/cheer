@@ -42,6 +42,6 @@ class TransactionsController < ApplicationController
   private
 
   def transaction_params
-    params.require(:transaction).permit(:custom_description)
+    params.require(:transaction).permit(:custom_description, :category_id)
   end
 end

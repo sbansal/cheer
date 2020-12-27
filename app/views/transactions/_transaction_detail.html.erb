@@ -17,7 +17,13 @@
     </div>
     <div class="col-sm-4 py-3">
       <div class="grey-100">Transaction Category</div>
-      <div class=""><%= tx.category.category_list %></div>
+      <div id="category-<%= tx.id%>">
+        <%= tx.category.category_list %>
+        <span class="primary align-bottom mx-2 icon-item-small">
+          <%= link_to 'Edit', edit_transaction_path(tx, attribute: 'category'), { class: 'primary small pencil',
+          data: {action: 'ajax:success->transactions#renderForm', remote: true, target: "category-#{tx.id}" } } %>
+        </span>
+      </div>
     </div>
     <div class="col-sm-4 py-3">
       <div class="grey-100">Total Amount</div>

@@ -22,6 +22,10 @@ class Category < ApplicationRecord
     hierarchy.drop(1)
   end
   
+  def category_list_item
+    hierarchy.join('>')
+  end
+  
   def primary_name
     hierarchy.last
   end

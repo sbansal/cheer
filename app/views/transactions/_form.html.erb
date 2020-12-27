@@ -1,11 +1,17 @@
 <%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true }) do |f| %>
 <div class="row">
+  <% if @attribute == 'custom_description' %>
   <div class="mt-2">
     <%= f.text_field @attribute, class: 'form-control xs' %>
   </div>
+  <% elsif @attribute == 'category' %>
+  <div class="mt-2">
+    <%= f.select :category_id, Category.all.collect {|c| [c.category_list_item, c.id]}, {}, {class: 'form-select xs'} %>
+  </div>
+  <% end %>
   <div class="mt-2">
     <%= f.submit "Save", class: 'btn btn-primary btn-sm xs' %>
-    <%= link_to "Cancel", '', class: 'btn btn-outline-primary btn-sm xs' %>
+    <%= link_to "Cancel", transaction_path(@transaction), remote: true, class: 'btn btn-outline-primary btn-sm xs' %>
   </div>
 </div>
 <% end %>
