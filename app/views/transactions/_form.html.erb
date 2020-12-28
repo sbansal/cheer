@@ -6,7 +6,8 @@
   </div>
   <% elsif @attribute == 'category' %>
   <div class="mt-2">
-    <%= f.select :category_id, Category.all.collect {|c| [c.category_list_item, c.id]}, {}, {class: 'form-select xs'} %>
+    <%= f.select :category_id, Category.all.sort_by {|a| a.category_list}.collect {|c| [c.category_list_item, c.id]},
+    {}, {class: 'form-select xs'} %>
   </div>
   <% end %>
   <div class="mt-2">
