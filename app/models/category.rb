@@ -13,19 +13,19 @@ class Category < ApplicationRecord
   def self.find_all_for_category(category_names)
     where("hierarchy @> ?", category_names.to_s)
   end
-  
+
   def root_name
     hierarchy.first
   end
-  
+
   def secondary_names
     hierarchy.drop(1)
   end
-  
+
   def category_list_item
-    hierarchy.join('>')
+    hierarchy.join(' > ')
   end
-  
+
   def primary_name
     hierarchy.last
   end
@@ -38,7 +38,7 @@ class Category < ApplicationRecord
       Category.where("hierarchy = ?", category_names.to_s).first
     end
   end
-  
+
   def children
     categories = Category.find_all_for_category(hierarchy.to_s)
     if categories.empty?
