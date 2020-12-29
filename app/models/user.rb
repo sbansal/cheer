@@ -28,7 +28,7 @@ class User < ApplicationRecord
   end
 
   def new_account?
-    account.login_items.empty?
+    sign_in_count < 2 || account.login_items.empty?
   end
 
   def invite_person(email, full_name)

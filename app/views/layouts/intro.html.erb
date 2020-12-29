@@ -10,11 +10,10 @@
   </head>
 
   <body class="body">
-    <%= hidden_field_tag 'plaid_environment', Rails.application.credentials[:plaid][:environment] %>
     <header>
-      <nav>
+      <nav class="text-center my-3">
         <ul class="simple-list">
-          <li><%= link_to 'Cheer', root_path, class: 'logo lg-36' %></li>
+          <li class="text-center"><%= link_to 'Cheer', root_path, class: 'logo lg-36' %></li>
         </ul>
       </nav>
     </header>
