@@ -30,6 +30,7 @@ RSpec.describe Transaction, type: :model do
       expect {
         Transaction.create_transactions_from_json([tx], @user.id)
       }.to change { @user.transactions.count }.by(1)
+      expect(Transaction.last.merchant_name).to eq ("Amazon")
     end
 
     it 'upserts transactions' do
@@ -107,6 +108,7 @@ RSpec.describe Transaction, type: :model do
       date: Date.today.iso8601,
       iso_currency_code: "USD",
       name: "Amazon.com",
+      merchant_name: "Amazon",
       payment_channel:"online",
       payment_meta: nil,
       pending: false,

@@ -109,6 +109,7 @@ FactoryBot.define do
     location_json {}
     description { 'Madison Bicycle Shop' }
     custom_description { 'Madison Bicycle Shop' }
+    merchant_name { 'Madison' }
     transaction_type { 'place' }
     payment_meta_json {}
     payment_channel { 'in store' }

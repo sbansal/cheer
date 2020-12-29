@@ -74,6 +74,7 @@ class Transaction < ApplicationRecord
           category_id: category&.id,
           created_at: created_at,
           updated_at: Time.zone.now.utc,
+          merchant_name:transactions_json[:merchant_name],
         }
       rescue => e
         Rails.logger.error("Unable to process transaction with payload: #{transactions_json}, exception - #{e}")
