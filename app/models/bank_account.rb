@@ -83,7 +83,7 @@ class BankAccount < ApplicationRecord
 
   def money_in_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
     if depository_account?
-      transactions.includes(:category).occured_between(start_date, end_date).filter(&:non_charge?)
+      transactions.includes(:category).occured_between(start_date, end_date).filter(&:credit?)
     else
       []
     end
@@ -110,7 +110,7 @@ class BankAccount < ApplicationRecord
   end
 
   def create_recurring_transactions
-    transactions_hash = transactions.select(&:charge?).group_by { |tx| tx.custom_description + tx.amount.to_s }
+    transactions_hash = transactions.select(&:debit?).group_by { |tx| tx.custom_description + tx.amount.to_s }
     recurring_transactions = []
     transactions_hash.each do |key, transactions|
       if transactions.count > 1

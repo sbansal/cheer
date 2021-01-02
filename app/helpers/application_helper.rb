@@ -21,8 +21,16 @@ module ApplicationHelper
       ""
     end
   end
-  
+
   def title(page_title)
     content_for(:title) { page_title }
+  end
+
+  def signed_number_to_currency(amount)
+    if amount < 0
+      "+" + number_to_currency(amount.abs)
+    else
+      number_to_currency(amount.abs)
+    end
   end
 end

@@ -29,12 +29,12 @@ class Transaction < ApplicationRecord
     pending? ? 'pending' : 'settled'
   end
 
-  def charge?
-    amount > 0 && !pending? && category.charge?
+  def debit?
+    amount >= 0 && !pending? && !category.ignore_for_debit?
   end
 
-  def non_charge?
-    amount < 0 && category.charge?
+  def credit?
+    amount < 0 && category.charge? && !category.ignore_for_credit?
   end
 
   def formatted_occurred_at
