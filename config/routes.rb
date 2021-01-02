@@ -15,10 +15,8 @@ Rails.application.routes.draw do
     get '/search/institution', to: 'search#institution'
 
     #dashboard resources
-    get '/dashboard/home', to: 'dashboard#home'
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
-    get '/dashboard/transactions', to: 'dashboard#transactions'
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'

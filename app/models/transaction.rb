@@ -30,11 +30,11 @@ class Transaction < ApplicationRecord
   end
 
   def debit?
-    amount >= 0 && !pending? && !category.ignore_for_debit?
+    amount >= 0 && !category.ignore_for_debit?
   end
 
   def credit?
-    amount < 0 && category.charge? && !category.ignore_for_credit?
+    amount < 0 && !category.ignore_for_credit?
   end
 
   def formatted_occurred_at

@@ -90,15 +90,15 @@ class BankAccount < ApplicationRecord
   end
 
   def money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.includes(:category).occured_between(start_date, end_date).filter { |tx| tx.amount > 0 }
+    transactions.includes(:category).occured_between(start_date, end_date).filter(&:debit?)
   end
 
   def essential_money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.includes(:category).occured_between(start_date, end_date).essential.filter { |tx| tx.amount > 0 }
+    transactions.includes(:category).occured_between(start_date, end_date).essential.filter(&:debit?)
   end
 
   def non_essential_money_out_transactions(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
-    transactions.includes(:category).occured_between(start_date, end_date).non_essential.filter { |tx| tx.amount > 0 }
+    transactions.includes(:category).occured_between(start_date, end_date).non_essential.filter(&:debit?)
   end
 
   def total_money_out(start_date=(Time.zone.now.beginning_of_month), end_date=Time.zone.now)
