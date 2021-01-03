@@ -5,4 +5,9 @@ class GenericMailer < ApplicationMailer
     @invitee_name = invitee_name
     mail(:to =>  @user.email, :subject => "Welcome! #{@invitee_name} has invited you to their Cheer account.")
   end
+  
+  def two_factor_auth_notification(user_id)
+    @user = User.find(user_id)
+    mail(:to =>  @user.email, :subject => "Two Factor authentication turned #{@user.two_factor_status} for your Cheer account.")
+  end
 end

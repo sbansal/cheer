@@ -81,6 +81,10 @@ class User < ApplicationRecord
   def net_worth
     total_assets - total_liabilities
   end
+  
+  def send_two_factor_auth_notification
+    GenericMailer.two_factor_auth_notification(id).deliver_later
+  end
 
   def two_factor_enabled?
     !self.otp_secret.blank?

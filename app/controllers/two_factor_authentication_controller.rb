@@ -11,6 +11,7 @@ class TwoFactorAuthenticationController < ApplicationController
     @last_otp_at = OtpVerifier.verify_during_setup(@otp_secret, params[:otp_code])
     if @last_otp_at.present?
       current_user.update(otp_secret: @otp_secret, last_otp_at: @last_otp_at)
+      current_user.send_two_factor_auth_notification
       redirect_to accounts_settings_path, flash: { notice_header: 'Two Factor authentication enabled',
         notice: 'You have enabled two factor authentication and added an extra layer of security to your account.'}
     else
@@ -23,6 +24,7 @@ class TwoFactorAuthenticationController < ApplicationController
 
   def destroy
     current_user.update(otp_secret: nil, last_otp_at: nil)
+    current_user.send_two_factor_auth_notification
     redirect_to accounts_settings_path, flash: { notice_header: 'Two Factor authentication disabled.',
       notice: 'Your account does not have an extra layer of protection.'}
   end
