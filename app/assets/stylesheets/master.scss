@@ -44,10 +44,6 @@ div, table, p, section, h1, h2, h3, h4 {
 a {
   color: $default-color;
   text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-    color: $default-color;
-  }
 }
 
 svg {

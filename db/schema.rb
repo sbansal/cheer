@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_27_042528) do
+ActiveRecord::Schema.define(version: 2020_12_29_195831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2020_12_27_042528) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category_id"
     t.text "custom_description"
+    t.string "merchant_name"
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true
   end
 

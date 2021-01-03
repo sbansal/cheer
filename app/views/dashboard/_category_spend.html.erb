@@ -18,12 +18,12 @@
   <% else %>
     <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
       <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom category-row p-2" 
+      <div class="row m-0 border-bottom category-row p-2"
         data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-8">
           <div><%= spend.category_name %></div>
           <div class="small grey-100">
-            <%= link_to "#{pluralize(spend.transactions.count, 'transactions')}", '#', class: 'primary text-decoration-underline '%>
+            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline '%>
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
@@ -52,7 +52,7 @@
         <div class="col-8">
           <div><%= spend.category_name %></div>
           <div class="small grey-100">
-            <%= link_to "#{pluralize(spend.transactions.count, 'transactions')}", '',
+            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '',
             data: {category_name: "#{spend.category_name}", cashflow_type: 'money_out', essential: 'true',
             action: 'click->transactions#showTransactionsModal'}, class: 'primary text-decoration-underline '%>
           </div>

@@ -29,12 +29,12 @@ class Transaction < ApplicationRecord
     pending? ? 'pending' : 'settled'
   end
 
-  def charge?
-    amount > 0 && !pending? && category.charge?
+  def debit?
+    amount >= 0 && !category.ignore_for_debit?
   end
 
-  def non_charge?
-    amount < 0 && category.charge?
+  def credit?
+    amount < 0 && !category.ignore_for_credit?
   end
 
   def formatted_occurred_at
@@ -74,6 +74,7 @@ class Transaction < ApplicationRecord
           category_id: category&.id,
           created_at: created_at,
           updated_at: Time.zone.now.utc,
+          merchant_name:transactions_json[:merchant_name],
         }
       rescue => e
         Rails.logger.error("Unable to process transaction with payload: #{transactions_json}, exception - #{e}")

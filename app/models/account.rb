@@ -39,19 +39,6 @@ class Account < ApplicationRecord
     Cashflow.new(start_date, end_date, transactions.includes(:category))
   end
 
-  def find_transactions(start_date, end_date, args={})
-    descriptive_name = args[:category_desc]
-    if args[:cashflow_type] == 'money_in'
-      transactions.includes([:category]).occured_between(start_date, end_date).with_category_description(descriptive_name).filter(&:non_charge?)
-    else
-      if args[:essential] == 'true'
-        transactions.includes([:category]).occured_between(start_date, end_date).essential.with_category_description(descriptive_name).filter(&:charge?)
-      else
-        transactions.includes([:category]).occured_between(start_date, end_date).non_essential.with_category_description(descriptive_name).filter(&:charge?)
-      end
-    end
-  end
-
   def total_assets
     users.map { |user| user.total_assets }.sum
   end

@@ -37,9 +37,9 @@ class Cashflow
     total_money_out = 0
     total_money_in = 0
     transactions.each do |tx|
-      if tx.charge?
+      if tx.debit?
         total_money_out += (tx.amount || 0)
-      else
+      elsif tx.credit?
         total_money_in += (tx.amount || 0)
       end
     end
