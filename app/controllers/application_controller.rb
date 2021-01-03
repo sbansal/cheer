@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
 
   layout :layout_by_resource
 
+  def after_sign_in_path_for(resource)
+    if current_user.new_account?
+      root_path
+    else
+      stored_location_for(resource) || root_path
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

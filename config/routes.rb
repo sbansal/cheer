@@ -2,6 +2,9 @@ require 'resque/server'
 
 Rails.application.routes.draw do
   constraints subdomain: 'app' do
+    devise_scope :user do
+        get "/sign_up" => "accounts#new"
+      end
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#cashflow'
@@ -37,6 +40,7 @@ Rails.application.routes.draw do
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
 
     #accounts resources
+    resources :accounts, only: [:new, :create]
     get 'accounts/settings'
     get 'accounts/cashflow_trend'
 
