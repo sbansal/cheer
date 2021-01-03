@@ -4,16 +4,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="basic">
-      <li class="nav-item"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></li>
-      <li class="nav-item med icon mt-5">
-        <a href="/income_expense" class="<%= active_menu_item('income_expense')%>">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="icon-item">
-            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h3a1 1 0 0 0 .83-.45L10 8.8l5.17 7.75a1 1 0 0 0 1.66 0l1.7-2.55H21z"></path>
-            <path d="M21 12h-3a1 1 0 0 0-.83.45L16 14.2l-5.17-7.75a1 1 0 0 0-1.66 0L5.47 12H3V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v7z"></path>
-          </svg>
-          <span>Income/Expenses</span>
-        </a>
-      </li>
+      <li class="nav-item mb-5"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></li>
       <li class="nav-item med icon">
         <a href="/cashflow" class="<%= active_menu_item('cashflow')%>">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-scale">
@@ -21,6 +12,15 @@
             <path d="M17.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 18 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM19.61 15L18 10.16 16.39 15h3.22zM5.05 6.68a1 1 0 0 1 1.9 0l3 9a1 1 0 0 1-.4 1.15A6.36 6.36 0 0 1 6 18c-1.2 0-2.4-.4-3.55-1.17a1 1 0 0 1-.4-1.15l3-9zM7.61 15L6 10.16 4.39 15H7.6z"/>
           </svg>
           <span>Cashflow</span>
+        </a>
+      </li>
+      <li class="nav-item med icon">
+        <a href="/income_expense" class="<%= active_menu_item('income_expense')%>">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="icon-item">
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5h3a1 1 0 0 0 .83-.45L10 8.8l5.17 7.75a1 1 0 0 0 1.66 0l1.7-2.55H21z"></path>
+            <path d="M21 12h-3a1 1 0 0 0-.83.45L16 14.2l-5.17-7.75a1 1 0 0 0-1.66 0L5.47 12H3V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v7z"></path>
+          </svg>
+          <span>Income/Expenses</span>
         </a>
       </li>
       <li class="nav-item med icon">
