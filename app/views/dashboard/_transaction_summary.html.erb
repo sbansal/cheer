@@ -3,5 +3,8 @@
     <div><%= tx.custom_description %></div>
     <div class="grey-500"><%= tx.formatted_occurred_at %></div>
   </div>
-  <div class="col-4 text-end p-0"><%= signed_number_to_currency(tx.amount)%></div>
+  <div class="col-4 text-end p-0">
+    <div><%= signed_number_to_currency(tx.amount)%></div>
+    <div class="grey-500"><%= tx.category.category_list %></div>
+  </div>
 </div>
