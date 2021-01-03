@@ -130,12 +130,14 @@ class BankAccount < ApplicationRecord
   # This method returns a historical snapshot of the daily balances for an account
   def historical_balances(end_datetime=Time.zone.now.beginning_of_day.to_datetime)
     balance_by_created = balances.reverse.map {|balance| [balance.created_at.to_datetime.beginning_of_day, balance.current]}.to_h
-    last_value = nil
-    balance_by_created.keys.first.upto(end_datetime).each do |ref_datetime|
-      if balance_by_created[ref_datetime]
-        last_value = balance_by_created[ref_datetime]
-      else
-        balance_by_created[ref_datetime] = last_value
+    unless balance_by_created.empty?
+      last_value = nil
+      balance_by_created.keys.first.upto(end_datetime).each do |ref_datetime|
+        if balance_by_created[ref_datetime]
+          last_value = balance_by_created[ref_datetime]
+        else
+          balance_by_created[ref_datetime] = last_value
+        end
       end
     end
     balance_by_created.sort.to_h
