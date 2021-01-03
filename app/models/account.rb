@@ -38,15 +38,15 @@ class Account < ApplicationRecord
   end
 
   def total_assets
-    users.map { |user| user.total_assets }.sum
+    bank_accounts.assets.sum(:current_balance)
   end
 
   def total_liabilities
-    users.map { |user| user.total_liabilities }.sum
+    bank_accounts.liabilities.sum(:current_balance)
   end
 
   def net_worth
-    users.map { |user| user.net_worth }.sum
+    total_assets - total_liabilities
   end
 
   def assets_trend
