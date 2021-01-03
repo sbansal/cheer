@@ -1,27 +1,25 @@
 class Account < ApplicationRecord
   has_many :users, ->{ order(:created_at => 'ASC') }, dependent: :destroy
-  has_many :transactions, through: :users
+  has_many :transactions, ->{ order(:occured_at => 'DESC') }, through: :users
   has_many :login_items, through: :users
   has_many :bank_accounts, through: :users
   has_many :subscriptions, through: :users
 
   def money_in_by_categories(start_date, end_date)
-    #TODO - Revisit the use of bank accounts here.
-    txs = bank_accounts.map { |ba| ba.money_in_transactions(start_date, end_date) }.flatten
+    txs = transactions.includes(:category).occured_between(start_date, end_date).filter(&:credit?)
     txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend)
   end
 
   def spend_by_categories(start_date, end_date)
-    #TODO - Revisit the use of bank accounts here.
-    essential_txs = bank_accounts.map { |ba| ba.essential_money_out_transactions(start_date, end_date) }.flatten
+    essential_txs = transactions.includes(:category).occured_between(start_date, end_date).essential.filter(&:debit?)
     essentials_by_categories = essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend).reverse
     essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
 
-    non_essential_txs = bank_accounts.map { |ba| ba.non_essential_money_out_transactions(start_date, end_date) }.flatten
+    non_essential_txs = transactions.includes(:category).occured_between(start_date, end_date).non_essential.filter(&:debit?)
     extras_by_categories = non_essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
       |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
     }.sort_by(&:total_spend).reverse
