@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_195831) do
+ActiveRecord::Schema.define(version: 2021_01_03_055844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 2020_12_29_195831) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "institution_id"
     t.string "classification"
+    t.float "current_balance"
+    t.datetime "current_balance_updated_at"
   end
 
   create_table "categories", force: :cascade do |t|

@@ -38,6 +38,24 @@ class BankAccount < ApplicationRecord
     create!(banks_accounts)
   end
 
+  def self.update_current_balances(accounts_json)
+    accounts_json.each do |account_json|
+      begin
+        plaid_account_id = account_json[:account_id]
+        bank_account = BankAccount.find_by!(plaid_account_id: plaid_account_id)
+        bank_account.update(
+          current_balance: account_json[:balances][:current],
+          current_balance_updated_at: Time.zone.now,
+        )
+      rescue => e
+        Rails.logger.error(
+          "Unable to update current balance plaid_account_id:#{plaid_account_id} with payload: #{account_json}, exception - #{e}"
+        )
+        next
+      end
+    end
+  end
+
   def create_from_params(params)
     self.name = params['name']
     self.official_name = params['name']
@@ -45,9 +63,11 @@ class BankAccount < ApplicationRecord
     self.account_subtype = params['account_subtype']
     self.classification = params['account_category']
     self.balance_currency_code = 'USD'
+    current_value = params['balance']&.gsub(',',"")&.gsub('$',"") || 0
+    self.current_balance = current_value
+    self.current_balance_updated_at = Time.zone.now
     self.save
     unless params['balance'].nil?
-      current_value = params['balance']&.gsub(',',"")&.gsub('$',"")
       self.balances.create(current: current_value, currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
     end
     self
@@ -71,10 +91,6 @@ class BankAccount < ApplicationRecord
 
   def liability?
     [LOAN_TYPE, CREDIT_TYPE].include?(account_type)
-  end
-
-  def last_balance
-    balances&.first
   end
 
   def depository_account?
@@ -107,8 +123,8 @@ class BankAccount < ApplicationRecord
     recurring_transactions
   end
 
-  def balance
-    last_balance&.current
+  def last_balance
+    balances&.first
   end
 
   # This method returns a historical snapshot of the daily balances for an account

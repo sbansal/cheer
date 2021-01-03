@@ -71,17 +71,17 @@ class User < ApplicationRecord
   end
 
   def total_assets
-    bank_accounts.includes(:balances).assets.map { |account| account.balance || 0 }.sum
+    bank_accounts.assets.sum(:current_balance)
   end
 
   def total_liabilities
-    bank_accounts.includes(:balances).liabilities.map { |account| account.balance || 0 }.sum
+    bank_accounts.liabilities.sum(:current_balance)
   end
 
   def net_worth
     total_assets - total_liabilities
   end
-  
+
   def send_two_factor_auth_notification
     GenericMailer.two_factor_auth_notification(id).deliver_later
   end

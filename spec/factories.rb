@@ -76,6 +76,8 @@ FactoryBot.define do
     balance_available { 1000 }
     balance_limit { 2000 }
     balance_currency_code { 'USD' }
+    current_balance { 1000 }
+    current_balance_updated_at { Time.zone.now }
     login_item
     user
     institution

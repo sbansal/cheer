@@ -24,20 +24,20 @@ RSpec.describe User, type: :model do
   it 'has total assets value' do
     user = build(:user)
     expect(user.total_assets).to eq 0
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'depository', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'loan', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'investment', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'credit', user: user)
+    create(:bank_account_with_balances, account_type: 'depository', user: user)
+    create(:bank_account_with_balances, account_type: 'loan', user: user)
+    create(:bank_account_with_balances, account_type: 'investment', user: user)
+    create(:bank_account_with_balances, account_type: 'credit', user: user)
     expect(user.total_assets).to eq 2000
   end
 
   it 'has total liability value' do
     user = build(:user)
     expect(user.total_liabilities).to eq 0
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'depository', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'loan', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'investment', user: user)
-    bank_account_depository = create(:bank_account_with_balances, account_type: 'credit', user: user)
+    create(:bank_account_with_balances, account_type: 'depository', user: user)
+    create(:bank_account_with_balances, account_type: 'loan', user: user)
+    create(:bank_account_with_balances, account_type: 'investment', user: user)
+    create(:bank_account_with_balances, account_type: 'credit', user: user)
     expect(user.total_liabilities).to eq 2000
   end
 
