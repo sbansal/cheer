@@ -14,19 +14,16 @@
         </div>
         <div class="col-5 text-end">
           <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
-          <% if login_item.expired? %>
           <div>
-            <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
-            action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %>
+            <% if login_item.expired? %>
+              <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
+              action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
+            <% end %>
+            <%= link_to 'Delete Link', login_item_path(login_item),
+              :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
+              :method => :delete,
+              class: 'danger small text-decoration-underline ' %>
           </div>
-          <% else %>
-            <div>
-              <%= link_to 'Delete Link', login_item_path(login_item),
-                :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
-                :method => :delete,
-                class: 'danger small text-decoration-underline ' %>
-            </div>
-          <% end %>
         </div>
       </div>
     <% end %>

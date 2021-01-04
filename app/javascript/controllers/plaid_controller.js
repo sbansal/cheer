@@ -20,7 +20,12 @@ export default class extends Controller {
         if (err != null) {
           console.error("Error: ", error)
         }
-      }
+      },
+      onEvent: async function(eventName, metadata) {
+        if (eventName === 'HANDOFF') {
+          location.reload()
+        }
+      },
     })
     linkHandler.open()
     event.preventDefault()
@@ -56,6 +61,11 @@ export default class extends Controller {
             }
           }
           location.reload()
+        },
+        onEvent: async function(eventName, metadata) {
+          if (eventName === 'HANDOFF') {
+            location.reload()
+          }
         },
       }
       var linkHandler = Plaid.create(configs)
