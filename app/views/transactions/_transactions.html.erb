@@ -1,10 +1,13 @@
-<div class="row py-2">
+<div class="row py-2 border-bottom">
   <div class="col-3 text-uppercase small grey-100">Date</div>
   <div class="col-6 text-uppercase small grey-100">Description</div>
   <div class="col-3 text-uppercase small grey-100">Amount</div>
 </div>
+<% if @transactions.empty? %>
+<div class="text-center grey-100 py-5">No transactions found.</div>
+<% else %>
 <% @transactions.each do |transaction| %>
-<div class="row py-3 border-top tx-row" id="tx-<%= transaction.id %>" data-controller="transactions"
+<div class="row py-3 border-bottom tx-row" id="tx-<%= transaction.id %>" data-controller="transactions"
   data-tx-id="<%= transaction.id%>" data-action="click->transactions#fetchTransactionDetails">
   <div class="col-3 med">
     <div><%= transaction.formatted_occurred_at %></div>
@@ -29,4 +32,5 @@
     </div>
   </div>
 </div>
+<% end %>
 <% end %>

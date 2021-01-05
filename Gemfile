@@ -77,3 +77,4 @@ gem 'lockbox'
 
 # jobs
 gem 'resque'
+gem 'textacular'

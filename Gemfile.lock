@@ -332,6 +332,8 @@ GEM
     sshkit (1.21.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    textacular (5.4.0)
+      activerecord (>= 5.0, < 6.2)
     thor (1.0.1)
     tilt (2.0.10)
     turbolinks (5.2.1)
@@ -401,6 +403,7 @@ DEPENDENCIES
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
+  textacular
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)

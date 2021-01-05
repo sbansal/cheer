@@ -23,4 +23,23 @@ export default class extends Controller {
     })
     event.preventDefault()
   }
+
+  search(event) {
+    if(event.target.value.length > 2) {
+      Rails.ajax({
+        url: "/transactions?search_query=" + event.target.value,
+        type: "GET",
+        success: function(data) {},
+        error: function(data) {}
+      })
+    } else {
+      Rails.ajax({
+        url: "/transactions",
+        type: "GET",
+        success: function(data) {},
+        error: function(data) {}
+      })
+    }
+    event.preventDefault()
+  }
 }

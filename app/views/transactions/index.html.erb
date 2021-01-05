@@ -1,7 +1,18 @@
 <% title "Transactions" %>
 <div class="row m-0">
-  <div class="col-sm-8">
-    <%= render 'transactions' %>
+  <div class="col-sm-8" data-controller="transactions">
+    <div class="row mb-2">
+      <div class="col-sm-8 mb-3 mx-0" id="tx-label">All Transactions</div>
+      <div class="col-sm-4 mb-3 mx-0">
+        <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
+          <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
+          data: {action: 'input->transactions#search'} %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row" id="transactions-container">
+      <%= render 'transactions' %>
+    </div>
   </div>
   <div class="col-sm-4"></div>
 </div>
