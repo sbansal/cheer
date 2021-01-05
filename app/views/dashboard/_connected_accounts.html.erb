@@ -13,7 +13,7 @@
             <div class="small grey-100">Last Updated on <%= account.updated_at.strftime('%b %d, %Y') %></div>
           </td>
           <td>
-            <div><%= number_to_currency(account.current_balance) || 'N/A'%></div>
+            <div><%= cheer_number_to_currency(account.current_balance) || 'N/A'%></div>
             <div class="small grey-100">BALANCE</div>
           </td>
         </tr>

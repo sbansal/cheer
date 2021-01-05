@@ -11,7 +11,7 @@
     <div class="small grey-100"><%= account.account_subtype&.upcase %></div>
   </div>
   <div class="col-5 text-end p-0">
-    <div><%= number_to_currency(account.current_balance)%></div>
+    <div><%= cheer_number_to_currency(account.current_balance)%></div>
     <div class="grey-100 small"><%= account.current_balance_updated_at&.strftime('Last updated on %b %e, %Y') %></div>
     <div class="small">
       <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey-100 text-decoration-underline '%> |
