@@ -1,0 +1,28 @@
+<div class="intro">
+  <h1>Hello there, Welcome to Cheer!</h1>
+  <p class="subtext">
+    Cheer will help you help you take control of your financial well-being. But first we need to setup a few things.
+  </p>
+
+  <div class="row border-bottom py-5">
+    <div class="col-sm-6">1. Connect your accounts.</div>
+    <div class="col-sm-6 text-end">
+    <%= link_to('Link your first account', '', class: 'btn btn-primary med', data: {controller: 'plaid',
+    action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+  <div class="row border-bottom py-5">
+    <div class="col-sm-6">2. Setup Two Factor Authentication.</div>
+    <div class="col-sm-6 text-end">
+    <%= link_to('Turn on two factor authentication', '', class: 'btn btn-primary med', data: {controller: 'plaid',
+    action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+  <div class="row border-bottom py-5">
+    <div class="col-sm-6 ">3. Invite family members.</div>
+    <div class="col-sm-6 text-end">
+    <%= link_to('Invite family members', '', class: 'btn btn-primary med', data: {controller: 'plaid',
+    action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+</div>
