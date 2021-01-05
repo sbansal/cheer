@@ -1,6 +1,14 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = current_account.transactions.includes([:category])
+    if params[:search_query].blank?
+      @transactions = current_account.transactions.includes([:category])
+    else
+      @transactions = current_account.transactions.basic_search(params[:search_query])
+    end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def show
