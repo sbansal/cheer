@@ -29,6 +29,7 @@ export default class extends Controller {
       Rails.ajax({
         url: "/transactions?search_query=" + event.target.value,
         type: "GET",
+        dataType: 'script',
         success: function(data) {},
         error: function(data) {}
       })
@@ -36,6 +37,7 @@ export default class extends Controller {
       Rails.ajax({
         url: "/transactions",
         type: "GET",
+        dataType: 'script',
         success: function(data) {},
         error: function(data) {}
       })
