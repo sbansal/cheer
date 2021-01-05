@@ -6,14 +6,18 @@ class BankAccount < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
-  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE]) }
-  scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE]) }
+  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET]) }
+  scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE, OTHER_LIABILITY]) }
 
   INVESTMENT_TYPE = "investment"
   LOAN_TYPE = "loan"
   DEPOSITORY_TYPE = "depository"
   CREDIT_TYPE = "credit"
   REAL_ESTATE = "real estate"
+  COLLECTIBLE = "collectible"
+  CASH = "cash"
+  OTHER_ASSET = "other asset"
+  OTHER_LIABILITY = "other liability"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
@@ -89,7 +93,7 @@ class BankAccount < ApplicationRecord
   end
 
   def asset?
-    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE].include?(account_type)
+    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET].include?(account_type)
   end
 
   def real_estate?
@@ -97,11 +101,15 @@ class BankAccount < ApplicationRecord
   end
 
   def liability?
-    [LOAN_TYPE, CREDIT_TYPE].include?(account_type)
+    [LOAN_TYPE, CREDIT_TYPE, OTHER_LIABILITY].include?(account_type)
   end
 
   def depository_account?
     account_type == DEPOSITORY_TYPE
+  end
+
+  def manually_tracked?
+    login_item.nil?
   end
 
   def create_recurring_transactions

@@ -26,6 +26,7 @@ export default class extends Controller {
 
   search(event) {
     if(event.target.value.length > 2) {
+      document.getElementById('tx-label').innerHTML = `Transactions matching '${event.target.value}'`
       Rails.ajax({
         url: "/transactions?search_query=" + event.target.value,
         type: "GET",
@@ -34,6 +35,7 @@ export default class extends Controller {
         error: function(data) {}
       })
     } else {
+      document.getElementById('tx-label').innerHTML = "All Transactions"
       Rails.ajax({
         url: "/transactions",
         type: "GET",

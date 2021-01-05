@@ -1,7 +1,2 @@
 document.getElementById('transactions-container').innerHTML = ""
 document.getElementById('transactions-container').innerHTML = "<%= j (render 'transactions') %>"
-if("<%= params[:search_query]%>".length > 0) {
-  document.getElementById('tx-label').innerHTML = "Transactions matching '<%= params[:search_query] %>'"
-} else {
-  document.getElementById('tx-label').innerHTML = "All Transactions"
-}
