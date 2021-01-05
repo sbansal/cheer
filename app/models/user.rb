@@ -2,7 +2,7 @@ class User < ApplicationRecord
   encrypts :otp_secret
 
   devise :database_authenticatable, :registerable, :confirmable,
-  :recoverable, :rememberable, :validatable, :trackable
+  :recoverable, :rememberable, :validatable, :trackable, :timeoutable
 
   attr_accessor :otp_attempt
   has_one_attached :avatar
