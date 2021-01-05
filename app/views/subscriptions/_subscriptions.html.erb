@@ -9,7 +9,7 @@
         <div class="xs grey-100"><%= subscription.all_transactions.count %> recurring transactions</div>
       </div>
       <div class="text-end">
-        <div class="fw-bold primary"><%= number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
+        <div class="fw-bold primary"><%= cheer_number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
         <div class="xs grey-100">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
       </div>
     </div>

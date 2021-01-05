@@ -27,10 +27,18 @@ module ApplicationHelper
   end
 
   def signed_number_to_currency(amount)
-    if amount < 0
-      "+" + number_to_currency(amount.abs)
-    else
-      number_to_currency(amount.abs)
+    content_tag :span, class: "cheer-money" do
+      if amount < 0
+        "+" + number_to_currency(amount.abs)
+      else
+        number_to_currency(amount.abs)
+      end
+    end
+  end
+
+  def cheer_number_to_currency(amount)
+    content_tag :span, class: "cheer-money" do
+      number_to_currency(amount)
     end
   end
 end

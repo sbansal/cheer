@@ -3,7 +3,7 @@
     <div class="col-6">
       <div class="fw-bold">Total Money In</div>
     </div>
-    <div class="col-6 text-end fw-bold"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
+    <div class="col-6 text-end fw-bold"><%= cheer_number_to_currency(@cashflow.total_money_in.abs) %></div>
   </div>
   <% if @earning_transactions.empty? %>
     <div class="row m-0">
@@ -21,7 +21,7 @@
             <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary text-decoration-underline '%>
           </div>
         </div>
-        <div class="col-4 text-end"><%= number_to_currency(earning.total_spend.abs)%></div>
+        <div class="col-4 text-end"><%= cheer_number_to_currency(earning.total_spend.abs)%></div>
         <div class="small col-12 transactions-summary hide primary-900-bg my-3">
           <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
         </div>

@@ -3,11 +3,11 @@
     <div class="col">
       <div class="fw-bold">Total Money Out</div>
     </div>
-    <div class="col text-end fw-bold"><%= number_to_currency(@cashflow.total_money_out.abs) %></div>
+    <div class="col text-end fw-bold"><%= cheer_number_to_currency(@cashflow.total_money_out.abs) %></div>
   </div>
   <div class="row m-0 my-4 p-2">
     <div class="col"><span>Essential Spend</span></div>
-    <div class="col text-end"><%= number_to_currency(@spend_by_categories[:essentials_total]) %></div>
+    <div class="col text-end"><%= cheer_number_to_currency(@spend_by_categories[:essentials_total]) %></div>
   </div>
   <% if @spend_by_categories[:essentials_by_categories].empty? %>
     <div class="row m-0">
@@ -26,7 +26,7 @@
             <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline '%>
           </div>
         </div>
-        <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
+        <div class="col-4 text-end"><%= cheer_number_to_currency(spend.total_spend)%></div>
         <div class="small col-12 transactions-summary hide primary-900-bg my-3">
           <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
         </div>
@@ -37,7 +37,7 @@
 
   <div class="row m-0 my-4 p-2">
     <div class="col-8"><span>Non-Essential Spend</span></div>
-    <div class="col-4 text-end"><%= number_to_currency(@spend_by_categories[:extras_total]) %></div>
+    <div class="col-4 text-end"><%= cheer_number_to_currency(@spend_by_categories[:extras_total]) %></div>
   </div>
   <% if @spend_by_categories[:extras_by_categories].empty? %>
     <div class="row m-0">
@@ -57,7 +57,7 @@
             action: 'click->transactions#showTransactionsModal'}, class: 'primary text-decoration-underline '%>
           </div>
         </div>
-        <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
+        <div class="col-4 text-end"><%= cheer_number_to_currency(spend.total_spend)%></div>
         <div class="small col-sm-12 transactions-summary hide primary-900-bg my-3">
           <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
         </div>
