@@ -1,2 +1,2 @@
-document.getElementById('transactions-container').innerHTML = ""
 document.getElementById('transactions-container').innerHTML = "<%= j (render 'transactions') %>"
+document.getElementById('tx-label').innerHTML = "Displaying <%= pluralize(@transactions.size, 'transaction') %>"

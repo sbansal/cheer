@@ -3,7 +3,9 @@ class TransactionsController < ApplicationController
     if params[:search_query].blank?
       @transactions = current_account.transactions.includes([:category])
     else
-      @transactions = current_account.transactions.includes([:category]).basic_search(params[:search_query])
+      @transactions = Transaction.where('custom_description ILIKE ? OR description ILIKE ?', "%#{params[:search_query]}%", "%#{params[:search_query]}%")
+        .and(Transaction.where(user_id: current_account.user_ids))
+        .includes([:category])
     end
     respond_to do |format|
       format.html

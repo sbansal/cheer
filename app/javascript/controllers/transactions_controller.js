@@ -24,34 +24,32 @@ export default class extends Controller {
     event.preventDefault()
   }
 
-  toggleSpinner(spinnerElementId) {
-    document.getElementById(spinnerElementId).classList.toggle('hide')
-  }
-
   search(event) {
+    document.getElementById('transactions-container').innerHTML = ""
+    console.log("showing spinner")
     document.getElementById('spinner-container').classList.toggle('hide')
-    if(event.target.value.length > 2) {
-      document.getElementById('tx-label').innerHTML = `Transactions matching '${event.target.value}'`
+    if(event.target.value.length > 1) {
       Rails.ajax({
         url: "/transactions?search_query=" + event.target.value,
         type: "GET",
         dataType: 'script',
         success: function(data) {},
         error: function(data) {},
-        done: function(data) {
-          document.getElementById(spinnerElementId).classList.toggle('hide')
+        complete: function(data) {
+          console.log("hiding spinner - search TX")
+          document.getElementById('spinner-container').classList.toggle('hide')
         },
       })
     } else {
-      document.getElementById('tx-label').innerHTML = "All Transactions"
       Rails.ajax({
         url: "/transactions",
         type: "GET",
         dataType: 'script',
         success: function(data) {},
         error: function(data) {},
-        done: function(data) {
-          document.getElementById(spinnerElementId).classList.toggle('hide')
+        complete: function(data) {
+          console.log("hiding spinner - ALL TX")
+          document.getElementById('spinner-container').classList.toggle('hide')
         }
       })
     }
