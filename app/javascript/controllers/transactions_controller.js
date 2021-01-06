@@ -24,7 +24,12 @@ export default class extends Controller {
     event.preventDefault()
   }
 
+  toggleSpinner(spinnerElementId) {
+    document.getElementById(spinnerElementId).classList.toggle('hide')
+  }
+
   search(event) {
+    document.getElementById('spinner-container').classList.toggle('hide')
     if(event.target.value.length > 2) {
       document.getElementById('tx-label').innerHTML = `Transactions matching '${event.target.value}'`
       Rails.ajax({
@@ -32,7 +37,10 @@ export default class extends Controller {
         type: "GET",
         dataType: 'script',
         success: function(data) {},
-        error: function(data) {}
+        error: function(data) {},
+        done: function(data) {
+          document.getElementById(spinnerElementId).classList.toggle('hide')
+        },
       })
     } else {
       document.getElementById('tx-label').innerHTML = "All Transactions"
@@ -41,7 +49,10 @@ export default class extends Controller {
         type: "GET",
         dataType: 'script',
         success: function(data) {},
-        error: function(data) {}
+        error: function(data) {},
+        done: function(data) {
+          document.getElementById(spinnerElementId).classList.toggle('hide')
+        }
       })
     }
     event.preventDefault()
