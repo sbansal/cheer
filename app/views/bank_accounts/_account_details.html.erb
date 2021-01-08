@@ -2,7 +2,7 @@
   <div class="col-8 med">
     <div class="row">
       <div class="col-2 d-none d-sm-block">
-        <% if account.login_item %>
+        <% if account.login_item&.institution_logo_exists? %>
           <div class="p-2"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
         <% else %>
           <%= render 'bank_accounts/placeholder_logo', account: account %>
