@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
         .and(Transaction.where(user_id: current_account.user_ids))
         .includes([:category])
     end
-    @pagy, @transactions = pagy(@transactions, items: 100)
+    @pagy, @transactions = pagy(@transactions, items: 50)
     respond_to do |format|
       format.html
       format.js
