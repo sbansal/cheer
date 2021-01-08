@@ -1,12 +1,15 @@
 class TransactionsController < ApplicationController
+  include Pagy::Backend
   def index
     if params[:search_query].blank?
       @transactions = current_account.transactions.includes([:category])
     else
-      @transactions = Transaction.where('custom_description ILIKE ? OR description ILIKE ?', "%#{params[:search_query]}%", "%#{params[:search_query]}%")
+      @transactions = Transaction.where('custom_description ILIKE ? OR description ILIKE ? OR merchant_name ILIKE ?',
+        "%#{params[:search_query]}%", "%#{params[:search_query]}%", "%#{params[:search_query]}%")
         .and(Transaction.where(user_id: current_account.user_ids))
         .includes([:category])
     end
+    @pagy, @transactions = pagy(@transactions, items: 100)
     respond_to do |format|
       format.html
       format.js

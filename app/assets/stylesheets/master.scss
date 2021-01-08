@@ -430,3 +430,13 @@ ul.basic {
   width: 16px;
   height: 16px;
 }
+
+nav.pagy-bootstrap-nav {
+  a {
+    color: $primary;
+  }
+  .page-item.active .page-link {
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
