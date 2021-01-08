@@ -26,9 +26,8 @@ export default class extends Controller {
 
   search(event) {
     document.getElementById('transactions-container').innerHTML = ""
-    console.log("showing spinner")
     document.getElementById('spinner-container').classList.toggle('hide')
-    if(event.target.value.length > 1) {
+    if(event.target.value.length > 0) {
       Rails.ajax({
         url: "/transactions?search_query=" + event.target.value,
         type: "GET",
