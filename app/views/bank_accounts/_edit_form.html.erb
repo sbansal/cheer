@@ -7,8 +7,8 @@
     <div class="modal-body">
       <%= form_for(@bank_account, :html => { :method => :put, class: 'form-horizontal', remote: true}) do |f| %>
         <div class="row">
-          <div class="col-sm-4 mb-2 med text-end">Account Value</div>
-          <div class="col-sm-8 mb-2">
+          <div class="col-sm-6 mb-2 med">Current Account Value</div>
+          <div class="col-sm-6 mb-2">
             <%= f.text_field :current_balance,  class: 'form-control med', placeholder: '$1000', autofocus: true,
             data: { action: 'input->accounts#validateFormFields'}, required: true %>
           </div>
