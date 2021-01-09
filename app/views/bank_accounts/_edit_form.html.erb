@@ -1,0 +1,23 @@
+<div class="modal-dialog med" data-controller="accounts">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title med" id="cheerModalLabel">Edit Balance</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <%= form_for(@bank_account, :html => { :method => :put, class: 'form-horizontal', remote: true}) do |f| %>
+        <div class="row">
+          <div class="col-sm-4 mb-2 med text-end">Account Value</div>
+          <div class="col-sm-8 mb-2">
+            <%= f.text_field :current_balance,  class: 'form-control med', placeholder: '$1000', autofocus: true,
+            data: { action: 'input->accounts#validateFormFields'}, required: true %>
+          </div>
+        </div>
+        <div class="modal-footer med border-0">
+          <button type="button" class="btn btn-secondary btn-sm small" data-bs-dismiss="modal">Cancel</button>
+          <%= f.submit "Update Balance", class: 'btn btn-primary btn-sm small'%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

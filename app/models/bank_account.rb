@@ -74,7 +74,7 @@ class BankAccount < ApplicationRecord
     self.account_subtype = params['account_subtype']
     self.classification = params['account_category']
     self.balance_currency_code = 'USD'
-    current_value = params['balance']&.gsub(',',"")&.gsub('$',"") || 0
+    current_value = sanitize_balance(params['balance'])
     self.current_balance = current_value
     self.current_balance_updated_at = Time.zone.now
     self.save
@@ -82,6 +82,14 @@ class BankAccount < ApplicationRecord
       self.balances.create(current: current_value, currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
     end
     self
+  end
+
+  def update_from_params(params)
+    current_value = sanitize_balance(params['current_balance'])
+    self.current_balance = current_value
+    self.current_balance_updated_at = Time.zone.now
+    self.balances.build(current: current_value, currency_code: 'USD', user_id: self.user_id)
+    self.save
   end
 
   def descriptive_name
@@ -157,4 +165,11 @@ class BankAccount < ApplicationRecord
     end
     balance_by_created.sort.to_h
   end
+
+  private
+
+  def sanitize_balance(balance)
+    balance&.gsub(',',"")&.gsub('$',"") || 0
+  end
+
 end

@@ -58,9 +58,32 @@ class BankAccountsController < ApplicationController
     end
   end
 
+  def edit
+    @bank_account = current_user.bank_accounts.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def update
+    @bank_account = current_user.bank_accounts.find(params[:id])
+    respond_to do |format|
+      if @bank_account.update_from_params(update_account_params)
+        format.html { redirect_to bank_accounts_path, flash: { notice: "Balance successfully updated. "} }
+        format.js
+      else
+        format.html  { render :action => "edit" }
+      end
+    end
+  end
+
   private
 
   def account_params
     params.permit(:name, :account_type, :account_subtype, :balance, :account_category)
+  end
+
+  def update_account_params
+    params.require(:bank_account).permit(:current_balance)
   end
 end

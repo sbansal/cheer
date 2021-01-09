@@ -36,7 +36,9 @@ Rails.application.routes.draw do
     post '/events/login_item_callback', to: 'events#login_item_callback'
 
     #bank accounts resources
-    resources :bank_accounts
+    resources :bank_accounts do
+      resources :balances, only: [:index]
+    end
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
 
     #accounts resources
