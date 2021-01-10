@@ -1,40 +1,42 @@
 <% title "Income and Expenses" %>
-<% if current_user.new_account? %>
-<div class="intro">
-  <h1>Hello there, Welcome to Cheer!</h1>
-  <p class="subtext">
-    To get you started, let's connect your accounts first. After that, you will be able to view
-    your Income & Expense snapshot and see your current net worth.
-  </p>
-  <div class="connect">
-    <%= link_to('Link your first account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
-    action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+<div class="mt-4 px-3">
+  <% if current_user.new_account? %>
+  <div class="intro">
+    <h1>Hello there, Welcome to Cheer!</h1>
+    <p class="subtext">
+      To get you started, let's connect your accounts first. After that, you will be able to view
+      your Income & Expense snapshot and see your current net worth.
+    </p>
+    <div class="connect">
+      <%= link_to('Link your first account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
   </div>
-</div>
-<% else %>
-<%= hidden_field_tag 'start', @start_date %>
-<%= hidden_field_tag 'end', @end_date %>
-<div class="row">
-  <div class="metric col-sm-4 text-center py-5">
-    <%= render 'metric', title: 'money in', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
+  <% else %>
+  <%= hidden_field_tag 'start', @start_date %>
+  <%= hidden_field_tag 'end', @end_date %>
+  <div class="row">
+    <div class="metric col-sm-4 text-center py-5">
+      <%= render 'metric', title: 'money in', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
+    </div>
+    <div class="metric col-sm-4 text-center py-5">
+      <%= render 'metric', title: 'money out', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]%>
+    </div>
+    <div class="metric col-sm-4 text-center py-5">
+      <%= render 'metric', title: 'money leftover', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
+    </div>
+    <div class="col-12 mt-3">
+      <%= render 'time_period_scale' %>
+    </div>
   </div>
-  <div class="metric col-sm-4 text-center py-5">
-    <%= render 'metric', title: 'money out', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]%>
-  </div>
-  <div class="metric col-sm-4 text-center py-5">
-    <%= render 'metric', title: 'money leftover', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
-  </div>
-  <div class="col-12 mt-3">
-    <%= render 'time_period_scale' %>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-sm-6 mt-5">
-    <%= render 'category_spend' %>
+  <div class="row">
+    <div class="col-sm-6 mt-5">
+      <%= render 'category_spend' %>
+    </div>
+    <div class="col-sm-6 mt-5">
+      <%= render 'categorized_earnings' %>
+    </div>
   </div>
-  <div class="col-sm-6 mt-5">
-    <%= render 'categorized_earnings' %>
-  </div>
+  <% end %>
 </div>
-<% end %>

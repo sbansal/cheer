@@ -1,57 +1,59 @@
 <% title "Settings" %>
-<div class="row border-bottom pb-4 mb-4">
-  <div class="col-sm-4 mb-3">
-    <div class="fw-bold">Profile</div>
-    <div class="grey-500 med pe-5">You can update all your personal settings here.</div>
-  </div>
-  <div class="col-sm-8">
-    <%= render partial: 'users/profile_form'%>
-  </div>
-</div>
-<div class="row border-bottom pb-4 mb-4">
-  <div class="col-sm-4 mb-3">
-    <div class="fw-bold">Security</div>
-    <div class="grey-500 med pe-5">Setup two factor authentication to add an additional layer of security.</div>
-  </div>
-  <div class="col-sm-8">
-    <div class="row" id="tfa-container">
-      <%= render partial: 'two_factor_authentication/setting'%>
+<div class="mt-4 px-3">
+  <div class="row border-bottom pb-4 mb-4">
+    <div class="col-sm-4 mb-3">
+      <div class="fw-bold">Profile</div>
+      <div class="grey-500 med pe-5">You can update all your personal settings here.</div>
+    </div>
+    <div class="col-sm-8">
+      <%= render partial: 'users/profile_form'%>
     </div>
   </div>
-</div>
-<div class="row border-bottom pb-4 mb-4">
-  <div class="col-sm-4 mb-3">
-    <div class="fw-bold">Manage your family accounts</div>
-    <div class="grey-500 med pe-5">Here is everyone that has access to this account.</div>
+  <div class="row border-bottom pb-4 mb-4">
+    <div class="col-sm-4 mb-3">
+      <div class="fw-bold">Security</div>
+      <div class="grey-500 med pe-5">Setup two factor authentication to add an additional layer of security.</div>
+    </div>
+    <div class="col-sm-8">
+      <div class="row" id="tfa-container">
+        <%= render partial: 'two_factor_authentication/setting'%>
+      </div>
+    </div>
   </div>
-  <div class="col-sm-8">
-    <ul class="basic">
-      <% current_user.account.users.each do |user| %>
-        <%= render 'users/user_info', user: user %>
-      <% end %>
-    </ul>
-    <section class="form-background">
-      <div class="fw-bold med">Want to add members?</div>
-      <%= render partial: 'users/invite_person_form' %>
-    </section>
+  <div class="row border-bottom pb-4 mb-4">
+    <div class="col-sm-4 mb-3">
+      <div class="fw-bold">Manage your family accounts</div>
+      <div class="grey-500 med pe-5">Here is everyone that has access to this account.</div>
+    </div>
+    <div class="col-sm-8">
+      <ul class="basic">
+        <% current_user.account.users.each do |user| %>
+          <%= render 'users/user_info', user: user %>
+        <% end %>
+      </ul>
+      <section class="form-background">
+        <div class="fw-bold med">Want to add members?</div>
+        <%= render partial: 'users/invite_person_form' %>
+      </section>
+    </div>
   </div>
-</div>
-<div class="row border-bottom pb-4 mb-4">
-  <div class="col-sm-4 mb-3">
-    <div class="fw-bold danger">Cancel Account</div>
-    <div class="grey-500 med pe-5">Unhappy with the service? You can cancel your account here.</div>
-  </div>
-  <div class="col-sm-8 med">
-    <p>We are sorry to see you go, but appreciate you giving us a shot.</p>
-    <p>Once you cancel your account</p>
-    <ul>
-      <li>Your account will be closed immediately.</li>
-      <li>All your data including your linked accounts, transactions will be deleted right away.</li>
-      <li>We will not be able to restore your account and you would need to create a new account after that.</li>
-    </ul>
-    <p><%= link_to "Yes, cancel my account.", registration_path(:user),
-      :data => { :confirm => "You are about to delete your account permanently. All your data will be deleted and your account will be closed." }, :method => :delete, class: 'btn btn-sm btn-outline-danger med' %>
-    </p>
+  <div class="row border-bottom pb-4 mb-4">
+    <div class="col-sm-4 mb-3">
+      <div class="fw-bold danger">Cancel Account</div>
+      <div class="grey-500 med pe-5">Unhappy with the service? You can cancel your account here.</div>
+    </div>
+    <div class="col-sm-8 med">
+      <p>We are sorry to see you go, but appreciate you giving us a shot.</p>
+      <p>Once you cancel your account</p>
+      <ul>
+        <li>Your account will be closed immediately.</li>
+        <li>All your data including your linked accounts, transactions will be deleted right away.</li>
+        <li>We will not be able to restore your account and you would need to create a new account after that.</li>
+      </ul>
+      <p><%= link_to "Yes, cancel my account.", registration_path(:user),
+        :data => { :confirm => "You are about to delete your account permanently. All your data will be deleted and your account will be closed." }, :method => :delete, class: 'btn btn-sm btn-outline-danger med' %>
+      </p>
+    </div>
   </div>
 </div>
 

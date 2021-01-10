@@ -1,32 +1,32 @@
 <% title "Transactions" %>
-<div class="row m-0">
-  <div class="col-sm-8" data-controller="transactions">
-    <div class="row mb-2">
-      <div class="col-sm-8 mb-3 mx-0" id="tx-label">View Transactions</div>
-      <div class="col-sm-4 mb-3 mx-0">
-        <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
-          <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
-          data: {action: 'input->transactions#search'} %>
-        <% end %>
+<div class="">
+  <div class="row m-0">
+    <div class="col-sm-8 mt-4" data-controller="transactions">
+      <div class="row mb-2 px-2">
+        <div class="col-sm-8 mb-3 mx-0 bold-2" id="tx-label">View Transactions</div>
+        <div class="col-sm-4 mb-3 mx-0">
+          <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
+            <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
+            data: {action: 'input->transactions#search'} %>
+          <% end %>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="row py-2 border-bottom">
+      <div class="row p-2 border-bottom">
         <div class="col-3 text-uppercase small grey-100">Date</div>
         <div class="col-6 text-uppercase small grey-100">Description</div>
         <div class="col-3 text-uppercase small grey-100">Amount</div>
       </div>
-      <div class="hide" id="spinner-container">
+      <div class="hide p-2" id="spinner-container">
         <div class="d-flex justify-content-center mt-5" >
           <div class="spinner-border grey-100" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
       </div>
-      <div id="transactions-container">
+      <div id="transactions-container" class="px-2">
         <%= render 'transactions' %>
       </div>
     </div>
+    <div class="col-sm-4 bg-light"></div>
   </div>
-  <div class="col-sm-4"></div>
 </div>
