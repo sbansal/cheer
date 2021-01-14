@@ -1,5 +1,14 @@
 <% title "Categories" %>
 <div class="container">
+  <div class="border p-2" data-controller="categories">
+    <div class="col-sm-4">
+      <%= text_field_tag :category_id, '', class: 'form-control', data: {action: 'focus->categories#showCategoriesDropdown'}%>
+      <div id="categories-container" data-categories-target="results" class="hide">
+        <%= render 'child_categories', categories: @category_nodes %>
+      </div>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr class="small grey-100 text-uppercase">

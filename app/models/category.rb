@@ -17,17 +17,13 @@ class Category < ApplicationRecord
   def ignore_for_debit?
     IGNORE_LIST.include?(plaid_category_id)
   end
-  
+
   def ignore_for_credit?
     IGNORE_LIST.include?(plaid_category_id) || CREDIT_IGNORE_LIST.include?(plaid_category_id)
   end
 
   def cc_payment?
     plaid_category_id == CC_PAYMENT_PLAID_ID
-  end
-
-  def self.find_all_for_category(category_names)
-    where("hierarchy @> ?", category_names.to_s)
   end
 
   def root_name
@@ -55,12 +51,7 @@ class Category < ApplicationRecord
     end
   end
 
-  def children
-    categories = Category.find_all_for_category(hierarchy.to_s)
-    if categories.empty?
-      []
-    else
-      categories.reject { |category| category.id == self.id }
-    end
+  def self.root_elements
+    Category.where(rank: 1).order('hierarchy asc')
   end
 end

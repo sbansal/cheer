@@ -65,6 +65,10 @@ svg {
   color: #9AA5B1;
 }
 
+.border-primary-100 {
+  border-color: $primary;
+}
+
 .btn-primary {
   color: #FFF;
   background-color: $primary;
@@ -439,4 +443,18 @@ nav.pagy-bootstrap-nav {
     background-color: $primary;
     border-color: $primary;
   }
+}
+
+.category-list-item:hover {
+  background-color: $primary;
+  cursor: pointer;
+  div {
+    color: #FFF;
+  }
+}
+
+.left-menu-item {
+  position: relative;
+  top: -37px;
+  left: 366px;
 }
