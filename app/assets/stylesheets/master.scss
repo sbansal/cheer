@@ -322,9 +322,12 @@ ul.basic {
     }
     svg {
       fill: currentColor;
-      margin-right: 5px;
-      width: 24px;
-      height: 24px;
+//      margin-right: 5px;
+//      width: 24px;
+//      height: 24px;
+      margin-right: 10px;
+      width: 22px;
+      height: 22px;
     }
   }
 }
@@ -439,4 +442,15 @@ nav.pagy-bootstrap-nav {
     background-color: $primary;
     border-color: $primary;
   }
+}
+
+//uplot
+.u-label {
+  font-weight: bold;
+  font-size: 13px;
+}
+.u-value {
+  font-weight: normal;
+  font-size: 13px;
+  margin-top: 3px;
 }

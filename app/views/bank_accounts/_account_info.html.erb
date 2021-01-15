@@ -1,5 +1,5 @@
 <div class="row border-bottom py-3 m-0 px-2" id="account-row-<%= account.id%>">
-  <div class="p-2 col-1 d-none d-sm-block">
+  <div class="p-2 col-1 d-none d-xl-block">
     <% if account.login_item&.institution_logo_exists? %>
       <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
     <% else %>
