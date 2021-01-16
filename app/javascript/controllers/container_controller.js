@@ -4,8 +4,13 @@ import Rails from "@rails/ujs"
 
 export default class extends Controller {
 
-  intlFormat(num) {
-    return new Intl.NumberFormat().format(Math.round(num*10)/10);
+  intlFormat(num, currency = null) {
+    if (currency) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num);
+    } else {
+      return new Intl.NumberFormat().format(Math.round(num*10)/10);
+    }
+
   }
   makeFriendly(num) {
     let absNum = Math.abs(num), value = ''
@@ -26,7 +31,7 @@ export default class extends Controller {
       title: "Assets vs Liabilities ",
       id: "cashflow-trend",
       class: "cashflow-trend",
-      width: 550,
+      width: Math.max(window.innerWidth/2 - 200, 300),
       height: 300,
       series: [
         {
@@ -34,15 +39,15 @@ export default class extends Controller {
           value: (self, rawValue) => new Date(rawValue*1000).toLocaleDateString(),
         },
         {
-          label: 'Assets Value',
+          label: 'Assets',
           stroke: "rgba(112,105,250,1)",
-          value: (self, rawValue) => "$" + rawValue.toFixed(2),
+          value: (self, rawValue) => this.intlFormat(rawValue, 'USD'),
           width: 2,
         },
         {
-          label: 'Liabilities Value',
+          label: 'Liabilities',
           stroke: "#829AB1",
-          value: (self, rawValue) => "$" + rawValue.toFixed(2),
+          value: (self, rawValue) => this.intlFormat(rawValue, 'USD'),
           width: 2,
         }
       ],

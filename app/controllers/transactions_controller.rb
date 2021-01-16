@@ -8,6 +8,7 @@ class TransactionsController < ApplicationController
         "%#{params[:search_query]}%", "%#{params[:search_query]}%", "%#{params[:search_query]}%")
         .and(Transaction.where(user_id: current_account.user_ids))
         .includes([:category])
+        .order('occured_at desc')
     end
     @pagy, @transactions = pagy(@transactions, items: 50)
     respond_to do |format|
