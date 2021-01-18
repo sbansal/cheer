@@ -2,10 +2,8 @@
 <div class="container">
   <div class="border p-2" data-controller="categories">
     <div class="col-sm-4">
-      <%= text_field_tag :category_id, '', class: 'form-control', data: {action: 'focus->categories#showCategoriesDropdown'}%>
-      <div id="categories-container" data-categories-target="results" class="hide">
-        <%= render 'child_categories', categories: @category_nodes %>
-      </div>
+      <%= text_field_tag :category_id, '', class: 'form-control', data: {action: 'input->categories#search'}%>
+      <div id="categories-container"></div>
     </div>
   </div>
 

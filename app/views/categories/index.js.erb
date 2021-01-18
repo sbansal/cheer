@@ -1,0 +1,4 @@
+console.debug("searching")
+var container = document.getElementById("categories-container-tx-<%= @tx_id%>")
+container.innerHTML = ""
+container.innerHTML = "<%= j render 'categories' %>"

@@ -35,7 +35,9 @@ class Category < ApplicationRecord
   end
 
   def category_list_item
-    hierarchy.join(' > ')
+    arrow = "\u2192"
+    arrow = arrow.encode('utf-8')
+    hierarchy.join(" #{arrow} ")
   end
 
   def primary_name
@@ -51,7 +53,13 @@ class Category < ApplicationRecord
     end
   end
 
-  def self.root_elements
-    Category.where(rank: 1).order('hierarchy asc')
+  def children
+    Category.where("hierarchy @> ? and rank = ?", self.hierarchy.to_s, self.rank + 1)
+  end
+
+  def self.root_menu_items
+    Category.where(rank: 1).order('hierarchy asc').map { |item| {
+      id: item.id, name: item.name, has_children: !item.sub_categories.empty?
+    }}
   end
 end

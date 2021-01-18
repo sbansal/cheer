@@ -448,11 +448,11 @@ nav.pagy-bootstrap-nav {
   }
 }
 
-.category-list-item:hover {
-  background-color: $primary;
-  cursor: pointer;
-  div {
-    color: #FFF;
+.category-list-item {
+  color: $primary;
+  &:hover {
+    background-color: $primary-900;
+    cursor: pointer;
   }
 }
 
@@ -460,6 +460,12 @@ nav.pagy-bootstrap-nav {
   position: relative;
   top: -37px;
   left: 366px;
+}
+
+ul.submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
 }
 
 //uplot

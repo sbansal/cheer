@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2021_01_10_210115) do
     t.string "descriptive_name"
     t.boolean "essential"
     t.string "name"
-    t.jsonb "sub_categories"
+    t.text "hierarchy_string"
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
   end
 
