@@ -5,7 +5,15 @@
   <div class="border rounded-3">
     <% @login_items.each do |login_item|%>
       <div class="row border-bottom py-3 m-0 px-2">
-        <div class="p-2 col-1 d-none d-sm-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% if login_item.institution_logo_exists? %>
+          <div class="p-2 col-1 d-none d-xl-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% else %>
+          <div class="p-2 col-1 d-none d-xl-block">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            </svg>
+          </div>
+        <% end %>
         <div class="col-6">
           <div><%= login_item.institution.name.humanize %></div>
           <div class="small grey-100">

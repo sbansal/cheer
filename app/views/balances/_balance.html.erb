@@ -1,0 +1,9 @@
+<div id="balances">
+  <h4>Balances</h4>
+  <% @balances.each do |balance| %>
+    <div class="row border-bottom p-2">
+      <div class="col-sm-6"><%= balance.created_at.strftime('%b %e, %Y')%></div>
+      <div class="col-sm-6"><%= number_to_currency(balance.current)%></div>
+    </div>
+  <% end %>
+</div>

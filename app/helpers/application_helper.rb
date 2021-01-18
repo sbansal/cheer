@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def active_menu_item(nav_item)
     case nav_item
     when "home"

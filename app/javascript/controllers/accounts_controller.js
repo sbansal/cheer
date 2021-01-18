@@ -55,6 +55,21 @@ export default class extends Controller {
     }
   }
 
+  validateFormFields(event) {
+    var form = event.target.form
+    if(form.length == 0) {
+      return;
+    } else {
+      var button = event.target.form.querySelector('input[type="submit"]')
+      var requiredInputElements = event.target.form.querySelectorAll('input[type="text"]')
+      requiredInputElements = Array.prototype.slice.call(requiredInputElements)
+      const disabled = requiredInputElements.some((element) => element.value.length == 0)
+      if (button) {
+        button.disabled = disabled
+      }
+    }
+  }
+
   showTypes(event) {
     var accountType = event.target.dataset['accountType']
     if (accountType == null) {

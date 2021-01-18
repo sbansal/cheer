@@ -7,12 +7,28 @@
 </div>
 <% elsif account.asset? %>
 <div class="placeholder-logo">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item teal"><circle cx="12" cy="12" r="10" class="primary"/><path class="secondary" d="M13 7.12v3.96c2.25.36 4 1.93 4 3.92 0 2-1.75 3.56-4 3.92V19a1 1 0 0 1-2 0v-.08a4.82 4.82 0 0 1-3.67-2.49 1 1 0 0 1 1.8-.85c.29.6.98 1.09 1.87 1.3v-3.96C8.75 12.56 7 11 7 9c0-2 1.75-3.56 4-3.92V5a1 1 0 0 1 2 0v.08a4.81 4.81 0 0 1 3.68 2.5 1 1 0 0 1-1.81.85c-.28-.6-.98-1.1-1.87-1.31zm-2 3.76V7.12C9.81 7.4 9 8.18 9 9c0 .82.81 1.6 2 1.88zm2 2.24v3.76c1.19-.28 2-1.06 2-1.88 0-.82-.81-1.6-2-1.88z"/></svg>
+  <% if account.account_type == 'cash'%>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon-item teal" viewBox="0 0 16 16">
+    <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+    <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+  </svg>
+  <% elsif account.account_type == 'collectible' %>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon-item teal" viewBox="0 0 16 16">
+    <path d="M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6l3-4zm11.386 3.785l-1.806-2.41-.776 2.413 2.582-.003zm-3.633.004l.961-2.989H4.186l.963 2.995 5.704-.006zM5.47 5.495L8 13.366l2.532-7.876-5.062.005zm-1.371-.999l-.78-2.422-1.818 2.425 2.598-.003zM1.499 5.5l5.113 6.817-2.192-6.82L1.5 5.5zm7.889 6.817l5.123-6.83-2.928.002-2.195 6.828z"/>
+  </svg>
+  <% else %>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+  </svg>
+  <% end %>
 </div>
 <% elsif account.liability? %>
 <% if account.account_type == 'credit'%>
 <div class="placeholder-logo">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item"><path class="primary" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2zm13 12a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm-6 0a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2z"/><rect width="20" height="4" x="2" y="7" class="secondary"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon-item" viewBox="0 0 16 16">
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+  <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+</svg>
 </div>
 <% else%>
 <div class="placeholder-logo">

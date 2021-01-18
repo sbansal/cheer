@@ -5,9 +5,11 @@
     <%= f.text_field @attribute, class: 'form-control xs' %>
   </div>
   <% elsif @attribute == 'category' %>
-  <div class="mt-2">
-    <%= f.select :category_id, Category.all.sort_by {|a| a.category_list}.collect {|c| [c.category_list_item, c.id]},
-    {}, {class: 'form-select xs'} %>
+  <div class="mt-2" data-controller="categories">
+    <%= f.hidden_field :category_id %>
+    <%= f.text_field :category_name, {value: @transaction.category.category_list_item,
+      data: {action: 'input->categories#search', tx_id: @transaction.id}, class: 'form-control xs tx-cat-edit'} %>
+    <div id="categories-container-tx-<%= @transaction.id%>" class="categories-container"></div>
   </div>
   <% end %>
   <div class="mt-2">

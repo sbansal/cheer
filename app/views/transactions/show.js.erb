@@ -5,13 +5,13 @@ if (txDetailsElement) {
   parentElement.classList.remove("primary-900-bg", "rounded-3", "border", "shadow-sm", "mb-3")
   parentElement.querySelector('.chevron-right').classList.remove('chevron-bottom')
   if (parentElement.nextElementSibling) {
-    parentElement.nextElementSibling.classList.add("border-top")
+    parentElement.nextElementSibling.classList.add("border-bottom")
   }
 } else {
   parentElement.insertAdjacentHTML("beforeend", "<%= j (render 'transaction_detail', tx: @transaction) %>")
   parentElement.classList.add("primary-900-bg", "rounded-3", "border", "shadow-sm", "mb-3")
   parentElement.querySelector('.chevron-right').classList.add('chevron-bottom')
   if (parentElement.nextElementSibling) {
-    parentElement.nextElementSibling.classList.remove("border-top")
+    parentElement.nextElementSibling.classList.remove("border-bottom")
   }
 }

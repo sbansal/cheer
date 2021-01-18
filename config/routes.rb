@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#cashflow'
     resources :transactions, only: [:index, :show, :destroy, :edit, :update]
 
-    resources :categories, only: [:index]
+    resources :categories, only: [:index, :show]
 
     resources :subscriptions, only: [:index, :destroy]
     # search resources
@@ -36,7 +36,9 @@ Rails.application.routes.draw do
     post '/events/login_item_callback', to: 'events#login_item_callback'
 
     #bank accounts resources
-    resources :bank_accounts
+    resources :bank_accounts do
+      resources :balances, only: [:index]
+    end
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
 
     #accounts resources

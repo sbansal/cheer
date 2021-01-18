@@ -6,14 +6,18 @@ class BankAccount < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :balances, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
-  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE]) }
-  scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE]) }
+  scope :assets, -> { where(account_type: [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET]) }
+  scope :liabilities, -> { where(account_type: [LOAN_TYPE, CREDIT_TYPE, OTHER_LIABILITY]) }
 
   INVESTMENT_TYPE = "investment"
   LOAN_TYPE = "loan"
   DEPOSITORY_TYPE = "depository"
   CREDIT_TYPE = "credit"
   REAL_ESTATE = "real estate"
+  COLLECTIBLE = "collectible"
+  CASH = "cash"
+  OTHER_ASSET = "other asset"
+  OTHER_LIABILITY = "other liability"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
@@ -70,7 +74,7 @@ class BankAccount < ApplicationRecord
     self.account_subtype = params['account_subtype']
     self.classification = params['account_category']
     self.balance_currency_code = 'USD'
-    current_value = params['balance']&.gsub(',',"")&.gsub('$',"") || 0
+    current_value = sanitize_balance(params['balance'])
     self.current_balance = current_value
     self.current_balance_updated_at = Time.zone.now
     self.save
@@ -78,6 +82,14 @@ class BankAccount < ApplicationRecord
       self.balances.create(current: current_value, currency_code: 'USD', user_id: self.user_id, bank_account_id: self)
     end
     self
+  end
+
+  def update_from_params(params)
+    current_value = sanitize_balance(params['current_balance'])
+    self.current_balance = current_value
+    self.current_balance_updated_at = Time.zone.now
+    self.balances.build(current: current_value, currency_code: 'USD', user_id: self.user_id)
+    self.save
   end
 
   def descriptive_name
@@ -89,7 +101,7 @@ class BankAccount < ApplicationRecord
   end
 
   def asset?
-    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE].include?(account_type)
+    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET].include?(account_type)
   end
 
   def real_estate?
@@ -97,11 +109,15 @@ class BankAccount < ApplicationRecord
   end
 
   def liability?
-    [LOAN_TYPE, CREDIT_TYPE].include?(account_type)
+    [LOAN_TYPE, CREDIT_TYPE, OTHER_LIABILITY].include?(account_type)
   end
 
   def depository_account?
     account_type == DEPOSITORY_TYPE
+  end
+
+  def manually_tracked?
+    login_item.nil?
   end
 
   def create_recurring_transactions
@@ -149,4 +165,11 @@ class BankAccount < ApplicationRecord
     end
     balance_by_created.sort.to_h
   end
+
+  private
+
+  def sanitize_balance(balance)
+    balance&.gsub(',',"")&.gsub('$',"") || 0
+  end
+
 end

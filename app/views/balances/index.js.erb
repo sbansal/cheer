@@ -1,0 +1,2 @@
+var account_row = document.getElementById("account-row-<%= params[:bank_account_id]%>");
+account_row.insertAdjacentHTML("beforeend", "<%= j render(@balances)%>")

@@ -1,6 +1,6 @@
-<div class="row border-bottom py-3 m-0 px-2">
-  <div class="p-2 col-1 d-none d-sm-block">
-    <% if account.login_item %>
+<div class="row border-bottom py-3 m-0 px-2" id="account-row-<%= account.id%>">
+  <div class="p-2 col-1 d-none d-xl-block">
+    <% if account.login_item&.institution_logo_exists? %>
       <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
     <% else %>
       <%= render 'placeholder_logo', account: account %>
@@ -8,13 +8,20 @@
   </div>
   <div class="col-6 p-0">
     <div><%= account.display_name %></div>
-    <div class="small grey-100"><%= account.account_subtype&.upcase %></div>
+    <div class="small grey-100">
+      <%= account.account_subtype&.upcase %>
+    </div>
   </div>
   <div class="col-5 text-end p-0">
     <div><%= cheer_number_to_currency(account.current_balance)%></div>
     <div class="grey-100 small"><%= account.current_balance_updated_at&.strftime('Last updated on %b %e, %Y') %></div>
     <div class="small">
+      <% if account.manually_tracked? %>
+      <%= link_to 'Edit Balance', edit_bank_account_path(account), {data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'},
+        class: 'xs grey-100 text-decoration-underline'}%> |
+      <% else %>
       <%= link_to 'Refresh Balance', refresh_balance_path(account), class: 'xs grey-100 text-decoration-underline '%> |
+      <% end %>
       <%= link_to 'Delete', bank_account_path(account),
         :data => { :confirm => "We will delete all transactions related to this bank account." },
         :method => :delete,

@@ -1,5 +1,12 @@
 <% title "Categories" %>
 <div class="container">
+  <div class="border p-2" data-controller="categories">
+    <div class="col-sm-4">
+      <%= text_field_tag :category_id, '', class: 'form-control', data: {action: 'input->categories#search'}%>
+      <div id="categories-container"></div>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr class="small grey-100 text-uppercase">
