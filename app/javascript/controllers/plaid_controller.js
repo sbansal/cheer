@@ -16,7 +16,7 @@ export default class extends Controller {
         })
       },
       onExit: function(err, metadata) {
-        console.log(metadata)
+        console.debug(metadata)
         if (err != null) {
           console.error("Error: ", error)
         }
