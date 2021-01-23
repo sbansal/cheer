@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_03_055844) do
+ActiveRecord::Schema.define(version: 2021_01_10_210115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 2021_01_03_055844) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "descriptive_name"
     t.boolean "essential"
+    t.string "name"
+    t.text "hierarchy_string"
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
   end
 

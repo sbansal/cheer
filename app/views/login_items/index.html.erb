@@ -1,41 +1,40 @@
 <% title "Linked Accounts" %>
-<div class="mt-4 px-3">
-  <div class="px-2 py-2">
-    <div class="fw-bold">Bank accounts linked via Plaid</div>
-    <div class="mt-2 mb-4 grey-500 med">This is a list of all your connected accounts through Plaid. We automatically fetch transactions and balances for these accounts.</div>
-    <div class="border rounded-3">
-      <% @login_items.each do |login_item|%>
-        <div class="row border-bottom py-3 m-0 px-2">
-          <% if login_item.institution_logo_exists? %>
-            <div class="p-2 col-1 d-none d-sm-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
-          <% else %>
-            <div class="p-2 col-1 d-none d-sm-block">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-              </svg>
-            </div>
-          <% end %>
-          <div class="col-6">
-            <div><%= login_item.institution.name.humanize %></div>
-            <div class="small grey-100">
-              Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
-            </div>
+<div class="px-2 py-2">
+  <div class="fw-bold">Bank accounts linked via Plaid</div>
+  <div class="mt-2 mb-4 grey-500 med">This is a list of all your connected accounts through Plaid. We automatically fetch transactions and balances for these accounts.</div>
+  <div class="border rounded-3">
+    <% @login_items.each do |login_item|%>
+      <div class="row border-bottom py-3 m-0 px-2">
+        <% if login_item.institution_logo_exists? %>
+          <div class="p-2 col-1 d-none d-xl-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% else %>
+          <div class="p-2 col-1 d-none d-xl-block">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            </svg>
           </div>
-          <div class="col-5 text-end">
-            <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
-            <div>
-              <% if login_item.expired? %>
-                <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
-                action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
-              <% end %>
-              <%= link_to 'Delete Link', login_item_path(login_item),
-                :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
-                :method => :delete,
-                class: 'danger small text-decoration-underline ' %>
-            </div>
+        <% end %>
+        <div class="col-6">
+          <div><%= login_item.institution.name %></div>
+          <div class="small grey-100">
+            Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
           </div>
         </div>
-      <% end %>
+        <div class="col-5 text-end">
+          <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
+          <div>
+            <% if login_item.expired? %>
+              <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
+              action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
+            <% end %>
+            <%= link_to 'Delete Link', login_item_path(login_item),
+              :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
+              :method => :delete,
+              class: 'danger small text-decoration-underline ' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
     </div>
   </div>
 </div>

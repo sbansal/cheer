@@ -1,0 +1,9 @@
+<ul class="small list-group">
+<% @categories.each do |category| %>
+<li class="list-group-item rounded-0 border-primary-100 category-list-item p-0" data-id="<%= category.id%>" tabindex="0"
+  data-action="click->categories#select">
+  <div class="primary xs p-2"><%= category.category_list_item %></div>
+</li>
+<% end %>
+</ul>
+
