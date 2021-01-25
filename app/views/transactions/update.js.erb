@@ -1,7 +1,4 @@
-var oldNode = document.getElementById("transaction-detail-<%= @transaction.id%>")
-var newNode = document.createElement("template")
-newNode.innerHTML = "<%= j (render @transaction) %>"
-oldNode.replaceWith(newNode.content.firstChild)
+document.getElementById('transaction-details').innerHTML = "<%= j (render @transaction) %>"
 var txRow = document.getElementById("tx-<%= @transaction.id %>")
 if (txRow) {
   txRow.innerHTML = "<%= j (render 'transaction_summary', transaction: @transaction) %>"

@@ -57,9 +57,11 @@ export default class extends Controller {
       url: "/transactions/" + transactionId,
       type: "GET",
       success: function(data) {
+        //slide-in
         let container = document.getElementById('transaction-details')
         container.querySelector('div.slide-in').style.width = (container.clientWidth - 20) + "px"
         container.querySelector('div.slide-in').style.top = (window.scrollY + 50) + "px"
+        //show
         _this.showTransactionDetails()
       },
       error: function(data) {}

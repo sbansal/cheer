@@ -1,4 +1,5 @@
-<%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true }) do |f| %>
+<%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true,
+   data: {action: 'ajax:success->transactions#showTransactionDetails' }}) do |f| %>
 <div class="row">
   <% if @attribute == 'custom_description' %>
   <div class="mt-2">
