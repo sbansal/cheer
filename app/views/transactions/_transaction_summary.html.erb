@@ -1,5 +1,21 @@
-<div class="row m-0 border-bottom tx-row py-2" data-id="<%= tx.id %>">
-  <div class="col-2 "><%= tx.formatted_occurred_at %></div>
-  <div class="col-8 bold-2"><%= tx.custom_description %></div>
-  <div class="col-2 text-end"><%= signed_number_to_currency(tx.amount)%></div>
+<div class="col-3 med">
+  <div><%= transaction.formatted_occurred_at %></div>
+</div>
+<div class="col-6">
+  <div>
+    <span class="med"><%= transaction.custom_description %></span>
+    <% if transaction.pending? %>
+    <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
+    <% end %>
+    <div class="grey-100 med"><%= transaction.category.category_list%></div>
+  </div>
+</div>
+<div class="col-3">
+  <div class="row">
+    <div class="col-sm-12 text-end med">
+      <div class="<%=tx_amount_type(transaction.amount).downcase%>">
+        <%= signed_number_to_currency(transaction.amount)%>
+      </div>
+    </div>
+  </div>
 </div>

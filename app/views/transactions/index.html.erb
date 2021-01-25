@@ -1,10 +1,21 @@
 <% title "Transactions" %>
 <div class="">
   <div class="row m-0">
-    <div class="col-sm-8 mt-4" data-controller="transactions">
+    <div class="col-sm-8 pt-4" data-controller="transactions">
       <div class="row mb-2 px-2">
-        <div class="col-sm-8 mb-3 mx-0 bold-2" id="tx-label">View Transactions</div>
-        <div class="col-sm-4 mb-3 mx-0">
+        <div class="col-sm-6 mb-3 mx-0 bold-2" id="tx-label">
+          <div class="row">
+            <div class="col">View Transactions</div>
+            <div class="col text-end d-sm-none">
+              <a href="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-layout-sidebar-reverse" viewBox="0 0 16 16">
+                <path d="M16 3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3zm-5-1v12H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h9zm1 0h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-2V2z"/>
+              </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 mb-3 mx-0 text-end">
           <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
             <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
             data: {action: 'input->transactions#search'} %>
@@ -14,7 +25,7 @@
           <div class="row py-2 px-0 border-bottom mx-0">
             <div class="col-3 text-uppercase small grey-100">Date</div>
             <div class="col-6 text-uppercase small grey-100">Description</div>
-            <div class="col-3 text-uppercase small grey-100">Amount</div>
+            <div class="col-3 text-uppercase small grey-100 text-end">Amount</div>
           </div>
           <div class="hide p-2" id="spinner-container">
             <div class="d-flex justify-content-center mt-5" >
@@ -29,6 +40,6 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4 bg-light"></div>
+    <div class="col-sm-4" id="transaction-details"></div>
   </div>
 </div>
