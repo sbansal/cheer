@@ -36,4 +36,9 @@ export default class extends Controller {
     this.empty(event)
     event.stopPropagation()
   }
+
+  selectText(event) {
+    console.debug("selectText")
+    event.element.select()
+  }
 }

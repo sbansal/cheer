@@ -6,6 +6,6 @@
   </div>
 <% else %>
   <% transactions.each do |tx| %>
-    <%= render 'transaction_summary', tx: tx %>
+    <%= render 'transactions/transaction_summary', transaction: tx %>
   <% end %>
 <% end %>

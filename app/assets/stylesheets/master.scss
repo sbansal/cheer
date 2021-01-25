@@ -4,7 +4,8 @@ $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
 $grey-50: #627D98;
 $grey-900: #F0F4F8;
-$primary-900: #F8F9FB;
+$primary-900: #f0f3f9;
+$primary-1000: #F8F9FB;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
 
@@ -40,6 +41,7 @@ div, table, p, section, h1, h2, h3, h4 {
 }
 .danger { color: $danger;}
 .default-color { color: $default-color;}
+.default-bg { background: #FFF;}
 
 a {
   color: $default-color;
@@ -488,7 +490,7 @@ ul.submenu {
     top: 0px;
     left: 0px;
     bottom: 0px;
-    z-index: 2;
+    z-index: 100;
     box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 16px;
     position: absolute !important;
     transition: left 0.25s ease-out 0s, box-shadow 0.15s 0s;
@@ -527,3 +529,63 @@ ul.submenu {
   width: 24px;
   height: 24px;
 }
+
+.slide-in {
+  z-index: 10; /* to position it in front of the other content */
+  position: absolute;
+  overflow: hidden; /* to prevent scrollbar appearing */
+  background: $primary-1000;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 8px 16px;
+  height: 100%;
+  position: absolute;
+  top: 60px;
+  max-width: 360px;
+}
+
+.slide-in.from-left {
+  left: 0;
+}
+
+.slide-in.from-right {
+  right: 0;
+}
+
+.slide-in-content {
+  padding: 5px 20px;
+  transition: transform 100ms ease; /* our nice transition */
+}
+
+.slide-in.from-left .slide-in-content {
+  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+.slide-in.from-right .slide-in-content {
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+}
+
+.slide-in.show .slide-in-content {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+
+.fixed-pos {
+  position: fixed;
+}
+
+.tx-row, .category-row {
+  cursor: pointer;
+  &:hover {
+    background-color: $primary-900;
+  }
+}
+
+.tx-details {
+  background-color: #F7F7F7;
+  box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, 0.1);
+  div {
+    font-size: 0.75rem;
+  }
+}
+

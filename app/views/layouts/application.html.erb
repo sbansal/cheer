@@ -20,7 +20,7 @@
         </div>
         <div class="col px-0">
           <%= render 'shared/toast_messages' %>
-          <div class="row border-bottom py-3 px-3 m-0">
+          <div class="row border-bottom py-3 px-3 m-0 sticky-top default-bg">
             <div class="col-6 p-0">
               <div class="row">
                 <div class="col-1 nav-toggler me-2 d-lg-none" data-controller="navigation" data-action="click->navigation#toggle"></div>
@@ -32,7 +32,7 @@
                 class: 'btn btn-sm btn-primary fw-bold'%>
             </div>
           </div>
-          <div class="mt-4 px-3"><%= yield %></div>
+          <div><%= yield %></div>
         </div>
       </div>
     </div>

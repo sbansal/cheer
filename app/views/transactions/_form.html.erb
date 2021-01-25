@@ -1,20 +1,23 @@
-<%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true }) do |f| %>
+<%= form_for(@transaction, :html => { :method => :put, class: 'form-horizontal', remote: true,
+   data: {action: 'ajax:success->transactions#showTransactionDetails' }}) do |f| %>
 <div class="row">
   <% if @attribute == 'custom_description' %>
   <div class="mt-2">
-    <%= f.text_field @attribute, class: 'form-control xs' %>
+    <%= f.text_field @attribute, class: 'form-control xs', autofocus: true  %>
   </div>
   <% elsif @attribute == 'category' %>
   <div class="mt-2" data-controller="categories">
     <%= f.hidden_field :category_id %>
     <%= f.text_field :category_name, {value: @transaction.category.category_list_item,
-      data: {action: 'input->categories#search', tx_id: @transaction.id}, class: 'form-control xs tx-cat-edit'} %>
+      data: {action: 'input->categories#search', tx_id: @transaction.id}, class: 'form-control xs tx-cat-edit',
+      autocomplete: 'off', autofocus: true } %>
     <div id="categories-container-tx-<%= @transaction.id%>" class="categories-container"></div>
   </div>
   <% end %>
   <div class="mt-2">
     <%= f.submit "Save", class: 'btn btn-primary btn-sm xs' %>
-    <%= link_to "Cancel", transaction_path(@transaction), remote: true, class: 'btn btn-outline-primary btn-sm xs' %>
+    <%= link_to "Cancel", transaction_path(@transaction), data: {action: 'ajax:success->transactions#showTransactionDetails',
+      remote: true}, class: 'btn btn-outline-secondary btn-sm xs' %>
   </div>
 </div>
 <% end %>

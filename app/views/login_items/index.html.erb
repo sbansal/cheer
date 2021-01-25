@@ -15,7 +15,7 @@
           </div>
         <% end %>
         <div class="col-6">
-          <div><%= login_item.institution.name.humanize %></div>
+          <div><%= login_item.institution.name %></div>
           <div class="small grey-100">
             Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
           </div>
@@ -35,6 +35,6 @@
         </div>
       </div>
     <% end %>
+    </div>
   </div>
 </div>
-

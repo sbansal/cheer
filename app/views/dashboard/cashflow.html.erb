@@ -1,58 +1,60 @@
 <% title "Cashflow" %>
-<% if current_user.new_account? %>
-<div class="intro">
-  <h1>Hello there, Welcome to Cheer!</h1>
-  <p class="subtext">
-    To get you started, let's connect your accounts first. After that, you will be able to view
-    your Income & Expense snapshot and see your current net worth.
-  </p>
-  <div class="connect">
-    <%= link_to('Link your first account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
-    action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
-  </div>
-</div>
-<% else %>
-<div class="row border-bottom">
-  <div class="col-sm-6 text-center">
-    <div class="mb-5">
-      <div class="primary text-uppercase bold-2 med">Your Net Worth</div>
-      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
-    </div>
-    <div class="mb-5">
-      <div class="primary text-uppercase bold-2 med">Assets</div>
-      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
-    </div>
-    <div class="mb-5">
-      <div class="primary text-uppercase bold-2 med">Liabilities</div>
-      <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+<div class="mt-4 px-3">
+  <% if current_user.new_account? %>
+  <div class="intro">
+    <h1>Hello there, Welcome to Cheer!</h1>
+    <p class="subtext">
+      To get you started, let's connect your accounts first. After that, you will be able to view
+      your Income & Expense snapshot and see your current net worth.
+    </p>
+    <div class="connect">
+      <%= link_to('Link your first account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
     </div>
   </div>
-  <div class="col-sm-6 border-start" data-controller="container">
-    <div id="cashflow-trend"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6 mt-5">
-    <div class="border rounded-3">
-      <div class="header px-2 py-3 row m-0">
-        <div class="col fw-bold ">Assets</div>
-        <div class="col text-end"><%= number_to_currency(current_user.account.total_assets)%></div>
+  <% else %>
+  <div class="row border-bottom">
+    <div class="col-sm-6 text-center">
+      <div class="mb-5">
+        <div class="primary text-uppercase bold-2 med">Your Net Worth</div>
+        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
       </div>
-      <% @asset_accounts.each do |account|%>
-        <%= render 'bank_accounts/account_details', account: account %>
-      <% end %>
-    </div>
-  </div>
-  <div class="col-sm-6 mt-5">
-    <div class="border rounded-3">
-      <div class="header px-2 py-3 row m-0">
-        <div class="col fw-bold ">Liabilities</div>
-        <div class="col text-end"><%= number_to_currency(current_user.account.total_liabilities)%></div>
+      <div class="mb-5">
+        <div class="primary text-uppercase bold-2 med">Assets</div>
+        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
       </div>
-      <% @liability_accounts.each do |account|%>
-        <%= render 'bank_accounts/account_details', account: account %>
-      <% end %>
+      <div class="mb-5">
+        <div class="primary text-uppercase bold-2 med">Liabilities</div>
+        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+      </div>
+    </div>
+    <div class="col-sm-6 border-start" data-controller="container">
+      <div id="cashflow-trend"></div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-6 mt-5">
+      <div class="border rounded-3">
+        <div class="header px-2 py-3 row m-0">
+          <div class="col fw-bold ">Assets</div>
+          <div class="col text-end"><%= number_to_currency(current_user.account.total_assets)%></div>
+        </div>
+        <% @asset_accounts.each do |account|%>
+          <%= render 'bank_accounts/account_details', account: account %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-6 mt-5">
+      <div class="border rounded-3">
+        <div class="header px-2 py-3 row m-0">
+          <div class="col fw-bold ">Liabilities</div>
+          <div class="col text-end"><%= number_to_currency(current_user.account.total_liabilities)%></div>
+        </div>
+        <% @liability_accounts.each do |account|%>
+          <%= render 'bank_accounts/account_details', account: account %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
 </div>
-<% end %>
