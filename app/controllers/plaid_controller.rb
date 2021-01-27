@@ -4,14 +4,17 @@ class PlaidController < ApplicationController
   def update_link
     @login_item = current_user.login_items.find_by(link_token: params['link_token'])
     @login_item.activate
-    redirect_to login_items_path
+    flash[:notice_header] = 'Link updated'
+    flash[:notice] = "Your link to #{@login_item.institution.name} has been renewed successfully."
   end
 
   def generate_access_token
     @client = PlaidClientCreator.call
     @exchange_token_response = @client.item.public_token.exchange(params['public_token'])
     @access_token = @exchange_token_response['access_token']
-    PlaidLoginItemCreator.call(@access_token, current_user)
+    @login_item = PlaidLoginItemCreator.call(@access_token, current_user)
+    flash[:notice_header] = 'New link created'
+    flash[:notice] = "You have successfully linked your #{@login_item.institution.name} accounts to Cheer."
   end
 
   def create_link_token
