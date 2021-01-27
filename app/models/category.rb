@@ -44,22 +44,4 @@ class Category < ApplicationRecord
     hierarchy.last
   end
 
-  def parent
-    category_names = hierarchy.slice(0, hierarchy.length - 1)
-    if category_names.empty?
-      nil
-    else
-      Category.where("hierarchy = ?", category_names.to_s).first
-    end
-  end
-
-  def children
-    Category.where("hierarchy @> ? and rank = ?", self.hierarchy.to_s, self.rank + 1)
-  end
-
-  def self.root_menu_items
-    Category.where(rank: 1).order('hierarchy asc').map { |item| {
-      id: item.id, name: item.name, has_children: !item.sub_categories.empty?
-    }}
-  end
 end
