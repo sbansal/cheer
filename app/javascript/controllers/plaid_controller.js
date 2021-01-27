@@ -23,7 +23,7 @@ export default class extends Controller {
       },
       onEvent: async function(eventName, metadata) {
         if (eventName === 'HANDOFF') {
-          location.reload()
+          location.href = '/login_items'
         }
       },
     })
@@ -64,7 +64,7 @@ export default class extends Controller {
         },
         onEvent: async function(eventName, metadata) {
           if (eventName === 'HANDOFF') {
-            location.reload()
+            location.href = '/login_items'
           }
         },
       }
