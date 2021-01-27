@@ -73,7 +73,7 @@ export default class extends Controller {
     console.debug("#hideTransactionDetails")
     document.querySelector('.slide-in').classList.remove('show')
     document.getElementById('transaction-details').innerHTML = ""
-    // this.deselectRow()
+    this.deselectRow()
     event.preventDefault()
   }
 
