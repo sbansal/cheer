@@ -56,5 +56,8 @@ Rails.application.routes.draw do
     #two factor authentication routes
     resources :two_factor_authentication, only: [:new, :create]
     delete '/two_factor_authentication', to:'two_factor_authentication#destroy'
+
+    #onboarding
+    resources :onboarding, only: [:index]
   end
 end
