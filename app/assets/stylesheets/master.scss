@@ -4,7 +4,7 @@ $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
 $grey-50: #627D98;
 $grey-900: #F0F4F8;
-$primary-900: #f0f3f9;
+$primary-900: #f0f3f994;
 $primary-1000: #F8F9FB;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
@@ -60,7 +60,7 @@ svg {
 .form-control:focus {
   box-shadow: none;
   outline: none;
-  border-color: #7069FA;
+  border-color: $primary;
 }
 
 .form-control::placeholder {
