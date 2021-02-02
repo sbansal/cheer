@@ -19,6 +19,7 @@ class TransactionsController < ApplicationController
 
   def show
     @transaction = current_account.transactions.find(params[:id])
+    @related_transactions = @transaction.related_transactions
     respond_to do |format|
       format.js
       format.json { render json: @transaction }

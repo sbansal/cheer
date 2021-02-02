@@ -45,6 +45,10 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def related_transactions
+    Transaction.where(merchant_name: self.merchant_name, user_id: self.user_id).fuzzy_search(description: self.description)
+  end
+
   private
 
   def self.process_transactions_json(transactions_json_array, user_id)
