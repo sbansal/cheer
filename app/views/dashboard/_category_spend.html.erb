@@ -18,7 +18,7 @@
   <% else %>
     <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
       <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom category-row p-2"
+      <div class="row m-0 border-bottom p-2"
         data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-8">
           <div><%= spend.category_name %></div>
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
-        <div class="small col-12 transactions-summary hide primary-900-bg my-3">
+        <div class="transactions-summary hide my-2">
           <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
         </div>
       </div>
@@ -48,17 +48,15 @@
   <% else %>
     <% @spend_by_categories[:extras_by_categories].each do |spend| %>
       <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom category-row p-2" data-controller="transactions" data-action="click->transactions#showTransactions">
+      <div class="row m-0 border-bottom p-2" data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-8">
           <div><%= spend.category_name %></div>
           <div class="small grey-100">
-            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '',
-            data: {category_name: "#{spend.category_name}", cashflow_type: 'money_out', essential: 'true',
-            action: 'click->transactions#showTransactionsModal'}, class: 'primary text-decoration-underline '%>
+            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline '%>
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
-        <div class="small col-sm-12 transactions-summary hide primary-900-bg my-3">
+        <div class="transactions-summary hide my-2">
           <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
         </div>
       </div>

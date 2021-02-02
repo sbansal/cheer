@@ -5,7 +5,9 @@
     </div>
   </div>
 <% else %>
-  <% transactions.each do |tx| %>
-    <%= render 'transactions/transaction_summary', transaction: tx %>
+  <% transactions.each do |transaction| %>
+  <div class="row py-1 border-bottom small" id="tx-<%= transaction.id %>">
+    <%= render 'transactions/transaction_summary', transaction: transaction %>
+  </div>
   <% end %>
 <% end %>

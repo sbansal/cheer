@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_210115) do
+ActiveRecord::Schema.define(version: 2021_01_31_035401) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -181,6 +182,7 @@ ActiveRecord::Schema.define(version: 2021_01_10_210115) do
     t.integer "category_id"
     t.text "custom_description"
     t.string "merchant_name"
+    t.index ["custom_description"], name: "index_transactions_on_custom_description"
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true
   end
 

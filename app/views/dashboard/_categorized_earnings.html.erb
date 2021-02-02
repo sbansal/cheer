@@ -17,12 +17,12 @@
       <div class="row m-0 border-bottom category-row p-2" data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-8">
           <div><%= earning.category_name %></div>
-          <div class="small grey-100">
+          <div class="small">
             <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary text-decoration-underline '%>
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(earning.total_spend.abs)%></div>
-        <div class="small col-12 transactions-summary hide primary-900-bg my-3">
+        <div class="transactions-summary hide my-2">
           <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
         </div>
       </div>
