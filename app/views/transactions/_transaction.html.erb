@@ -1,11 +1,11 @@
 <div class="slide-in from-right border-start border-bottom">
   <div id="transaction-detail-<%= @transaction.id %>" class="med px-3 slide-in-content" data-controller="transactions">
-    <div class="row">
-      <div class="col-12 py-4">
-        <%= link_to 'Close', '', {class: 'btn btn-outline-primary med',
+    <div class="row m-0">
+      <div class="py-4 px-0">
+        <%= link_to 'Close', '', {class: 'btn btn-outline-primary btn-sm my-1 small',
           data: {action: 'click->transactions#hideTransactionDetails'}}%>
-        <%= link_to 'Delete Transaction', '#', {class: 'btn btn-outline-danger med mx-2',
-          data: {action: 'click->transactions#hideTransactionDetails', remote: true}}%>
+        <%= link_to 'Delete Transaction', transaction_path(@transaction),
+          class: 'btn btn-outline-danger btn-sm small my-1', method: :delete %>
       </div>
     </div>
     <div class="row">
