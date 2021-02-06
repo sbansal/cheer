@@ -481,6 +481,10 @@ ul.submenu {
   margin-top: 3px;
 }
 
+#nav-container {
+  min-height: 100vh;
+}
+
 @media (max-width: 1023px) {
   .side-nav-visible {
     background-color: #FFF;

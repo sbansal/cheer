@@ -29,8 +29,6 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     if devise_controller?
       "devise"
-    elsif user_signed_in? && current_user.new_account?
-      "intro"
     else
       "application"
     end
