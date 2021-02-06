@@ -8,21 +8,34 @@
           Your assets include all of the cash accounts, investments, collectibles and the real estate properties you are currently
           tracking.
         </div>
-        <div class="border rounded-3">
-          <% @asset_accounts.each do |account|%>
-            <%= render 'account_info', account: account %>
-          <% end %>
-        </div>
+        <% if @asset_accounts.empty? %>
+          <div class="med">
+            <%= link_to 'Add asset account', new_bank_account_path(account_category: 'asset'),
+              class: 'primary text-decoration-underline'%></div>
+        <% else %>
+          <div class="border rounded-3">
+            <% @asset_accounts.each do |account|%>
+              <%= render 'account_info', account: account %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
       <div class="px-2 py-2 mt-5">
         <div class="fw-bold">Liability Accounts</div>
         <div class="mt-2 mb-4 grey-500 med">
           Your liabilities include all of the credit cards, loans, or any other liabilities you are currently tracking.
         </div>
-      </div>
-      <div class="border rounded-3">
-        <% @liability_accounts.each do |account|%>
-          <%= render 'account_info', account: account %>
+        <% if @liability_accounts.empty? %>
+          <div class="med">
+            <%= link_to 'Add liability account', new_bank_account_path(account_category: 'liability'),
+              class: 'primary text-decoration-underline'%></div>
+          </div>
+        <% else %>
+          <div class="border rounded-3">
+            <% @liability_accounts.each do |account|%>
+              <%= render 'account_info', account: account %>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
