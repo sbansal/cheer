@@ -39,6 +39,14 @@ class Account < ApplicationRecord
     Cashflow.new(start_date, end_date, transactions.includes(:category))
   end
 
+  def total_cash_assets
+    bank_accounts.assets.liquid_accounts.sum(:current_balance)
+  end
+
+  def total_non_cash_assets
+    bank_accounts.assets.illiquid_accounts.sum(:current_balance)
+  end
+
   def total_assets
     bank_accounts.assets.sum(:current_balance)
   end

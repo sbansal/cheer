@@ -16,8 +16,9 @@ namespace :institutions do
       institutions += institutions_response['institutions']
     end
     puts "Fetched institutions #{institutions.length}/#{total}"
+    institution_ids = Institution.pluck(:plaid_institution_id)
     create_institutions_array = institutions.flatten.filter_map do |institution_json|
-      if Institution.find_by_plaid_institution_id(institution_json['institution_id']).nil?
+      unless institution_ids.include?(institution_json['institution_id'])
         {
           plaid_institution_id: institution_json.institution_id,
           name: institution_json.name,

@@ -1,18 +1,26 @@
 <div class="row m-0 border-bottom py-3 px-2">
   <div class="col-8 med">
     <div class="row">
-      <div class="col-2 d-none d-xl-block">
+      <div class="col-3">
         <% if account.login_item&.institution_logo_exists? %>
-          <div class="p-2"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+          <div class="py-2"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
         <% else %>
           <%= render 'bank_accounts/placeholder_logo', account: account %>
         <% end %>
       </div>
-      <div class="col-10">
-        <div><%= account.display_name %></div>
-        <div class="small grey-100"><%= account.account_subtype&.upcase %></div>
+      <div class="col-9">
+        <div class="small grey-100">
+          <% if account.login_item %>
+            <%= account.login_item&.institution.name.upcase %> -
+          <% end %>
+          <%= account.account_subtype&.upcase %>
+        </div>
+        <div class="med"><%= account.display_name %></div>
       </div>
     </div>
   </div>
-  <div class="col-4 text-end med"><%= number_to_currency(account.current_balance) %></div>
+  <div class="col-4 text-end">
+    <div class="grey-100 small"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
+    <div class="med"><%= number_to_currency(account.current_balance) %></div>
+  </div>
 </div>

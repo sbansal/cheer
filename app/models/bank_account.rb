@@ -18,6 +18,7 @@ class BankAccount < ApplicationRecord
   CASH = "cash"
   OTHER_ASSET = "other asset"
   OTHER_LIABILITY = "other liability"
+  BROKERAGE = "brokerage"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
@@ -183,6 +184,14 @@ class BankAccount < ApplicationRecord
       end
     end
     balance_by_created.sort.to_h
+  end
+
+  def self.liquid_accounts
+    where('account_type in (?) or account_subtype in (?)', [CASH, DEPOSITORY_TYPE], [BROKERAGE])
+  end
+
+  def self.illiquid_accounts
+    where('account_type in (?) and account_subtype not in (?)', [INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, OTHER_ASSET], [BROKERAGE])
   end
 
   private

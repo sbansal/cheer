@@ -35,18 +35,33 @@
   <div class="row">
     <div class="col-sm-6 mt-5">
       <div class="border rounded-3">
-        <div class="header px-2 py-3 row m-0">
-          <div class="col fw-bold ">Assets</div>
+        <div class="header px-2 py-3 row m-0 fw-bold">
+          <div class="col">Assets</div>
           <div class="col text-end"><%= number_to_currency(current_user.account.total_assets)%></div>
         </div>
-        <% @asset_accounts.each do |account|%>
-          <%= render 'bank_accounts/account_details', account: account %>
-        <% end %>
+        <div class="row m-0 my-4 p-2 bold-2">
+          <div class="col">Cash</div>
+          <div class="col text-end"><%= number_to_currency(current_user.account.total_cash_assets)%></div>
+        </div>
+        <div class="">
+          <% @cash_asset_accounts.each do |account|%>
+            <%= render 'bank_accounts/account_details', account: account %>
+          <% end %>
+        </div>
+        <div class="row m-0 my-4 p-2 bold-2">
+          <div class="col">Investments</div>
+          <div class="col text-end"><%= number_to_currency(current_user.account.total_non_cash_assets)%></div>
+        </div>
+        <div>
+          <% @non_cash_asset_accounts.each do |account|%>
+            <%= render 'bank_accounts/account_details', account: account %>
+          <% end %>
+        </div>
       </div>
     </div>
     <div class="col-sm-6 mt-5">
       <div class="border rounded-3">
-        <div class="header px-2 py-3 row m-0">
+        <div class="header px-2 py-3 row m-0 fw-bold">
           <div class="col fw-bold ">Liabilities</div>
           <div class="col text-end"><%= number_to_currency(current_user.account.total_liabilities)%></div>
         </div>
