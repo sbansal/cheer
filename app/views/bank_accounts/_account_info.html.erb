@@ -1,27 +1,31 @@
 <div class="row border-bottom py-3 m-0 px-2" id="account-row-<%= account.id%>">
-  <div class="py-2 col-1 d-none d-xl-block">
-    <% if account.login_item&.institution_logo_exists? %>
-      <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
-    <% else %>
-      <%= render 'placeholder_logo', account: account %>
-    <% end %>
-  </div>
-  <div class="col-6 p-0">
-    <div class="med grey-100">
-      <% if account.login_item %>
-      <%= account.login_item&.institution.name.upcase %> -
-      <% end %>
-      <%= account.account_subtype&.upcase %>
+  <div class="col-8 p-0">
+    <div class="row m-0">
+      <div class="p-2 col-4 mw60">
+        <% if account.login_item&.institution_logo_exists? %>
+          <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% else %>
+          <%= render 'placeholder_logo', account: account %>
+        <% end %>
+      </div>
+      <div class="col-8 p-0">
+        <div class="med grey-100">
+          <% if account.login_item %>
+          <%= account.login_item&.institution.name.upcase %> -
+          <% end %>
+          <%= account.account_subtype&.upcase %>
+        </div>
+        <div class="med"><%= account.display_name %></div>
+      </div>
     </div>
-    <div class="med"><%= account.display_name %></div>
   </div>
-  <div class="col-5 text-end p-0">
+  <div class="col-4 text-end p-0">
     <div class="grey-100 med"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
     <div><%= number_to_currency(account.current_balance)%></div>
     <div class="small">
       <% if account.manually_tracked? %>
       <%= link_to 'Update', edit_bank_account_path(account), {data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'},
-        class: 'xs grey-100 text-decoration-underline'}%> |
+        class: 'xs grey-100 text-decoration-underline'}%>
       <% end %>
       <!-- <%= link_to 'Delete', bank_account_path(account),
         :data => { :confirm => "We will delete all transactions related to this bank account." },

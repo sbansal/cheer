@@ -1,7 +1,7 @@
 <div class="row m-0 border-bottom py-3 px-2">
   <div class="col-8 med">
     <div class="row">
-      <div class="col-3">
+      <div class="col-3 px-0 mw60 text-center">
         <% if account.login_item&.institution_logo_exists? %>
           <div class="py-2"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
         <% else %>

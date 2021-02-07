@@ -486,6 +486,7 @@ ul.submenu {
 
 #nav-container {
   min-height: 100vh;
+    max-width: 220px;
 }
 
 @media (max-width: 1023px) {
@@ -595,5 +596,9 @@ ul.submenu {
   div {
     font-size: 0.75rem;
   }
+}
+
+.mw60 {
+  max-width: 60px;
 }
 
