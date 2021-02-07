@@ -8,8 +8,7 @@ class PlaidBalanceProcessor < ApplicationService
     begin
       response = @client.accounts.balance.get(@access_token)
       accounts_json = response[:accounts]
-      Balance.create_balances_from_accounts_json(accounts_json)
-      BankAccount.update_current_balances(accounts_json)
+      BankAccount.update_balances(accounts_json)
     rescue => e
       Rails.logger.error("Unable to retrieve balance for login item.")
       Rails.logger.error(e)

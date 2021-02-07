@@ -44,23 +44,42 @@ class BankAccount < ApplicationRecord
           user_id: user_id,
           institution_id: institution_id,
         }
+      else
+        Rails.logger.warn("Account already exists for account data: #{account_json}")
+        next
       end
     end
     create!(banks_accounts)
   end
 
-  def self.update_current_balances(accounts_json)
+  def self.update_balances(accounts_json)
     accounts_json.each do |account_json|
       begin
         plaid_account_id = account_json[:account_id]
         bank_account = BankAccount.find_by!(plaid_account_id: plaid_account_id)
+        balance_available = account_json[:balances][:available]
+        balance_limit = account_json[:balances][:limit]
+        current_balance = account_json[:balances][:current]
+        balance_currency_code = account_json[:balances][:iso_currency_code]
+        # cache balance on accounts
         bank_account.update(
-          current_balance: account_json[:balances][:current],
+          balance_available: balance_available,
+          balance_limit: balance_limit,
+          balance_currency_code: balance_currency_code,
+          current_balance: current_balance,
           current_balance_updated_at: Time.zone.now,
+        )
+        # create new balance
+        bank_account.balances.create(
+          current: current_balance,
+          available: balance_available,
+          limit: balance_limit,
+          user_id: bank_account.user_id,
+          currency_code: balance_currency_code,
         )
       rescue => e
         Rails.logger.error(
-          "Unable to update current balance plaid_account_id:#{plaid_account_id} with payload: #{account_json}, exception - #{e}"
+          "Unable to update balance plaid_account_id:#{plaid_account_id} with payload: #{account_json}, exception - #{e}"
         )
         next
       end
