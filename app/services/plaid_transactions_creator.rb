@@ -9,7 +9,6 @@ class PlaidTransactionsCreator < ApplicationService
 
   def call
     add_transactions
-    Resque.enqueue(RefreshBalance, @access_token)
   end
 
   private
@@ -26,6 +25,7 @@ class PlaidTransactionsCreator < ApplicationService
       offset: 0,
     )
     transactions_json_array = transactions_response[:transactions]
+    account_json_array = transactions_response[:accounts]
     Rails.logger.tagged("TransactionPull") {
       Rails.logger.info "Total transactions that need to be fetched - #{transactions_response[:total_transactions]}"
     }
@@ -38,7 +38,9 @@ class PlaidTransactionsCreator < ApplicationService
         offset: transactions_json_array.length,
       )
       transactions_json_array += transactions_response[:transactions]
+      account_json_array += transactions_response[:accounts]
     end
     Transaction.create_transactions_from_json(transactions_json_array.flatten, @user.id)
+    BankAccount.update_balances(account_json_array.uniq { |item| item[:account_id] })
   end
 end
