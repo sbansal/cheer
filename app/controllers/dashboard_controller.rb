@@ -5,7 +5,10 @@ class DashboardController < ApplicationController
   end
 
   def cashflow
-    @asset_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).assets.sort_by {
+    @cash_asset_accounts = current_account.bank_accounts.assets.liquid_accounts.includes([login_item: [:institution]]).sort_by {
+      |item| item.current_balance
+    }.reverse
+    @non_cash_asset_accounts = current_account.bank_accounts.assets.illiquid_accounts.includes([login_item: [:institution]]).sort_by {
       |item| item.current_balance
     }.reverse
     @liability_accounts = current_account.bank_accounts.includes([login_item: [:institution]]).liabilities.sort_by {
