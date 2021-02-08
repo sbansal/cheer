@@ -18,6 +18,7 @@ class BankAccount < ApplicationRecord
   CASH = "cash"
   OTHER_ASSET = "other asset"
   OTHER_LIABILITY = "other liability"
+  BROKERAGE = "brokerage"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
@@ -44,23 +45,42 @@ class BankAccount < ApplicationRecord
           user_id: user_id,
           institution_id: institution_id,
         }
+      else
+        Rails.logger.warn("Account already exists for account data: #{account_json}")
+        next
       end
     end
     create!(banks_accounts)
   end
 
-  def self.update_current_balances(accounts_json)
+  def self.update_balances(accounts_json)
     accounts_json.each do |account_json|
       begin
         plaid_account_id = account_json[:account_id]
         bank_account = BankAccount.find_by!(plaid_account_id: plaid_account_id)
+        balance_available = account_json[:balances][:available]
+        balance_limit = account_json[:balances][:limit]
+        current_balance = account_json[:balances][:current]
+        balance_currency_code = account_json[:balances][:iso_currency_code]
+        # cache balance on accounts
         bank_account.update(
-          current_balance: account_json[:balances][:current],
+          balance_available: balance_available,
+          balance_limit: balance_limit,
+          balance_currency_code: balance_currency_code,
+          current_balance: current_balance,
           current_balance_updated_at: Time.zone.now,
+        )
+        # create new balance
+        bank_account.balances.create(
+          current: current_balance,
+          available: balance_available,
+          limit: balance_limit,
+          user_id: bank_account.user_id,
+          currency_code: balance_currency_code,
         )
       rescue => e
         Rails.logger.error(
-          "Unable to update current balance plaid_account_id:#{plaid_account_id} with payload: #{account_json}, exception - #{e}"
+          "Unable to update balance plaid_account_id:#{plaid_account_id} with payload: #{account_json}, exception - #{e}"
         )
         next
       end
@@ -164,6 +184,14 @@ class BankAccount < ApplicationRecord
       end
     end
     balance_by_created.sort.to_h
+  end
+
+  def self.liquid_accounts
+    where('account_type in (?) or account_subtype in (?)', [CASH, DEPOSITORY_TYPE], [BROKERAGE])
+  end
+
+  def self.illiquid_accounts
+    where('account_type in (?) and account_subtype not in (?)', [INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, OTHER_ASSET], [BROKERAGE])
   end
 
   private

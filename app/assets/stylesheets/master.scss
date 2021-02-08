@@ -20,6 +20,9 @@ body {
   font-weight: 400;
 }
 
+#page-container {
+  transition: opacity 140ms ease 0s;
+}
 
 div, table, p, section, h1, h2, h3, h4 {
   color: $default-color;
@@ -481,6 +484,11 @@ ul.submenu {
   margin-top: 3px;
 }
 
+#nav-container {
+  min-height: 100vh;
+    max-width: 220px;
+}
+
 @media (max-width: 1023px) {
   .side-nav-visible {
     background-color: #FFF;
@@ -588,5 +596,9 @@ ul.submenu {
   div {
     font-size: 0.75rem;
   }
+}
+
+.mw60 {
+  max-width: 60px;
 }
 

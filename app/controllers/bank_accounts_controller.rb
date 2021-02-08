@@ -1,6 +1,7 @@
 class BankAccountsController < ApplicationController
   def index
-    @asset_accounts = current_account.bank_accounts.assets.includes([login_item: [:institution]])
+    @cash_assets = current_account.bank_accounts.assets.liquid_accounts.includes([login_item: [:institution]])
+    @non_cash_asset_accounts = current_account.bank_accounts.assets.illiquid_accounts.includes([login_item: [:institution]])
     @liability_accounts = current_account.bank_accounts.liabilities.includes([login_item: [:institution]])
   end
 

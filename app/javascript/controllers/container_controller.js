@@ -27,6 +27,7 @@ export default class extends Controller {
   }
 
   loadCashflowTrends() {
+    console.debug("Loading cashflow trends")
     let opts = {
       title: "Assets vs Liabilities ",
       id: "cashflow-trend",
@@ -94,6 +95,7 @@ export default class extends Controller {
           Array.from(assets_trend_map.values()),
           Array.from(liabilities_trend_map.values()),
         ]
+        document.getElementById('cashflow-trend').innerHTML = ""
         let uplot = new uPlot(opts,data,document.getElementById('cashflow-trend'))
       },
       error: function(data) {}
