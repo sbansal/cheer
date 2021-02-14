@@ -44,7 +44,6 @@ export default class extends Controller {
 
   fetchTransactionDetails(event) {
     console.debug("#fetchTransactionDetails")
-    console.log(this.element.getBoundingClientRect())
     const transactionId = this.element.dataset.txId
     const topValue = this.element.getBoundingClientRect().top
     if (this.element.dataset.txSelect) {

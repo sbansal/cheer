@@ -15,7 +15,7 @@
   </div>
   <% end %>
   <div class="mt-2 xs">
-    <%= check_box_tag 'bulk_update' %> Apply changes to all existing and future transactions.
+    <%= check_box_tag 'bulk_update', 'yes', false, class: 'form-check-input' %> Apply changes to all related transactions.
   </div>
   <div class="mt-2">
     <%= f.submit "Save", class: 'btn btn-primary btn-sm xs' %>

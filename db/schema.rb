@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_31_035401) do
+ActiveRecord::Schema.define(version: 2021_02_14_205447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_035401) do
     t.text "custom_description"
     t.string "merchant_name"
     t.index ["custom_description"], name: "index_transactions_on_custom_description"
+    t.index ["description"], name: "trgm_description_indx", opclass: :gist_trgm_ops, using: :gist
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true
   end
 

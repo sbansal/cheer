@@ -16,7 +16,7 @@ module DashboardHelper
     end
   end
 
-  def transaction_to_currency(amount, currency)
+  def transaction_to_currency(amount, currency='USD')
     if currency == 'USD'
       number_to_currency(amount)
     else

@@ -8,53 +8,56 @@
           class: 'btn btn-outline-danger btn-sm small my-1', method: :delete %>
       </div>
     </div>
-    <div class="row">
-      <div class="lg-18 fw-bold col-10">
-        <%= transaction_to_currency(@transaction.amount.abs, @transaction.currency_code) %> @ <%= @transaction.custom_description%>
+    <div class="lg-18 fw-bold py-3">
+      <%= transaction_to_currency(@transaction.amount.abs, @transaction.currency_code) %> @ <%= @transaction.custom_description%>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Description</div>
+      <div id="custom-description-<%=@transaction.id%>">
+        <%= @transaction.custom_description %>
+        <span class="primary align-bottom mx-2">
+          <%= link_to 'Edit', edit_transaction_path(@transaction, attribute: 'custom_description'), { class: 'primary small',
+          data: {action: 'ajax:success->transactions#renderForm', remote: true, target: "custom-description-#{@transaction.id}" } } %>
+        </span>
       </div>
     </div>
-    <div class="row">
-      <div class="py-3">
-        <div class="grey-100">Description</div>
-        <div id="custom-description-<%=@transaction.id%>">
-          <%= @transaction.custom_description %>
-          <span class="primary align-bottom mx-2">
-            <%= link_to 'Edit', edit_transaction_path(@transaction, attribute: 'custom_description'), { class: 'primary small',
-            data: {action: 'ajax:success->transactions#renderForm', remote: true, target: "custom-description-#{@transaction.id}" } } %>
-          </span>
-        </div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Occured On</div>
-        <div class=""><%= @transaction.occured_at.strftime('%b %-d, %Y') %>
-        </div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Total Amount</div>
-        <div class=""><%= transaction_to_currency(@transaction.amount.abs, @transaction.currency_code) %></div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Transaction Category</div>
-        <div id="category-<%= @transaction.id%>">
-          <%= @transaction.category.category_list %>
-          <span class="primary align-bottom mx-2">
-            <%= link_to 'Edit', edit_transaction_path(@transaction, attribute: 'category'), { class: 'primary small',
-            data: {action: 'ajax:success->transactions#renderForm', remote: true, target: "category-#{@transaction.id}" } } %>
-          </span>
-        </div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Bank Account</div>
-        <div class=""><%= @transaction.bank_account.descriptive_name %></div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Transaction Type</div>
-        <div class=""><%= @transaction.payment_channel&.humanize %></div>
-      </div>
-      <div class="py-3">
-        <div class="grey-100">Merchant Name</div>
-        <div class=""><%= @transaction.merchant_name || '-'%></div>
+    <div class="py-3">
+      <div class="grey-100">Description on statement</div>
+      <div class=""><%= @transaction.description %>
       </div>
     </div>
+    <div class="py-3">
+      <div class="grey-100">Occured On</div>
+      <div class=""><%= @transaction.occured_at.strftime('%b %-d, %Y') %>
+      </div>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Total Amount</div>
+      <div class=""><%= transaction_to_currency(@transaction.amount.abs, @transaction.currency_code) %></div>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Transaction Category</div>
+      <div id="category-<%= @transaction.id%>">
+        <%= @transaction.category.category_list %>
+        <span class="primary align-bottom mx-2">
+          <%= link_to 'Edit', edit_transaction_path(@transaction, attribute: 'category'), { class: 'primary small',
+          data: {action: 'ajax:success->transactions#renderForm', remote: true, target: "category-#{@transaction.id}" } } %>
+        </span>
+      </div>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Bank Account</div>
+      <div class=""><%= @transaction.bank_account.descriptive_name %></div>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Transaction Type</div>
+      <div class=""><%= @transaction.payment_channel&.humanize %></div>
+    </div>
+    <div class="py-3">
+      <div class="grey-100">Merchant Name</div>
+      <div class=""><%= @transaction.merchant_name || '-'%></div>
+    </div>
+    <div class="border-top py-3 mt-2" id="related-transactions-container" data-controller="related-transactions"
+      data-related-transactions-id-value="<%= @transaction.id %>"></div>
   </div>
 </div>

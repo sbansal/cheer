@@ -210,6 +210,10 @@ a.purple-linky {
   }
 }
 
+.arrow-right:after {
+  content: ' \2192';
+}
+
 .scrollable {
   flex-grow: 1;
   overflow: auto;
@@ -545,7 +549,6 @@ ul.submenu {
   overflow: hidden; /* to prevent scrollbar appearing */
   background: $primary-1000;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 8px 16px;
-  height: 100%;
   position: absolute;
   top: 60px;
   max-width: 360px;
