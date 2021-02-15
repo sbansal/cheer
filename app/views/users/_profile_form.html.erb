@@ -1,5 +1,5 @@
-<%= form_for(current_user, :as => :user, :url => registration_path(:user),
-  :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+<%= form_for(current_user,:html => { :method => :put, class: 'form-horizontal', remote: true }) do |f| %>
+<%= render 'shared/error_messages', object: current_user %>
 <div class="mb-3 col-sm-8">
   <%= f.label :full_name, 'Name', class: 'control-label form-label med bold-2' %>
   <div>
@@ -15,25 +15,9 @@
 </div>
 
 <div class="mb-3 col-sm-8">
-  <%= f.label :current_password, 'Your current password', class: 'form-label control-label med bold-2' %>
+  <%= f.label :time_zone, 'Time zone', class: 'form-label control-label med bold-2' %>
   <div>
-    <%= f.password_field :current_password, :autocomplete => "current-password", class: 'form-control' %>
-  </div>
-</div>
-
-<div class="mb-3 col-sm-8">
-  <%= f.label :password, 'Create a new password', class: 'form-label control-label med bold-2' %>
-  <div>
-    <%= f.password_field :password, :autocomplete => "new-password", class: 'form-control' %>
-  </div>
-  <span class="small">Make sure your password is at least 8 characters.</span>
-
-</div>
-
-<div class="mb-3 col-sm-8">
-  <%= f.label :password_confirmation, 'Confirm your new password', class: 'form-label control-label med bold-2' %>
-  <div>
-    <%= f.password_field :password_confirmation, :autocomplete => "new-password", class: 'form-control' %>
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {}, class: 'form-select' %>
   </div>
 </div>
 

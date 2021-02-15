@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     get 'accounts/cashflow_trend'
 
     #users resources
+    resources :users, only: [:update]
     post '/users/invite_person'
     post '/users/:id/reinvite', to: 'users#reinvite', as: :reinvite_user
     authenticate :user, lambda {|u| u.admin? } do
