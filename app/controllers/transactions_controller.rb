@@ -35,9 +35,11 @@ class TransactionsController < ApplicationController
 
   def update
     @transaction = current_account.transactions.find(params[:id])
+    @category_list = Category.find(transaction_params[:category_id]).category_list if transaction_params[:category_id]
+    @custom_description = transaction_params[:custom_description]
     if params[:bulk_update]
-      related_transaction_ids = @transaction.related_transactions.map(&:id)
-      @transaction.update_related(transaction_params, related_transaction_ids)
+      @related_transactions = @transaction.related_transactions
+      @transaction.update_related(transaction_params, @related_transactions.map(&:id))
     end
     @transaction.update(transaction_params)
     respond_to do |format|
