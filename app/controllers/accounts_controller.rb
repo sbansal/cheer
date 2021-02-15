@@ -1,6 +1,10 @@
 class AccountsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
+
   def settings
+    respond_to do |format|
+      format.html
+    end
   end
 
   def cashflow_trend
