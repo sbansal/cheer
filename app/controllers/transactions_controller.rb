@@ -35,6 +35,12 @@ class TransactionsController < ApplicationController
 
   def update
     @transaction = current_account.transactions.find(params[:id])
+    @category_list = Category.find(transaction_params[:category_id]).category_list if transaction_params[:category_id]
+    @custom_description = transaction_params[:custom_description]
+    if params[:bulk_update]
+      @related_transactions = @transaction.related_transactions
+      @transaction.update_related(transaction_params, @related_transactions.map(&:id))
+    end
     @transaction.update(transaction_params)
     respond_to do |format|
       format.js
@@ -50,6 +56,15 @@ class TransactionsController < ApplicationController
       end
     else
       render json: {status: 'not found'}, status: :not_found
+    end
+  end
+
+  def related
+    @transaction = current_account.transactions.find(params[:id])
+    @related_transactions = @transaction.related_transactions
+    @categorized_transactions = CategorizedTransaction.new(@transaction.category.descriptive_name, @related_transactions)
+    respond_to do |format|
+      format.html { render layout: false }
     end
   end
 

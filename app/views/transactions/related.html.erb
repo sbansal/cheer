@@ -1,0 +1,20 @@
+<div class="p-0 row med">
+  <div class="col-8">
+    <%= link_to pluralize(@categorized_transactions.count, 'related transaction'), '#', remote: true,
+      class: 'purple-linky text-decoration-underline arrow-right', data: { action: 'click->related-transactions#toggle'} %>
+  </div>
+  <div class="col text-end">
+    <%= signed_number_to_currency(@categorized_transactions.total_spend)%>
+  </div>
+</div>
+<div class="mt-3 hide" id="related-transactions">
+  <% @related_transactions.each do |related_tx| %>
+  <div class="row small py-2 border-bottom">
+    <div class="col-8">
+      <div><%= related_tx.custom_description%></div>
+      <div class="grey-100"><%= related_tx.formatted_occurred_at %></div>
+    </div>
+    <div class="col text-end"><%= signed_number_to_currency(related_tx.amount)%></div>
+  </div>
+  <% end %>
+</div>

@@ -45,13 +45,32 @@ RSpec.describe Transaction, type: :model do
       expect(updated_tx.amount).to eq 200
     end
 
-    it 'updates transactions' do
+    it 'updates description' do
       tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, @transaction_id)
       tx = tx.merge(name: 'netflix.com')
       expect {
         Transaction.create_transactions_from_json([tx], @user.id)
       }.to change { @user.transactions.count }.by(0)
-      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).custom_description).to eq 'netflix.com'
+      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).description).to eq 'netflix.com'
+    end
+
+    it 'does not update custom description' do
+      tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, @transaction_id)
+      tx = tx.merge(name: 'netflix.com')
+      expect {
+        Transaction.create_transactions_from_json([tx], @user.id)
+      }.to change { @user.transactions.count }.by(0)
+      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).custom_description).to eq 'Madison Bicycle Shop'
+    end
+
+    it 'does not update categories' do
+      tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, @transaction_id)
+      category_id = create(:category).plaid_category_id
+      tx = tx.merge(category_id: category_id, name: 'netflix.com')
+      expect {
+        Transaction.create_transactions_from_json([tx], @user.id)
+      }.to change { @user.transactions.count }.by(0)
+      expect(Transaction.find_by_plaid_transaction_id(@transaction_id).category).to eq @category
     end
 
     it 'does not create transaction with invalid account' do
@@ -69,6 +88,33 @@ RSpec.describe Transaction, type: :model do
         Transaction.create_transactions_from_json([invalid_bank_tx], @user.id)
       }.to change { @user.transactions.count }.by(0)
     end
+  end
+
+  it 'has related transactions' do
+    merchant = 'Amazon'
+    create(:transaction, description: 'Amazon Tips*2HTSK0EL3', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon Tips*2BLKSSDA0EL3', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon Tips*ASDAKSK', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon Tips*DAKSJAK', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon Tips*2V5DA0EL3', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon', category: @category, merchant_name: merchant, user: @user)
+    tx = create(:transaction, description: 'Amazon Tips', category: @category, merchant_name: merchant, user: @user)
+    expect(tx.related_transactions.size).to eq 7
+  end
+
+  it 'updates related transactions' do
+    merchant = 'Doordash'
+    custom_description = 'Doordash Delivery'
+    create(:transaction, description: 'Doordash Tips*2HTSK0EGH', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Doordash Tips*2BLKSSEL3', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Doordash Tips*2V5DA0EL3', category: @category, merchant_name: merchant, user: @user)
+    tx = create(:transaction, description: 'Doordash Tips', category: @category, merchant_name: merchant, user: @user)
+    ids = tx.related_transactions.map(&:id)
+    expect(tx.update_related({custom_description: custom_description}, ids)).to eq 4
+    expect(Transaction.where(id: ids).pluck(:custom_description).uniq).to eq [custom_description]
+    another_category = create(:category)
+    expect(tx.update_related({category_id: another_category.id}, ids)).to eq 4
+    expect(Transaction.where(id: ids).pluck(:category_id).uniq).to eq [another_category.id]
   end
 
   after(:all) do

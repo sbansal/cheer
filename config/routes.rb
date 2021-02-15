@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#cashflow'
     resources :transactions, only: [:index, :show, :destroy, :edit, :update]
+    get '/transactions/:id/related', to: 'transactions#related', as: :related_transactions
 
     resources :categories, only: [:index, :show]
 

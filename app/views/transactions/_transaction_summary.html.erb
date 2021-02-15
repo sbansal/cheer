@@ -2,11 +2,11 @@
   <div><%= transaction.formatted_occurred_at %></div>
 </div>
 <div class="col-6">
-  <span><%= transaction.custom_description %></span>
+  <span class="custom-desc"><%= transaction.custom_description %></span>
   <% if transaction.pending? %>
   <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
   <% end %>
-  <div class="grey-100"><%= transaction.category.category_list%></div>
+  <div class="grey-100 category-list"><%= transaction.category.category_list%></div>
 </div>
 <div class="col-3 text-end">
   <div class="<%=tx_amount_type(transaction.amount).downcase%>">

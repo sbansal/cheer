@@ -14,6 +14,9 @@
     <div id="categories-container-tx-<%= @transaction.id%>" class="categories-container"></div>
   </div>
   <% end %>
+  <div class="mt-2 xs">
+    <%= check_box_tag 'bulk_update', 'yes', false, class: 'form-check-input' %> Apply changes to all related transactions.
+  </div>
   <div class="mt-2">
     <%= f.submit "Save", class: 'btn btn-primary btn-sm xs' %>
     <%= link_to "Cancel", transaction_path(@transaction), data: {action: 'ajax:success->transactions#showTransactionDetails',
