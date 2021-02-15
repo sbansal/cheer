@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_205447) do
+ActiveRecord::Schema.define(version: 2021_02_15_174925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 2021_02_14_205447) do
     t.inet "last_sign_in_ip"
     t.text "otp_secret_ciphertext"
     t.integer "last_otp_at"
+    t.string "time_zone", default: "UTC"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
