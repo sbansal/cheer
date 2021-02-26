@@ -5,9 +5,9 @@ class Subscription < ApplicationRecord
 
   POSSIBLE_DAILY_FREQUENCY = [1]
   POSSIBLE_WEEKLY_FREQUENCY = [7]
-  POSSIBLE_MONTHLY_FREQUENCY = [29, 30, 31]
-  POSSIBLE_QUARTERLY_FREQUENCY = [90, 91, 92]
-  POSSIBLE_YEARLY_FREQUENCY = [365, 366]
+  POSSIBLE_MONTHLY_FREQUENCY = (28..33).to_a
+  POSSIBLE_QUARTERLY_FREQUENCY = (86..95).to_a
+  POSSIBLE_YEARLY_FREQUENCY = (360..370).to_a
 
   DAILY = 'daily'
   WEEKLY = 'weekly'
@@ -16,38 +16,53 @@ class Subscription < ApplicationRecord
   ANNUAL = 'annual'
 
   def with_frequency(days_array)
-    if days_array.eql? POSSIBLE_DAILY_FREQUENCY
+    if dataset_within_frequency?(days_array, POSSIBLE_DAILY_FREQUENCY)
       self.frequency = DAILY
-    elsif days_array.eql? POSSIBLE_WEEKLY_FREQUENCY
+    elsif dataset_within_frequency?(days_array, POSSIBLE_WEEKLY_FREQUENCY)
       self.frequency = WEEKLY
-    elsif (days_array - POSSIBLE_MONTHLY_FREQUENCY).empty?
+    elsif dataset_within_frequency?(days_array, POSSIBLE_MONTHLY_FREQUENCY)
       self.frequency = MONTHLY
-    elsif (days_array - POSSIBLE_QUARTERLY_FREQUENCY).empty?
+    elsif dataset_within_frequency?(days_array, POSSIBLE_QUARTERLY_FREQUENCY)
       self.frequency = QUARTERLY
-    elsif (days_array - POSSIBLE_YEARLY_FREQUENCY).empty?
+    elsif dataset_within_frequency?(days_array, POSSIBLE_YEARLY_FREQUENCY)
       self.frequency = ANNUAL
-    else
-      self.frequency = nil
     end
     self
   end
 
   def all_transactions
-    bank_account.transactions.where(description: description, amount: last_transaction.amount).includes(:bank_account)
+    last_transaction.related_transactions.where(amount: last_transaction.amount).order('occured_at desc')
   end
 
-  def active?
+  def update_state
     last_transaction_date = last_transaction.occured_at
     if frequency == DAILY
-      last_transaction_date.after?(1.day.ago)
+      self.active = last_transaction_date.after?(1.day.ago)
+    elsif frequency == WEEKLY
+      self.active = last_transaction_date.after?(1.week.ago)
     elsif frequency == MONTHLY
-      last_transaction_date.after?(1.month.ago)
+      self.active = last_transaction_date.after?(1.month.ago)
     elsif frequency == QUARTERLY
-      last_transaction_date.after?(3.month.ago)
+      self.active = last_transaction_date.after?(3.month.ago)
     elsif frequency == ANNUAL
-      last_transaction_date.after?(1.year.ago)
+      self.active = last_transaction_date.after?(1.year.ago)
     else
-      false
+      self.active = false
     end
+  end
+  
+  def state
+    self.active? ? 'active' : 'inactive'
+  end
+
+  private
+
+  def dataset_within_frequency?(days_array, range_array)
+    return false if days_array.length < 1
+    return false if (range_array == POSSIBLE_DAILY_FREQUENCY && days_array.length < 6)
+    return false if (range_array == POSSIBLE_WEEKLY_FREQUENCY && days_array.length < 3)
+    range = ((days_array - range_array).length.to_f / days_array.length.to_f * 100)
+    # puts "range=#{range} for range_array=#{range_array}, and days_array=#{days_array}"
+    range < 50
   end
 end

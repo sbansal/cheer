@@ -1,0 +1,41 @@
+<div class="slide-in from-right border-start border-bottom">
+  <div class="med px-3 slide-in-content" data-controller="subscriptions">
+    <div class="row m-0">
+      <div class="py-3 px-0">
+        <%= link_to 'Close', '', { class: 'btn btn-outline-primary btn-sm my-1 small',
+          data: { action: 'click->subscriptions#hideDetails' } }%>
+        <% if subscription.active? %>
+        <%= link_to 'Mark Inactive', subscription_path(subscription),
+          { class: 'btn btn-outline-secondary btn-sm my-1 small', data: { method: :put, remote: true }, id: 'state-change-button' }%>
+        <% else%>
+        <%= link_to 'Mark Active', subscription_path(subscription),
+          { class: 'btn btn-outline-secondary btn-sm my-1 small', data: { method: :put, remote: true }, id: 'state-change-button' }%>
+        <% end %>
+      </div>
+    </div>
+    <div class="py-2">
+      <div class="med grey-100">
+        <span id="subscription-state"><%= subscription.state.humanize%></span> - <span><%= subscription.frequency.humanize%></span>
+      </div>
+      <div class="lg-18 fw-bold"><%= subscription.description.upcase %> @ <%= signed_number_to_currency(subscription.amount) %></div>
+      <div class="med">
+        <span><%= image_tag subscription.bank_account.login_item.institution.logo_source, size: '20x20' %></span>
+        <span><%= subscription.bank_account.display_name %></span>
+      </div>
+    </div>
+
+    <div class="row my-3 lg-16">
+      <div class="col"><%= pluralize(@aggregated_transactions.count, 'transaction')%></div>
+      <div class="col text-end"><%= signed_number_to_currency(@aggregated_transactions.total_spend)%></div>
+    </div>
+
+    <div id="subscription-transactions" class="mb-4">
+      <% @aggregated_transactions.transactions.each do |tx| %>
+      <div class="border-bottom py-3 row">
+        <div class="small col"><%= tx.occured_at.strftime('%b %d %Y') %></div>
+        <div class="small col text-end"><%= signed_number_to_currency(tx.amount) %></div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

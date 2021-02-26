@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_15_174925) do
+ActiveRecord::Schema.define(version: 2021_02_26_023558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -158,7 +158,9 @@ ActiveRecord::Schema.define(version: 2021_02_15_174925) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "bank_account_id"
     t.string "description"
-    t.index ["bank_account_id", "frequency", "description"], name: "unique_subscriptions_by_frequency", unique: true
+    t.float "amount"
+    t.boolean "active", default: false
+    t.index ["bank_account_id", "frequency", "description", "amount"], name: "unique_subscriptions_by_frequency", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

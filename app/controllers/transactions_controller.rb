@@ -62,7 +62,7 @@ class TransactionsController < ApplicationController
   def related
     @transaction = current_account.transactions.find(params[:id])
     @related_transactions = @transaction.related_transactions
-    @categorized_transactions = CategorizedTransaction.new(@transaction.category.descriptive_name, @related_transactions)
+    @aggregated_transactions = AggregatedTransactions.new(@related_transactions)
     respond_to do |format|
       format.html { render layout: false }
     end

@@ -1,32 +1,19 @@
-<div class="mb-5">
-  <h4><%= label.humanize %> subscriptions</h4>
-  <% if subscriptions.present? %>
-    <% subscriptions.each do |subscription| %>
-    <div class="subscription" data-controller="container" data-action="click->container#toggle_target"
-      data-container-target="subscription-transactions">
-      <div>
-        <div class="fw-bold"><%= subscription.last_transaction.custom_description %></div>
-        <div class="xs grey-100"><%= subscription.all_transactions.count %> recurring transactions</div>
-      </div>
-      <div class="text-end">
-        <div class="fw-bold primary"><%= number_to_currency(subscription.last_transaction.amount)%> <%= subscription.frequency %></div>
-        <div class="xs grey-100">Last transaction on <%= subscription.last_transaction.occured_at.strftime('%b %d, %Y') %></div>
+<% if subscriptions.present? %>
+  <% subscriptions.each do |subscription| %>
+  <div class="border-bottom row py-2" data-controller="subscriptions">
+    <div class="col">
+      <div class="med"><%= link_to subscription.last_transaction.custom_description, subscription_path(subscription),
+        remote: true, class: 'purple-linky'%></div>
+        <div class="small grey-100">Last transaction on <%= subscription.last_transaction.formatted_occurred_at %></div>
+    </div>
+    <div class="col text-end">
+      <div class="med">
+        <div><%= number_to_currency(subscription.amount)%></div>
+        <div class="small grey-100"><%= subscription.frequency.humanize %></div>
       </div>
     </div>
-    <div class="subscription-transactions hide">
-      <% subscription.all_transactions.each do |tx| %>
-        <div class="subscription-transaction">
-          <div class="small"><%= tx.occured_at.strftime('%b %d %Y') %></div>
-          <div class="small text-end">
-            <span><%= image_tag tx.bank_account.login_item.institution.logo_source, size: '20x20' %></span>
-            <span class="small"><%= tx.bank_account.display_name %></span>
-          </div>
-          <div class="small text-end"><%= signed_number_to_currency(tx.amount) %></div>
-        </div>
-      <% end %>
-    </div>
-    <% end %>
-  <% else %>
-    <div class="grey-500 med">You don't have any <%= label %> subscriptions.</div>
+  </div>
   <% end %>
-</div>
+<% else %>
+  <div class="grey-500 med">You don't have any recurring transactions here.</div>
+<% end %>
