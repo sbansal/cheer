@@ -127,6 +127,8 @@ FactoryBot.define do
     description { 'Madison Bicycle Shop'}
     association :last_transaction, factory: :transaction
     frequency { 'monthly' }
+    active { false }
+    amount { 25 }
     bank_account
     user
   end

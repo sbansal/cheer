@@ -10,7 +10,7 @@ RSpec.describe Subscription, type: :model do
 
   describe '#active?' do
     it 'is active if last transaction within last month' do
-      subscription = create(:subscription, frequency: 'monthly')
+      subscription = create(:subscription, frequency: 'monthly', active: true)
       expect(subscription.active?).to eq true
     end
 
@@ -22,10 +22,10 @@ RSpec.describe Subscription, type: :model do
 
   describe '#all_transactions' do
     it 'returns all transactions for the subscriptions' do
-      create(:transaction, occured_at: 2.month.ago, bank_account: @bank_account, user: @user, description: 'tx1')
-      transaction = create(:transaction, occured_at: 1.month.ago, bank_account: @bank_account, user: @user, description: 'tx1')
-      subscription = create(:subscription, description: 'tx1', bank_account: @bank_account, last_transaction: transaction)
-      expect(subscription.all_transactions.count).to eq 2
+      transaction1 = create(:transaction, occured_at: 2.month.ago, bank_account: @bank_account, user: @user, description: 'tx1', category: @category)
+      transaction2 = create(:transaction, occured_at: 1.month.ago, bank_account: @bank_account, user: @user, description: 'tx1', category: @category)
+      subscription = create(:subscription, description: 'tx1', bank_account: @bank_account, last_transaction: transaction2, user: @user)
+      expect(subscription.all_transactions.size).to eq 2
     end
   end
 end

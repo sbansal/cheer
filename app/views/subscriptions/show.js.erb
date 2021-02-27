@@ -1,0 +1,5 @@
+document.getElementById('subscription-details').innerHTML = "<%= j (render @subscription) %>"
+var container = document.getElementById('subscription-details')
+container.querySelector('div.slide-in').style.width = (container.clientWidth - 20) + "px"
+container.querySelector('div.slide-in').style.top = (window.scrollY + 50) + "px"
+container.querySelector('div.slide-in').classList.add('show')

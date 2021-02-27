@@ -1,0 +1,10 @@
+document.getElementById('subscription-state').innerText = "<%= @subscription.state.humanize %>"
+<% if @subscription.active? %>
+document.getElementById('state-change-button').innerText = "Mark Inactive"
+<% else %>
+document.getElementById('state-change-button').innerText = "Mark Active"
+<% end %>
+
+document.getElementById('active-subscriptions').innerHTML = "<%= j(render 'subscriptions', subscriptions: @active_subscriptions)%>"
+document.getElementById('inactive-subscriptions').innerHTML = "<%= j(render 'subscriptions', subscriptions: @expired_subscriptions)%>"
+

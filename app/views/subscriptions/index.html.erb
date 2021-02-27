@@ -1,5 +1,19 @@
 <% title "Subscriptions" %>
-<div>
-  <%= render 'subscriptions', subscriptions: @active_subscriptions, label: 'active' %>
-  <%= render 'subscriptions', subscriptions: @expired_subscriptions, label: 'expired' %>
+<div class="mt-4 px-3">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="mb-5">
+        <div class="lg-18 fw-bold mb-3">Active Subscriptions</div>
+        <div id="active-subscriptions">
+          <%= render 'subscriptions', subscriptions: @active_subscriptions%>
+        </div>
+      </div>
+      <div class="mb-5">
+        <div class="lg-18 fw-bold mb-3">Past recurring Transactions</div>
+        <div id="inactive-subscriptions">
+          <%= render 'subscriptions', subscriptions: @expired_subscriptions%>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4" id="subscription-details"></div>
 </div>

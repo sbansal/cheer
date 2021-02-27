@@ -141,7 +141,9 @@ class BankAccount < ApplicationRecord
   end
 
   def create_recurring_transactions
-    transactions_hash = transactions.select(&:debit?).group_by { |tx| tx.custom_description + tx.amount.to_s }
+    transactions_hash = transactions.debits.order('occured_at asc').group_by {
+      |tx| "#{tx.custom_description}_#{tx.amount.to_s}"
+    }
     recurring_transactions = []
     transactions_hash.each do |key, transactions|
       if transactions.count > 1
@@ -149,11 +151,16 @@ class BankAccount < ApplicationRecord
         frequencies = dates.filter_map.with_index do |date, i|
           (dates[i] - dates[i+1]).to_i unless dates[i+1].nil?
         end
-        user_subscription = self.subscriptions.build(user_id: user_id).with_frequency(frequencies.uniq.sort)
+        last_transaction = transactions.first
+        user_subscription = self.subscriptions.find_or_initialize_by(
+          user_id: user_id,
+          description: last_transaction.custom_description,
+          amount: last_transaction.amount,
+        )
+        user_subscription = user_subscription.with_frequency(frequencies)
         if user_subscription.frequency?
-          last_transaction = transactions.first
           user_subscription.last_transaction = last_transaction
-          user_subscription.description = last_transaction.description
+          user_subscription.update_state
           begin
             user_subscription.save!
             recurring_transactions << user_subscription
