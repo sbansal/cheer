@@ -81,3 +81,7 @@ gem 'textacular'
 #ui
 gem 'pagy', '~> 3.5'
 gem 'plaid'
+
+#monitoring
+gem 'sentry-ruby'
+gem 'sentry-rails'

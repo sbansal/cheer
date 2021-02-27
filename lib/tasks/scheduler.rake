@@ -4,7 +4,7 @@ namespace :scheduler do
     Rails.logger.info("[Scheduler][RefreshBalances] Scheduling the balance refresh at #{Time.zone.now}")
     LoginItem.all.each do |login|
       access_token = login.plaid_access_token
-      Resque.enqueue(RefreshBalance, access_token)
+      RefreshBalanceJob.perform_later(access_token)
     end
   end
 end
