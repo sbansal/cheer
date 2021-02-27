@@ -57,7 +57,7 @@ class HistoricalTransactionsCreator < ApplicationService
         start_date,
         end_date,
         count: 250,
-        offset: transactions_json_array.length,
+        offset: transactions_json.length,
       )
       transactions_json += transactions_response[:transactions]
       accounts_json += transactions_response[:accounts]
