@@ -107,5 +107,9 @@ class User < ApplicationRecord
       false
     end
   end
+
+  def after_database_authentication
+    Sentry.set_user(id: id)
+  end
 end
 
