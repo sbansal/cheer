@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :bank_accounts, ->{ order(:created_at => 'DESC') }, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_many :events, ->{ order(:created_at => 'DESC') }, dependent: :destroy
 
   belongs_to :account
 

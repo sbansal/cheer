@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_023558) do
+ActiveRecord::Schema.define(version: 2021_02_28_020510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -113,6 +113,16 @@ ActiveRecord::Schema.define(version: 2021_02_26_023558) do
     t.string "name"
     t.text "hierarchy_string"
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "summary"
+    t.string "global_id"
+    t.jsonb "metadata"
+    t.integer "user_id"
+    t.string "source"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "institutions", force: :cascade do |t|

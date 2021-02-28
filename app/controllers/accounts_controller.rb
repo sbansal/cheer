@@ -28,7 +28,6 @@ class AccountsController < ApplicationController
     @user = @account.users.first
     @account.name = "#{@user.full_name} Account"
     @user.account_owner = true
-    Rails.logger.info("Creating account with params = #{@account.inspect} and @user = #{@user.inspect}")
 
     respond_to do |format|
       if @account.save
