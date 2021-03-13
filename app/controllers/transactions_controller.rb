@@ -20,6 +20,7 @@ class TransactionsController < ApplicationController
   def show
     @transaction = current_account.transactions.find(params[:id])
     respond_to do |format|
+      format.html
       format.js
       format.json { render json: @transaction }
     end
@@ -35,11 +36,13 @@ class TransactionsController < ApplicationController
 
   def update
     @transaction = current_account.transactions.find(params[:id])
-    @category_list = Category.find(transaction_params[:category_id]).category_list if transaction_params[:category_id]
-    @custom_description = transaction_params[:custom_description]
     if params[:bulk_update]
-      @related_transactions = @transaction.related_transactions
-      @transaction.update_related(transaction_params, @related_transactions.map(&:id))
+      related_ids = @transaction.related_transactions.map(&:id)
+      RelatedTransactionsCreatorJob.perform_later(
+        @transaction.to_global_id.to_s,
+        transaction_params,
+        related_ids,
+      )
     end
     @transaction.update(transaction_params)
     respond_to do |format|

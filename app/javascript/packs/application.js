@@ -4,12 +4,12 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("uplot")
 require("bootstrap")
 require("@popperjs/core")
+require("@hotwired/turbo-rails")
 // require("trix")
 // require("@rails/actiontext")
 
@@ -23,7 +23,8 @@ require("@popperjs/core")
 import {Toast} from 'bootstrap'
 import "controllers"
 
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener("turbo:load", function() {
+  console.debug("turbo!")
   var toastElList = [].slice.call(document.querySelectorAll('.toast'))
   var toastList = toastElList.map(function (toastEl) {
     return new Toast(toastEl)
@@ -32,3 +33,4 @@ document.addEventListener("turbolinks:load", function() {
     toastEl.show()
   })
 })
+

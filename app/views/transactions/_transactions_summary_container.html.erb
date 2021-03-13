@@ -5,9 +5,9 @@
     </div>
   </div>
 <% else %>
-  <% transactions.each do |transaction| %>
-  <div class="row py-1 border-bottom small" id="tx-<%= transaction.id %>">
-    <%= render 'transactions/transaction_summary', transaction: transaction %>
-  </div>
+  <%= turbo_frame_tag "transactions" do %>
+    <% transactions.each do |transaction| %>
+      <%= render 'transactions/transaction_summary', transaction: transaction %>
+    <% end %>
   <% end %>
 <% end %>

@@ -29,10 +29,13 @@ module ApplicationHelper
   end
 
   def signed_number_to_currency(amount)
-    if amount < 0
-      "+" + number_to_currency(amount.abs)
-    else
-      number_to_currency(amount.abs)
+    css_class = amount > 0 ? "debit" : "credit"
+    tag.div(class: css_class) do
+      if amount < 0
+        "+" + number_to_currency(amount.abs)
+      else
+        number_to_currency(amount.abs)
+      end
     end
   end
 end

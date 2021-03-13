@@ -1,11 +1,11 @@
+<%= turbo_stream_from 'transactions' %>
 <% if @transactions.empty? %>
 <div class="text-center grey-100 py-5">No transactions found.</div>
 <% else %>
-<% @transactions.each do |transaction| %>
-<div class="row py-3 border-bottom tx-row med" id="tx-<%= transaction.id %>" data-controller="transactions"
-  data-tx-id="<%= transaction.id%>" data-action="click->transactions#fetchTransactionDetails">
-  <%= render 'transaction_summary', transaction: transaction %>
-</div>
+<%= turbo_frame_tag "transactions" do %>
+  <% @transactions.each do |transaction| %>
+    <%= render 'transaction_summary', transaction: transaction %>
+  <% end %>
 <% end %>
 <% end %>
 <div class="my-3 mx-auto justify-content-center med primary">

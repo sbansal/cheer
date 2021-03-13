@@ -1,7 +1,8 @@
 <div class="p-0 row med">
   <div class="col-8">
-    <%= link_to pluralize(@aggregated_transactions.count, 'related transaction'), '#', remote: true,
-      class: 'purple-linky text-decoration-underline arrow-right', data: { action: 'click->related-transactions#toggle'} %>
+    <span class="primary text-decoration-underline arrow-right pointer" data-action="click->related-transactions#toggle">
+      <%= pluralize(@aggregated_transactions.count, 'related transaction')%>
+    </span>
   </div>
   <div class="col text-end">
     <%= signed_number_to_currency(@aggregated_transactions.total_spend)%>
