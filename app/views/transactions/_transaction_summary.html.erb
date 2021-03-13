@@ -1,15 +1,18 @@
-<div class="col-3">
-  <div><%= transaction.formatted_occurred_at %></div>
-</div>
-<div class="col-6">
-  <span class="custom-desc"><%= transaction.custom_description %></span>
-  <% if transaction.pending? %>
-  <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
+<%= turbo_frame_tag dom_id(transaction) do %>
+  <%= link_to transaction_path(transaction), class: 'no-bubble', 
+    data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal' } do %>
+    <div class="row py-3 border-bottom tx-row med">
+      <div class="col-3">
+        <div><%= transaction.formatted_occurred_at %></div>
+      </div>
+      <div class="col-6">
+        <span class="custom-desc"><%= transaction.custom_description %></span>
+        <% if transaction.pending? %>
+        <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
+        <% end %>
+        <div class="grey-100 category-list"><%= transaction.category.category_list%></div>
+      </div>
+      <div class="col-3 text-end"><%= signed_number_to_currency(transaction.amount)%></div>
+    </div>
   <% end %>
-  <div class="grey-100 category-list"><%= transaction.category.category_list%></div>
-</div>
-<div class="col-3 text-end">
-  <div class="<%=tx_amount_type(transaction.amount).downcase%>">
-    <%= signed_number_to_currency(transaction.amount)%>
-  </div>
-</div>
+<% end %>

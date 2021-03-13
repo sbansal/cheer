@@ -17,7 +17,8 @@ export default class extends Controller {
     })
   }
 
-  toggle() {
+  toggle(event) {
     document.getElementById('related-transactions').classList.toggle('hide')
+    false
   }
 }

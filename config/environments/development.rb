@@ -92,4 +92,8 @@ Rails.application.configure do
     Bullet.rails_logger = true
     Bullet.add_footer = true
   end
+
+  config.action_cable.url = "wss://app.usecheer.test/cable"
+  config.force_ssl = true
+  config.action_cable.allowed_request_origins = ["https://app.usecheer.test"]
 end

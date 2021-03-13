@@ -1,7 +1,8 @@
 <div class="p-0 row med">
   <div class="col-8">
-    <%= link_to pluralize(@aggregated_transactions.count, 'related transaction'), '#', remote: true,
-      class: 'purple-linky text-decoration-underline arrow-right', data: { action: 'click->related-transactions#toggle'} %>
+    <span class="primary text-decoration-underline arrow-right pointer" data-action="click->related-transactions#toggle">
+      <%= pluralize(@aggregated_transactions.count, 'related transaction')%>
+    </span>
   </div>
   <div class="col text-end">
     <%= signed_number_to_currency(@aggregated_transactions.total_spend)%>
@@ -11,7 +12,10 @@
   <% @related_transactions.each do |related_tx| %>
   <div class="row small py-2 border-bottom">
     <div class="col-8">
-      <div><%= related_tx.custom_description%></div>
+      <div>
+        <%= link_to related_tx.custom_description, transaction_path(related_tx), class: 'no-bubble',
+        data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'} %>
+      </div>
       <div class="grey-100"><%= related_tx.formatted_occurred_at %></div>
     </div>
     <div class="col text-end"><%= signed_number_to_currency(related_tx.amount)%></div>

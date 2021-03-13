@@ -3,6 +3,10 @@ class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :category
 
+  validates :custom_description, :category_id, presence: true
+
+  after_update_commit { broadcast_replace_to "transactions", partial: 'transactions/transaction_summary', locals: {transaction: self} }
+
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
   scope :with_category_description, ->(root_name) { joins(:category).where("descriptive_name = ?", root_name) }
@@ -61,10 +65,10 @@ class Transaction < ApplicationRecord
   def update_related(transactions_params, related_ids)
     if transactions_params[:custom_description]
       Transaction.where(id: related_ids, user_id: self.user_id)
-        .update_all(custom_description: transactions_params[:custom_description], updated_at: Time.zone.now.utc)
+        .update(custom_description: transactions_params[:custom_description], updated_at: Time.zone.now.utc)
     elsif transactions_params[:category_id]
       Transaction.where(id: related_ids, user_id: self.user_id)
-        .update_all(category_id: transactions_params[:category_id], updated_at: Time.zone.now.utc)
+        .update(category_id: transactions_params[:category_id], updated_at: Time.zone.now.utc)
     end
   end
 

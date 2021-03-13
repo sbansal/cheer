@@ -1,4 +1,4 @@
-$default-color: #334E68;
+$default-color: #224E68;
 $primary: #7069FA;
 $primary-dark: #5D55FA;
 $primary-grey: #829AB1;
@@ -589,7 +589,6 @@ ul.submenu {
 }
 
 .tx-row, .category-row {
-  cursor: pointer;
   &:hover {
     background-color: $primary-900;
   }
@@ -607,3 +606,6 @@ ul.submenu {
   max-width: 60px;
 }
 
+.pointer {
+  cursor: pointer;
+}
