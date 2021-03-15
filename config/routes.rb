@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     post '/users/:id/reinvite', to: 'users#reinvite', as: :reinvite_user
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
+      get '/users', to: 'users#index'
     end
 
     #two factor authentication routes

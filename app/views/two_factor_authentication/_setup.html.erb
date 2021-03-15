@@ -21,7 +21,7 @@
   </div>
   <div class="row mt-2">
     <section class="form-background col-8">
-      <%= form_tag '/two_factor_authentication/', method: :post, class: 'form-inline', remote: true do %>
+      <%= form_tag '/two_factor_authentication/', method: :post, class: 'form-inline', remote: true, 'data-turbo': 'false' do %>
       <%= hidden_field_tag :otp_secret, @otp_secret %>
       <p class="med">Enter the six-digit code generated in the authenticator app.</p>
       <div class="row m-0">

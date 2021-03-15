@@ -13,7 +13,7 @@
       Invited on <%= user.created_at.strftime("%B %d, %Y")%>
     <% end %>
   </div>
-  <%= link_to 'Edit Profile', edit_user_registration_path, class: 'purple-linky small text-decoration-underline '%>
+  <%= link_to 'Edit Profile', accounts_settings_path, class: 'purple-linky small text-decoration-underline '%>
   <% unless user.activated? %>
   | <%= link_to 'Resend invitation email', reinvite_user_path(user), method: :post,
       class: 'purple-linky small text-decoration-underline '%>

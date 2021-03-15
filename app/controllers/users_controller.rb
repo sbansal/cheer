@@ -8,16 +8,22 @@ class UsersController < ApplicationController
     @user.invite_person(params[:email], params[:full_name])
     if @user.save
       @user.send_invitation_message(current_user.full_name)
-      redirect_to(accounts_settings_path, notice: "An invitation has been sent to #{@user.email}.")
+      flash[:notice_header] = 'Invitation sent.'
+      flash[:notice] = "We have invited #{@user.full_name} to your cheer account."
+      redirect_to(accounts_settings_path)
     else
-      redirect_to(accounts_settings_path, :flash => { :error => @user.errors.full_messages })
+      flash[:alert_header] = 'Invite not sent.'
+      flash[:alert] = "An account with this email address already exists."
+      redirect_to(accounts_settings_path)
     end
   end
 
   def reinvite
     @user = User.find(params[:id])
     @user.send_invitation_message(current_user.full_name)
-    redirect_to(accounts_settings_path, notice: "An invitation has been sent to #{@user.email}.")
+    flash[:notice_header] = 'Invitation sent.'
+    flash[:notice] = "We have invited #{@user.full_name} to your cheer account."
+    redirect_to(accounts_settings_path)
   end
 
   def update

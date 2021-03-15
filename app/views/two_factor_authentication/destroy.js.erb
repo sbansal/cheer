@@ -1,8 +1,3 @@
-<% if @last_otp_at %>
 document.getElementById('tfa-container').innerHTML = "<%= j render('setting') %>"
 document.getElementById('toaster').innerHTML = ""
 document.getElementById('toaster').innerHTML = "<%= j render('shared/toast_messages') %>"
-<% else %>
-document.getElementById('tfa-error').innerHTML = "<%= @alert %>"
-<% end %>
-

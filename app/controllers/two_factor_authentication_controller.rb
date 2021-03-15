@@ -12,8 +12,8 @@ class TwoFactorAuthenticationController < ApplicationController
     if @last_otp_at.present?
       current_user.update(otp_secret: @otp_secret, last_otp_at: @last_otp_at)
       current_user.send_two_factor_auth_notification
-      redirect_to accounts_settings_path, flash: { notice_header: 'Two Factor authentication enabled',
-        notice: 'You have enabled two factor authentication and added an extra layer of security to your account.'}
+      flash[:notice_header] = 'Two Factor authentication enabled.'
+      flash[:notice] = 'You have enabled two factor authentication and added an extra layer of security to your account.'
     else
       @alert = 'The code you entered did not work. Please try again.'
       respond_to do |format|
@@ -25,7 +25,7 @@ class TwoFactorAuthenticationController < ApplicationController
   def destroy
     current_user.update(otp_secret: nil, last_otp_at: nil)
     current_user.send_two_factor_auth_notification
-    redirect_to accounts_settings_path, flash: { notice_header: 'Two Factor authentication disabled.',
-      notice: 'Your account does not have an extra layer of protection.'}
+    flash[:notice_header] = 'Two Factor authentication disabled.'
+    flash[:notice] = 'Your account does not have an extra layer of protection.'
   end
 end
