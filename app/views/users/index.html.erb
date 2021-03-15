@@ -9,12 +9,12 @@
     <div class="col-4">
       <div><%= user.full_name %></div>
       <div><%= user.email %></div>
-      <div class="xs grey-50">Confirmed at <%= user.confirmed_at&.strftime('%c') || "-" %></div>
+      <div class="xs grey-50">Confirmed at <%= user.confirmed_at&.strftime('%c') || '-' %></div>
     </div>
     <div class="col-4 small">
-      <div>Created on - <%= user.created_at.strftime('%c') %></div>
+      <div>Created on - <%= user.created_at&.strftime('%c') || '-' %></div>
       <div>Sign in count - <%= user.sign_in_count %></div>
-      <div>Current Sign in at - <%= user.current_sign_in_at.strftime('%c') %></div>
+      <div>Current Sign in at - <%= user.current_sign_in_at&.strftime('%c') || '-' %></div>
     </div>
     <div class="col-4 small">
       <div>Login Items - <%= user.login_items.size %></div>
