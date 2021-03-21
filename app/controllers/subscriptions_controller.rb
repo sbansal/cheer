@@ -6,7 +6,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
-    @subscription = current_user.subscriptions.find(params[:id])
+    @subscription = current_account.subscriptions.find(params[:id])
     @aggregated_transactions = AggregatedTransactions.new(@subscription.all_transactions)
   end
 
