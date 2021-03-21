@@ -30,13 +30,16 @@ class AccountsController < ApplicationController
     @user.account_owner = true
     Rails.logger.info("Creating account with params = #{@account.inspect} and @user = #{@user.inspect}")
 
-    respond_to do |format|
-      if @account.save
-        sign_in(:user, @user)
-      else
+    if @account.save
+      flash[:notice_header] = 'Account successfully created.'
+      flash[:notice] = 'We sent a confirmation link to your email address. Please follow the link to activate your account.'
+      redirect_to new_user_session_path
+    else
+      respond_to do |format|
         format.html { render action: "new", layout: 'devise'}
       end
     end
+
   end
 
   private
