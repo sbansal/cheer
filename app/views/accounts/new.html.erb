@@ -4,7 +4,7 @@
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
 
-    <%= form_for(@account, method: :post) do |account_form| %>
+    <%= form_for(@account, method: :post, html: {'data-turbo': 'false'}) do |account_form| %>
     <%= render "shared/error_messages", object: @account %>
       <%= account_form.hidden_field :name %>
       <%= account_form.fields_for :users do |f| %>
