@@ -19,7 +19,7 @@
       </div>
       <div class="lg-18 fw-bold"><%= subscription.description.upcase %> @ <%= signed_number_to_currency(subscription.amount) %></div>
       <div class="med">
-        <span><%= image_tag subscription.bank_account.login_item.institution.logo_source, size: '20x20' %></span>
+        <span><%= image_tag subscription.bank_account.institution.logo_source, size: '20x20' %></span>
         <span><%= subscription.bank_account.display_name %></span>
       </div>
     </div>

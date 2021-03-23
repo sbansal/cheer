@@ -14,7 +14,7 @@
         <div class="border rounded-3">
           <% @login_items.each do |login_item|%>
             <div class="row border-bottom py-3 m-0 px-2">
-              <% if login_item.institution_logo_exists? %>
+              <% if login_item.institution.logo.present? %>
                 <div class="p-2 col-1 d-none d-xl-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
               <% else %>
                 <div class="p-2 col-1 d-none d-xl-block">
