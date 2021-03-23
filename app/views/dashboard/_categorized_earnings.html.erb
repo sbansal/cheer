@@ -23,6 +23,7 @@
         </div>
         <div class="col-4 text-end"><%= number_to_currency(earning.total_spend.abs)%></div>
         <div class="transactions-summary hide my-2">
+          <%= turbo_stream_from 'transactions' %>
           <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
         </div>
       </div>

@@ -18,16 +18,17 @@
   <% else %>
     <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
       <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom p-2 category-row" data-controller="transactions">
-        <div class="col-8">
+      <div class="row m-0 border-bottom p-2 pointer" data-controller="transactions" data-action="click->transactions#showTransactions">
+        <div class="col-8" >
           <div><%= spend.category_name %></div>
           <div class="small grey-100">
             <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline',
-              data: { action: 'click->transactions#showTransactions' } %>
+              data: { action: 'click->transactions#showTransactions', remote: true } %>
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
         <div class="transactions-summary hide my-2">
+          <%= turbo_stream_from 'transactions' %>
           <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
         </div>
       </div>
@@ -48,12 +49,12 @@
   <% else %>
     <% @spend_by_categories[:extras_by_categories].each do |spend| %>
       <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom p-2 category-row" data-controller="transactions">
+      <div class="row m-0 border-bottom p-2 pointer" data-controller="transactions" data-action="click->transactions#showTransactions">
         <div class="col-8">
           <div><%= spend.category_name %></div>
           <div class="small grey-100">
             <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline',
-            data: { action: 'click->transactions#showTransactions' }%>
+            data: { action: 'click->transactions#showTransactions', remote: true }%>
           </div>
         </div>
         <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
