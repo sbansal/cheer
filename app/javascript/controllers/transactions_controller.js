@@ -5,8 +5,11 @@ export default class extends Controller {
 
   showTransactions(event) {
     console.debug("#showTransactions")
-    this.element.classList.toggle('primary-900-bg')
-    this.element.querySelector('.transactions-summary').classList.toggle('hide')
+    if (event.delegateTarget?.tagName !== 'A' && !event.delegateTarget?.classList.contains('no-bubble')) {
+      this.element.classList.toggle('primary-900-bg')
+      this.element.querySelector('.transactions-summary').classList.toggle('hide')
+      event.stopPropagation()
+    }
     event.preventDefault()
   }
 
