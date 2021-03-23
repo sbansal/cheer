@@ -58,8 +58,4 @@ class LoginItem < ApplicationRecord
     )
     link_token
   end
-
-  def institution_logo_exists?
-    institution&.logo.present?
-  end
 end

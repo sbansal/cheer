@@ -2,16 +2,16 @@
   <div class="col-8 med">
     <div class="row">
       <div class="col-3 px-0 mw60 text-center">
-        <% if account.login_item&.institution_logo_exists? %>
-          <div class="py-2"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% if account.institution&.logo.present? %>
+          <div class="py-2"><%= image_tag account&.institution&.logo_source, size: "30x30" %></div>
         <% else %>
           <%= render 'bank_accounts/placeholder_logo', account: account %>
         <% end %>
       </div>
       <div class="col-9">
         <div class="small grey-100">
-          <% if account.login_item %>
-            <%= account.login_item&.institution.name.upcase %> -
+          <% if account.institution %>
+            <%= account&.institution.name.upcase %> -
           <% end %>
           <%= account.account_subtype&.upcase %>
         </div>

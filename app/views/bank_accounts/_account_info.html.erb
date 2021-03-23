@@ -2,20 +2,20 @@
   <div class="col-8 p-0">
     <div class="row m-0">
       <div class="p-2 col-4 mw60">
-        <% if account.login_item&.institution_logo_exists? %>
-          <div class="text-center"><%= image_tag account&.login_item&.institution&.logo_source, size: "30x30" %></div>
+        <% if account.institution&.logo.present? %>
+          <div class="text-center"><%= image_tag account&.institution&.logo_source, size: "30x30" %></div>
         <% else %>
           <%= render 'placeholder_logo', account: account %>
         <% end %>
       </div>
       <div class="col-8 p-0">
         <div class="med grey-100">
-          <% if account.login_item %>
-          <%= account.login_item&.institution.name.upcase %> -
+          <% if account.institution %>
+          <%= account.institution.name.upcase %> -
           <% end %>
           <%= account.account_subtype&.upcase %>
         </div>
-        <div class="med"><%= account.display_name %></div>
+        <div class="med"><%= account.descriptive_name %></div>
       </div>
     </div>
   </div>

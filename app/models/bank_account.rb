@@ -113,7 +113,11 @@ class BankAccount < ApplicationRecord
   end
 
   def descriptive_name
-    (official_name || name) + "••••" + mask
+    if mask
+      display_name + " - " + mask
+    else
+      display_name
+    end
   end
 
   def display_name
@@ -137,7 +141,7 @@ class BankAccount < ApplicationRecord
   end
 
   def manually_tracked?
-    login_item.nil?
+    institution.nil?
   end
 
   def create_recurring_transactions
