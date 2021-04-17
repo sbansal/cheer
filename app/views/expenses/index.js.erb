@@ -1,0 +1,3 @@
+document.getElementById('expenses').innerHTML = ""
+document.getElementById('expenses').innerHTML += ("<%= j (render 'dashboard/category_spend', spend_by_categories: @essential_spend_by_categories, header_title: 'Essential Spend') %>")
+document.getElementById('expenses').innerHTML += ("<%= j (render 'dashboard/category_spend', spend_by_categories: @non_essential_spend_by_categories, header_title: 'Non Essential Spend') %>")

@@ -1,33 +1,24 @@
-<div class="border rounded-3">
-  <div class="border-bottom row m-0 p-2">
-    <div class="col-6">
-      <div class="fw-bold">Total Money In</div>
+<% if @earning_transactions.empty? %>
+  <div class="row m-0">
+    <div class="col-12 py-3">
+      <div class="text-center grey-100 font-italic med">No transactions yet.</div>
     </div>
-    <div class="col-6 text-end fw-bold"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
   </div>
-  <% if @earning_transactions.empty? %>
-    <div class="row m-0">
-      <div class="col-12 py-3">
-        <div class="text-center grey-100 font-italic med">No transactions yet.</div>
+<% else %>
+  <% @earning_transactions.each do |earning| %>
+    <% if earning.transactions.count > 0 %>
+    <div class="row m-0 border-bottom category-row p-2" data-controller="transactions" data-action="click->transactions#showTransactions">
+      <div class="col-8">
+        <div><%= earning.category_name %></div>
+        <div class="small">
+          <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary text-decoration-underline '%>
+        </div>
+      </div>
+      <div class="col-4 text-end"><%= number_to_currency(earning.total_spend.abs)%></div>
+      <div class="transactions-summary hide my-2">
+        <%= render 'transactions/transactions_summary_container', transactions: earning.transactions%>
       </div>
     </div>
-  <% else %>
-    <% @earning_transactions.each do |earning| %>
-      <% if earning.transactions.count > 0 %>
-      <div class="row m-0 border-bottom category-row p-2" data-controller="transactions" data-action="click->transactions#showTransactions">
-        <div class="col-8">
-          <div><%= earning.category_name %></div>
-          <div class="small">
-            <%= link_to "#{pluralize(earning.transactions.count, 'transactions')}", '#', class: 'primary text-decoration-underline '%>
-          </div>
-        </div>
-        <div class="col-4 text-end"><%= number_to_currency(earning.total_spend.abs)%></div>
-        <div class="transactions-summary hide my-2">
-          <%= turbo_stream_from 'transactions' %>
-          <%= render 'transactions/transactions_summary_container', transactions: earning.transactions %>
-        </div>
-      </div>
-      <% end %>
     <% end %>
   <% end %>
-</div>
+<% end %>

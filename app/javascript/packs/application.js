@@ -22,15 +22,13 @@ require("@hotwired/turbo-rails")
 
 import {Toast} from 'bootstrap'
 import "controllers"
+import {triggerToast} from "../packs/utils.js"
 
 document.addEventListener("turbo:load", function() {
   console.debug("turbo!")
   var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-  var toastList = toastElList.map(function (toastEl) {
-    return new Toast(toastEl)
-  })
-  toastList.map(function (toastEl) {
-    toastEl.show()
+  toastElList.map(function (toastEl) {
+    triggerToast(toastEl)
   })
 })
 

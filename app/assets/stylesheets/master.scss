@@ -51,10 +51,10 @@ a {
   text-decoration: none;
 }
 
-svg {
-  width: 20px;
-  height: 20px;
-}
+//svg {
+//  width: 20px;
+//  height: 20px;
+//}
 
 .form-control {
   box-shadow: none;
@@ -401,6 +401,10 @@ ul.basic {
   z-index: 1000;
 }
 
+.z-2000 {
+  z-index: 2000;
+}
+
 .ellipsis-link {
   padding: 4px;
   &:hover {
@@ -608,4 +612,44 @@ ul.submenu {
 
 .pointer {
   cursor: pointer;
+}
+
+.btn-svg {
+  background: transparent;
+  border: none;
+  padding: 3px 5px;
+  border-radius: 4px;
+  color: $default-color;
+  opacity: 0.5;
+  &:focus {
+    background-color: $grey-900;
+    color: $default-color;
+    opacity: 1;
+    outline: none !important;
+  };
+}
+
+.btn-h:hover {
+  background-color: $grey-900;
+  color: $default-color;
+  opacity: 1;
+  svg {
+    color: $default-color;
+  }
+}
+
+.c-shadow {
+  box-shadow: #00000017 0px 5px 15px;
+}
+
+.modal-backdrop.show {
+  opacity: 0;
+}
+
+.big-shadow {
+  box-shadow: #00000080 0px 16px 70px;
+}
+
+.toast {
+  background-color: #FFF;
 }

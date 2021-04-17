@@ -3,7 +3,7 @@
   <div class="border-bottom row py-2" data-controller="subscriptions">
     <div class="col">
       <div class="med"><%= link_to subscription.last_transaction.custom_description, subscription_path(subscription),
-        remote: true, class: 'purple-linky'%></div>
+        remote: true, class: 'linky'%></div>
         <div class="small grey-100">Last transaction on <%= subscription.last_transaction.formatted_occurred_at %></div>
     </div>
     <div class="col text-end">

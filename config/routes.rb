@@ -62,5 +62,9 @@ Rails.application.routes.draw do
 
     # subscriptions
     resources :subscriptions, only: [:index, :show, :update]
+
+    #expenses
+    resources :expenses, only: [:index]
+    resources :earnings, only: [:index]
   end
 end

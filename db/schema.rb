@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_023558) do
+ActiveRecord::Schema.define(version: 2021_03_28_232524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -115,6 +115,16 @@ ActiveRecord::Schema.define(version: 2021_02_26_023558) do
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "summary"
+    t.string "global_id"
+    t.jsonb "metadata"
+    t.integer "user_id"
+    t.string "source"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "institutions", force: :cascade do |t|
     t.string "plaid_institution_id"
     t.string "name"
@@ -184,6 +194,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_023558) do
     t.integer "category_id"
     t.text "custom_description"
     t.string "merchant_name"
+    t.boolean "essential"
     t.index ["custom_description"], name: "index_transactions_on_custom_description"
     t.index ["description"], name: "trgm_description_indx", opclass: :gist_trgm_ops, using: :gist
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true

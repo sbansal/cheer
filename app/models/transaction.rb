@@ -10,8 +10,6 @@ class Transaction < ApplicationRecord
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
   scope :with_category_description, ->(root_name) { joins(:category).where("descriptive_name = ?", root_name) }
-  scope :essential, -> { joins(:category).where("essential = TRUE") }
-  scope :non_essential, -> { joins(:category).where("essential = FALSE") }
   scope :debits, -> {joins(:category).where('amount >= 0 and plaid_category_id not in (?)', Category::IGNORE_LIST)}
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
@@ -69,6 +67,9 @@ class Transaction < ApplicationRecord
     elsif transactions_params[:category_id]
       Transaction.where(id: related_ids, user_id: self.user_id)
         .update(category_id: transactions_params[:category_id], updated_at: Time.zone.now.utc)
+    elsif transactions_params[:essential]
+      Transaction.where(id: related_ids, user_id: self.user_id)
+        .update(essential: transactions_params[:essential], updated_at: Time.zone.now.utc)
     end
   end
 
@@ -83,6 +84,7 @@ class Transaction < ApplicationRecord
         created_at = transaction.nil? ? Time.zone.now.utc : transaction.created_at
         custom_description = transaction.nil? ? transactions_json[:name] : transaction.custom_description
         category_id = transaction.nil? ? category&.id : transaction.category_id
+        essential_tx = transaction.nil? ? category.essential? : transaction.category.essential?
         {
           plaid_transaction_id: transactions_json[:transaction_id],
           user_id: user_id,
@@ -104,6 +106,7 @@ class Transaction < ApplicationRecord
           created_at: created_at,
           updated_at: Time.zone.now.utc,
           merchant_name:transactions_json[:merchant_name],
+          essential: category.essential_tx,
         }
       rescue => e
         Rails.logger.error("Unable to process transaction with payload: #{transactions_json}, exception - #{e}")
