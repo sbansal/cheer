@@ -27,11 +27,11 @@ export default class extends Controller {
   }
 
   loadCashflowTrends() {
-    console.debug("Loading cashflow trends")
+    console.debug("loadCashflowTrends")
     let opts = {
       title: "Assets vs Liabilities ",
-      id: "cashflow-trend",
-      class: "cashflow-trend",
+      id: "cashflow-trend-chart",
+      class: "cashflow-trend-chart",
       width: Math.max(window.innerWidth/2 - 200, 300),
       height: 300,
       series: [
@@ -95,15 +95,16 @@ export default class extends Controller {
           Array.from(assets_trend_map.values()),
           Array.from(liabilities_trend_map.values()),
         ]
-        document.getElementById('cashflow-trend').innerHTML = ""
         let uplot = new uPlot(opts,data,document.getElementById('cashflow-trend'))
+        document.getElementById('cashflow-trend').classList.add('show')
       },
       error: function(data) {}
     })
   }
 
   connect() {
-    if (document.getElementById('cashflow-trend')) {
+    if (document.getElementById('cashflow-trend')
+      && document.getElementById('cashflow-trend').children.length == 0 ) {
       this.loadCashflowTrends()
     }
   }
