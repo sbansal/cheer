@@ -1,26 +1,14 @@
-<div class="toast-container position-absolute p-3 bottom-0 end-0 z-1000">
-<% if notice %>
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="toast-header primary">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="me-1">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    <strong class="me-auto"><%= flash[:notice_header] || 'Cheers!' %></strong>
-    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+<div class="toast-container position-absolute p-3 bottom-0 end-0 z-2000">
+  <% if flash[:notice] || flash[:alert] || @notice %>
+  <div class="toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-previously-shown="false">
+    <div class="toast-header primary">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="me-1" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <strong class="me-auto"><%= flash[:alert_header] || flash[:notice_header] || @notice_header ||'Cheers!' %></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body"><%= flash[:alert] || flash[:notice] || @notice %></div>
   </div>
-  <div class="toast-body"><%= notice %></div>
-</div>
-<% end %>
-<% if alert %>
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="toast-header danger">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="me-1">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    <strong class="me-auto"><%= flash[:alert_header] || 'Cheer up!' %></strong>
-    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-  <div class="toast-body"><%= alert %></div>
-</div>
-<% end %>
+  <% end %>
 </div>

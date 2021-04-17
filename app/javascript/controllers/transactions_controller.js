@@ -1,7 +1,9 @@
 import { Controller } from "stimulus"
 import Rails from "@rails/ujs"
+import {triggerToast} from "../packs/utils.js"
 
 export default class extends Controller {
+  static targets = [ "essentialMenuItem", "bulkEssentialMenuItem"]
 
   showTransactions(event) {
     console.debug("#showTransactions")
@@ -46,6 +48,55 @@ export default class extends Controller {
         },
       })
     }, 500)
+    event.preventDefault()
+  }
+
+  updateTransactions(transactionId, formData) {
+    Rails.ajax({
+      url: "/transactions/" + transactionId,
+      type: "PUT",
+      dataType: 'script',
+      contentType: 'application/json',
+      data: formData,
+      success: function(data) {
+        triggerToast(document.getElementsByClassName('toast')[0])
+      },
+      error: function(data) {},
+      complete: function(data) {
+        var start = document.getElementById('start')
+        var end = document.getElementById('end')
+        if (start && end) {
+          Rails.ajax({
+            url: `/expenses?start=${start.value}&end=${end.value}`,
+            type: 'GET',
+            dataType: 'script',
+            success: function(data) {},
+            error: function(data) {},
+            complete: function(data) {}
+          })
+        }
+      },
+    })
+  }
+
+  toggleEssentialSpend(event) {
+    console.debug("#toggleEssentialSpend")
+    let transactionId = this.essentialMenuItemTarget.getAttribute('data-id')
+    let essentialValue = this.essentialMenuItemTarget.getAttribute('data-value')
+    var formData = new FormData()
+    formData.append("transaction[essential]", `${essentialValue}`)
+    this.updateTransactions(transactionId, formData)
+    event.preventDefault()
+  }
+
+  toggleBulkEssentialSpend(event) {
+    console.debug("#toggleBulkEssentialSpend")
+    let transactionId = this.bulkEssentialMenuItemTarget.getAttribute('data-id')
+    let essentialValue = this.bulkEssentialMenuItemTarget.getAttribute('data-value')
+    var formData = new FormData()
+    formData.append("transaction[essential]", `${essentialValue}`)
+    formData.append("bulk_update", true)
+    this.updateTransactions(transactionId, formData)
     event.preventDefault()
   }
 }

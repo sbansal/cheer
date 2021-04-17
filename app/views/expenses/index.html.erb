@@ -1,0 +1,4 @@
+<%= turbo_frame_tag('expenses') do %>
+  <%= render 'dashboard/category_spend', spend_by_categories: @essential_spend_by_categories, header_title: 'Essential Spend' %>
+  <%= render 'dashboard/category_spend', spend_by_categories: @non_essential_spend_by_categories, header_title: 'Non Essential Spend' %>
+<% end %>

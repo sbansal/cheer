@@ -1,69 +1,29 @@
-<div class="border rounded-3">
-  <div class="row m-0 border-bottom p-2">
-    <div class="col">
-      <div class="fw-bold">Total Money Out</div>
+<div class="row m-0 my-4 p-2">
+  <div class="col"><span><%= header_title %></span></div>
+  <div class="col text-end"><%= number_to_currency(spend_by_categories[:total]) %></div>
+</div>
+<% if spend_by_categories[:transactions_by_categories].empty? %>
+  <div class="row m-0">
+    <div class="col-12 py-3 border-bottom">
+      <div class="text-center grey-100 font-italic med">No transactions yet.</div>
     </div>
-    <div class="col text-end fw-bold"><%= number_to_currency(@cashflow.total_money_out.abs) %></div>
   </div>
-  <div class="row m-0 my-4 p-2">
-    <div class="col"><span>Essential Spend</span></div>
-    <div class="col text-end"><%= number_to_currency(@spend_by_categories[:essentials_total]) %></div>
-  </div>
-  <% if @spend_by_categories[:essentials_by_categories].empty? %>
-    <div class="row m-0">
-      <div class="col-12 py-3 border-bottom">
-        <div class="text-center grey-100 font-italic med">No transactions yet.</div>
-      </div>
-    </div>
-  <% else %>
-    <% @spend_by_categories[:essentials_by_categories].each do |spend| %>
-      <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom p-2 pointer" data-controller="transactions" data-action="click->transactions#showTransactions">
-        <div class="col-8" >
-          <div><%= spend.category_name %></div>
-          <div class="small grey-100">
-            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline',
-              data: { action: 'click->transactions#showTransactions', remote: true } %>
-          </div>
-        </div>
-        <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
-        <div class="transactions-summary hide my-2">
-          <%= turbo_stream_from 'transactions' %>
-          <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
+<% else %>
+  <% spend_by_categories[:transactions_by_categories].each do |categorized_spend| %>
+    <% if categorized_spend.count > 0 %>
+    <div class="row m-0 border-bottom p-2 pointer" data-controller="transactions" data-action="click->transactions#showTransactions">
+      <div class="col-8" >
+        <div><%= categorized_spend.category_name %></div>
+        <div class="small grey-100">
+          <%= link_to "#{pluralize(categorized_spend.count, 'transaction')}", '#', class: 'primary text-decoration-underline',
+            data: { action: 'click->transactions#showTransactions', remote: true } %>
         </div>
       </div>
-      <% end %>
-    <% end %>
-  <% end%>
-
-  <div class="row m-0 my-4 p-2">
-    <div class="col-8"><span>Non-Essential Spend</span></div>
-    <div class="col-4 text-end"><%= number_to_currency(@spend_by_categories[:extras_total]) %></div>
-  </div>
-  <% if @spend_by_categories[:extras_by_categories].empty? %>
-    <div class="row m-0">
-      <div class="col-12 py-3 border-bottom">
-        <div class="text-center grey-100 font-italic med">No transactions yet.</div>
+      <div class="col-4 text-end"><%= number_to_currency(categorized_spend.total_spend)%></div>
+      <div class="transactions-summary hide my-2">
+        <%= render 'transactions/transactions_summary_container', transactions: categorized_spend.transactions%>
       </div>
     </div>
-  <% else %>
-    <% @spend_by_categories[:extras_by_categories].each do |spend| %>
-      <% if spend.transactions.count > 0 %>
-      <div class="row m-0 border-bottom p-2 pointer" data-controller="transactions" data-action="click->transactions#showTransactions">
-        <div class="col-8">
-          <div><%= spend.category_name %></div>
-          <div class="small grey-100">
-            <%= link_to "#{pluralize(spend.transactions.count, 'transaction')}", '#', class: 'primary text-decoration-underline',
-            data: { action: 'click->transactions#showTransactions', remote: true }%>
-          </div>
-        </div>
-        <div class="col-4 text-end"><%= number_to_currency(spend.total_spend)%></div>
-        <div class="transactions-summary hide my-2">
-          <%= turbo_stream_from 'transactions' %>
-          <%= render 'transactions/transactions_summary_container', transactions: spend.transactions %>
-        </div>
-      </div>
-      <% end %>
     <% end %>
   <% end %>
-</div>
+<% end%>

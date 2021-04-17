@@ -44,7 +44,12 @@ class TransactionsController < ApplicationController
         related_ids,
       )
     end
-    @transaction.update(transaction_params)
+    if @transaction.update(transaction_params)
+      set_flash_message(transaction_params)
+    else
+      flash[:alert_header] = 'Transaction not updated.'
+      flash[:alert] = 'Transaction update failed. Please try again.'
+    end
     respond_to do |format|
       format.js
     end
@@ -74,6 +79,18 @@ class TransactionsController < ApplicationController
   private
 
   def transaction_params
-    params.require(:transaction).permit(:custom_description, :category_id)
+    params.require(:transaction).permit(:custom_description, :category_id, :essential)
+  end
+
+  def set_flash_message(transaction_params)
+    @notice_header = 'Transaction updated.'
+    if transaction_params[:custom_description]
+      @notice = "Successfully updated the transaction description."
+    elsif transaction_params[:category_id]
+      @notice = "Successfully updated the transaction category."
+    elsif transaction_params[:essential]
+      essentiality = transaction_params[:essential] == 'true' ? 'essential' : 'non-essential'
+      @notice = "Successfully marked the transaction as #{essentiality}."
+    end
   end
 end

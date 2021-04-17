@@ -20,17 +20,13 @@ class DashboardController < ApplicationController
     @start_date, @end_date = parse_params(params)
     @time_period = params[:period] || 'this_month'
     @cashflow = current_account.cashflow(@start_date, @end_date)
-    @spend_by_categories = current_account.spend_by_categories(@start_date, @end_date)
-    @earning_transactions = current_account.money_in_by_categories(@start_date, @end_date)
   end
 
   private
 
   def parse_params(params)
-    start_date = Time.zone.now.beginning_of_month
-    end_date = Time.zone.now
-    start_date = Time.zone.parse(params[:start]) if params[:start]
-    end_date = Time.zone.parse(params[:end]) if params[:end]
+    start_date = params[:start].blank? ? Time.zone.now.beginning_of_month : Time.zone.parse(params[:start])
+    end_date = params[:end].blank? ? Time.zone.now : Time.zone.parse(params[:end])
     return start_date, end_date
   end
 end

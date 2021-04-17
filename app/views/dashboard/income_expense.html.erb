@@ -32,10 +32,39 @@
 
   <div class="row">
     <div class="col-sm-6 mt-5">
-      <%= render 'category_spend' %>
+      <div class="border rounded-3">
+        <div class="row m-0 border-bottom p-2">
+          <div class="col">
+            <div class="fw-bold">Total Money Out</div>
+          </div>
+          <div class="col text-end fw-bold"><%= number_to_currency(@cashflow.total_money_out.abs) %></div>
+        </div>
+        <%= turbo_frame_tag('expenses', src: "/expenses?start=#{@start_date}&end=#{@end_date}") do %>
+          <div class="d-flex justify-content-center m-5">
+            <div class="spinner-border grey-100" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
+
     <div class="col-sm-6 mt-5">
-      <%= render 'categorized_earnings' %>
+      <div class="border rounded-3">
+        <div class="border-bottom row m-0 p-2">
+          <div class="col-6">
+            <div class="fw-bold">Total Money In</div>
+          </div>
+          <div class="col-6 text-end fw-bold"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
+        </div>
+        <%= turbo_frame_tag('earnings', src: "/earnings?start=#{@start_date}&end=#{@end_date}") do %>
+          <div class="d-flex justify-content-center m-5" >
+            <div class="spinner-border grey-100" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
   <% end %>
