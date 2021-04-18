@@ -3,13 +3,13 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="mb-5">
-        <div class="lg-18 fw-bold mb-3">Active Subscriptions</div>
+        <div class="lg-18 fw-bold mb-3">Active Recurring Transactions</div>
         <div id="active-subscriptions">
           <%= render 'subscriptions', subscriptions: @active_subscriptions%>
         </div>
       </div>
       <div class="mb-5">
-        <div class="lg-18 fw-bold mb-3">Past recurring Transactions</div>
+        <div class="lg-18 fw-bold mb-3">Past Recurring Transactions</div>
         <div id="inactive-subscriptions">
           <%= render 'subscriptions', subscriptions: @expired_subscriptions%>
         </div>
