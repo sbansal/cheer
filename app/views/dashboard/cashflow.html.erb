@@ -17,30 +17,21 @@
     <div class="col-sm-4">
       <div class="mb-5">
         <div class="primary text-uppercase small bold-2">Net Worth</div>
-        <h2 class="lg-28"><%= number_to_currency(current_user.account.net_worth)%></h2>
-        <div class="small">
-          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
-          <span class="trend-value up">(1.25%)</span>
-          <span class="grey-500">Past week</span>
-        </div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
+        <%= render 'trend', trend_value: @net_worth_change['last_change'],
+          trend_percentage: @net_worth_change['last_change_percentage'], trend_period: @period_description%>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Assets</div>
-        <h2 class="lg-28"><%= number_to_currency(current_user.account.total_assets)%></h2>
-        <div class="small">
-          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
-          <span class="trend-value up">(1.25%)</span>
-          <span class="grey-500">Past week</span>
-        </div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@assets_stat.current_value)%></h2>
+        <%= render 'trend', trend_value: @assets_change['last_change'],
+          trend_percentage: @assets_change['last_change_percentage'], trend_period: @period_description%>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Liabilities</div>
-        <h2 class="lg-28"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
-        <div class="small">
-          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
-          <span class="trend-value up">(1.25%)</span>
-          <span class="grey-500">Past week</span>
-        </div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
+        <%= render 'trend', trend_value: @liabilities_change['last_change'],
+          trend_percentage: @liabilities_change['last_change_percentage'], trend_period: @period_description%>
       </div>
     </div>
     <div class="col-sm-8" data-controller="container">

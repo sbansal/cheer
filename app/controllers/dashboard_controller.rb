@@ -5,6 +5,16 @@ class DashboardController < ApplicationController
   end
 
   def cashflow
+    @period = params[:period] || Stat::WEEKLY
+    @period_description = Stat::SUPPORTED_PERIODS[@period]
+
+    @net_worth_stat = current_account.stats.find_by(name: Stat::NET_WORTH_STAT)
+    @net_worth_change = @net_worth_stat.last_change_data[@period]
+    @assets_stat = current_account.stats.find_by(name: Stat::ASSETS_STAT)
+    @assets_change = @assets_stat.last_change_data[@period]
+    @liabilities_stat = current_account.stats.find_by(name: Stat::LIABILITIES_STAT)
+    @liabilities_change = @liabilities_stat.last_change_data[@period]
+
     @cash_asset_accounts = current_account.bank_accounts.includes([:institution]).assets.liquid_accounts.sort_by {
       |item| item.current_balance
     }.reverse

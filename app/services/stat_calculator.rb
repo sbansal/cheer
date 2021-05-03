@@ -17,11 +17,11 @@ class StatCalculator < ApplicationService
 
   def generate_last_change_data
     {
-      weekly: calculate_change_as_of(1.week.ago),
-      monthly: calculate_change_as_of(1.month.ago),
-      quarterly: calculate_change_as_of(3.months.ago),
-      yearly: calculate_change_as_of(1.year.ago),
-      all: calculate_change_as_of(30.year.ago),
+      Stat::WEEKLY => calculate_change_as_of(1.week.ago),
+      Stat::MONTHLY => calculate_change_as_of(1.month.ago),
+      Stat::QUARTERLY => calculate_change_as_of(3.months.ago),
+      Stat::YEARLY => calculate_change_as_of(1.year.ago),
+      Stat::ALL => calculate_change_as_of(30.year.ago),
     }
   end
 
