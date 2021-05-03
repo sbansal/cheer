@@ -132,4 +132,13 @@ FactoryBot.define do
     bank_account
     user
   end
+
+  factory :stat do
+    name { 'net_worth' }
+    description { 'Net Worth' }
+    account
+    current_value { 100000 }
+    last_change_data {}
+    historical_trend_data {}
+  end
 end

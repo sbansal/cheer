@@ -32,7 +32,7 @@ export default class extends Controller {
       title: "Assets vs Liabilities ",
       id: "cashflow-trend-chart",
       class: "cashflow-trend-chart",
-      width: Math.max(window.innerWidth/2 - 200, 300),
+      width: document.getElementById('cashflow-trend').offsetWidth,
       height: 300,
       series: [
         {

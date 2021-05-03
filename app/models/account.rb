@@ -6,6 +6,7 @@ class Account < ApplicationRecord
   has_many :login_items, ->{ order(:created_at => 'DESC') }, through: :users
   has_many :bank_accounts, through: :users
   has_many :subscriptions, ->{ order(:updated_at => 'DESC') }, through: :users
+  has_many :stats
 
   def money_in_by_categories(start_date, end_date)
     txs = transactions.includes(:category).occured_between(start_date, end_date).filter(&:credit?)

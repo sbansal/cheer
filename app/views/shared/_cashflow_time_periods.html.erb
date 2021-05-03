@@ -1,0 +1,24 @@
+<div class="time-period border-top-dotted row">
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1W', income_expense_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: 'this_month'),
+      class: 'time-slice med fw-bold active'%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1M',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 1.month), end: (Time.zone.now - 1.month).end_of_month, period: 'last_month'),
+      class: 'time-slice med fw-bold'%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '3M',
+      income_expense_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: 'three_months'),
+      class: 'time-slice med fw-bold'%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1Y', income_expense_path(start: (Time.zone.now.beginning_of_month - 1.year), end: Time.zone.now, period: 'last_year'),
+      class: 'time-slice med fw-bold'%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to 'ALL', income_expense_path(start: (Time.zone.now.beginning_of_month - 10.years), end: Time.zone.now, period: 'all_time'),
+      class: 'time-slice med fw-bold'%>
+  </div>
+</div>

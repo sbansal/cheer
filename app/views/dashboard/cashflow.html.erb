@@ -13,23 +13,41 @@
     </div>
   </div>
   <% else %>
-  <div class="row border-bottom">
-    <div class="col-sm-6 text-center">
+  <div class="row border-bottom px-3 py-3">
+    <div class="col-sm-4">
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Your Net Worth</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
+        <div class="primary text-uppercase small bold-2">Net Worth</div>
+        <h2 class="lg-28"><%= number_to_currency(current_user.account.net_worth)%></h2>
+        <div class="small">
+          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
+          <span class="trend-value up">(1.25%)</span>
+          <span class="grey-500">Past week</span>
+        </div>
       </div>
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Assets</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
+        <div class="primary text-uppercase bold-2 small">Assets</div>
+        <h2 class="lg-28"><%= number_to_currency(current_user.account.total_assets)%></h2>
+        <div class="small">
+          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
+          <span class="trend-value up">(1.25%)</span>
+          <span class="grey-500">Past week</span>
+        </div>
       </div>
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Liabilities</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+        <div class="primary text-uppercase bold-2 small">Liabilities</div>
+        <h2 class="lg-28"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+        <div class="small">
+          <span class="trend-value up">+<%= number_to_currency(1000)%></span>
+          <span class="trend-value up">(1.25%)</span>
+          <span class="grey-500">Past week</span>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6 border-start" data-controller="container">
-      <div id="cashflow-trend" class="fade"></div>
+    <div class="col-sm-8" data-controller="container">
+      <div id="cashflow-trend" class="fade mb-5"></div>
+    </div>
+    <div class="">
+      <%= render 'shared/cashflow_time_periods' %>
     </div>
   </div>
   <div class="row">
