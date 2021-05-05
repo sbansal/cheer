@@ -13,4 +13,12 @@ class NetWorthCalculator < StatCalculator
     @account.net_worth
   end
 
+  def generate_historical_trend_data
+    assets_trend = @account.assets_trend
+    liabilities_trend = @account.liabilities_trend
+    net_worth_trend = assets_trend.merge(liabilities_trend) do |key, assets_balance, liabilities_balanace|
+      assets_balance - liabilities_balanace
+    end
+  end
+
 end

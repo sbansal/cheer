@@ -10,5 +10,9 @@ class CashCalculator < StatCalculator
   def calculate_current_value
     @account.total_cash_assets
   end
+  
+  def generate_historical_trend_data
+    @account.cash_trend
+  end
 
 end
