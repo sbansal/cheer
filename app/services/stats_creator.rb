@@ -6,35 +6,44 @@ class StatsCreator < ApplicationService
   end
 
   def call
-    stat_description = Stat::SUPPORTED_STATS[stat_name]
-    if stat_description
-      stat = Stat.find_or_create_by(
-        account_id: account_id,
-        name: stat_name,
-        description: stat_description,
-      )
-      calculations = build_calculations(@stat_name)
-      stat.update(calculations)
-      stat
+    if stat_description = Stat::SUPPORTED_STATS[@stat_name]
+      create_stat(@stat_name, stat_description)
     else
-      Rails.logger.error("Cannot create a stat for the stat name=#{stat_name}")
-      nil
+      create_all_stats
     end
   end
 
   private
 
-  def build_calculations(stat_name)
+  def create_all_stats
+    Stat::SUPPORTED_STATS.each do |name, description|
+      create_stat(name, description)
+    end
+  end
+
+  def create_stat(name, description)
+    stat = Stat.find_or_create_by(
+      account_id: @account_id,
+      name: name,
+      description: description,
+    )
+    calculations = build_calculations(name)
+    stat.update(calculations)
+    Rails.logger.info("Stat calculations updated, #{stat.inspect}")
+    stat
+  end
+
+  def build_calculations(name)
     account = Account.find(@account_id)
-    if stat_name.equal?(Stat::NET_WORTH_STAT)
+    if name.equal?(Stat::NET_WORTH_STAT)
       NetWorthCalculator.call(account)
-    elsif stat_name.equal?(Stat::ASSETS_STAT)
+    elsif name.equal?(Stat::ASSETS_STAT)
       AssetsCalculator.call(account)
-    elsif stat_name.equal?(Stat::LIABILITIES_STAT)
+    elsif name.equal?(Stat::LIABILITIES_STAT)
       LiabilitiesCalculator.call(account)
-    elsif stat_name.equal?(Stat::CASH_STAT)
+    elsif name.equal?(Stat::CASH_STAT)
       CashCalculator.call(account)
-    elsif stat_name.equal?(Stat::INVESTMENTS_STAT)
+    elsif name.equal?(Stat::INVESTMENTS_STAT)
       InvestmentsCalculator.call(account)
     end
   end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe InvestmentsCalculator do
-  before(:all) do
+  before('all') do
     @user = create(:user)
     depository = create(:bank_account, account_type: 'depository', user: @user, current_balance: 5500)
     investment = create(:bank_account, account_type: 'investment', user: @user, current_balance: 5000)
@@ -19,21 +19,21 @@ RSpec.describe InvestmentsCalculator do
   it 'calculates the net worth historical trend' do
     last_change_data = InvestmentsCalculator.call(@user.account)[:last_change_data]
     expect(last_change_data).not_to be_nil
-    expect(last_change_data).to have_key(:all)
-    expect(last_change_data).to have_key(:weekly)
-    expect(last_change_data).to have_key(:monthly)
-    expect(last_change_data).to have_key(:yearly)
-    expect(last_change_data).to have_key(:quarterly)
-    expect(last_change_data[:weekly][:last_change]).to eq(3000)
-    expect(last_change_data[:weekly][:last_change_percentage]).to eq(60)
-    expect(last_change_data[:monthly][:last_change]).to eq(0)
-    expect(last_change_data[:monthly][:last_change_percentage]).to eq(0)
-    expect(last_change_data[:quarterly][:last_change]).to eq(1000)
-    expect(last_change_data[:quarterly][:last_change_percentage]).to eq(20)
-    expect(last_change_data[:yearly][:last_change]).to eq(-5500)
-    expect(last_change_data[:yearly][:last_change_percentage]).to eq(-110)
-    expect(last_change_data[:all][:last_change]).to eq(-5500)
-    expect(last_change_data[:all][:last_change_percentage]).to eq(-110)
+    expect(last_change_data).to have_key('all')
+    expect(last_change_data).to have_key('weekly')
+    expect(last_change_data).to have_key('monthly')
+    expect(last_change_data).to have_key('yearly')
+    expect(last_change_data).to have_key('quarterly')
+    expect(last_change_data['weekly'][:last_change]).to eq(3000)
+    expect(last_change_data['weekly'][:last_change_percentage]).to eq(60)
+    expect(last_change_data['monthly'][:last_change]).to eq(0)
+    expect(last_change_data['monthly'][:last_change_percentage]).to eq(0)
+    expect(last_change_data['quarterly'][:last_change]).to eq(1000)
+    expect(last_change_data['quarterly'][:last_change_percentage]).to eq(20)
+    expect(last_change_data['yearly'][:last_change]).to eq(-5500)
+    expect(last_change_data['yearly'][:last_change_percentage]).to eq(-110)
+    expect(last_change_data['all'][:last_change]).to eq(-5500)
+    expect(last_change_data['all'][:last_change_percentage]).to eq(-110)
   end
 
   private

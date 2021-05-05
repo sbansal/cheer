@@ -6,7 +6,7 @@ class Stat < ApplicationRecord
   LIABILITIES_STAT = 'liabilities'
   CASH_STAT = 'cash'
   INVESTMENTS_STAT = 'investments'
-  
+
   WEEKLY = 'weekly'
   MONTHLY = 'monthly'
   QUARTERLY = 'quarterly'
@@ -20,7 +20,7 @@ class Stat < ApplicationRecord
     CASH_STAT => 'Cash',
     INVESTMENTS_STAT => 'Investments',
   }
-  
+
   SUPPORTED_PERIODS = {
     WEEKLY => 'Past Week',
     MONTHLY => 'Past Month',
