@@ -35,15 +35,15 @@ class StatsCreator < ApplicationService
 
   def build_calculations(name)
     account = Account.find(@account_id)
-    if name.equal?(Stat::NET_WORTH_STAT)
+    if name.eql?(Stat::NET_WORTH_STAT)
       NetWorthCalculator.call(account)
-    elsif name.equal?(Stat::ASSETS_STAT)
+    elsif name.eql?(Stat::ASSETS_STAT)
       AssetsCalculator.call(account)
-    elsif name.equal?(Stat::LIABILITIES_STAT)
+    elsif name.eql?(Stat::LIABILITIES_STAT)
       LiabilitiesCalculator.call(account)
-    elsif name.equal?(Stat::CASH_STAT)
+    elsif name.eql?(Stat::CASH_STAT)
       CashCalculator.call(account)
-    elsif name.equal?(Stat::INVESTMENTS_STAT)
+    elsif name.eql?(Stat::INVESTMENTS_STAT)
       InvestmentsCalculator.call(account)
     end
   end

@@ -40,6 +40,14 @@ RSpec.describe PlaidTransactionsCreator do
     }.to change { @bank_account.balances.count }.by(1)
   end
 
+  it 'calls the stat creator job' do
+    client = double("client", transactions: double('transactions', get: 'list of transactions'))
+    allow(client.transactions).to receive(:get) { create_transactions }
+    allow(PlaidClientCreator).to receive(:call) { client }
+    expect(StatsCreatorJob).to receive(:perform_later)
+    PlaidTransactionsCreator.call(access_token, @user, @start_date, @end_date)
+  end
+
   private
 
   def create_transactions

@@ -42,5 +42,6 @@ class PlaidTransactionsCreator < ApplicationService
     end
     Transaction.create_transactions_from_json(transactions_json_array.flatten, @user.id)
     BankAccount.update_balances(account_json_array.uniq { |item| item[:account_id] })
+    StatsCreatorJob.perform_later(@user.account_id)
   end
 end
