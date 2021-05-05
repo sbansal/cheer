@@ -23,7 +23,7 @@ class Transaction < ApplicationRecord
         Rails.logger.info("Total transactions actually saved to DB=#{result.length}")
         result
       rescue => e
-        Rails.logger.error("Upsert failed for #{result.length} transactions. Exception=#{e}")
+        Rails.logger.error("Upsert failed for #{transactions.length} transactions. Exception=#{e}")
       end
     end
   end

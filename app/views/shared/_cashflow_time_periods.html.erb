@@ -1,0 +1,22 @@
+<div class="time-period border-top-dotted row">
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1W', cashflow_path(period: Stat::WEEKLY),
+      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::WEEKLY)}"%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1M', cashflow_path(period: Stat::MONTHLY),
+      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::MONTHLY)}"%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '3M', cashflow_path(period: Stat::QUARTERLY),
+      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::QUARTERLY)}"%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to '1Y', cashflow_path(period: Stat::YEARLY),
+      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::YEARLY)}"%>
+  </div>
+  <div class="col-2 py-3 text-center">
+    <%= link_to 'ALL', cashflow_path(period: Stat::ALL),
+      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::ALL)}"%>
+  </div>
+</div>
