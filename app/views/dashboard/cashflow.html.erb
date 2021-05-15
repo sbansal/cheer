@@ -14,7 +14,7 @@
   </div>
   <% else %>
   <div class="row border-bottom px-3 py-3">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <div class="mb-5">
         <div class="primary text-uppercase small bold-2">Net Worth</div>
         <h2 class="lg-28 fw-bold"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8" data-controller="container">
+    <div class="col-sm-9" data-controller="container">
       <div id="cashflow-trend" class="fade mb-5"></div>
     </div>
     <div><%= render 'shared/cashflow_time_periods' %></div>

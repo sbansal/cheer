@@ -3,13 +3,21 @@ require 'rails_helper'
 RSpec.describe CashCalculator do
   before('all') do
     @user = create(:user)
-    depository = create(:bank_account, account_type: 'depository', user: @user, current_balance: 5500)
+    @depository = create(:bank_account, account_type: 'depository', user: @user, current_balance: 5500)
     investment = create(:bank_account, account_type: 'investment', user: @user, current_balance: 5000)
-    build_historical_balances(depository)
+    build_historical_balances(@depository)
   end
 
   it 'calculates the cash historical trend' do
-    expect(CashCalculator.call(@user.account)[:historical_trend_data]).to be_empty
+    historical_trend = CashCalculator.call(@user.account)[:historical_trend_data]
+    expect(historical_trend.count).to eq(366)
+    expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
+    expect(historical_trend.values[0]).to eq(10500)
+    expect(historical_trend.values[1]).to eq(10500)
+    expect(historical_trend.keys.last).to eq(Time.zone.now.beginning_of_day)
+    expect(historical_trend.values.last).to eq(1000)
+    create(:balance, created_at: 2.year.ago, current: 10500, bank_account: @depository, user: @user)
+    expect(CashCalculator.call(@user.account)[:historical_trend_data].count).to eq(366*2)
   end
 
   it 'calculates the current value' do
