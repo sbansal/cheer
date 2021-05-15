@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_214323) do
+ActiveRecord::Schema.define(version: 2021_05_14_230652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 2021_05_05_214323) do
     t.jsonb "historical_trend_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "value_over_time_data", default: {}
     t.index ["account_id", "name"], name: "index_stats_on_account_id_and_name", unique: true
   end
 

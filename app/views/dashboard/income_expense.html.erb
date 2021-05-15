@@ -18,13 +18,13 @@
   <div class="row border-bottom px-3 py-3">
     <div class="col-sm-3">
       <div class="mb-5">
-        <%= render 'metric', title: 'income', metric_value: @cashflow.total_money_in.abs, delta: @cashflow.delta[:delta_money_in] %>
+        <%= render 'metric', title: 'income', metric_value: @income_stat %>
       </div>
       <div class="mb-5">
-        <%= render 'metric', title: 'expenses', metric_value: @cashflow.total_money_out.abs, delta: @cashflow.delta[:delta_money_out]%>
+        <%= render 'metric', title: 'expenses', metric_value: @expenses_stat %>
       </div>
       <div class="mb-5">
-        <%= render 'metric', title: 'savings', metric_value: @cashflow.total_money_saved, delta: @cashflow.delta[:delta_money_saved] %>
+        <%= render 'metric', title: 'savings', metric_value: @savings_stat %>
       </div>
     </div>
     <div class="col-sm-9" data-controller="container">
@@ -40,7 +40,7 @@
           <div class="col">
             <div class="fw-bold">Total expenses</div>
           </div>
-          <div class="col text-end fw-bold"><%= number_to_currency(@cashflow.total_money_out.abs) %></div>
+          <div class="col text-end fw-bold"><%= number_to_currency(@expenses_stat) %></div>
         </div>
         <%= turbo_frame_tag('expenses', src: "/expenses?start=#{@start_date}&end=#{@end_date}") do %>
           <div class="d-flex justify-content-center m-5">
@@ -58,7 +58,7 @@
           <div class="col-6">
             <div class="fw-bold">Total income</div>
           </div>
-          <div class="col-6 text-end fw-bold"><%= number_to_currency(@cashflow.total_money_in.abs) %></div>
+          <div class="col-6 text-end fw-bold"><%= number_to_currency(@income_stat) %></div>
         </div>
         <%= turbo_frame_tag('earnings', src: "/earnings?start=#{@start_date}&end=#{@end_date}") do %>
           <div class="d-flex justify-content-center m-5" >

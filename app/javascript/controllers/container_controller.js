@@ -218,14 +218,15 @@ export default class extends Controller {
       type: "get",
       dataType: 'json',
       success: function(data_response) {
-        let assets_trend_map = new Map(Object.entries(data_response['income_trend']))
-        let liabilities_trend_map = new Map(Object.entries(data_response['expense_trend']))
-        let saving_trend_map = new Map(Object.entries(data_response['saving_trend']))
+        let income_trend_map = new Map(Object.entries(data_response['income_trend']))
+        let expenses_trend_map = new Map(Object.entries(data_response['expense_trend']))
+        let savings_trend_map = new Map(Object.entries(data_response['saving_trend']))
         let data = [
-          Array.from(assets_trend_map.keys(), date_str => new Date(date_str).getTime()),
-          Array.from(assets_trend_map.values()),
-          Array.from(liabilities_trend_map.values()),
-          Array.from(saving_trend_map.values()),
+          //keys are strings and need to converted back into integers
+          Array.from(income_trend_map.keys(), timeInMillisStr => parseInt(timeInMillisStr)),
+          Array.from(income_trend_map.values()),
+          Array.from(expenses_trend_map.values()),
+          Array.from(savings_trend_map.values()),
         ]
         console.log(data)
         self.makeChart(data)
