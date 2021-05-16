@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
     #events resources
     post '/events/login_item_callback', to: 'events#login_item_callback'
+    post '/events/coinbase_callback', to: 'events#coinbase_callback'
 
     #bank accounts resources
     resources :bank_accounts do
