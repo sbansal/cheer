@@ -10,7 +10,13 @@ RSpec.describe NetWorthCalculator do
   end
 
   it 'calculates the net worth historical trend' do
-    expect(NetWorthCalculator.call(@user.account)[:historical_trend_data]).to be_empty
+    historical_trend = NetWorthCalculator.call(@user.account)[:historical_trend_data]
+    expect(historical_trend.count).to eq(366)
+    expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
+    expect(historical_trend.values[0]).to eq(2000)
+    expect(historical_trend.values[1]).to eq(2000)
+    expect(historical_trend.keys.last).to eq(Time.zone.now.beginning_of_day)
+    expect(historical_trend.values.last).to eq(1000)
   end
 
   it 'calculates the net worth historical trend' do

@@ -11,4 +11,8 @@ class LiabilitiesCalculator < StatCalculator
     @account.total_liabilities
   end
 
+  def generate_historical_trend_data
+    @account.liabilities_trend
+  end
+
 end

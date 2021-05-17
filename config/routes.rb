@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resources :accounts, only: [:new, :create]
     get 'accounts/settings'
     get 'accounts/cashflow_trend'
+    get 'accounts/income_expense_trend'
 
     #users resources
     resources :users, only: [:update]

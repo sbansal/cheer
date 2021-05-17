@@ -34,4 +34,17 @@ RSpec.describe LoginItem, type: :model do
       expect(login_item.link_token_expires_at).to eq DateTime.parse(expired_at)
     end
   end
+
+  describe '#fetch_transactions_after_activation' do
+    it 'fetches transactions' do
+      login_item = create(:login_item, last_webhook_sent_at: Time.zone.now - 1.month)
+      expect(RefreshTransactionsJob).to receive(:perform_later).with(
+        login_item.plaid_access_token,
+        login_item.user_id,
+        login_item.last_webhook_sent_at.to_date.iso8601,
+        Date.today.iso8601,
+      )
+      login_item.enqueue_transaction_fetch
+    end
+  end
 end

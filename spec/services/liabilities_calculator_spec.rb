@@ -3,13 +3,21 @@ require 'rails_helper'
 RSpec.describe LiabilitiesCalculator do
   before(:all) do
     @user = create(:user)
-    credit = create(:bank_account, account_type: 'credit', user: @user, current_balance: 500)
+    @credit = create(:bank_account, account_type: 'credit', user: @user, current_balance: 500)
     loan = create(:bank_account, account_type: 'loan', user: @user, current_balance: 5000)
-    build_historical_balances(credit)
+    build_historical_balances(@credit)
   end
 
   it 'calculates the liabilities historical trend' do
-    expect(LiabilitiesCalculator.call(@user.account)[:historical_trend_data]).to be_empty
+    historical_trend = LiabilitiesCalculator.call(@user.account)[:historical_trend_data]
+    expect(historical_trend.count).to eq(366)
+    expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
+    expect(historical_trend.values[0]).to eq(10500)
+    expect(historical_trend.values[1]).to eq(10500)
+    expect(historical_trend.keys.last).to eq(Time.zone.now.beginning_of_day)
+    expect(historical_trend.values.last).to eq(1000)
+    create(:balance, created_at: 2.year.ago, current: 10500, bank_account: @credit, user: @user)
+    expect(LiabilitiesCalculator.call(@user.account)[:historical_trend_data].count).to eq(366*2)
   end
 
   it 'calculates the current value' do
