@@ -45,6 +45,16 @@ class StatsCreator < ApplicationService
       CashCalculator.call(account)
     elsif name.eql?(Stat::INVESTMENTS_STAT)
       InvestmentsCalculator.call(account)
+    elsif name.eql?(Stat::INCOME_STAT)
+      IncomeCalculator.call(account)
+    elsif name.eql?(Stat::EXPENSES_STAT)
+      ExpensesCalculator.call(account)
+    elsif name.eql?(Stat::SAVINGS_STAT)
+      SavingsCalculator.call(account)
+    elsif name.eql?(Stat::ESSENTIAL_EXPENSES_STAT)
+      EssentialExpensesCalculator.call(account)
+    elsif name.eql?(Stat::NON_ESSENTIAL_EXPENSES_STAT)
+      NonEssentialExpensesCalculator.call(account)
     end
   end
 

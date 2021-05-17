@@ -10,5 +10,9 @@ class AssetsCalculator < StatCalculator
   def calculate_current_value
     @account.total_assets
   end
+  
+  def generate_historical_trend_data
+    @account.assets_trend
+  end
 
 end

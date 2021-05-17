@@ -8,10 +8,22 @@ class AccountsController < ApplicationController
   end
 
   def cashflow_trend
-    assets_trend = current_account.assets_trend
-    liabilities_trend = current_account.liabilities_trend
+    assets_trend = current_account.stats.find_by(name: Stat::ASSETS_STAT).historical_trend_data
+    liabilities_trend = current_account.stats.find_by(name: Stat::LIABILITIES_STAT).historical_trend_data
     respond_to do |format|
       format.json { render json: { assets_trend: assets_trend, liabilities_trend: liabilities_trend } }
+    end
+  end
+
+  def income_expense_trend
+    income_trend = current_account.stats.find_by_name(Stat::INCOME_STAT).fetch_historical_trend_since(Date.today.beginning_of_year)
+    expense_trend = current_account.stats.find_by_name(Stat::EXPENSES_STAT).fetch_historical_trend_since(Date.today.beginning_of_year)
+    saving_trend = current_account.stats.find_by_name(Stat::SAVINGS_STAT).fetch_historical_trend_since(Date.today.beginning_of_year)
+
+    Rails.logger.info("---------- #{income_trend} ---------------- ")
+
+    respond_to do |format|
+      format.json { render json: { income_trend: income_trend, expense_trend: expense_trend, saving_trend: saving_trend } }
     end
   end
 

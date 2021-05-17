@@ -11,11 +11,18 @@ RSpec.describe StatsCreator do
     stat = StatsCreator.call(@user.account.id, stat_name)
     expect(stat.description).to eq(Stat::SUPPORTED_STATS[stat_name])
     expect(@user.account.stats.count).to eq(1)
+    expect(stat.value_over_time_data).to eq({
+      Stat::THIS_MONTH => 0,
+      Stat::LAST_MONTH => 0,
+      Stat::QUARTERLY => 0,
+      Stat::YEARLY => 0,
+      Stat::ALL => 0,
+    })
   end
 
   it 'creates all stats' do
     StatsCreator.call(@user.account.id, 'ALL')
-    expect(@user.account.stats.count).to eq(5)
+    expect(@user.account.stats.count).to eq(10)
   end
 
 end

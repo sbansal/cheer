@@ -15,13 +15,14 @@ class LoginItemEventProcessor < EventProcessor
       case event_code
       when WEBHOOK_UPDATE_ACKNOWLEDGED_CODE
         Rails.logger.info("LoginItem webhook updated to #{metadata['new_webhook_url']}")
+        return true
       when PENDING_EXPIRATION_CODE
         Rails.logger.info("Item access consent expiring at #{metadata['consent_expiration_time']}")
         update_consent_expiration(metadata['consent_expiration_time'])
         # TODO EMAIL the user
-      when ERROR
+      when ERROR_CODE
         Rails.logger.info("Error with login item. #{metadata['error']}")
-        update_login_expiration
+        login_item.expire
         # TODO EMAIL the user
       else
         Rails.logger.error("Unable to process login item event code = #{event_code}")
@@ -32,10 +33,6 @@ class LoginItemEventProcessor < EventProcessor
 
   def update_consent_expiration(expires_at)
     login_item.update(consent_expires_at: DateTime.rfc3339(expires_at)&.utc)
-  end
-
-  def update_login_expiration
-    login_item.expire
   end
 end
 
