@@ -32,7 +32,7 @@
               <div class="col-5 text-end">
                 <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
                 <div>
-                  <% if login_item.expired? %>
+                  <% if login_item.expired? && login_item.user == current_user %>
                     <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
                     action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
                   <% end %>

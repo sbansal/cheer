@@ -6,6 +6,7 @@ class Account < ApplicationRecord
   has_many :login_items, ->{ order(:created_at => 'DESC') }, through: :users
   has_many :bank_accounts, through: :users
   has_many :subscriptions, ->{ order(:updated_at => 'DESC') }, through: :users
+  has_many :stats, dependent: :destroy
 
   def money_in_by_categories(start_date, end_date)
     txs = transactions.includes(:category).occured_between(start_date, end_date).filter(&:credit?)
@@ -89,6 +90,14 @@ class Account < ApplicationRecord
 
   def liabilities_trend
     aggregated_daily_balances_for_accounts(bank_accounts.liabilities.includes([:balances]))
+  end
+  
+  def cash_trend
+    aggregated_daily_balances_for_accounts(bank_accounts.assets.liquid_accounts.includes([:balances]))
+  end
+  
+  def investments_trend
+    aggregated_daily_balances_for_accounts(bank_accounts.assets.illiquid_accounts.includes([:balances]))
   end
 
   private

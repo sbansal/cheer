@@ -15,7 +15,12 @@
           <% end %>
           <%= account.account_subtype&.upcase %>
         </div>
-        <div class="med"><%= account.display_name %></div>
+        <div class="med">
+          <%= account.display_name %>
+          <% if account.mask %>
+            - <%= account.mask %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

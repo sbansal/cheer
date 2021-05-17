@@ -181,6 +181,15 @@ class BankAccount < ApplicationRecord
     balances&.first
   end
 
+  def last_balance_value_on(date)
+    balances_on_date = balances&.where('created_at < ?', date)
+    if balances_on_date.empty?
+      balances&.last&.current || 0
+    else
+      balances_on_date.first&.current || 0
+    end
+  end
+
   # This method returns a historical snapshot of the daily balances for an account
   def historical_balances(end_datetime=Time.zone.now.beginning_of_day.to_datetime)
     balance_by_created = balances.reverse.map {|balance| [balance.created_at.to_datetime.beginning_of_day, balance.current]}.to_h

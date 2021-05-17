@@ -121,6 +121,7 @@ FactoryBot.define do
     user
     bank_account
     category
+    essential { true }
   end
 
   factory :subscription do
@@ -131,5 +132,18 @@ FactoryBot.define do
     amount { 25 }
     bank_account
     user
+  end
+
+  factory :stat do
+    name { Stat::NET_WORTH_STAT }
+    description { Stat::SUPPORTED_STATS[Stat::NET_WORTH_STAT] }
+    account
+    current_value { 100000 }
+    last_change_data {}
+    historical_trend_data do 
+      (Date.today - 1.month .. Date.today).map do |date|
+        [date, rand(1000)]
+      end.to_h
+    end
   end
 end

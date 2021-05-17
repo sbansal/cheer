@@ -13,35 +13,66 @@
     </div>
   </div>
   <% else %>
-  <div class="row border-bottom">
-    <div class="col-sm-6 text-center">
+  <div class="row border-bottom px-3 py-3">
+    <div class="col-sm-3">
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Your Net Worth</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.net_worth)%></h2>
+        <div class="primary text-uppercase small bold-2">Net Worth</div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
+        <div class="small">
+          <%= render 'trend', trend_value: @net_worth_change['last_change'],
+            trend_percentage: @net_worth_change['last_change_percentage'], trend_period: @period_description%>
+        </div>
       </div>
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Assets</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_assets)%></h2>
+        <div class="primary text-uppercase bold-2 small">Assets</div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@assets_stat.current_value)%></h2>
+        <div class="small">
+          <%= render 'trend', trend_value: @assets_change['last_change'],
+            trend_percentage: @assets_change['last_change_percentage'], trend_period: @period_description%>
+        </div>
       </div>
       <div class="mb-5">
-        <div class="primary text-uppercase bold-2 med">Liabilities</div>
-        <h2 class="fw-bold lg-32"><%= number_to_currency(current_user.account.total_liabilities)%></h2>
+        <div class="primary text-uppercase bold-2 small">Liabilities</div>
+        <h2 class="lg-28 fw-bold"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
+        <div class="small">
+          <%= render 'trend', trend_value: @liabilities_change['last_change'],
+            trend_percentage: @liabilities_change['last_change_percentage'], trend_period: @period_description%>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6 border-start" data-controller="container">
-      <div id="cashflow-trend" class="fade"></div>
+    <div class="col-sm-9" data-controller="container">
+      <div id="cashflow-trend" class="fade mb-5"></div>
     </div>
+    <div><%= render 'shared/cashflow_time_periods' %></div>
   </div>
   <div class="row">
     <div class="col-sm-6 mt-5">
       <div class="border rounded-3">
         <div class="header px-2 py-3 row m-0 fw-bold">
-          <div class="col">Assets</div>
-          <div class="col text-end"><%= number_to_currency(current_user.account.total_assets)%></div>
+          <div class="col">
+            <div>Assets</div>
+            <div class="grey-500 fw-normal xs text-uppercase"><%= pluralize(@assets_count, 'account')%></div>
+          </div>
+          <div class="col text-end">
+            <%= number_to_currency(@assets_stat.current_value)%>
+            <div class="xs fw-normal">
+              <%= render 'trend', trend_value: @assets_change['last_change'],
+                trend_percentage: @assets_change['last_change_percentage'], trend_period: nil%>
+            </div>
+          </div>
         </div>
         <div class="row m-0 my-4 p-2 bold-2">
-          <div class="col">Cash</div>
-          <div class="col text-end"><%= number_to_currency(current_user.account.total_cash_assets)%></div>
+          <div class="col">
+            <div>Cash</div>
+            <div class="grey-500 fw-normal xs text-uppercase"><%= pluralize(@cash_asset_accounts.count, 'account')%></div>
+          </div>
+          <div class="col text-end">
+            <%= number_to_currency(@cash_stat.current_value)%>
+            <div class="xs fw-normal">
+              <%= render 'trend', trend_value: @cash_change['last_change'],
+                trend_percentage: @cash_change['last_change_percentage'], trend_period: nil%>
+            </div>
+          </div>
         </div>
         <div class="">
           <% @cash_asset_accounts.each do |account|%>
@@ -49,8 +80,17 @@
           <% end %>
         </div>
         <div class="row m-0 my-4 p-2 bold-2">
-          <div class="col">Investments</div>
-          <div class="col text-end"><%= number_to_currency(current_user.account.total_non_cash_assets)%></div>
+          <div class="col">
+            <div>Investments</div>
+            <div class="grey-500 fw-normal xs text-uppercase"><%= pluralize(@non_cash_asset_accounts.count, 'account')%></div>
+          </div>
+          <div class="col text-end">
+            <%= number_to_currency(@investments_stat.current_value)%>
+            <div class="xs fw-normal">
+              <%= render 'trend', trend_value: @investments_change['last_change'],
+                trend_percentage: @investments_change['last_change_percentage'], trend_period: nil%>
+            </div>
+          </div>
         </div>
         <div>
           <% @non_cash_asset_accounts.each do |account|%>
@@ -62,8 +102,17 @@
     <div class="col-sm-6 mt-5">
       <div class="border rounded-3">
         <div class="header px-2 py-3 row m-0 fw-bold">
-          <div class="col fw-bold ">Liabilities</div>
-          <div class="col text-end"><%= number_to_currency(current_user.account.total_liabilities)%></div>
+          <div class="col fw-bold ">
+            <div>Liabilities</div>
+            <div class="grey-500 fw-normal xs text-uppercase"><%= pluralize(@liability_accounts.count, 'account')%></div>
+          </div>
+          <div class="col text-end">
+            <%= number_to_currency(@liabilities_stat.current_value)%>
+            <div class="xs fw-normal">
+              <%= render 'trend', trend_value: @liabilities_change['last_change'],
+                trend_percentage: @liabilities_change['last_change_percentage'], trend_period: nil%>
+            </div>
+          </div>
         </div>
         <% @liability_accounts.each do |account|%>
           <%= render 'bank_accounts/account_details', account: account %>

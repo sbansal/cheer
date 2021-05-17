@@ -8,6 +8,8 @@ $primary-900: #f0f3f994;
 $primary-1000: #F8F9FB;
 $primary-teal: #3EBD93;
 $danger: #EF4E4E;
+$green: #00c805;
+$red: #ff5000;
 
 html {
   height: 100%;
@@ -51,11 +53,6 @@ a {
   text-decoration: none;
 }
 
-//svg {
-//  width: 20px;
-//  height: 20px;
-//}
-
 .form-control {
   box-shadow: none;
 }
@@ -70,8 +67,8 @@ a {
   color: #9AA5B1;
 }
 
-.border-primary-100 {
-  border-color: $primary;
+.border-primary-100, .border-primary {
+  border-color: $primary !important;
 }
 
 .btn-primary {
@@ -163,6 +160,7 @@ ul.simple-list {
 .lg-18 { font-size: 1.125rem;}
 .lg-20 { font-size: 1.25rem;}
 .lg-24 { font-size: 1.5rem;}
+.lg-28 { font-size: 1.75rem;}
 .lg-32 { font-size: 2rem;}
 .lg-36 { font-size: 2.25rem;}
 .lg-48 { font-size: 3rem;}
@@ -180,11 +178,11 @@ ul.simple-list {
 }
 
 .up {
-  color: #3EBD93;
+  color: $green;
 }
 
 .down {
-  color: #EF4E4E;
+  color: $red;
 }
 
 a.linky {
@@ -652,4 +650,121 @@ ul.submenu {
 
 .toast {
   background-color: #FFF;
+}
+
+.border-top-dotted {
+  border-top: 1px dotted #CCCCFF;
+}
+
+.metrics-container {
+  background-color: #FFF;
+  border-bottom: 1px solid #D9E2EC;
+  .metric {
+    padding: 60px 0;
+    text-align: center;
+    .metric-title {
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .metric-value {
+      font-weight: 800;
+      color: #8888FC;
+    }
+    .metric-trend {
+      .trend-timeframe {
+        color: #BCCCDC;
+      }
+    }
+  }
+}
+
+.money-container {
+  .cashflow-value {
+    padding: 5px 0;
+  }
+  border: 1px solid #D9E2EC;
+  border-radius: 5px;
+  margin: 20px 0;
+  padding: 20px 10px;
+  background-color: #FFF;
+}
+
+.transactions-container {
+  border: 1px solid #F0F4F8;
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #FFF;
+  box-shadow: 0px 12px 24px rgba(0,0,0,0.06), 0px -12px 24px rgba(0,0,0,0.06);
+}
+
+#transactions-container {
+  transition: opacity 200ms ease-in-out;
+}
+
+.budget-button {
+  text-align: center;
+}
+
+.btn-budget {
+  margin-top: -30px;
+  padding: 15px 40px;
+  font-weight: 800;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.category-spend {
+  margin: 10px 0;
+  padding-top: 10px;
+}
+
+.time-slice {
+  color: $primary-grey;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 3px;
+  &:hover {
+    color: #7069FA;
+    text-decoration: none;
+    border-bottom: 3px solid #7069FA;
+  }
+  &.active {
+    color: #7069FA;
+    font-weight: 600;
+    border-bottom: 3px solid #7069FA;
+  }
+}
+
+.spend-title {
+  font-weight: 400;
+  color: #829AB1;
+}
+
+.dygraph-axis-label {
+  color: #EEE;
+}
+
+.money-out-type {
+  margin: 20px 0 10px 0;
+}
+
+div.intro {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 80px;
+  h1 {
+    margin: 20px 0;
+    font-weight: 800;
+    font-size: 36px;
+  }
+  p.subtext {
+    margin: 20px 0;
+  }
+  div.connect {
+    a {
+      margin-top: 20px;
+    }
+  }
 }

@@ -11,6 +11,8 @@ class Transaction < ApplicationRecord
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
   scope :with_category_description, ->(root_name) { joins(:category).where("descriptive_name = ?", root_name) }
   scope :debits, -> {joins(:category).where('amount >= 0 and plaid_category_id not in (?)', Category::IGNORE_LIST)}
+  scope :credits, -> {joins(:category).where('amount < 0 and plaid_category_id not in (?)',
+    Category::IGNORE_LIST.concat(Category::CREDIT_IGNORE_LIST).uniq)}
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = process_transactions_json(transactions_json_array, user_id)
@@ -23,7 +25,7 @@ class Transaction < ApplicationRecord
         Rails.logger.info("Total transactions actually saved to DB=#{result.length}")
         result
       rescue => e
-        Rails.logger.error("Upsert failed for #{result.length} transactions. Exception=#{e}")
+        Rails.logger.error("Upsert failed for #{transactions.length} transactions. Exception=#{e}")
       end
     end
   end

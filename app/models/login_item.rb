@@ -47,6 +47,14 @@ class LoginItem < ApplicationRecord
 
   def activate
     update(expired: false, expired_at: nil, link_token: nil, link_token_expires_at: nil)
+    #TODO email user
+  end
+
+  def enqueue_transaction_fetch
+    last_transaction_date = transactions_history_period[1] || self.created_at.to_date
+    last_webhook_date = self.last_webhook_sent_at.to_date || self.created_at.to_date
+    start_date = [last_webhook_date, last_transaction_date].min
+    RefreshTransactionsJob.perform_later(self.plaid_access_token, self.user_id, start_date.iso8601, Date.today.iso8601)
   end
 
   def fetch_link_token
