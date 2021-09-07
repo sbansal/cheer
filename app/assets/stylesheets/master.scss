@@ -34,6 +34,7 @@ div, table, p, section, h1, h2, h3, h4 {
 .primary-bg {background-color: $primary;}
 .primary-dark {color: $primary-dark;}
 .grey-500 {color: $primary-grey;}
+.grey-500-bg {background-color: $primary-grey;}
 .grey-900 {color: $grey-900;}
 .grey-50 {color: $grey-50;}
 .grey-100 {color: $primary-grey;}
@@ -392,6 +393,13 @@ ul.basic {
     margin-left: 0;
     width:3em;
     height: 1.5em;
+  }
+  .sec-switch {
+    filter: hue-rotate(35deg);
+    margin-left: 0;
+    width:2em;
+    height: 1em;
+    opacity: 0.5;
   }
 }
 
@@ -767,4 +775,12 @@ div.intro {
       margin-top: 20px;
     }
   }
+}
+
+.plain {
+  border: 0;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
+  line-height: 1.5;
 }

@@ -34,6 +34,26 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def new
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def create
+    @transaction = current_account.transactions.new(user_id: current_user.id)
+    if @transaction.create(new_transaction_params)
+      @notice_header = 'Transaction created.'
+      @notice = "Successfully created the transaction - #{@transaction.description}."
+    else
+      flash[:alert_header] = 'Transaction not updated.'
+      flash[:alert] = 'Transaction update failed. Please try again.'
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def update
     @transaction = current_account.transactions.find(params[:id])
     if params[:bulk_update]
@@ -80,6 +100,10 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     params.require(:transaction).permit(:custom_description, :category_id, :essential)
+  end
+
+  def new_transaction_params
+    params.require(:transaction).permit(:description, :category_id, :essential, :amount, :occured_at, :bank_account_id)
   end
 
   def set_flash_message(transaction_params)

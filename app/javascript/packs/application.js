@@ -32,3 +32,8 @@ document.addEventListener("turbo:load", function() {
   })
 })
 
+document.addEventListener("shown.bs.modal", function() {
+  console.log("modal visibile")
+  document.getElementById("cheer-modal").querySelectorAll('input[type="text"]')[0]?.focus()
+})
+

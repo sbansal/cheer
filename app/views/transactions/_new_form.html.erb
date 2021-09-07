@@ -1,0 +1,35 @@
+<div class="modal-dialog med" data-controller="transactions">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title med" id="cheerModalLabel">New transaction</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="my-3">
+        <%= form_tag(@transaction, class: 'cheer-form') do %>
+          <div class="row">
+            <div class="col-sm-9 my-2"><%= text_field_tag :description, nil,
+              class: 'form-control plain bold-2 bg-light', placeholder: 'Transaction description...', autofocus: true %>
+            </div>
+            <div class="form-check form-switch col-sm-3 pt-4">
+              <%= check_box_tag 'transaction_type_switcher', false, false,
+                {class: 'sec-switch form-check-input', id: 'tx-type-switcher' }%>
+              <%= label_tag 'transaction_type', 'Debit',  class: 'mx-2 small grey-500 form-check-label', id: 'tx-type-label'%>
+            </div>
+            <div class="col-sm-6 my-2"><%= text_field_tag :amount, nil,
+              class: 'form-control med', placeholder: 'Enter amount e.g. 10,000',
+              data: { action: 'keyup->accounts#allowNumbersOnly input->accounts#validateSubmit'} %>
+            </div>
+            <div class="col-sm-6 my-2">
+              <%= date_field_tag :date_occured, Date.today, class: 'form-control med'%>
+            </div>
+            <div class="col-sm-12 text-end my-2">
+              <%= button_tag "Cancel", class: "btn btn-secondary btn-sm small" %>
+              <%= button_tag "Save transaction", class: 'btn btn-primary btn-sm small'%>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

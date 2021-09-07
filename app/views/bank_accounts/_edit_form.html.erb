@@ -1,24 +1,32 @@
 <div class="modal-dialog med" data-controller="accounts">
-  <div class="modal-content">
+  <div class="modal-content big-shadow border-0">
     <div class="modal-header">
-      <h5 class="modal-title med" id="cheerModalLabel">Edit Balance</h5>
+      <h5 class="modal-title med" id="cheerModalLabel"><%= @bank_account.descriptive_name %></h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
       <%= form_for(@bank_account, :html => { :method => :put, class: 'form-horizontal', remote: true}) do |f| %>
         <div class="row">
-          <div class="col-sm-6 mb-2 med">Current Account Value</div>
-          <div class="col-sm-6 mb-2">
-            <%= f.text_field :current_balance,  class: 'form-control med', placeholder: '$1000', autofocus: true,
+          <div class="col-sm-4 my-3 med">Current value</div>
+          <div class="col-sm-8 my-3">
+            <%= f.text_field :current_balance, autofocus: true, class: 'form-control med', placeholder: '$1000',
             data: { action: 'input->accounts#validateFormFields'}, required: true,
             value: "#{number_to_currency(@bank_account.current_balance)}" %>
           </div>
         </div>
-        <div class="modal-footer med border-0">
+        <div class="modal-footer med border-0 px-0">
           <button type="button" class="btn btn-secondary btn-sm small" data-bs-dismiss="modal">Cancel</button>
           <%= f.submit "Update Balance", class: 'btn btn-primary btn-sm small'%>
         </div>
       <% end %>
+      <div class="line-break"></div>
+      <div class="row">
+        <div class="col-sm-6"><%= @bank_account.transactions.count %> transactions.</div>
+        <div class="col-sm-6 text-end">
+          <%= link_to '+ Add transaction', new_transaction_path, data: { account_id: @bank_account.id},
+            remote: true, class: 'small grey-500 border p-1 rounded' %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

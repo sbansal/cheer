@@ -61,6 +61,7 @@ class BankAccountsController < ApplicationController
 
   def edit
     @bank_account = current_user.bank_accounts.find(params[:id])
+    @transaction = @bank_account.transactions.build
     respond_to do |format|
       format.js
     end
