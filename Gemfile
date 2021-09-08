@@ -85,3 +85,6 @@ gem 'plaid'
 #monitoring
 gem 'sentry-ruby'
 gem 'sentry-rails'
+
+#utilities
+gem 'httparty'
