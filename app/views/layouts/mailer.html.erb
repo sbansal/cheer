@@ -3,11 +3,71 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue","Ubuntu",sans-serif;
+      body {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue","Ubuntu",sans-serif;
+        color: #444;
+        padding: 20px;
+        border: 1px solid #EEE;
+        margin: 40px;
+        border-radius: 5px;
+      }
+      .logo {
+        color: #7069FA;
+        font-weight: 800;
+        font-size: 32px;
+      }
+      .header {
+        font-size: 24px;
+        padding: 10px 0;
+        border-bottom: 1px solid #EEE;
+        font-weight: 500;
+      }
+      table {
+        width: 100%;
+        table-layout: fixed;
+      }
+      table.nfixed {
+        width: auto;
+      }
+      .right {
+        text-align: right;
+      }
+      .nbold {
+        font-weight: 500;
+      }
+      .dot {
+        border-bottom: 1px solid #DDD;
+      }
+      td {
+        font-size: 16px;
+      }
+      .p-6 {
+        padding: 6px;
+      }
+      .small {
+        font-size: 13px;
+      }
+      .light-text {
+        color: #777;
+      }
+      .up {
+        color: #00c805;
+      }
+      .down {
+        color: #ff5000;
+      }
+      .dh2 {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="logo">🎉 Cheer</div>
+    <div class="body">
+      <%= yield %>
+    </div>
   </body>
 </html>

@@ -1,0 +1,70 @@
+<h2 class="header">Weekly summary of your finances.</h2>
+<table>
+  <tbody>
+    <tr>
+      <td><h2 class="nbold dh2">Your Net Worth</h2></td>
+      <td class="right">
+        <div class="nbold dh2"><%= number_to_currency(@account.net_worth)%></div>
+        <div class="small">
+          <%= render partial: 'application/trend', locals: { trend: @net_worth_change, trend_period: nil } %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr>
+      <td><h3 class="nbold">Assets</h3></td>
+      <td class="right">
+        <div class="nbold dh3"><%= number_to_currency(@account.total_assets)%></div>
+        <div class="small">
+          <%= render partial: 'application/trend', locals: { trend: @assets_change, trend_period: nil } %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr class="dot">
+      <td class="dot"><h4 class="nbold">Cash</h4></td>
+      <td class="right dot">
+        <div class="nbold dh3"><%= number_to_currency(@account.total_cash_assets)%></div>
+        <div class="small">
+          <%= render partial: 'application/trend', locals: { trend: @cash_change, trend_period: nil } %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%= render 'summary', accounts: @account.bank_accounts.assets.liquid_accounts %>
+<table>
+  <tbody>
+    <tr>
+      <td class="dot"><h4 class="nbold">Investments</h4></td>
+      <td class="right dot">
+        <div class="nbold dh3"><%= number_to_currency(@account.total_non_cash_assets)%></div>
+        <div class="small">
+          <%= render partial: 'application/trend', locals: { trend: @investments_change, trend_period: nil } %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%= render 'summary', accounts: @account.bank_accounts.assets.illiquid_accounts %>
+<table>
+  <tbody>
+    <tr>
+      <td><h3 class="nbold">Liabilities</h3></td>
+      <td class="right">
+        <div class="nbold dh3"><%= number_to_currency(@account.total_liabilities)%></div>
+        <div class="small">
+          <%= render partial: 'application/trend', locals: { trend: @liabilities_change, trend_period: nil } %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%= render 'summary', accounts: @account.bank_accounts.liabilities %>
+
