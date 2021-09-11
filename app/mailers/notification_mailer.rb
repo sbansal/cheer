@@ -1,6 +1,7 @@
 class NotificationMailer < ApplicationMailer
-  def send_summary(user_id)
+  def send_weekly_summary(user_id)
     @user = User.find(user_id)
+    Rails.logger.info("Sending weekly summary notification to #{@user.email}")
     @account = @user.account
     @period = Stat::WEEKLY
 
