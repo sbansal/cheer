@@ -15,6 +15,7 @@ class NotificationMailer < ApplicationMailer
     @cash_change = @cash_stat.last_change_data[@period]
     @investments_stat = @account.stats.find_by(name: Stat::INVESTMENTS_STAT)
     @investments_change = @investments_stat.last_change_data[@period]
+    @cashflow = @account.cashflow(7.days.ago, Time.zone.now)
     mail(:to =>  @user.email, :subject => "Your weekly Net Worth summary from Cheer")
   end
 end
