@@ -1,105 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html style="font-size: 16px;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Helvetica Neue','Ubuntu',sans-serif;">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
-    <style>
-      html {
-        font-size: 16px;
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Helvetica Neue","Ubuntu",sans-serif;
-      }
-      body {
-        color: #444;
-        padding: 20px;
-        border: 1px solid #EEE;
-        margin: 40px auto;
-        border-radius: 5px;
-        max-width:780px;
-      }
-      .logo {
-        color: #7069FA;
-        font-weight: 800;
-        font-size: 2rem;
-      }
-      .header {
-        font-size: 1.5rem;
-        padding: 10px 0;
-        border-bottom: 1px solid #EEE;
-        font-weight: 500;
-      }
-      table {
-        width: 100%;
-        table-layout: fixed;
-      }
-      table.nfixed {
-        width: auto;
-      }
-      .right {
-        text-align: right;
-      }
-      .nbold {
-        font-weight: 500;
-      }
-      .dot {
-        border-bottom: 1px solid #DDD;
-      }
-      td {
-        font-size: 1rem;
-      }
-      .p-6 {
-        padding: 6px;
-      }
-      .small {
-        font-size: 0.825rem;
-      }
-      .light-text {
-        color: #777;
-      }
-      .up {
-        color: #00c805;
-      }
-      .down {
-        color: #ff5000;
-      }
-      .dh2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-      a {
-        color: #444;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .footer {
-        color: #AAA;
-        padding-top: 40px;
-        border-top: 1px solid #EEE;
-      }
-      .button {
-        padding: 10px 30px;
-        background-color: #7069FA;
-        color: #FFF;
-        font-size: 1rem;
-        border-radius: 5px;
-      }
-      .cta {
-        margin: 40px 0;
-      }
-    </style>
   </head>
 
-  <body>
-    <div class="logo">🎉 Cheer</div>
-    <div class="body">
-      <%= yield %>
-    </div>
-    <table class="footer">
+  <body style="color: #444;padding: 20px;border: 1px solid #EEE;margin: 40px auto;border-radius: 5px;max-width:780px;">
+    <table style="width: 100%;table-layout: fixed;">
       <tbody>
         <tr>
-          <td><%= link_to 'View details in Cheer', root_url, class: 'button' %></td>
-          <td class="right small">Have a cheerful day ❤️ </td>
+          <td style="color: #7069FA;font-weight: 800;font-size: 2rem;">🎉 Cheer</td>
+        </tr>
+      </tbody>
+    </table>
+    <%= yield %>
+    <table style="width: 100%;table-layout: fixed; padding-top: 40px; border-top: 1px solid #EEE;">
+      <tbody>
+        <tr>
+          <td>
+            <a style="text-decoration: none;cursor: pointer; padding: 15px 20px; background-color: #7069FA; color: #FFF;
+            font-size: 1rem;border-radius: 5px;" href="https://app.usecheer.com">View details in Cheer</a>
+          </td>
         </tr>
       </tbody>
     </table>
