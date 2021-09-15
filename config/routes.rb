@@ -1,9 +1,6 @@
 require 'resque/server'
 
 Rails.application.routes.draw do
-  get 'notification_settings/create'
-  get 'notification_settings/destroy'
-  get 'notification_settings/index'
   constraints subdomain: 'app' do
     devise_scope :user do
         get "/sign_up" => "accounts#new"
