@@ -1,0 +1,42 @@
+<table style="width: 100%;table-layout: fixed;">
+  <tbody>
+    <tr>
+      <td>
+        <% if size == 'xl' %>
+          <h2 style="font-weight: bold;font-size: 1.5rem;"><%= title %></h2>
+        <% elsif size == 'lg' %>
+          <h3 style="font-weight: 500;font-size: 1.25rem;"><%= title %></h3>
+        <% elsif size == 'med' %>
+          <h4 style="font-weight: 500;font-size: 1rem; padding-left: 10px; color: #777"><%= title %></h3>
+        <% end %>
+      </td>
+      <td style="text-align: right">
+        <% if size == 'xl' %>
+          <div style="font-weight: bold;font-size: 1.5rem;">
+            <%= link_to number_to_currency(value), url, style: 'text-decoration: none;cursor: pointer; color: #444' %>
+          </div>
+        <% elsif size == 'lg' %>
+          <div style="font-weight: 500;font-size: 1rem;">
+            <%= link_to number_to_currency(value), url, style: 'text-decoration: none;cursor: pointer; color: #444' %>
+          </div>
+        <% elsif size == 'med' %>
+          <div style="font-weight: 500;font-size: 1rem;">
+            <%= link_to number_to_currency(value), url, style: 'text-decoration: none;cursor: pointer; color: #444' %>
+          </div>
+        <% end %>
+        <div style="font-size: 0.825rem">
+          <% if trend['last_change'] >= 0 %>
+            <span style="color: #00c805;">+<%= number_to_currency(trend['last_change'])%></span>
+          <% else %>
+            <span style="color: #ff5000;"><%= number_to_currency(trend['last_change'])%></span>
+          <% end %>
+          <% if trend['last_change_percentage'] >= 0 %>
+            <span style="color: #00c805;">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>
+          <% else %>
+            <span style="color: #ff5000;">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
