@@ -22,6 +22,7 @@ class StatsCreator < ApplicationService
   end
 
   def create_stat(name, description)
+    Rails.logger.info("Updating stat: #{name} for account_id:#{account_id}")
     stat = Stat.find_or_create_by(
       account_id: @account_id,
       name: name,
