@@ -22,6 +22,17 @@
   </div>
   <div class="row border-bottom pb-4 mb-4">
     <div class="col-sm-4 mb-3">
+      <div class="fw-bold">Notifications</div>
+      <div class="grey-500 med pe-5">Configure how to want to be notified here.</div>
+    </div>
+    <div class="col-sm-8">
+      <div class="row" id="notification-container">
+        <%= render partial: 'users/notifications'%>
+      </div>
+    </div>
+  </div>
+  <div class="row border-bottom pb-4 mb-4">
+    <div class="col-sm-4 mb-3">
       <div class="fw-bold">Manage your family accounts</div>
       <div class="grey-500 med pe-5">Here is everyone that has access to this account.</div>
     </div>
@@ -56,4 +67,3 @@
     </div>
   </div>
 </div>
-

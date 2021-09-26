@@ -27,7 +27,11 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.update(user_params)
+    if user_params[:weekly_summary] && current_user.update(user_params)
+      flash[:notice_header] = 'Notification settings updated.'
+      flash[:notice] = "You will #{current_user.weekly_summary ? 'now' : 'no longer'} receive a weekly summary of your finances."
+      redirect_to(accounts_settings_path)
+    elsif current_user.update(user_params)
       flash[:notice_header] = 'Profile updated'
       flash[:notice] = "Your profile settings were successfully updated."
       redirect_to(accounts_settings_path, notice: "Your profile settings were successfully updated.")
@@ -41,6 +45,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:full_name, :email, :time_zone)
+    params.require(:user).permit(:full_name, :email, :time_zone, :weekly_summary)
   end
 end

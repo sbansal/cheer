@@ -6,7 +6,7 @@
     <tr>
       <td><div style="font-size: 0.825rem">Total income this week</div></td>
       <td style="text-align: right">
-        <div style="font-size: 0.825rem"><%= link_to number_to_currency(@cashflow.total_money_in), income_expense_url,
+        <div style="font-size: 0.825rem"><%= link_to number_to_currency(@cashflow.total_money_in&.abs), income_expense_url,
           style: 'text-decoration: none;cursor: pointer; color: #444' %></div>
       </td>
     </tr>
