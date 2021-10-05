@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe LoginItemEventProcessor do
-  before(:all) do
+  before(:each) do
     @login_item = create(:login_item)
   end
 
@@ -36,6 +36,18 @@ RSpec.describe LoginItemEventProcessor do
     expect(LoginItem.find(@login_item.id).expired_at).to be_nil
     LoginItemEventProcessor.call(LoginItemEventProcessor::ERROR_CODE, @login_item.plaid_item_id, metadata)
     expect(LoginItem.find(@login_item.id).last_webhook_code_sent).to eq(LoginItemEventProcessor::ERROR_CODE)
+    expect(LoginItem.find(@login_item.id).last_webhook_sent_at).not_to be_nil
+    expect(LoginItem.find(@login_item.id).expired).to eq(true)
+    expect(LoginItem.find(@login_item.id).expired_at).not_to be_nil
+  end
+
+  it 'processes user_permission_revoked event' do
+    expect(LoginItem.find(@login_item.id).last_webhook_code_sent).to be_nil
+    expect(LoginItem.find(@login_item.id).last_webhook_sent_at).to be_nil
+    expect(LoginItem.find(@login_item.id).expired).to eq(false)
+    expect(LoginItem.find(@login_item.id).expired_at).to be_nil
+    LoginItemEventProcessor.call(LoginItemEventProcessor::USER_PERMISSION_REVOKED, @login_item.plaid_item_id, metadata)
+    expect(LoginItem.find(@login_item.id).last_webhook_code_sent).to eq(LoginItemEventProcessor::USER_PERMISSION_REVOKED)
     expect(LoginItem.find(@login_item.id).last_webhook_sent_at).not_to be_nil
     expect(LoginItem.find(@login_item.id).expired).to eq(true)
     expect(LoginItem.find(@login_item.id).expired_at).not_to be_nil
