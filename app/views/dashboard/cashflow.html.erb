@@ -19,24 +19,21 @@
         <div class="primary text-uppercase small bold-2">Net Worth</div>
         <h2 class="lg-28 fw-bold"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
         <div class="small">
-          <%= render 'trend', trend_value: @net_worth_change['last_change'],
-            trend_percentage: @net_worth_change['last_change_percentage'], trend_period: @period_description%>
+          <%= render 'trend', trend: @net_worth_change, trend_period: @period_description%>
         </div>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Assets</div>
         <h2 class="lg-28 fw-bold"><%= number_to_currency(@assets_stat.current_value)%></h2>
         <div class="small">
-          <%= render 'trend', trend_value: @assets_change['last_change'],
-            trend_percentage: @assets_change['last_change_percentage'], trend_period: @period_description%>
+          <%= render 'trend', trend: @assets_change, trend_period: @period_description%>
         </div>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Liabilities</div>
         <h2 class="lg-28 fw-bold"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
         <div class="small">
-          <%= render 'trend', trend_value: @liabilities_change['last_change'],
-            trend_percentage: @liabilities_change['last_change_percentage'], trend_period: @period_description%>
+          <%= render 'trend', trend: @liabilities_change, trend_period: @period_description%>
         </div>
       </div>
     </div>
@@ -56,8 +53,7 @@
           <div class="col text-end">
             <%= number_to_currency(@assets_stat.current_value)%>
             <div class="xs fw-normal">
-              <%= render 'trend', trend_value: @assets_change['last_change'],
-                trend_percentage: @assets_change['last_change_percentage'], trend_period: nil%>
+              <%= render 'trend', trend: @assets_change, trend_period: nil %>
             </div>
           </div>
         </div>
@@ -69,8 +65,7 @@
           <div class="col text-end">
             <%= number_to_currency(@cash_stat.current_value)%>
             <div class="xs fw-normal">
-              <%= render 'trend', trend_value: @cash_change['last_change'],
-                trend_percentage: @cash_change['last_change_percentage'], trend_period: nil%>
+              <%= render 'trend', trend: @cash_change, trend_period: nil%>
             </div>
           </div>
         </div>
@@ -87,8 +82,7 @@
           <div class="col text-end">
             <%= number_to_currency(@investments_stat.current_value)%>
             <div class="xs fw-normal">
-              <%= render 'trend', trend_value: @investments_change['last_change'],
-                trend_percentage: @investments_change['last_change_percentage'], trend_period: nil%>
+              <%= render 'trend', trend: @investments_change, trend_period: nil%>
             </div>
           </div>
         </div>
@@ -109,8 +103,7 @@
           <div class="col text-end">
             <%= number_to_currency(@liabilities_stat.current_value)%>
             <div class="xs fw-normal">
-              <%= render 'trend', trend_value: @liabilities_change['last_change'],
-                trend_percentage: @liabilities_change['last_change_percentage'], trend_period: nil%>
+              <%= render 'trend', trend: @liabilities_change, trend_period: nil%>
             </div>
           </div>
         </div>

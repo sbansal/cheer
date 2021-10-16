@@ -3,6 +3,7 @@ class LoginItemEventProcessor < EventProcessor
   WEBHOOK_UPDATE_ACKNOWLEDGED_CODE = "WEBHOOK_UPDATE_ACKNOWLEDGED"
   PENDING_EXPIRATION_CODE = "PENDING_EXPIRATION"
   ERROR_CODE = "ERROR"
+  USER_PERMISSION_REVOKED = "USER_PERMISSION_REVOKED"
 
   def initialize(event_code, item_id, metadata={})
     super(event_code, item_id, metadata)
@@ -20,13 +21,13 @@ class LoginItemEventProcessor < EventProcessor
         Rails.logger.info("Item access consent expiring at #{metadata['consent_expiration_time']}")
         update_consent_expiration(metadata['consent_expiration_time'])
         # TODO EMAIL the user
-      when ERROR_CODE
+      when ERROR_CODE, USER_PERMISSION_REVOKED
         Rails.logger.info("Error with login item. #{metadata['error']}")
         login_item.expire
         # TODO EMAIL the user
       else
         Rails.logger.error("Unable to process login item event code = #{event_code}")
-        return false
+        return true
       end
     end
   end

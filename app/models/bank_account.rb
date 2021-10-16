@@ -214,6 +214,13 @@ class BankAccount < ApplicationRecord
     where('account_type in (?) and account_subtype not in (?)', [INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, OTHER_ASSET], [BROKERAGE])
   end
 
+  def balance_trend_as_of(date)
+    current_value = last_balance&.current || 0
+    prev_value = last_balance_value_on(date)
+    trend = Trend.new(current_value, prev_value)
+    trend.to_h
+  end
+
   private
 
   def sanitize_balance(balance)

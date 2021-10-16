@@ -1,0 +1,8 @@
+<div class="col-sm-7">
+  <div class="med">Receive weekly email summary of your Net Worth and Cashflow.</div>
+</div>
+<div class="col-sm-1 form-check form-switch" data-controller="notifications">
+  <%= form_with model: current_user, id: 'weekly-summary-form', remote: true do |form| %>
+    <%= form.check_box :weekly_summary, {class: 'primary-switch form-check-input', data: {action: 'change->notifications#toggleWeeklySummary' }} %>
+  <% end %>
+</div>
