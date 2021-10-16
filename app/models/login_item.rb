@@ -43,11 +43,12 @@ class LoginItem < ApplicationRecord
 
   def expire
     update(expired: true, expired_at: Time.zone.now )
+    GenericMailer.login_item_expired_notification(self.user_id, self.id).deliver_later
   end
 
   def activate
     update(expired: false, expired_at: nil, link_token: nil, link_token_expires_at: nil)
-    #TODO email user
+    GenericMailer.login_item_activated_notification(self.user_id, self.id).deliver_later
   end
 
   def enqueue_transaction_fetch
