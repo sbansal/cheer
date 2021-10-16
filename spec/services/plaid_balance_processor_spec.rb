@@ -4,10 +4,11 @@ require 'rails_helper'
 RSpec.describe PlaidBalanceProcessor do
   before(:all) do
     @user = create(:user)
-    @bank_account = create(:bank_account, user: @user)
   end
 
   it 'updates account balances' do
+    @login_item = create(:login_item, user: @user)
+    @bank_account = create(:bank_account, user: @user, login_item: @login_item)
     client = double("client", accounts: double('accounts', balance: double('balance', get: accounts_response )))
     allow(PlaidClientCreator).to receive(:call) { client }
     expect(@bank_account.balances.count).to eq 0
@@ -16,6 +17,16 @@ RSpec.describe PlaidBalanceProcessor do
     expect(@bank_account.last_balance.available).to eq 2500
     expect(@bank_account.last_balance.current).to eq 2500
     expect(@bank_account.last_balance.limit).to eq 2500
+  end
+
+  it 'does not update balance if item is expired' do
+    @login_item = create(:login_item, user: @user, expired: true)
+    @bank_account = create(:bank_account, user: @user, login_item: @login_item)
+    client = double("client", accounts: double('accounts', balance: double('balance', get: accounts_response )))
+    allow(PlaidClientCreator).to receive(:call) { client }
+    expect(@bank_account.balances.count).to eq 0
+    PlaidBalanceProcessor.call(@bank_account.login_item.plaid_access_token)
+    expect(@bank_account.balances.count).to eq 0
   end
 
   private
