@@ -8,6 +8,9 @@
       <%= link_to('Link an account using Plaid', '', class: 'btn btn-primary my-3', data: {controller: 'plaid',
       action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
     </div>
+    <div>
+      <%= link_to('Link Coinbase account', CoinbaseOAuthCreator.new.oauth_url, class: 'btn btn-primary my-3', id: 'plaid-link') %>
+    </div>
   </div>
 
   <section class="form-background" data-controller='accounts'>

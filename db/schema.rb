@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_11_184920) do
+ActiveRecord::Schema.define(version: 2021_10_23_192756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -153,6 +153,9 @@ ActiveRecord::Schema.define(version: 2021_09_11_184920) do
     t.datetime "expired_at"
     t.string "link_token"
     t.datetime "link_token_expires_at"
+    t.string "oauth_access_token"
+    t.string "oauth_refresh_token"
+    t.string "oauth_provider"
   end
 
   create_table "posts", force: :cascade do |t|
