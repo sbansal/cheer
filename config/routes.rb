@@ -68,5 +68,8 @@ Rails.application.routes.draw do
     #expenses
     resources :expenses, only: [:index]
     resources :earnings, only: [:index]
+
+    #oauth
+    get 'oauth/callback'
   end
 end
