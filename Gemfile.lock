@@ -181,14 +181,10 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
-<<<<<<< HEAD
-    i18n (1.8.11)
-=======
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.10)
->>>>>>> 9123e1515145c5a8f55a08ffc09acc701ee9d245
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.3)
       activesupport (>= 5.0.0)

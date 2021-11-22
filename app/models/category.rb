@@ -19,11 +19,11 @@ class Category < ApplicationRecord
   CREDIT_IGNORE_LIST = [CC_PAYMENT_PLAID_ID]
 
   def category_list
-    hierarchy.join(', ')
+    hierarchy&.join(', ')
   end
 
   def charge?
-    !hierarchy.include?(INTERNAL_ACCOUNT_TRANSFER)
+    !hierarchy&.include?(INTERNAL_ACCOUNT_TRANSFER)
   end
 
   def ignore_for_debit?
@@ -39,21 +39,21 @@ class Category < ApplicationRecord
   end
 
   def root_name
-    hierarchy.first
+    hierarchy&.first
   end
 
   def secondary_names
-    hierarchy.drop(1)
+    hierarchy&.drop(1)
   end
 
   def category_list_item
     arrow = "\u2192"
     arrow = arrow.encode('utf-8')
-    hierarchy.join(" #{arrow} ")
+    hierarchy&.join(" #{arrow} ")
   end
 
   def primary_name
-    hierarchy.last
+    hierarchy&.last
   end
 
 end
