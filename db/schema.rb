@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_23_192756) do
+ActiveRecord::Schema.define(version: 2021_11_27_034653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -101,6 +101,9 @@ ActiveRecord::Schema.define(version: 2021_10_23_192756) do
     t.datetime "current_balance_updated_at"
     t.text "address_line_1"
     t.text "address_line_2"
+    t.string "coinbase_account_id"
+    t.float "native_balance"
+    t.string "native_currency"
   end
 
   create_table "categories", force: :cascade do |t|

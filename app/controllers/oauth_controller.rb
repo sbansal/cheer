@@ -1,10 +1,9 @@
 class OauthController < ApplicationController
   def callback
-    code = params[:code]
     state = params[:state]
-    @coinbase_client = CoinbaseOAuthCreator.new
+    @coinbase_client = CoinbaseOauthCreator.new
     if state && @coinbase_client.valid_state?(state)
-      login_item = @coinbase_client.retrieve_access_token(code, current_user)
+      login_item = @coinbase_client.update_login_item(params[:code], current_user)
       flash[:notice_header] = 'New link created'
       flash[:notice] = "You have successfully linked your #{login_item.institution.name} accounts to Cheer."
     else

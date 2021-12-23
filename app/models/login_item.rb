@@ -67,4 +67,25 @@ class LoginItem < ApplicationRecord
     )
     link_token
   end
+
+  def update_oauth_info(response)
+    if oauth_provider == 'coinbase'
+      update(
+        oauth_access_token: response['access_token'],
+        oauth_refresh_token: response['refresh_token'],
+      )
+      activate
+    end
+  end
+
+  def revoke_access
+    if oauth_provider == 'plaid'
+      response = PlaidClientCreator.call.item.remove(plaid_access_token)
+      Rails.logger.info("Revoking access for the plaid account, response=#{response}")
+    elsif oauth_provider == 'coinbase'
+      response = CoinbaseOauthCreator.new.revoke_token(oauth_access_token, oauth_refresh_token)
+      Rails.logger.info("Revoking access for the coinbase account, response=#{response}")
+    end
+  end
+
 end

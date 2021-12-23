@@ -1,4 +1,4 @@
-class CoinbaseClientCreator < ApplicationService
+class CoinbaseClient < ApplicationService
   require 'coinbase/wallet'
 
   def initialize(access_token, refresh_token)
