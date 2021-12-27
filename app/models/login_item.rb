@@ -4,10 +4,10 @@ class LoginItem < ApplicationRecord
   belongs_to :institution
 
   def self.create_from_json(login_item_json, status_json, institution_id, access_token, user_id)
-    last_webhook_sent_at = status_json&.last_webhook&.sent_at ? DateTime.parse(status_json&.last_webhook&.sent_at) : nil
-    last_successful_transaction_update_at = status_json&.transactions&.last_successful_update ? DateTime.parse(status_json&.transactions&.last_successful_update) : nil
-    last_failed_transaction_update_at = status_json&.transactions&.last_failed_update ? DateTime.parse(status_json&.transactions&.last_failed_update) : nil
-    consent_expires_at = login_item_json&.consent_expiration_time ? DateTime.parse(login_item_json&.consent_expiration_time) : nil
+    last_webhook_sent_at = status_json&.last_webhook&.sent_at
+    last_successful_transaction_update_at = status_json&.transactions&.last_successful_update
+    last_failed_transaction_update_at = status_json&.transactions&.last_failed_update
+    consent_expires_at = login_item_json&.consent_expiration_time
     create(
       plaid_item_id: login_item_json&.item_id,
       plaid_access_token: access_token,
@@ -32,7 +32,14 @@ class LoginItem < ApplicationRecord
 
   def register_webhook
     client = PlaidClientCreator.call
-    client.item.webhook.update(plaid_access_token, Rails.application.credentials[:login_item_webhook])
+    request = Plaid::ItemWebhookUpdateRequest.new(
+      {
+        access_token: plaid_access_token,
+        webhook: Rails.application.credentials[:login_item_webhook],
+      }
+    )
+    response = client.item_webhook_update(request)
+    Rails.logger.info("Webhook updated for login_item=#{self.inspect} and response=#{response}")
   end
 
   def transactions_history_period

@@ -28,7 +28,7 @@ RSpec.describe Transaction, type: :model do
     it 'creates transactions' do
       tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, SecureRandom.hex(32))
       expect {
-        Transaction.create_transactions_from_json([tx], @user.id)
+        Transaction.create_transactions_from_json([OpenStruct.new(tx)], @user.id)
       }.to change { @user.transactions.count }.by(1)
       expect(Transaction.last.merchant_name).to eq ("Amazon")
     end
@@ -39,7 +39,11 @@ RSpec.describe Transaction, type: :model do
       tx_2 = tx_1.merge(amount: 50, transaction_id: @transaction_id)
       tx_3 = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, SecureRandom.hex(32))
       expect {
-        Transaction.create_transactions_from_json([tx_1, tx_2, tx_3], @user.id)
+        Transaction.create_transactions_from_json([
+          OpenStruct.new(tx_1),
+          OpenStruct.new(tx_2),
+          OpenStruct.new(tx_3)
+        ], @user.id)
       }.to change { @user.transactions.count }.by(2)
       updated_tx = Transaction.find_by_plaid_transaction_id(tx_id)
       expect(updated_tx.amount).to eq 200
@@ -49,7 +53,7 @@ RSpec.describe Transaction, type: :model do
       tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, @transaction_id)
       tx = tx.merge(name: 'netflix.com')
       expect {
-        Transaction.create_transactions_from_json([tx], @user.id)
+        Transaction.create_transactions_from_json([OpenStruct.new(tx)], @user.id)
       }.to change { @user.transactions.count }.by(0)
       expect(Transaction.find_by_plaid_transaction_id(@transaction_id).description).to eq 'netflix.com'
     end
@@ -58,7 +62,7 @@ RSpec.describe Transaction, type: :model do
       tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, @transaction_id)
       tx = tx.merge(name: 'netflix.com')
       expect {
-        Transaction.create_transactions_from_json([tx], @user.id)
+        Transaction.create_transactions_from_json([OpenStruct.new(tx)], @user.id)
       }.to change { @user.transactions.count }.by(0)
       expect(Transaction.find_by_plaid_transaction_id(@transaction_id).custom_description).to eq 'Madison Bicycle Shop'
     end
@@ -68,7 +72,7 @@ RSpec.describe Transaction, type: :model do
       category_id = create(:category).plaid_category_id
       tx = tx.merge(category_id: category_id, name: 'netflix.com')
       expect {
-        Transaction.create_transactions_from_json([tx], @user.id)
+        Transaction.create_transactions_from_json([OpenStruct.new(tx)], @user.id)
       }.to change { @user.transactions.count }.by(0)
       expect(Transaction.find_by_plaid_transaction_id(@transaction_id).category).to eq @category
     end
@@ -77,7 +81,7 @@ RSpec.describe Transaction, type: :model do
       tx = transaction_json(@bank_account.plaid_account_id, @category.plaid_category_id, SecureRandom.hex(32))
       invalid_bank_tx = tx.merge(account_id: 10000000)
       expect {
-        Transaction.create_transactions_from_json([invalid_bank_tx], @user.id)
+        Transaction.create_transactions_from_json([OpenStruct.new(invalid_bank_tx)], @user.id)
       }.to change { @user.transactions.count }.by(0)
     end
 

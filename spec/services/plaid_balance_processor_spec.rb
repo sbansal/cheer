@@ -40,20 +40,20 @@ RSpec.describe PlaidBalanceProcessor do
   end
 
   def account_json
-    {
+    OpenStruct.new({
       account_id: @bank_account.plaid_account_id,
-      balances: {
+      balances: OpenStruct.new({
         available: 2500,
         current: 2500,
         limit: 2500,
         iso_currency_code: "USD",
         unofficial_currency_code: nil
-      },
+      }),
       mask: "0000",
       name: "Some Checking Account",
       official_name: "Titanium Account",
       subtype: "checking",
       type: "depository"
-    }
+    })
   end
 end

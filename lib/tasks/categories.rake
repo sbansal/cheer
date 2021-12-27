@@ -2,8 +2,8 @@ namespace :categories do
   desc "Fetch the plaid categories and save in the DB"
   task update_from_plaid: :environment do
     @client = PlaidClientCreator.call
-    response = @client.categories.get()
-    @categories = response['categories']
+    response = @client.categories_get({})
+    @categories = response.categories
     @categories.each do |category|
       c = Category.find_or_initialize_by(plaid_category_id: category.category_id)
       c.update(

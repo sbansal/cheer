@@ -50,7 +50,7 @@ class Subscription < ApplicationRecord
       self.active = false
     end
   end
-  
+
   def state
     self.active? ? 'active' : 'inactive'
   end
@@ -62,7 +62,6 @@ class Subscription < ApplicationRecord
     return false if (range_array == POSSIBLE_DAILY_FREQUENCY && days_array.length < 6)
     return false if (range_array == POSSIBLE_WEEKLY_FREQUENCY && days_array.length < 3)
     range = ((days_array - range_array).length.to_f / days_array.length.to_f * 100)
-    # puts "range=#{range} for range_array=#{range_array}, and days_array=#{days_array}"
     range < 50
   end
 end
