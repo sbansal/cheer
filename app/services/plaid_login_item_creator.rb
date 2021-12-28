@@ -7,6 +7,7 @@ class PlaidLoginItemCreator < ApplicationService
 
   def call
     login_item = create_login_item
+    login_item.activate
     login_item.register_webhook
     bank_accounts = create_accounts(login_item)
     PlaidTransactionsCreator.call(@access_token, @user, 3.months.ago.to_date.iso8601, Date.today.iso8601)
