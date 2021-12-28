@@ -11,7 +11,7 @@ RSpec.describe "PlaidTransactionsRequests", type: :request do
       @end_date = Date.today
     end
 
-    it "returns transactions" do
+    it "builds transactions" do
       expect {
         setup_login_item
       }.to change { @user.transactions.count }.by(16)
