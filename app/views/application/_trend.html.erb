@@ -1,9 +1,9 @@
-<% if trend['last_change'] >= 0 %>
+<% if trend['last_change'] || 0 >= 0 %>
   <span class="trend-value up">+<%= number_to_currency(trend['last_change'])%></span>
 <% else %>
   <span class="trend-value down"><%= number_to_currency(trend['last_change'])%></span>
 <% end %>
-<% if trend['last_change_percentage'] >= 0 %>
+<% if trend['last_change_percentage'] || 0 >= 0 %>
   <span class="trend-value up">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>
 <% else %>
   <span class="trend-value down">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>

@@ -57,6 +57,7 @@ class LoginItemsController < ApplicationController
     begin
       response = PlaidLinkDeleter.call(@login_item.plaid_access_token)
       @login_item.destroy
+      StatsCreatorJob.perform_later(current_account.id)
       respond_to do |format|
         format.html { redirect_to login_items_path }
         format.json { head :no_content }
