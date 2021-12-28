@@ -11,8 +11,6 @@ RSpec.describe PlaidTransactionsCreator do
   end
 
   let(:access_token) { 'access_token' }
-  let(:user) { create(:user) }
-
 
   it 'fetches all transactions for login item' do
     client = double("client", transactions_get: 'list of transactions')

@@ -10,10 +10,8 @@ class PlaidController < ApplicationController
   end
 
   def generate_access_token
-    @client = PlaidClientCreator.call
-    @exchange_token_response = @client.item.public_token.exchange(params['public_token'])
-    @access_token = @exchange_token_response['access_token']
-    @login_item = PlaidLoginItemCreator.call(@access_token, current_user)
+    access_token = PlaidPublicTokenExchanger.call(params['public_token'])
+    @login_item = PlaidLoginItemCreator.call(access_token, current_user)
     flash[:notice_header] = 'New link created'
     flash[:notice] = "You have successfully linked your #{@login_item.institution.name} accounts to Cheer."
   end
@@ -21,7 +19,7 @@ class PlaidController < ApplicationController
   def create_link_token
     response = PlaidLinkTokenCreator.call(current_user.id)
     respond_to do |format|
-      format.json { render json: {link_token: response['link_token']} }
+      format.json { render json: {link_token: response.link_token} }
     end
   end
 end
