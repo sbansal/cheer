@@ -20,6 +20,7 @@ class LoginItem < ApplicationRecord
       last_webhook_code_sent: status_json&.last_webhook&.code_sent,
       user_id: user_id,
     )
+    GenericMailer.login_item_activated_notification(self.user_id, self.id).deliver_later
   end
 
   def status

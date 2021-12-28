@@ -9,7 +9,13 @@ class HistoricalTransactionsCreator < ApplicationService
   end
 
   def call
-    fetch_historical_transactions
+    begin
+      fetch_historical_transactions
+    ensure
+      Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
+      BankAccount.update_balances(@accounts_json_array.uniq { |item| item.account_id })
+      StatsCreatorJob.perform_later(@user.account_id)
+    end
   end
 
   private
@@ -33,10 +39,6 @@ class HistoricalTransactionsCreator < ApplicationService
     Rails.logger.tagged("TransactionPull") {
       Rails.logger.info { "Saving #{transactions_fetched_count} transactions from Plaid into the DB."}
     }
-    # create the transactions
-    Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
-    # update the balances for unique accounts as we want to prevent duplicate updates and balance creation
-    BankAccount.update_balances(@accounts_json_array.uniq { |item| item[:account_id] })
   end
 
   def fetch_transactions_and_accounts_data(end_date)
