@@ -47,4 +47,29 @@ RSpec.describe LoginItem, type: :model do
       login_item.enqueue_transaction_fetch
     end
   end
+
+  describe '#should_display_plaid_renew_link?' do
+    it 'display the renew link for expired items only' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, user: user)
+      allow(login_item).to receive(:fetch_link_token) { 'token' }
+      expect(login_item.should_display_plaid_renew_link?(user)).to be true
+      login_item = create(:login_item, expired: false, user: user)
+      expect(login_item.should_display_plaid_renew_link?(user)).to be false
+    end
+
+    it 'display the renew link when a plaid link token is present' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, user: user)
+      allow(login_item).to receive(:fetch_link_token) { nil }
+      expect(login_item.should_display_plaid_renew_link?(user)).to be false
+    end
+
+    it 'display the renew link to the user that created it' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, user: user)
+      allow(login_item).to receive(:fetch_link_token) { nil }
+      expect(login_item.should_display_plaid_renew_link?(create(:user))).to be false
+    end
+  end
 end

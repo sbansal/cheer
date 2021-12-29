@@ -4,6 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+.DS_Store
 .env
 .tm_properties
 # Ignore bundler config.
@@ -36,3 +37,5 @@ yarn-debug.log*
 /config/credentials/production.key
 
 /config/master.key
+
+/config/credentials/test.key

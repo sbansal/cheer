@@ -66,20 +66,20 @@ RSpec.describe BankAccount, type: :model do
   private
 
   def bank_account_json
-    {
+    OpenStruct.new({
       account_id: SecureRandom.hex(32),
-      balances: {
+      balances: OpenStruct.new({
         available: nil,
         current: 410,
         limit: 2000,
         iso_currency_code: "USD",
         unofficial_currency_code: nil,
-      },
+      }),
       name: 'Sample Account',
       official_name: 'Sample Account Checking',
       subtype: 'credit card',
       type: 'credit',
       mask: '1111',
-    }
+    })
   end
 end

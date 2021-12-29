@@ -17,7 +17,7 @@ class TransactionsEventProcessor < EventProcessor
       Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
         Rails.logger.info("Intial pull complete. Total new transactions=#{metadata['new_transactions']}")
       }
-      # Disregard this. We care about HISTORICAL_UPDATE_CODE event to pull data.
+      fetch_new_transactions(30)
     when HISTORICAL_UPDATE_CODE
       transactions_count = metadata['new_transactions']
       Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
@@ -46,12 +46,12 @@ class TransactionsEventProcessor < EventProcessor
     Transaction.destroy_by(plaid_transaction_id: removed_transactions)
   end
 
-  def fetch_new_transactions
+  def fetch_new_transactions(num_days=1)
     user = login_item.user
     PlaidTransactionsCreator.call(
       login_item.plaid_access_token,
       user,
-      (user.last_transaction_pulled_at - 1.day).iso8601,
+      (user.last_transaction_pulled_at - num_days.day).iso8601,
       Date.today.iso8601,
     )
   end
