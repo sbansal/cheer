@@ -12,9 +12,9 @@ RSpec.describe "PlaidTransactionsRequests", type: :request do
     end
 
     it "builds transactions" do
-      expect {
-        PlaidLoginItemCreator.call(@access_token, @user)
-      }.to change { @user.transactions.count }.by(16)
+      expect(@user.transactions.count).to eq 0
+      PlaidLoginItemCreator.call(@access_token, @user)
+      expect(@user.transactions.count).to be > 0
     end
 
     after(:all) do

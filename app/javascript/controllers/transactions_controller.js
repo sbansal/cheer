@@ -1,6 +1,6 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import Rails from "@rails/ujs"
-import {triggerToast} from "../packs/utils.js"
+import {triggerToast} from "../utils.js"
 
 export default class extends Controller {
   static targets = [ "essentialMenuItem", "bulkEssentialMenuItem"]
