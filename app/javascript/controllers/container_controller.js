@@ -1,7 +1,7 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import uPlot from "uplot"
 import Rails from "@rails/ujs"
-import {seriesBarsPlugin} from "../packs/seriesBarPlugin.js"
+import {seriesBarsPlugin} from "../seriesBarPlugin.js"
 
 const MONTHS = [
   'Jan',
@@ -236,6 +236,7 @@ export default class extends Controller {
   }
 
   connect() {
+    console.log("Connecting to the container controller")
     if (document.getElementById('cashflow-trend')
       && document.getElementById('cashflow-trend').children.length == 0 ) {
       this.loadCashflowTrends()

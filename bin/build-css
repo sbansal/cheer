@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+./node_modules/sass/sass.js \
+  ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css \
+  ./app/assets/stylesheets/main.scss:./app/assets/builds/main.css \
+  ./app/assets/stylesheets/uPlot.min.scss:./app/assets/builds/uPlot.min.css \
+  --no-source-map \
+  --load-path=node_modules \
+  $@

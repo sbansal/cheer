@@ -10,9 +10,13 @@ gem 'puma', '~> 4.3'
 
 # frontend
 # Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
-gem 'webpacker', '~> 5.0'
-gem 'hotwire-rails'
+# gem 'sass-rails', '>= 6'
+# gem 'webpacker', '~> 5.0'
+gem "turbo-rails"
+gem "stimulus-rails"
+gem "cssbundling-rails"
+gem "sprockets-rails"
+gem "jsbundling-rails"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
