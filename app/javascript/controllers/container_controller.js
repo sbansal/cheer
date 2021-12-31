@@ -205,7 +205,7 @@ export default class extends Controller {
       ];
     }
     let data = makeData()
-    console.log(data)
+    console.debug(data)
     let uplot = new uPlot(opts, data, document.getElementById('income-expense-trend'))
     document.getElementById('income-expense-trend').classList.add('show')
   }
@@ -228,7 +228,7 @@ export default class extends Controller {
           Array.from(expenses_trend_map.values()),
           Array.from(savings_trend_map.values()),
         ]
-        console.log(data)
+        console.debug(data)
         self.makeChart(data)
       },
       error: function(data) {}
@@ -236,7 +236,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("Connecting to the container controller")
     if (document.getElementById('cashflow-trend')
       && document.getElementById('cashflow-trend').children.length == 0 ) {
       this.loadCashflowTrends()
