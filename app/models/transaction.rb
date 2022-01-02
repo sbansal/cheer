@@ -80,38 +80,39 @@ class Transaction < ApplicationRecord
   def self.process_transactions_json(transactions_json_array, user_id)
     transactions_json_array.map do |transactions_json|
       begin
-        bank_account = BankAccount.find_by!(plaid_account_id: transactions_json[:account_id])
-        category = Category.find_by!(plaid_category_id: transactions_json[:category_id])
-        transaction = Transaction.find_by_plaid_transaction_id(transactions_json[:transaction_id])
+        bank_account = BankAccount.find_by!(plaid_account_id: transactions_json.account_id)
+        category = Category.find_by!(plaid_category_id: transactions_json.category_id)
+        transaction = Transaction.find_by_plaid_transaction_id(transactions_json.transaction_id)
         created_at = transaction.nil? ? Time.zone.now.utc : transaction.created_at
-        custom_description = transaction.nil? ? transactions_json[:name] : transaction.custom_description
+        custom_description = transaction.nil? ? transactions_json.name : transaction.custom_description
         category_id = transaction.nil? ? category&.id : transaction.category_id
         essential_tx = transaction.nil? ? category.essential? : transaction.category.essential?
         {
-          plaid_transaction_id: transactions_json[:transaction_id],
+          plaid_transaction_id: transactions_json.transaction_id,
           user_id: user_id,
-          amount: transactions_json[:amount],
-          currency_code: transactions_json[:iso_currency_code],
-          occured_at: Date.parse(transactions_json[:date]),
-          authorized_at: transactions_json[:authorized_date],
-          location_json: transactions_json[:location],
-          description: transactions_json[:name],
+          amount: transactions_json.amount,
+          currency_code: transactions_json.iso_currency_code,
+          occured_at: transactions_json.date,
+          authorized_at: transactions_json.authorized_date,
+          location_json: transactions_json.location,
+          description: transactions_json.name,
           custom_description: custom_description,
-          transaction_type: transactions_json[:transaction_type],
-          payment_meta_json: transactions_json[:payment_meta],
-          payment_channel: transactions_json[:payment_channel],
-          pending: transactions_json[:pending],
-          plaid_pending_transaction_id: transactions_json[:pending_transaction_id],
-          transaction_code: transactions_json[:transaction_code],
+          transaction_type: transactions_json.transaction_type,
+          payment_meta_json: transactions_json.payment_meta,
+          payment_channel: transactions_json.payment_channel,
+          pending: transactions_json.pending,
+          plaid_pending_transaction_id: transactions_json.pending_transaction_id,
+          transaction_code: transactions_json.transaction_code,
           bank_account_id: bank_account&.id,
           category_id: category_id,
           created_at: created_at,
           updated_at: Time.zone.now.utc,
-          merchant_name:transactions_json[:merchant_name],
+          merchant_name:transactions_json.merchant_name,
           essential: essential_tx,
         }
       rescue => e
         Rails.logger.error("Unable to process transaction with payload: #{transactions_json}, exception - #{e}")
+        Rails.logger.error(e.backtrace.join("\n"))
         next
       end
     end

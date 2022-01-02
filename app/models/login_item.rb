@@ -4,10 +4,10 @@ class LoginItem < ApplicationRecord
   belongs_to :institution
 
   def self.create_from_json(login_item_json, status_json, institution_id, access_token, user_id)
-    last_webhook_sent_at = status_json&.last_webhook&.sent_at ? DateTime.parse(status_json&.last_webhook&.sent_at) : nil
-    last_successful_transaction_update_at = status_json&.transactions&.last_successful_update ? DateTime.parse(status_json&.transactions&.last_successful_update) : nil
-    last_failed_transaction_update_at = status_json&.transactions&.last_failed_update ? DateTime.parse(status_json&.transactions&.last_failed_update) : nil
-    consent_expires_at = login_item_json&.consent_expiration_time ? DateTime.parse(login_item_json&.consent_expiration_time) : nil
+    last_webhook_sent_at = status_json&.last_webhook&.sent_at
+    last_successful_transaction_update_at = status_json&.transactions&.last_successful_update
+    last_failed_transaction_update_at = status_json&.transactions&.last_failed_update
+    consent_expires_at = login_item_json&.consent_expiration_time
     create(
       plaid_item_id: login_item_json&.item_id,
       plaid_access_token: access_token,
@@ -32,7 +32,14 @@ class LoginItem < ApplicationRecord
 
   def register_webhook
     client = PlaidClientCreator.call
-    client.item.webhook.update(plaid_access_token, Rails.application.credentials[:login_item_webhook])
+    request = Plaid::ItemWebhookUpdateRequest.new(
+      {
+        access_token: plaid_access_token,
+        webhook: Rails.application.credentials[:login_item_webhook],
+      }
+    )
+    response = client.item_webhook_update(request)
+    Rails.logger.info("Webhook updated for login_item=#{self.inspect} and response=#{response}")
   end
 
   def transactions_history_period
@@ -53,18 +60,22 @@ class LoginItem < ApplicationRecord
 
   def enqueue_transaction_fetch
     last_transaction_date = transactions_history_period[1] || self.created_at.to_date
-    last_webhook_date = self.last_webhook_sent_at.to_date || self.created_at.to_date
+    last_webhook_date = self.last_webhook_sent_at&.to_date || self.created_at.to_date
     start_date = [last_webhook_date, last_transaction_date].min
     RefreshTransactionsJob.perform_later(self.plaid_access_token, self.user_id, start_date.iso8601, Date.today.iso8601)
   end
 
   def fetch_link_token
-    response = PlaidLinkTokenCreator.call(self.user_id, self.plaid_access_token, true)
-    link_token = response['link_token']
-    update(
-      link_token_expires_at: DateTime.parse(response['expiration']),
-      link_token: link_token,
-    )
+    begin
+      response = PlaidLinkTokenCreator.call(self.user_id, self.plaid_access_token, true)
+      link_token = response['link_token']
+      update(
+        link_token_expires_at: DateTime.parse(response['expiration']),
+        link_token: link_token,
+      )
+    rescue => e
+      Rails.logger.error(e)
+    end
     link_token
   end
 
@@ -80,7 +91,7 @@ class LoginItem < ApplicationRecord
 
   def revoke_access
     if oauth_provider == 'plaid'
-      response = PlaidClientCreator.call.item.remove(plaid_access_token)
+      response = PlaidLinkDeleter.call(self.plaid_access_token)
       Rails.logger.info("Revoking access for the plaid account, response=#{response}")
     elsif oauth_provider == 'coinbase'
       response = CoinbaseOauthCreator.new.revoke_token(oauth_access_token, oauth_refresh_token)
@@ -88,4 +99,7 @@ class LoginItem < ApplicationRecord
     end
   end
 
+  def should_display_plaid_renew_link?(current_user)
+    expired? && self.user == current_user && fetch_link_token.present?
+  end
 end

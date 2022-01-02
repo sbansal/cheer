@@ -56,12 +56,17 @@ class LoginItemsController < ApplicationController
     begin
       @login_item.revoke_access
       @login_item.destroy
+      StatsCreatorJob.perform_later(current_account.id)
+      flash[:notice_header] = 'Link deleted'
+      flash[:notice] = "You have successfully deleted your #{@login_item.institution.name} accounts from Cheer."
       respond_to do |format|
-        format.html { redirect_to login_items_path }
+        format.html { redirect_to login_items_path, flash: {} }
         format.json { head :no_content }
       end
-    rescue Exception => e
+    rescue => e
       Rails.logger.error("Error destroying login item, error=#{e.inspect}")
+      flash[:alert_header] = 'Link could not be deleted'
+      flash[:alert] = "We were not able to remove #{@login_item.institution.name} link from Cheer. Please try again."
       respond_to do |format|
         format.html { redirect_to login_items_path, flash: { error: 'Login item could not be deleted.' } }
         format.json { head :unprocessable_entity }

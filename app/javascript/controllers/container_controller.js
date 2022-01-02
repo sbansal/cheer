@@ -1,7 +1,7 @@
-import { Controller } from "stimulus"
+import { Controller } from "@hotwired/stimulus"
 import uPlot from "uplot"
 import Rails from "@rails/ujs"
-import {seriesBarsPlugin} from "../packs/seriesBarPlugin.js"
+import {seriesBarsPlugin} from "../seriesBarPlugin.js"
 
 const MONTHS = [
   'Jan',
@@ -205,7 +205,7 @@ export default class extends Controller {
       ];
     }
     let data = makeData()
-    console.log(data)
+    console.debug(data)
     let uplot = new uPlot(opts, data, document.getElementById('income-expense-trend'))
     document.getElementById('income-expense-trend').classList.add('show')
   }
@@ -228,7 +228,7 @@ export default class extends Controller {
           Array.from(expenses_trend_map.values()),
           Array.from(savings_trend_map.values()),
         ]
-        console.log(data)
+        console.debug(data)
         self.makeChart(data)
       },
       error: function(data) {}

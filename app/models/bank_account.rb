@@ -25,23 +25,23 @@ class BankAccount < ApplicationRecord
     banks_accounts = accounts_json_array.filter_map do |account_json|
       user_account = User.find(user_id)&.account
       existing_bank_accounts = user_account.bank_accounts.where(
-        name: account_json[:name],
-        mask: account_json[:mask],
+        name: account_json.name,
+        mask: account_json.mask,
         institution_id: institution_id,
       )
       if existing_bank_accounts.empty?
         {
-          plaid_account_id: account_json[:account_id],
-          name: account_json[:name],
-          official_name: account_json[:official_name],
-          account_type: account_json[:type],
-          account_subtype: account_json[:subtype],
-          mask: account_json[:mask],
-          balance_available: account_json[:balances][:available],
-          balance_limit: account_json[:balances][:limit],
-          current_balance: account_json[:balances][:current],
+          plaid_account_id: account_json.account_id,
+          name: account_json.name,
+          official_name: account_json.official_name,
+          account_type: account_json.type,
+          account_subtype: account_json.subtype,
+          mask: account_json.mask,
+          balance_available: account_json.balances.available,
+          balance_limit: account_json.balances.limit,
+          current_balance: account_json.balances.current,
           current_balance_updated_at: Time.zone.now,
-          balance_currency_code: account_json[:balances][:iso_currency_code] || account_json[:balances][:unofficial_currency_code],
+          balance_currency_code: account_json.balances.iso_currency_code || account_json.balances.unofficial_currency_code,
           login_item_id: login_item_id,
           user_id: user_id,
           institution_id: institution_id,
@@ -57,12 +57,12 @@ class BankAccount < ApplicationRecord
   def self.update_balances(accounts_json)
     accounts_json.each do |account_json|
       begin
-        plaid_account_id = account_json[:account_id]
+        plaid_account_id = account_json.account_id
         bank_account = BankAccount.find_by!(plaid_account_id: plaid_account_id)
-        balance_available = account_json[:balances][:available]
-        balance_limit = account_json[:balances][:limit]
-        current_balance = account_json[:balances][:current]
-        balance_currency_code = account_json[:balances][:iso_currency_code]
+        balance_available = account_json.balances.available
+        balance_limit = account_json.balances.limit
+        current_balance = account_json.balances.current
+        balance_currency_code = account_json.balances.iso_currency_code
         # cache balance on accounts
         bank_account.update(
           balance_available: balance_available,

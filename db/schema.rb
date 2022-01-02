@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_27_034653) do
+ActiveRecord::Schema.define(version: 2021_12_26_033435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_034653) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
+    t.string "checksum"
     t.datetime "created_at", null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_034653) do
     t.datetime "link_token_expires_at"
     t.string "oauth_access_token"
     t.string "oauth_refresh_token"
-    t.string "oauth_provider"
+    t.string "oauth_provider", default: "plaid"
   end
 
   create_table "posts", force: :cascade do |t|

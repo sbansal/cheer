@@ -7,30 +7,38 @@ class PlaidLinkTokenCreator < ApplicationService
   end
 
   def call
-    @client = PlaidClientCreator.call
+    PlaidClientCreator.call.link_token_create(link_token_create_request)
+  end
+
+  private
+
+  def link_token_create_request
     if @update_mode
-      response = @client.link_token.create(
-        user: {
-          client_user_id: "#{@client_user_id}-user-id",
-        },
-        client_name: Rails.application.credentials[:plaid][:client_name],
-        country_codes: Rails.application.credentials[:plaid][:country_codes],
-        language: Rails.application.credentials[:plaid][:language],
-        webhook: Rails.application.credentials[:login_item_webhook],
-        access_token: @access_token,
+      Plaid::LinkTokenCreateRequest.new(
+        {
+          user: {
+            client_user_id: "#{@client_user_id}-user-id",
+          },
+          client_name: Rails.application.credentials[:plaid][:client_name],
+          country_codes: Rails.application.credentials[:plaid][:country_codes],
+          language: Rails.application.credentials[:plaid][:language],
+          webhook: Rails.application.credentials[:login_item_webhook],
+          access_token: @access_token,
+        }
       )
     else
-      response = @client.link_token.create(
-        user: {
-          client_user_id: "#{@client_user_id}-user-id",
-        },
-        client_name: Rails.application.credentials[:plaid][:client_name],
-        country_codes: Rails.application.credentials[:plaid][:country_codes],
-        language: Rails.application.credentials[:plaid][:language],
-        webhook: Rails.application.credentials[:login_item_webhook],
-        products: Rails.application.credentials[:plaid][:products],
+      Plaid::LinkTokenCreateRequest.new(
+        {
+          user: {
+            client_user_id: "#{@client_user_id}-user-id",
+          },
+          client_name: Rails.application.credentials[:plaid][:client_name],
+          country_codes: Rails.application.credentials[:plaid][:country_codes],
+          language: Rails.application.credentials[:plaid][:language],
+          webhook: Rails.application.credentials[:login_item_webhook],
+          products: Rails.application.credentials[:plaid][:products],
+        }
       )
     end
-    response
   end
 end
