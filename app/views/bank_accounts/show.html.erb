@@ -1,0 +1,35 @@
+<% title "Accounts" %>
+<div class="mt-4 px-3">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="px-2 small mb-2">
+        <%= link_to 'Accounts', bank_accounts_url, {class: 'xs grey-100 text-decoration-underline'} %> >
+        <span class='xs grey-50'><%= @bank_account.descriptive_name %> </span>
+      </div>
+      <div class="px-2 py-2 mb-5 border rounded-3">
+        <%= render 'account_details', account: @bank_account %>
+        <div class="px-2 pt-5">
+          <% if @bank_account.balances.count > 0 %>
+            <div class="bold-2">Balances</div>
+            <div class="px-2 py-2 mb5">
+             <% @bank_account.balances.each do |balance| %>
+               <%= render 'balances/balance', balance: balance %>
+             <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="bold-2">Transactions</div>
+      <% if @bank_account.transactions.count > 0 %>
+        <div class="px-2 py-2 mb5 small">
+         <% @bank_account.transactions.each do |transaction| %>
+           <%= render 'transactions/transaction_summary', transaction: transaction %>
+         <% end %>
+        </div>
+      <% else %>
+        <span class="med grey-50">There are currently no transactions for this account.<span>
+      <% end %>
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+</div>

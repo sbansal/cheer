@@ -66,6 +66,10 @@ class BankAccountsController < ApplicationController
     end
   end
 
+  def show
+    @bank_account = current_account.bank_accounts.includes([transactions: [:category]]).find(params[:id])
+  end
+
   def update
     @bank_account = current_user.bank_accounts.find(params[:id])
     respond_to do |format|
