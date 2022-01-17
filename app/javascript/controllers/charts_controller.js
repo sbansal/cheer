@@ -204,7 +204,6 @@ export default class extends Controller {
         data: balanceTrend,
         fill: true,
         pointStyle: 'circle',
-        pointRadius: 0.5,
       }];
       const config = this.initConfig('ToolTipLine', dataset, externalTooltipHandler)
 
