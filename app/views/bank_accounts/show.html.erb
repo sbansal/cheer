@@ -1,0 +1,94 @@
+<% title "Accounts" %>
+<div class="mt-4 px-3">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="px-2 py-2 small mb-2">
+        <%= link_to 'Accounts', bank_accounts_url, {class: 'xs grey-100 text-decoration-underline'} %> >
+        <span class='xs grey-50'><%= @bank_account.descriptive_name %> </span>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="px-2 py-2 mb-5 border rounded-3">
+        <%= render 'account_details', account: @bank_account %>
+        <div class="px-2 pt-5" data-controller="charts"
+        data-charts-balance-value="<%= number_to_currency(@bank_account.current_balance)%>"
+        data-charts-currency-value="<%= @bank_account.balance_currency_code %>"
+        data-charts-bank-account-id-value="<%= @bank_account.id %>">
+          <% if @bank_account.balances.count > 0 %>
+            <div class="fw-bold small">Balance</div>
+            <div class="bold-2 lg-18" id="balance-value">
+              <%= number_to_currency(@bank_account.current_balance)%>
+            </div>
+            <div class="px-2 py-2 my-3 border-bottom" data-charts-target="balancesChart">
+              <canvas id="balances-chart"></canvas>
+            </div>
+          <% end %>
+        </div>
+        <div class="row m-4">
+          <div class="col-4">
+            <div class="small bold-2">Last data fetched</div>
+            <div class="small"><%= @bank_account.current_balance_updated_at.strftime('%c')%></div>
+          </div>
+          <div class="col-4">
+            <div class="small bold-2">Created at</div>
+            <div class="small"><%= @bank_account.created_at.strftime('%b %-d, %Y')%> by <%= @bank_account.user.full_name%></div>
+          </div>
+          <div class="col-4">
+            <div class="small bold-2">Institution</div>
+            <div class="small"><%= @bank_account.institution&.name&.capitalize || 'N/A'%></div>
+          </div>
+        </div>
+        <div class="row m-4">
+          <div class="col-4">
+            <div class="small bold-2">Account Type</div>
+            <div class="small">
+              <%= @bank_account.account_type.capitalize%> - <%= @bank_account.account_subtype.capitalize %>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="small bold-2">Data Provider</div>
+            <div class="small"><%= @bank_account.login_item&.oauth_provider&.capitalize || 'Manual Tracking' %></div>
+          </div>
+        </div>
+      </div>
+      <div class="fw-bold">Recent Transactions</div>
+      <% if @bank_account.transactions.count > 0 %>
+        <div class="px-2 py-2 mb5 small">
+         <% @bank_account.transactions.each do |transaction| %>
+           <%= render 'transactions/transaction_summary', transaction: transaction %>
+         <% end %>
+        </div>
+      <% else %>
+        <div class="med grey-50 py-3">There are currently no transactions for this account.</div>
+      <% end %>
+    </div>
+    <div class="col-sm-4">
+      <div class="border rounded-3 mb-4">
+        <div class="bold-2 p-3 border-bottom">Transactions by category</div>
+        <% if @transactions_by_category.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_category.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="border rounded-3">
+        <div class="bold-2 p-3 border-bottom">Transactions by merchant</div>
+        <% if @transactions_by_merchant.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_merchant.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import Rails from "@rails/ujs"
+import Chart from 'chart.js/auto'
+import { getRelativePosition } from 'chart.js/helpers';
+import {LineController} from 'chart.js'
 
 export default class extends Controller {
   static targets = [ "source", "errorMessage", "destination", "dropdown"]

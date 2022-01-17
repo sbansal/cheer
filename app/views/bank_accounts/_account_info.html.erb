@@ -15,7 +15,7 @@
           <% end %>
           <%= account.account_subtype&.upcase %>
         </div>
-        <div class="med"><%= account.descriptive_name %></div>
+        <div class="med"><%= link_to account.descriptive_name, bank_account_url(account) %></div>
       </div>
     </div>
   </div>
