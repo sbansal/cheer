@@ -220,6 +220,14 @@ class BankAccount < ApplicationRecord
     trend = Trend.new(current_value, prev_value)
     trend.to_h
   end
+  
+  def data_provider
+    if manually_tracked?
+      'Manual Tracking'
+    else
+      'Plaid'
+    end
+  end
 
   private
 
