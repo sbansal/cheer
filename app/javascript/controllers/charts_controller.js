@@ -36,9 +36,7 @@ export default class extends Controller {
     bankAccountId: Number,
   }
 
-  initAnimation(length=2) {
-    const totalDuration = 500;
-    const delayBetweenPoints = totalDuration / 5;
+  initAnimation(delayBetweenPoints=2) {
     const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
     const animation = {
       x: {
@@ -206,7 +204,7 @@ export default class extends Controller {
         data: balanceTrend,
         fill: true,
         pointStyle: 'circle',
-        pointRadius: 3,
+        pointRadius: 0.5,
       }];
       const config = this.initConfig('ToolTipLine', dataset, externalTooltipHandler)
 
