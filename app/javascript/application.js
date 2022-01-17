@@ -13,6 +13,7 @@ import * as bootstrap from "bootstrap"
 import {Toast} from 'bootstrap'
 import {triggerToast} from "./utils.js"
 import {seriesBarsPlugin} from "./seriesBarPlugin.js"
+import "chart.js"
 
 
 document.addEventListener("turbo:load", function() {

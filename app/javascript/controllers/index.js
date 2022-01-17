@@ -42,3 +42,7 @@ application.register("tfa", TfaController)
 
 import TransactionsController from "./transactions_controller.js"
 application.register("transactions", TransactionsController)
+
+import ChartsController from "./charts_controller.js"
+application.register("charts", ChartsController)
+
