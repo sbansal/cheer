@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe LoginItem, type: :model do
   let(:token) { 'token' }
   let(:expired_at) { Time.zone.now.iso8601 }
-  let(:response) { { 'link_token' => token, 'expiration' =>  expired_at } }
+  let(:response) {
+    OpenStruct.new(link_token: token, expiration: expired_at)
+  }
 
   describe '#expired' do
     it 'expires the login item' do
@@ -31,7 +33,7 @@ RSpec.describe LoginItem, type: :model do
       allow(PlaidLinkTokenCreator).to receive(:call) { response }
       login_item = build(:login_item)
       expect(login_item.fetch_link_token).to eq token
-      expect(login_item.link_token_expires_at).to eq DateTime.parse(expired_at)
+      expect(login_item.link_token_expires_at).to eq expired_at
     end
   end
 
