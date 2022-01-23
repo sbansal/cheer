@@ -1,6 +1,6 @@
 class BalancesController < ApplicationController
   def index
-    @balances = current_account.bank_accounts.find(params[:bank_account_id]).balances
+    @balances = current_account.bank_accounts.find(params[:bank_account_id])&.balances&.reorder(:created_at => 'ASC')
     respond_to do |format|
       format.js
       format.json { render json: { balances: @balances }}
