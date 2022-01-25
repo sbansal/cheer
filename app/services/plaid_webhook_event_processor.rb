@@ -50,7 +50,7 @@ class PlaidWebhookEventProcessor < ApplicationService
         client = PlaidClientCreator.call
         request = Plaid::WebhookVerificationKeyGetRequest.new({ key_id: key_id })
         response = client.webhook_verification_key_get(request)
-        key = JSON::JWK.new(response[:key])
+        key = JSON::JWK.new(response.key)
         token = JSON::JWT.decode(@plaid_header, key, JWT_ALG.to_sym)
         if webhook_event_outdated?(token['iat'])
           raise InvalidWebhookEventError.new("[PlaidWebhookEventProcessor] Rejecting outdated webhook event generated at #{Time.at(token['iat'])}")
@@ -62,6 +62,9 @@ class PlaidWebhookEventProcessor < ApplicationService
         raise InvalidWebhookEventError.new("[PlaidWebhookEventProcessor] Unsupported JWT Algo = #{header['alg']}. Rejecting the webhook.")
       end
     rescue => e
+      Rails.logger.tagged("WebhookEvent") {
+        Rails.logger.error(e)
+      }
       raise InvalidWebhookEventError.new(e)
     end
   end
