@@ -24,21 +24,23 @@
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Assets</div>
-        <h2 class="lg-28 fw-bold"><%= number_to_currency(@assets_stat.current_value)%></h2>
+        <h2 class="lg-28 fw-bold" id="asset-value"><%= number_to_currency(@assets_stat.current_value)%></h2>
         <div class="small">
           <%= render 'trend', trend: @assets_change, trend_period: @period_description%>
         </div>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Liabilities</div>
-        <h2 class="lg-28 fw-bold"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
+        <h2 class="lg-28 fw-bold" id="liability-value"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
         <div class="small">
           <%= render 'trend', trend: @liabilities_change, trend_period: @period_description%>
         </div>
       </div>
     </div>
-    <div class="col-sm-9" data-controller="container">
-      <div id="cashflow-trend" class="fade mb-5"></div>
+    <div class="col-sm-9" data-controller="charts">
+      <div class="px-2 py-2 my-3 border-bottom" data-charts-target="cashflowChart">
+        <canvas id="cashflow-chart"></canvas>
+      </div>
     </div>
     <div><%= render 'shared/cashflow_time_periods' %></div>
   </div>

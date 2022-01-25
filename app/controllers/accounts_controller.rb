@@ -8,8 +8,8 @@ class AccountsController < ApplicationController
   end
 
   def cashflow_trend
-    assets_trend = current_account.stats.find_by(name: Stat::ASSETS_STAT).historical_trend_data
-    liabilities_trend = current_account.stats.find_by(name: Stat::LIABILITIES_STAT).historical_trend_data
+    assets_trend = HistoricalTrendCalculator.call(current_account.stats.find_by(name: Stat::ASSETS_STAT).sanitized_historical_trend_data)
+    liabilities_trend = HistoricalTrendCalculator.call(current_account.stats.find_by(name: Stat::LIABILITIES_STAT).sanitized_historical_trend_data)
     respond_to do |format|
       format.json { render json: { assets_trend: assets_trend, liabilities_trend: liabilities_trend } }
     end
