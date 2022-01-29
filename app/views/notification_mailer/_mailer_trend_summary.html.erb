@@ -25,12 +25,12 @@
           </div>
         <% end %>
         <div style="font-size: 0.825rem">
-          <% if trend['last_change'] >= 0 %>
+          <% if !trend['last_change'].nil? && trend['last_change'] >= 0 %>
             <span style="color: #00c805;">+<%= number_to_currency(trend['last_change'])%></span>
           <% else %>
             <span style="color: #ff5000;"><%= number_to_currency(trend['last_change'])%></span>
           <% end %>
-          <% if trend['last_change_percentage'] >= 0 %>
+          <% if !trend['last_change_percentage'].nil? && trend['last_change_percentage'] >= 0 %>
             <span style="color: #00c805;">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>
           <% else %>
             <span style="color: #ff5000;">(<%= number_to_percentage(trend['last_change_percentage'], precision: 2)%>)</span>
