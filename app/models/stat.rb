@@ -48,4 +48,9 @@ class Stat < ApplicationRecord
       [Date.parse(key).to_time.utc.to_i*1000, value]
     end.to_h
   end
+
+  def sanitized_historical_trend_data
+    self.historical_trend_data.map { |key, value| [Time.zone.parse(key), value] }.to_h
+  end
+
 end

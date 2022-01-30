@@ -10,9 +10,6 @@ application.register("accounts", AccountsController)
 import CategoriesController from "./categories_controller.js"
 application.register("categories", CategoriesController)
 
-import ContainerController from "./container_controller.js"
-application.register("container", ContainerController)
-
 import HelloController from "./hello_controller.js"
 application.register("hello", HelloController)
 

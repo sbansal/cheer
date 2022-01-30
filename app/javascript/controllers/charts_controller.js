@@ -1,9 +1,37 @@
 import { Controller } from "@hotwired/stimulus"
 import Chart from 'chart.js/auto'
 import { getRelativePosition } from 'chart.js/helpers';
-import {LineController} from 'chart.js'
+import {BarController} from 'chart.js'
 
-class ToolTipLine extends LineController {
+const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
+
+CHART_BG_COLORS = [
+  '#7069FA',
+  '#f58973',
+]
+
+CHART_BORDER_COLORS = [
+  '#7069FA',
+  '#f58973',
+]
+
+TICK_COLOR = '#333';
+TICK_FONT_SIZE = 12;
+
+class ToolTipLine extends BarController {
   draw(ease) {
     super.draw(ease)
     if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
@@ -13,9 +41,6 @@ class ToolTipLine extends LineController {
       topY = this.chart.chartArea.top,
       bottomY = this.chart.chartArea.bottom;
       var value = this.chart.tooltip.title[0]
-
-
-      // draw line
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(x, topY);
@@ -34,6 +59,40 @@ export default class extends Controller {
     currency: String,
     balance: String,
     bankAccountId: Number,
+    defaultAssets: String,
+    defaultLiabilities: String,
+    defaultNetWorth: String,
+    defaultIncome: String,
+    defaultExpenses: String,
+    defaultSavings: String,
+  }
+
+  intlFormat(num, currency = null) {
+    if (currency) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num);
+    } else {
+      return new Intl.NumberFormat().format(Math.round(num*10)/10);
+    }
+  }
+
+  makeFriendly(num) {
+    let absNum = Math.abs(num), value = ''
+    if(absNum >= 1000000) {
+      value = this.intlFormat(absNum/1000000)+'M'
+      return num < 0 ? '-$' + value : '$' + value
+    } else if(absNum >= 1000) {
+      value = this.intlFormat(absNum/1000)+'k'
+      return num < 0 ? '-$' + value : '$' + value
+    } else {
+      value = this.intlFormat(absNum)
+      return num < 0 ? '-$' + value : '$' + value
+    }
+  }
+
+  formatDate(date) {
+    let month = MONTHS[date.getMonth()]
+    let year = date.getFullYear()
+    return `${month} ${year}`
   }
 
   initAnimation(delayBetweenPoints=2) {
@@ -69,9 +128,77 @@ export default class extends Controller {
     return animation;
   }
 
-  generateExternalLineToolTip(chart, tooltip) {
+  updateDefaultValues = (chartType) => {
+    if (chartType === 'balance' && document.getElementById('balance-value')) {
+      document.getElementById('balance-value').innerHTML = this.balanceValue;
+    } else if (chartType == 'cashflow') {
+      if (document.getElementById('assets-value')) {
+        document.getElementById('assets-value').innerHTML = this.defaultAssetsValue
+      }
+      if (document.getElementById('liabilities-value')) {
+        document.getElementById('liabilities-value').innerHTML = this.defaultLiabilitiesValue
+      }
+      if (document.getElementById('net-worth-value')) {
+        document.getElementById('net-worth-value').innerHTML = this.defaultNetWorthValue
+      }
+    } else if (chartType == 'incomeExpense') {
+      if (document.getElementById('income-value')) {
+        document.getElementById('income-value').innerHTML = this.defaultIncomeValue
+      }
+      if (document.getElementById('expenses-value')) {
+        document.getElementById('expenses-value').innerHTML = this.defaultExpensesValue
+      }
+      if (document.getElementById('savings-value')) {
+        document.getElementById('savings-value').innerHTML = this.defaultSavingsValue
+      }
+    }
+  };
+
+  updateToolTipValues = (chartType, tooltip) => {
+    const currency = this.currencyValue || 'USD';
+    if (chartType === 'balance' && document.getElementById('balance-value')) {
+      const dataY = tooltip.dataPoints[0].raw['y'];
+      const value = Number.parseFloat(dataY).toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      document.getElementById('balance-value').innerHTML = value;
+    } else if (chartType == 'cashflow') {
+      const assetsNumber = Number.parseFloat(tooltip.dataPoints[0].parsed._stacks.y[0])
+      const liabilitiesNumber = Number.parseFloat(tooltip.dataPoints[0].parsed._stacks.y[1])
+      const netWorthNumber =   assetsNumber - liabilitiesNumber
+      const assetValue = assetsNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      const liabilityValue = liabilitiesNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      const netWorthValue = netWorthNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      document.getElementById('assets-value').innerHTML = assetValue;
+      document.getElementById('liabilities-value').innerHTML = liabilityValue;
+      document.getElementById('net-worth-value').innerHTML = netWorthValue;
+    } else if (chartType == 'incomeExpense') {
+      const incomeNumber = Number.parseFloat(tooltip.dataPoints[0].parsed._stacks.y[0])
+      const expensesNumber = Number.parseFloat(tooltip.dataPoints[0].parsed._stacks.y[1])
+      const savingsNumber =   incomeNumber - expensesNumber
+      const incomeValue = incomeNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      const expensesValue = expensesNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      const savingsValue = savingsNumber.toLocaleString(
+        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
+      )
+      document.getElementById('income-value').innerHTML = incomeValue;
+      document.getElementById('expenses-value').innerHTML = expensesValue;
+      document.getElementById('savings-value').innerHTML = savingsValue;
+    }
+  };
+
+  generateExternalLineToolTip = (chart, tooltip, chartType) => {
     let tooltipEl = chart.canvas.parentNode.querySelector('div');
-    const currency = this.currencyValue;
     if (!tooltipEl) {
       tooltipEl = document.createElement('div');
       tooltipEl.style.position = 'absolute',
@@ -83,28 +210,17 @@ export default class extends Controller {
       tooltipEl.style.borderRadius = '5px';
       chart.canvas.parentNode.appendChild(tooltipEl);
     }
-    const defaultBalance = this.balanceValue;
-    // Hide if no tooltip
     if (tooltip.opacity === 0) {
       tooltipEl.style.opacity = 0;
-      document.getElementById('balance-value').innerHTML = defaultBalance
+      this.updateDefaultValues(chartType)
       return;
     }
-
-    // Set Text
     if (tooltip.body) {
       const label = tooltip.title;
       tooltipEl.innerHTML = label;
-      const dataY = tooltip.dataPoints[0].raw['y'];
-      const value = Number.parseFloat(dataY).toLocaleString(
-        undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
-      )
-      document.getElementById('balance-value').innerHTML = value;
+      this.updateToolTipValues(chartType, tooltip)
     }
-
     const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
-
-    // Display, position, and set styles for font
     tooltipEl.style.opacity = 1;
     tooltipEl.style.left = (positionX + tooltip.caretX - 10) + 'px';
     tooltipEl.style.top = (positionY + chart.chartArea.top - 30) + 'px';
@@ -112,7 +228,10 @@ export default class extends Controller {
 
   initConfig(type, dataset, externalTooltipHandler) {
     const animation = this.initAnimation()
-    const currency = this.currencyValue
+    const self = this
+    const minValue = Math.min(0, Math.min(...dataset[0].data.map(item => item.y)))
+
+    Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Helvetica Neue','Ubuntu',sans-serif";
     const config = {
       type: type,
       backgroundColor: '#EEE',
@@ -121,15 +240,6 @@ export default class extends Controller {
       },
       options: {
         animation,
-        // onHover: (e) => {
-//           const chart = e.chart
-//           const canvasPosition = getRelativePosition(e, e.chart);
-//           const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
-//           const value = Number.parseFloat(dataY).toLocaleString(
-//             undefined, { maximumFractionDigits: 2, style: 'currency', currency: currency }
-//           )
-//           document.getElementById('balance-value').innerHTML = value
-//         },
         interaction: {
           intersect: false,
         },
@@ -146,30 +256,86 @@ export default class extends Controller {
           x: {
             grid: {
               borderWidth: 0,
-              drawTicks: false,
-              lineWidth: 0,
-              display: false,
+              lineWidth: 0.5,
             },
             ticks: {
-              display: false,
+              callback: function(value, index, values) {
+                if (values.length > 30) {
+                  const label = this.getLabelForValue(value);
+                  return self.formatDate(new Date(label));
+                } else {
+                  return this.getLabelForValue(value);
+                }
+              },
+              color: TICK_COLOR,
+              font: {
+                size: TICK_FONT_SIZE,
+              },
+              maxRotation: 0,
             },
+            stacked: true,
           },
           y: {
             type: 'linear',
+            min: minValue,
+            maxTicksLimit: 6,
+            count: 6,
             grid: {
               borderWidth: 0,
-              drawTicks: false,
-              lineWidth: 0,
-              display: false,
+              lineWidth: 0.5,
             },
             ticks: {
-              display: false,
-            }
+              callback: function(value, index, values) {
+                return self.makeFriendly(value);
+              },
+              color: TICK_COLOR,
+              font: {
+                size: TICK_FONT_SIZE,
+              },
+            },
+            stacked: true,
           }
         }
       }
     };
     return config;
+  }
+
+  makeChart = (chartDataset, chartType, canvasId) => {
+    ToolTipLine.id = 'ToolTipLine';
+    ToolTipLine.defaults = BarController.defaults;
+    const defaultBalance = this.balanceValue;
+
+    const externalTooltipHandler = (context) => {
+      const {chart, tooltip} = context;
+      this.generateExternalLineToolTip(chart, tooltip, chartType);
+    };
+
+    Chart.register(ToolTipLine);
+    const config = this.initConfig('ToolTipLine', chartDataset, externalTooltipHandler)
+    const myChart = new Chart(
+      document.getElementById(canvasId),
+      config,
+    );
+  }
+
+  generateDataSet = (dataArray) => {
+    let dataSet = []
+    for (const[i, data] of dataArray.entries()) {
+      dataSet.push({
+        borderColor: CHART_BORDER_COLORS[i],
+        backgroundColor: CHART_BG_COLORS[i],
+        hoverBackgroundColor: CHART_BG_COLORS[i],
+        borderWidth: 1,
+        data: data,
+        fill: true,
+        pointStyle: 'circle',
+        categoryPercentage: 0.9,
+        barPercentage: 0.9,
+        maxBarThickness: 50,
+      })
+    }
+    return dataSet;
   }
 
   balancesChartTargetConnected(element) {
@@ -183,57 +349,15 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data_json => {
       const balanceTrend = Object.entries(data_json['balances']).map(function(item) {
-        return { x: new Date(item[1]['updated_at']).toDateString(), y: item[1]['current'] }
+        return { x: new Date(item[0]).toDateString(), y: item[1] }
       });
-      console.debug('Success:', balanceTrend);
-      ToolTipLine.id = 'ToolTipLine';
-      ToolTipLine.defaults = LineController.defaults;
-      const defaultBalance = this.balanceValue;
 
-      const externalTooltipHandler = (context) => {
-        const {chart, tooltip} = context;
-        this.generateExternalLineToolTip(chart, tooltip);
-      };
-
-      Chart.register(ToolTipLine);
-      const dataset = [{
-        borderColor: 'rgb(114 107 250)',
-        backgroundColor: '#EEE',
-        borderWidth: 3,
-        radius: 0,
-        data: balanceTrend,
-        fill: true,
-        pointStyle: 'circle',
-      }];
-      const config = this.initConfig('ToolTipLine', dataset, externalTooltipHandler)
-
-      const myChart = new Chart(
-        document.getElementById('balances-chart'),
-        config,
-      );
+      const dataset = this.generateDataSet([balanceTrend]);
+      this.makeChart(dataset, 'balance', 'balances-chart')
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-  }
-
-  makeCashflowChart(type, chart_dataset) {
-    console.debug("makeCashflowChart")
-    ToolTipLine.id = 'ToolTipLine';
-    ToolTipLine.defaults = LineController.defaults;
-    const defaultBalance = this.balanceValue;
-
-    const externalTooltipHandler = (context) => {
-      const {chart, tooltip} = context;
-      this.generateExternalLineToolTip(chart, tooltip);
-    };
-
-    Chart.register(ToolTipLine);
-    const config = this.initConfig('ToolTipLine', chart_dataset, externalTooltipHandler)
-    const myChart = new Chart(
-      document.getElementById('cashflow-chart'),
-      config,
-    );
   }
 
   cashflowChartTargetConnected(element) {
@@ -252,24 +376,33 @@ export default class extends Controller {
       const liabilitiesTrend = Object.entries(data_json['liabilities_trend']).map(function(item) {
         return { x: new Date(item[0]).toDateString(), y: item[1] }
       });
-      const dataset = [
-        {
-          borderColor: 'rgb(114 107 250)',
-          backgroundColor: '#EEE',
-          borderWidth: 3,
-          radius: 0,
-          data: assetsTrend,
-        },
-        {
-          borderColor: '#AAA',
-          backgroundColor: '#EEE',
-          borderWidth: 3,
-          radius: 0,
-          data: liabilitiesTrend,
-        },
+      const dataset = this.generateDataSet([assetsTrend, liabilitiesTrend])
+      this.makeChart(dataset, 'cashflow', 'cashflow-chart')
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 
-      ]
-      this.makeCashflowChart('ToolTipLine', dataset)
+  incomeExpenseChartTargetConnected(element) {
+    console.log("Income expense Chart connected.")
+    fetch("/accounts/income_expense_trend", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data_json => {
+      console.log(data_json)
+      const incomeTrend = Object.entries(data_json['income_trend']).map(function(item) {
+        return { x: new Date(item[0]).toDateString(), y: item[1] }
+      });
+      const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
+        return { x: new Date(item[0]).toDateString(), y: item[1] }
+      });
+      const dataset = this.generateDataSet([incomeTrend, expenseTrend])
+      this.makeChart(dataset, 'incomeExpense', 'income-expense-chart')
     })
     .catch((error) => {
       console.error('Error:', error);
