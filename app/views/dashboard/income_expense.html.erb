@@ -18,17 +18,22 @@
   <div class="row border-bottom px-3 py-3">
     <div class="col-sm-3">
       <div class="mb-5">
-        <%= render 'metric', title: 'income', metric_value: @income_stat %>
+        <%= render 'metric', title: 'income', metric_value: @income_stat, element_id: 'income-value' %>
       </div>
       <div class="mb-5">
-        <%= render 'metric', title: 'expenses', metric_value: @expenses_stat %>
+        <%= render 'metric', title: 'expenses', metric_value: @expenses_stat, element_id: 'expenses-value' %>
       </div>
       <div class="mb-5">
-        <%= render 'metric', title: 'savings', metric_value: @savings_stat %>
+        <%= render 'metric', title: 'savings', metric_value: @savings_stat, element_id: 'savings-value' %>
       </div>
     </div>
-    <div class="col-sm-9" data-controller="container">
-      <div id="income-expense-trend" class="fade mb-5"></div>
+    <div class="col-sm-9" data-controller="charts"
+    data-charts-default-income-value="<%= number_to_currency(@income_stat)%>"
+    data-charts-default-expenses-value="<%= number_to_currency(@expenses_stat)%>"
+    data-charts-default-savings-value="<%= number_to_currency(@savings_stat)%>">
+      <div class="px-2 py-2 my-3" data-charts-target="incomeExpenseChart">
+        <canvas id="income-expense-chart"></canvas>
+      </div>
     </div>
     <div><%= render 'time_period_scale' %></div>
   </div>
