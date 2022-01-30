@@ -291,8 +291,3 @@ to-regex-range@^5.0.1:
   integrity sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
   dependencies:
     is-number "^7.0.0"
-
-uplot@^1.4.6:
-  version "1.4.6"
-  resolved "https://registry.npmjs.org/uplot/-/uplot-1.4.6.tgz"
-  integrity sha512-nw3LdjLFhAqKQF/Rv7QjZICVnjJemOQVj2L3b7889gHBrnC1LwltkzTcawDcbMe6pxo++0KVev9xSC0YCw+m5w==

@@ -6,13 +6,10 @@ import "./channels"
 // UJS
 import Rails from "@rails/ujs"
 Rails.start()
-
-import "uplot"
 import "@popperjs/core"
 import * as bootstrap from "bootstrap"
 import {Toast} from 'bootstrap'
 import {triggerToast} from "./utils.js"
-import {seriesBarsPlugin} from "./seriesBarPlugin.js"
 import "chart.js"
 
 
