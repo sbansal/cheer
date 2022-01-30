@@ -2,10 +2,24 @@ require 'rails_helper'
 
 RSpec.describe LiabilitiesCalculator do
   before(:all) do
-    @user = create(:user)
+    @account = create(:account, created_at: 1.year.ago)
+    @user = create(:user, account: @account)
     @credit = create(:bank_account, account_type: 'credit', user: @user, current_balance: 500)
     loan = create(:bank_account, account_type: 'loan', user: @user, current_balance: 5000)
     build_historical_balances(@credit)
+  end
+
+  it 'creates historical trend since the beginning of the account creation' do
+    account = create(:account, created_at: 1.year.ago)
+    user = create(:user, account: account)
+    depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
+    create(:balance, current: 10500, bank_account: depository, user: user)
+    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].count).to eq(366)
+    account = create(:account, created_at: 2.year.ago)
+    user = create(:user, account: account)
+    depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
+    create(:balance, current: 10500, bank_account: depository, user: user)
+    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].count).to eq(366*2)
   end
 
   it 'calculates the liabilities historical trend' do
@@ -17,7 +31,6 @@ RSpec.describe LiabilitiesCalculator do
     expect(historical_trend.keys.last).to eq(Time.zone.now.beginning_of_day)
     expect(historical_trend.values.last).to eq(1000)
     create(:balance, created_at: 2.year.ago, current: 10500, bank_account: @credit, user: @user)
-    expect(LiabilitiesCalculator.call(@user.account)[:historical_trend_data].count).to eq(366*2)
   end
 
   it 'calculates the current value' do

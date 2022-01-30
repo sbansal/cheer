@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe BankAccount, type: :model do
+
   before(:all) do
-    @user = create(:user_with_transactions)
+    @time_in_past = 5.days.ago
+    @acc = create(:account, created_at: @time_in_past)
+    @user = create(:user_with_transactions, account: @acc)
     @login_item = create(:login_item, user: @user)
     @category = create(:category)
   end
@@ -24,11 +27,10 @@ RSpec.describe BankAccount, type: :model do
 
   describe '#historical_balances' do
     it 'has historical balances' do
-      time_in_past = 5.days.ago
-      account = create(:bank_account, created_at: time_in_past, user: @user)
-      balance1 = create(:balance, created_at: time_in_past, current: 1000, bank_account: account, user: @user)
-      balance3 = create(:balance, created_at: time_in_past + 2.day, current: 2000, bank_account: account, user: @user)
-      balance5 = create(:balance, created_at: time_in_past + 4.day, current: 4000, bank_account: account, user: @user)
+      account = create(:bank_account, created_at: @time_in_past, user: @user)
+      balance1 = create(:balance, created_at: @time_in_past, current: 1000, bank_account: account, user: @user)
+      balance3 = create(:balance, created_at: @time_in_past + 2.day, current: 2000, bank_account: account, user: @user)
+      balance5 = create(:balance, created_at: @time_in_past + 4.day, current: 4000, bank_account: account, user: @user)
       expect(account.balances.count).to eq 3
       expect(account.historical_balances.count).to eq 6
       expect(account.historical_balances.values.last).to eq balance5.current
@@ -37,11 +39,10 @@ RSpec.describe BankAccount, type: :model do
 
   describe '#last_balance_on' do
     it 'return last balance as of a specific date' do
-      time_in_past = 5.days.ago
-      account = create(:bank_account, created_at: time_in_past, user: @user)
-      balance1 = create(:balance, created_at: time_in_past, current: 1000, bank_account: account, user: @user)
-      balance3 = create(:balance, created_at: time_in_past + 2.day, current: 2000, bank_account: account, user: @user)
-      balance5 = create(:balance, created_at: time_in_past + 4.day, current: 4000, bank_account: account, user: @user)
+      account = create(:bank_account, created_at: @time_in_past, user: @user)
+      balance1 = create(:balance, created_at: @time_in_past, current: 1000, bank_account: account, user: @user)
+      balance3 = create(:balance, created_at: @time_in_past + 2.day, current: 2000, bank_account: account, user: @user)
+      balance5 = create(:balance, created_at: @time_in_past + 4.day, current: 4000, bank_account: account, user: @user)
       expect(account.last_balance_value_on(1.week.ago)).to eq 1000
       create(:balance, created_at: 1.week.ago, current: 6000, bank_account: account, user: @user)
       expect(account.last_balance_value_on(1.week.ago)).to eq 6000

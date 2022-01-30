@@ -71,10 +71,10 @@ RSpec.describe Account, type: :model do
   end
 
   it 'has assets_trend' do
-    account = create(:account)
+    time_in_past = 5.days.ago
+    account = create(:account, created_at: time_in_past)
     shubham = create(:user, account: account)
     deepti = create(:user, account: account)
-    time_in_past = 5.days.ago
     sba = create(:bank_account, created_at: time_in_past, account_type: 'investment', user: shubham)
     sba_balance1 = create(:balance, created_at: time_in_past, current: 1000, bank_account: sba, user: shubham)
     sba_balance3 = create(:balance, created_at: time_in_past + 2.day, current: 2000, bank_account: sba, user: shubham)
