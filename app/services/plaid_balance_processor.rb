@@ -8,7 +8,7 @@ class PlaidBalanceProcessor < ApplicationService
   def call
     begin
       if @login_item.expired?
-        Rails.logger.warn("[PlaidBalanceProcessor] LoginItem with ID=#{@login_item.item} is expired hence not refreshing the balance.")
+        Rails.logger.warn("[PlaidBalanceProcessor] LoginItem with ID=#{@login_item.id} is expired hence not refreshing the balance.")
       else
         request = Plaid::AccountsBalanceGetRequest.new({ access_token: @access_token })
         response = @client.accounts_balance_get(request)
