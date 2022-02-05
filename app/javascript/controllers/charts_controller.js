@@ -356,6 +356,7 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then(data_json => {
+      console.debug(data_json)
       const balanceTrend = Object.entries(data_json['balances']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
@@ -379,6 +380,7 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then(data_json => {
+      console.debug(data_json)
       const assetsTrend = Object.entries(data_json['assets_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
@@ -404,6 +406,7 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then(data_json => {
+      console.debug(data_json)
       const incomeTrend = Object.entries(data_json['income_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });

@@ -60,7 +60,7 @@ class StatCalculator < ApplicationService
 
   def generate_aggregated_transactions_by_month_trend(transactions)
     transactions_by_month = transactions.group_by { |tx| tx.occured_at.beginning_of_month }
-    start_month = transactions_by_month.keys.first
+    start_month = @account.first_transaction_occured_at.beginning_of_month
     trend_data = {}
     if start_month
       while(start_month <= Date.today.beginning_of_month)
