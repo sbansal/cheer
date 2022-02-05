@@ -233,12 +233,13 @@ export default class extends Controller {
     tooltipEl.style.top = (positionY + chart.chartArea.top - 30) + 'px';
   }
 
-  initConfig(type, dataset, externalTooltipHandler) {
+  initConfig(type, dataset, externalTooltipHandler, showLegend) {
     const animation = this.initAnimation()
     const self = this
     const minValue = Math.min(0, Math.min(...dataset[0].data.map(item => item.y)))
 
     Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Helvetica Neue','Ubuntu',sans-serif";
+    Chart.defaults.plugins.legend.align = 'end';
     const config = {
       type: type,
       backgroundColor: '#EEE',
@@ -251,7 +252,13 @@ export default class extends Controller {
           intersect: false,
         },
         plugins: {
-          legend: false,
+          legend: {
+            display: showLegend,
+            labels: {
+              usePointStyle: true,
+              boxWidth: 6
+            }
+          },
           tooltip: {
             enabled: false,
             intersect: false,
@@ -308,7 +315,7 @@ export default class extends Controller {
     return config;
   }
 
-  makeChart = (chartDataset, chartType, canvasId) => {
+  makeChart = (chartDataset, chartType, canvasId, showLegend=false) => {
     ToolTipLine.id = 'ToolTipLine';
     ToolTipLine.defaults = BarController.defaults;
     const defaultBalance = this.balanceValue;
@@ -319,7 +326,7 @@ export default class extends Controller {
     };
 
     Chart.register(ToolTipLine);
-    const config = this.initConfig('ToolTipLine', chartDataset, externalTooltipHandler)
+    const config = this.initConfig('ToolTipLine', chartDataset, externalTooltipHandler, showLegend)
     const myChart = new Chart(
       document.getElementById(canvasId),
       config,
@@ -330,11 +337,12 @@ export default class extends Controller {
     let dataSet = []
     for (const[i, data] of dataArray.entries()) {
       dataSet.push({
+        label: data['label'],
         borderColor: CHART_BORDER_COLORS[i],
         backgroundColor: CHART_BG_COLORS[i],
         hoverBackgroundColor: CHART_BG_COLORS[i],
         borderWidth: 1,
-        data: data,
+        data: data['trendData'],
         fill: true,
         pointStyle: 'circle',
         categoryPercentage: 0.9,
@@ -361,7 +369,7 @@ export default class extends Controller {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
 
-      const dataset = self.generateDataSet([balanceTrend]);
+      const dataset = self.generateDataSet([{label: 'Balance', trendData: balanceTrend}]);
       self.makeChart(dataset, 'balance', 'balances-chart')
     })
     .catch((error) => {
@@ -387,8 +395,8 @@ export default class extends Controller {
       const liabilitiesTrend = Object.entries(data_json['liabilities_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
-      const dataset = self.generateDataSet([assetsTrend, liabilitiesTrend])
-      self.makeChart(dataset, 'cashflow', 'cashflow-chart')
+      const dataset = self.generateDataSet([{label: 'Assets', trendData: assetsTrend}, {label: 'Liabilities', trendData: liabilitiesTrend}])
+      self.makeChart(dataset, 'cashflow', 'cashflow-chart', true)
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -413,8 +421,8 @@ export default class extends Controller {
       const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
-      const dataset = this.generateDataSet([incomeTrend, expenseTrend])
-      self.makeChart(dataset, 'incomeExpense', 'income-expense-chart')
+      const dataset = self.generateDataSet([{label: 'Income', trendData: incomeTrend}, {label: 'Expenses', trendData: expenseTrend}])
+      self.makeChart(dataset, 'incomeExpense', 'income-expense-chart', true)
     })
     .catch((error) => {
       console.error('Error:', error);
