@@ -75,6 +75,13 @@ export default class extends Controller {
     }
   }
 
+  // converts a date string like '2020-01-01 00:00:00 UTC' into a js Date object
+  // return a date that is timezone independent
+  convertDate = (jsonDateTime) => {
+    let [year, month, date] = jsonDateTime.split(' ')[0].split('-')
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
+  }
+
   makeFriendly(num) {
     let absNum = Math.abs(num), value = ''
     if(absNum >= 1000000) {
@@ -340,6 +347,7 @@ export default class extends Controller {
 
   balancesChartTargetConnected(element) {
     console.debug("Balance Chart connected.")
+    let self = this
     fetch(`/bank_accounts/${this.bankAccountIdValue}/balances.json`, {
       method: 'GET',
       headers: {
@@ -349,11 +357,11 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data_json => {
       const balanceTrend = Object.entries(data_json['balances']).map(function(item) {
-        return { x: new Date(item[0]).toDateString(), y: item[1] }
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
 
-      const dataset = this.generateDataSet([balanceTrend]);
-      this.makeChart(dataset, 'balance', 'balances-chart')
+      const dataset = self.generateDataSet([balanceTrend]);
+      self.makeChart(dataset, 'balance', 'balances-chart')
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -362,6 +370,7 @@ export default class extends Controller {
 
   cashflowChartTargetConnected(element) {
     console.debug("Cashflow Chart connected.")
+    let self = this
     fetch("/accounts/cashflow_trend", {
       method: 'GET',
       headers: {
@@ -371,13 +380,13 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data_json => {
       const assetsTrend = Object.entries(data_json['assets_trend']).map(function(item) {
-        return { x: new Date(item[0]).toDateString(), y: item[1] }
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
       const liabilitiesTrend = Object.entries(data_json['liabilities_trend']).map(function(item) {
-        return { x: new Date(item[0]).toDateString(), y: item[1] }
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
-      const dataset = this.generateDataSet([assetsTrend, liabilitiesTrend])
-      this.makeChart(dataset, 'cashflow', 'cashflow-chart')
+      const dataset = self.generateDataSet([assetsTrend, liabilitiesTrend])
+      self.makeChart(dataset, 'cashflow', 'cashflow-chart')
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -385,7 +394,8 @@ export default class extends Controller {
   }
 
   incomeExpenseChartTargetConnected(element) {
-    console.log("Income expense Chart connected.")
+    console.debug("Income expense Chart connected.")
+    let self = this
     fetch("/accounts/income_expense_trend", {
       method: 'GET',
       headers: {
@@ -394,15 +404,14 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then(data_json => {
-      console.log(data_json)
       const incomeTrend = Object.entries(data_json['income_trend']).map(function(item) {
-        return { x: new Date(item[0]).toDateString(), y: item[1] }
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
       const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
-        return { x: new Date(item[0]).toDateString(), y: item[1] }
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
       const dataset = this.generateDataSet([incomeTrend, expenseTrend])
-      this.makeChart(dataset, 'incomeExpense', 'income-expense-chart')
+      self.makeChart(dataset, 'incomeExpense', 'income-expense-chart')
     })
     .catch((error) => {
       console.error('Error:', error);
