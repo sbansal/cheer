@@ -100,6 +100,10 @@ class Account < ApplicationRecord
     aggregated_daily_balances_for_accounts(bank_accounts.assets.illiquid_accounts.includes([:balances]))
   end
 
+  def first_transaction_occured_at
+    transactions&.last&.occured_at || Date.today
+  end
+
   private
 
   def aggregated_daily_balances_for_accounts(accounts)

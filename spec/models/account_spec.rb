@@ -83,4 +83,17 @@ RSpec.describe Account, type: :model do
     dba_balance3 = create(:balance, created_at: time_in_past + 2.day, current: 2000, bank_account: dba, user: shubham)
     expect(account.assets_trend.count).to eq 6
   end
+
+  it 'gives the first_transaction_occured_at' do
+    time_in_past = 5.days.ago
+    account = create(:account, created_at: time_in_past)
+    shubham = create(:user, account: account)
+    deepti = create(:user, account: account)
+    sba = create(:bank_account, created_at: time_in_past, account_type: 'investment', user: shubham)
+    create(:transaction, occured_at: time_in_past, amount: 100, user: shubham, bank_account: sba)
+    expect(account.first_transaction_occured_at).to eq time_in_past.to_date
+    time_in_past = 10.days.ago
+    create(:transaction, occured_at: time_in_past, amount: 100, user: shubham, bank_account: sba)
+    expect(account.first_transaction_occured_at).to eq time_in_past.to_date
+  end
 end
