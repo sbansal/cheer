@@ -10,11 +10,11 @@ module ApplicationHelper
     when "income_expense"
       "active " if (controller_name == "dashboard" && action_name == "income_expense")
     when "transactions"
-      "active " if (controller_name == "transactions" && action_name == "index")
+      "active " if (controller_name == "transactions")
     when "bank_accounts"
-      "active " if (controller_name == "bank_accounts" && action_name == "index")
+      "active " if (controller_name == "bank_accounts")
     when "login_items"
-      "active " if (controller_name == "login_items" && action_name == "index")
+      "active " if (controller_name == "login_items")
     when "account_settings"
       "active " if (controller_name == "accounts" && action_name == "settings")
     when "subscriptions"

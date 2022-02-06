@@ -198,8 +198,8 @@ class BankAccount < ApplicationRecord
   def historical_balances(end_datetime=Time.zone.now.beginning_of_day.to_datetime)
     balance_by_created = balances.reverse.map {|balance| [balance.created_at.to_datetime.beginning_of_day, balance.current]}.to_h
     unless balance_by_created.empty?
-      last_value = nil
-      balance_by_created.keys.first.upto(end_datetime).each do |ref_datetime|
+      last_value = 0
+      user.account.created_at.to_datetime.beginning_of_day.upto(end_datetime).each do |ref_datetime|
         if balance_by_created[ref_datetime]
           last_value = balance_by_created[ref_datetime]
         else
@@ -223,6 +223,14 @@ class BankAccount < ApplicationRecord
     prev_value = last_balance_value_on(date)
     trend = Trend.new(current_value, prev_value)
     trend.to_h
+  end
+
+  def data_provider
+    if manually_tracked?
+      'Manual Tracking'
+    else
+      'Plaid'
+    end
   end
 
   private

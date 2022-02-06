@@ -66,6 +66,16 @@ class BankAccountsController < ApplicationController
     end
   end
 
+  def show
+    @bank_account = current_account.bank_accounts.includes([transactions: [:category]]).find(params[:id])
+    @transactions_by_category = @bank_account.transactions.includes([:category]).group_by(&:category).map {
+      |category, transactions| CategorizedTransaction.new(category.name, transactions)
+    }.sort_by { |item| item.total_spend }
+    @transactions_by_merchant = @bank_account.transactions.includes([:category]).group_by(&:merchant_name).map {
+      |merchant_name, transactions| CategorizedTransaction.new(merchant_name, transactions)
+    }.sort_by { |item| item.total_spend }
+  end
+
   def update
     @bank_account = current_user.bank_accounts.find(params[:id])
     respond_to do |format|

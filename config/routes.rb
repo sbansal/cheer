@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
     #bank accounts resources
     resources :bank_accounts do
-      resources :balances, only: [:index]
+      resources :balances, only: [:index, :show]
     end
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
 

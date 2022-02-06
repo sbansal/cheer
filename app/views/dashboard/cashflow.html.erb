@@ -17,28 +17,33 @@
     <div class="col-sm-3">
       <div class="mb-5">
         <div class="primary text-uppercase small bold-2">Net Worth</div>
-        <h2 class="lg-28 fw-bold"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
+        <h2 class="lg-28 fw-bold" id="net-worth-value"><%= number_to_currency(@net_worth_stat.current_value)%></h2>
         <div class="small">
           <%= render 'trend', trend: @net_worth_change, trend_period: @period_description%>
         </div>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Assets</div>
-        <h2 class="lg-28 fw-bold"><%= number_to_currency(@assets_stat.current_value)%></h2>
+        <h2 class="lg-28 fw-bold" id="assets-value"><%= number_to_currency(@assets_stat.current_value)%></h2>
         <div class="small">
           <%= render 'trend', trend: @assets_change, trend_period: @period_description%>
         </div>
       </div>
       <div class="mb-5">
         <div class="primary text-uppercase bold-2 small">Liabilities</div>
-        <h2 class="lg-28 fw-bold"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
+        <h2 class="lg-28 fw-bold" id="liabilities-value"><%= number_to_currency(@liabilities_stat.current_value)%></h2>
         <div class="small">
           <%= render 'trend', trend: @liabilities_change, trend_period: @period_description%>
         </div>
       </div>
     </div>
-    <div class="col-sm-9" data-controller="container">
-      <div id="cashflow-trend" class="fade mb-5"></div>
+    <div class="col-sm-9" data-controller="charts"
+    data-charts-default-net-worth-value="<%= number_to_currency(@net_worth_stat.current_value)%>"
+    data-charts-default-assets-value="<%= number_to_currency(@assets_stat.current_value)%>"
+    data-charts-default-liabilities-value="<%= number_to_currency(@liabilities_stat.current_value)%>">
+      <div class="px-2 py-2 my-3" data-charts-target="cashflowChart">
+        <canvas id="cashflow-chart"></canvas>
+      </div>
     </div>
     <div><%= render 'shared/cashflow_time_periods' %></div>
   </div>

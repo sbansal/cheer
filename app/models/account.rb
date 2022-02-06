@@ -91,13 +91,17 @@ class Account < ApplicationRecord
   def liabilities_trend
     aggregated_daily_balances_for_accounts(bank_accounts.liabilities.includes([:balances]))
   end
-  
+
   def cash_trend
     aggregated_daily_balances_for_accounts(bank_accounts.assets.liquid_accounts.includes([:balances]))
   end
-  
+
   def investments_trend
     aggregated_daily_balances_for_accounts(bank_accounts.assets.illiquid_accounts.includes([:balances]))
+  end
+
+  def first_transaction_occured_at
+    transactions&.last&.occured_at || Date.today
   end
 
   private

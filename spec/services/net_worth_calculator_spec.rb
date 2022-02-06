@@ -2,16 +2,29 @@ require 'rails_helper'
 
 RSpec.describe NetWorthCalculator do
   before('all') do
-    @user = create(:user)
+    @account = create(:account, created_at: 1.year.ago)
+    @user = create(:user, account: @account)
     depository = create(:bank_account, account_type: 'depository', user: @user, current_balance: 5500)
     credit = create(:bank_account, account_type: 'credit', user: @user, current_balance: 500)
     build_historical_balances(depository, 2)
     build_historical_balances(credit, 1)
   end
 
+  it 'creates historical trend since the beginning of the account creation' do
+    account = create(:account, created_at: 1.year.ago)
+    user = create(:user, account: account)
+    depository = create(:bank_account, account_type: 'depository', user: user, current_balance: 500)
+    create(:balance, current: 10500, bank_account: depository, user: user)
+    expect(NetWorthCalculator.call(user.account)[:historical_trend_data].count).to eq(366)
+    account = create(:account, created_at: 2.year.ago)
+    user = create(:user, account: account)
+    depository = create(:bank_account, account_type: 'credit', user: user, current_balance: 500)
+    create(:balance, current: 10500, bank_account: depository, user: user)
+    expect(NetWorthCalculator.call(user.account)[:historical_trend_data].count).to eq(366*2)
+  end
+
   it 'calculates the net worth historical trend' do
     historical_trend = NetWorthCalculator.call(@user.account)[:historical_trend_data]
-    expect(historical_trend.count).to eq(366)
     expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
     expect(historical_trend.values[0]).to eq(2000)
     expect(historical_trend.values[1]).to eq(2000)

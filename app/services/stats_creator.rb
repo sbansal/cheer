@@ -30,7 +30,7 @@ class StatsCreator < ApplicationService
     )
     calculations = build_calculations(name)
     stat.update(calculations)
-    Rails.logger.info("Stat calculations updated, #{stat.inspect}")
+    Rails.logger.info("Stat calculations updated, #{name}")
     stat
   end
 

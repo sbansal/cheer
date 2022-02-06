@@ -14,7 +14,7 @@
         <div class="border rounded-3">
           <% @login_items.each do |login_item|%>
             <div class="row border-bottom py-3 m-0 px-2">
-              <% if login_item.institution.logo.present? %>
+              <% if login_item&.institution&.logo.present? %>
                 <div class="p-2 col-1 d-none d-xl-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
               <% else %>
                 <div class="p-2 col-1 d-none d-xl-block placeholder-logo">
@@ -24,7 +24,7 @@
                 </div>
               <% end %>
               <div class="col-6">
-                <div><%= login_item.institution.name %></div>
+                <div><%= login_item&.institution&.name %></div>
                 <div class="small grey-100">
                   Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
                 </div>
