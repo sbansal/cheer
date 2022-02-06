@@ -1,4 +1,3 @@
-require 'coinbase/wallet'
 class CoinbaseOauthCreator
   AUTHORIZATION_CODE = 'authorization_code'
   COINBASE_OAUTH_PROVIDER = 'coinbase'
