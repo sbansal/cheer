@@ -384,10 +384,18 @@ ul.basic {
 .form-switch {
   padding-left: 15px;
   .primary-switch {
-    filter: hue-rotate(35deg);
+    filter: none;
     margin-left: 0;
     width:3em;
     height: 1.5em;
+  }
+  .form-check-input {
+    border-color: var(--default-border-color);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(217,226,236,0.8)'/></svg>");
+  }
+  .form-check-input:checked, .form-check-input:focus {
+    border-color: var(--purple-600);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(93,85,250,0.8)'/></svg>");
   }
 }
 
