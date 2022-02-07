@@ -28,7 +28,6 @@ CHART_BORDER_COLORS = [
   '#f58973',
 ]
 
-TICK_COLOR = '#333';
 TICK_FONT_SIZE = 12;
 
 class ToolTipLine extends BarController {
@@ -46,7 +45,7 @@ class ToolTipLine extends BarController {
       ctx.moveTo(x, topY);
       ctx.lineTo(x, bottomY);
       ctx.lineWidth = 1.5;
-      ctx.strokeStyle = '#CCC';
+      ctx.strokeStyle = '#D9E2EC';
       ctx.stroke();
       ctx.restore();
     }
@@ -65,6 +64,8 @@ export default class extends Controller {
     defaultIncome: String,
     defaultExpenses: String,
     defaultSavings: String,
+    darkMode: Boolean,
+    tickColor: String
   }
 
   intlFormat(num, currency = null) {
@@ -242,7 +243,6 @@ export default class extends Controller {
     Chart.defaults.plugins.legend.align = 'end';
     const config = {
       type: type,
-      backgroundColor: '#EEE',
       data: {
         datasets: dataset,
       },
@@ -281,7 +281,6 @@ export default class extends Controller {
                   return this.getLabelForValue(value);
                 }
               },
-              color: TICK_COLOR,
               font: {
                 size: TICK_FONT_SIZE,
               },
@@ -302,7 +301,6 @@ export default class extends Controller {
               callback: function(value, index, values) {
                 return self.makeFriendly(value);
               },
-              color: TICK_COLOR,
               font: {
                 size: TICK_FONT_SIZE,
               },
@@ -427,5 +425,16 @@ export default class extends Controller {
     .catch((error) => {
       console.error('Error:', error);
     });
+  }
+
+  connect() {
+    this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    if (this.darkMode) {
+      Chart.defaults.color = '#CCC'
+      Chart.defaults.backgroundColor = '#333'
+      Chart.defaults.borderColor = '#30363a'
+    } else {
+      Chart.defaults.color = '#333'
+    }
   }
 }
