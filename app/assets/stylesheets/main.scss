@@ -24,7 +24,7 @@ input[type='text'],
 input[type='email'],
 input[type='password'],
 input[type='checkbox'], {
-  background-color: var(--secondary-bg) !important;
+  background-color: var(--default-bg) !important;
   color: var(--default-color) !important;
   border-color: var(--default-border-color);
   &:focus {
