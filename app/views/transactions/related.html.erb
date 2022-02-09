@@ -10,7 +10,7 @@
 </div>
 <div class="mt-3 hide" id="related-transactions">
   <% @related_transactions.each do |related_tx| %>
-  <div class="row small py-2 border-bottom">
+  <div class="row small py-2 border-bottom tx-row">
     <div class="col-8">
       <div>
         <%= link_to related_tx.custom_description, transaction_path(related_tx), class: 'no-bubble',
