@@ -1,41 +1,3 @@
-@media (prefers-color-scheme: light) {
-  :root {
-    --default-color: #224E68;
-    --default-bg: #FFF;
-    --grey-10: #486581;
-    --grey-50: #627D98;
-    --grey-100: #829AB1;
-    --grey-500: #9FB3C8;
-    --grey-600: #BCCCDC;
-    --grey-700: #D9E2EC;
-    --grey-900: #F0F4F8;
-    --green: #00c805;
-    --purple-600: #7069FA;
-    --secondary-bg: #F0F4F8;
-    --tertiary-bg: #F0F3F994;
-    --default-border-color: #D9E2EC;
-  };
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --default-color: #FFF;
-    --default-bg: #1F2023;
-    --grey-900: #27282b;
-    --grey-700: #627D98;
-    --grey-600: #829AB1;
-    --grey-500: #9FB3C8;
-    --grey-100: #BCCCDC;
-    --grey-50: #D9E2EC;
-    --grey-10: #F0F4F8;
-    --green: #14F219;
-    --purple-600: #5D55FA;
-    --secondary-bg: #2d2e30;
-    --tertiary-bg: #2d2d30;
-    --default-border-color: #383c3f;
-  };
-}
-
 $purple-700: #8888FC;
 $purple-900: #C4C6FF;
 $purple-1000: #E6E6FF;
@@ -51,7 +13,48 @@ $white: #FFF;
 $yellow: #F0B429;
 $alert: #E12D39;
 $modal-backdrop: #1C1D1F80;
+$default-grey: #829AB1;
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --default-color: #224E68;
+    --default-bg: #FFF;
+    --grey-10: #486581;
+    --grey-50: #627D98;
+    --grey-100: #829AB1;
+    --grey-500: #71787e;
+    --grey-600: #BCCCDC;
+    --grey-700: #D9E2EC;
+    --grey-900: #F0F4F8;
+    --green: #00c805;
+    --purple-600: #7069FA;
+    --secondary-bg: #F0F4F8;
+    --tertiary-bg: #F0F3F994;
+    --default-border-color: #D9E2EC;
+    --navbar-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$default-grey}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+  };
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --default-color: #FFF;
+    --default-bg: #1F2023;
+    --grey-900: #27282b;
+    --grey-700: #627D98;
+    --grey-600: #829AB1;
+    --grey-500: #71787e;
+    --grey-100: #BCCCDC;
+    --grey-50: #D9E2EC;
+    --grey-10: #F0F4F8;
+    --green: #14F219;
+    --purple-600: #5D55FA;
+    --secondary-bg: #2d2e30;
+    --tertiary-bg: #2d2d30;
+    --default-border-color: #383c3f;
+    --navbar-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$default-grey}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+
+  };
+}
 
 .primary {color: var(--purple-600);}
 .primary-bg {background-color: var(--purple-600);}
@@ -63,3 +66,4 @@ $modal-backdrop: #1C1D1F80;
 .primary-teal {color: $primary-teal;}
 .primary-900 {color: $primary-900;}
 .primary-900-bg {background-color: var(--tertiary-bg);}
+.default-grey { color: $default-grey;}
