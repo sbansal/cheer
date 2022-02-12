@@ -1,0 +1,67 @@
+<div class="modal-dialog med">
+  <div class="modal-content big-shadow border-0">
+    <div class="modal-header d-block">
+      <div class="row">
+        <div class="col">
+          <h5 class="modal-title med" id="cheerModalLabel">Link Account</h5>
+        </div>
+        <div class="col text-end">
+          <button type="button" class="btn-close btn-h" data-bs-dismiss="modal" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="form-background p-3">
+        <div class="med py-3 border-bottom">
+          <span><%= image_tag('plaid-logo-mark-dark.png', class: 'partner-logo')%></span>
+          <span class="lg-18 mx-2">Link your bank accounts via Plaid</span>
+          <p class="grey-500 mt-3 small">
+            We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank" %> to securely connect your bank accounts to Cheer. 
+            We only do this to read transaction and balance information.
+          </p>
+          <%= link_to 'Connect bank account', '', class: 'btn btn-primary my-3 med', 
+            data: {controller: 'plaid', action: 'click->plaid#createLoginItem'}, id: 'plaid-link' %>
+        </div>
+        <div class="med py-3" data-controller='accounts'>
+          <span class="pe-2 manual-entry-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+            </svg>
+          </span>
+          <span class="lg-18 ">Manually add an account.</span>
+          <p class="grey-500 mt-3 small">
+            You can always enter your account details manually. You will need to manually update the balance for these accounts though.
+          </p>
+          <%= form_tag(@bank_account, class: 'cheer-form') do %>
+            <%= render 'shared/error_messages', object: @bank_account %>
+            <div class="form-group row py-1">
+              <div class="col-sm-12 my-2 bold-2 ">What would you like to track?</div>
+              <div class="col-sm-12 med py-1" >
+                <%= radio_button_tag 'account_category', 'asset', true,
+                { data: { action: 'change->accounts#loadFields'}}%>
+                <span>An asset (cash, checking, investments, etc.)</span>
+              </div>
+              <div class="col-sm-12 med py-1">
+                <%= radio_button_tag 'account_category', 'liability', false,
+                { data: { action: 'change->accounts#loadFields'}}%>
+                <span>A liability (credit card, mortgage, etc.)</span>
+              </div>
+              <div class="col-sm-12 med py-1">
+                <%= radio_button_tag 'account_category', 'realty', false,
+                { data: { action: 'change->accounts#loadFields'}}%>
+                <span>A real estate property (home, commerical, etc.)</span>
+              </div>
+              <section id="new-account-fields">
+                <%= render 'account_fields' %>
+              </section>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

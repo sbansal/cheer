@@ -9,13 +9,15 @@ export default class extends Controller {
 
   loadFields(event) {
     const value = document.querySelector("input[name=account_category]:checked").value
-    Rails.ajax({
-      url: '/bank_accounts/new?account_category='+value,
-      type: 'GET',
-      dataType: 'script',
-      success: function(data) {},
-      error: function(data) {}
-    })
+    for(let element of document.getElementsByClassName('account-fields')) {
+      console.log(element.id)
+      console.log(`${value}-fields`)
+      if(element.id == `${value}-fields`) {
+        element.classList.remove('hide')
+      } else {
+        element.classList.add('hide')
+      }
+    }
     event.preventDefault()
   }
 
