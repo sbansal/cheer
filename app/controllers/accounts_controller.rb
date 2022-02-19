@@ -9,8 +9,12 @@ class AccountsController < ApplicationController
 
   def cashflow_trend
     @start_date, @end_date = parse_time_boundary(params)
-    assets_trend = HistoricalTrendCalculator.call(current_account.stats.find_by(name: Stat::ASSETS_STAT).sanitized_historical_trend_data_between(@start_date, @end_date))
-    liabilities_trend = HistoricalTrendCalculator.call(current_account.stats.find_by(name: Stat::LIABILITIES_STAT).sanitized_historical_trend_data_between(@start_date, @end_date))
+    assets_trend = HistoricalTrendCalculator.call(
+      current_account.stats.find_by(name: Stat::ASSETS_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    )
+    liabilities_trend = HistoricalTrendCalculator.call(
+      current_account.stats.find_by(name: Stat::LIABILITIES_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    )
     respond_to do |format|
       format.json { render json: { assets_trend: assets_trend, liabilities_trend: liabilities_trend } }
     end
@@ -18,9 +22,15 @@ class AccountsController < ApplicationController
 
   def income_expense_trend
     @start_date, @end_date = parse_time_boundary(params)
-    income_trend = current_account.stats.find_by_name(Stat::INCOME_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
-    expense_trend = current_account.stats.find_by_name(Stat::EXPENSES_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
-    saving_trend = current_account.stats.find_by_name(Stat::SAVINGS_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    income_trend = HistoricalTrendCalculator.call(
+      current_account.stats.find_by_name(Stat::INCOME_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    )
+    expense_trend = HistoricalTrendCalculator.call(
+      current_account.stats.find_by_name(Stat::EXPENSES_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    )
+    saving_trend = HistoricalTrendCalculator.call(
+      current_account.stats.find_by_name(Stat::SAVINGS_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
+    )
 
     respond_to do |format|
       format.json { render json: { income_trend: income_trend, expense_trend: expense_trend, saving_trend: saving_trend } }

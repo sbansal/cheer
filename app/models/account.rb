@@ -101,7 +101,7 @@ class Account < ApplicationRecord
   end
 
   def first_transaction_occured_at
-    transactions&.last&.occured_at || self.created_at
+    transactions&.last&.occured_at || self.created_at.to_date
   end
 
   private
