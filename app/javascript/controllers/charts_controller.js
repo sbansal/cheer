@@ -65,7 +65,8 @@ export default class extends Controller {
     defaultExpenses: String,
     defaultSavings: String,
     darkMode: Boolean,
-    tickColor: String
+    tickColor: String,
+    period: String,
   }
 
   intlFormat(num, currency = null) {
@@ -378,7 +379,7 @@ export default class extends Controller {
   cashflowChartTargetConnected(element) {
     console.debug("Cashflow Chart connected.")
     let self = this
-    fetch("/accounts/cashflow_trend", {
+    fetch(`/accounts/cashflow_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -404,7 +405,7 @@ export default class extends Controller {
   incomeExpenseChartTargetConnected(element) {
     console.debug("Income expense Chart connected.")
     let self = this
-    fetch("/accounts/income_expense_trend", {
+    fetch(`/accounts/income_expense_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

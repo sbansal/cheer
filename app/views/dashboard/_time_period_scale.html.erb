@@ -1,27 +1,22 @@
-<div class="time-period border-top-dotted row">
-  <div class="col-2 py-3 text-center">
-    <%= link_to 'This Month', income_expense_path(start: Time.zone.now.beginning_of_month, end: Time.zone.now, period: Stat::THIS_MONTH),
-      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::THIS_MONTH)}"%>
+<div class="row time-scale py-1 border rounded-3">
+  <div class="col px-1 text-center">
+    <%= link_to Date.today.strftime('%b %Y'), income_expense_path(period: Stat::THIS_MONTH),
+      class: "xs #{'active' if @period.eql?(Stat::THIS_MONTH)}"%>
   </div>
-  <div class="col-2 py-3 text-center">
-    <%= link_to 'Last Month',
-      income_expense_path(start: (Time.zone.now.beginning_of_month - 1.month), 
-      end: (Time.zone.now - 1.month).end_of_month, period: Stat::LAST_MONTH),
-      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::LAST_MONTH)}"%>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 1.month).strftime('%b %Y'), income_expense_path(period: Stat::LAST_MONTH),
+      class: "xs #{'active' if @period.eql?(Stat::LAST_MONTH)}"%>
   </div>
-  <div class="col-2 py-3 text-center">
-    <%= link_to 'Last 3 Months',
-      income_expense_path(start: (Time.zone.now.beginning_of_month - 3.month), end: Time.zone.now, period: Stat::QUARTERLY),
-      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::QUARTERLY)}"%>
+  <div class="col px-1 text-center">
+    <%= link_to '3M', income_expense_path(period: Stat::QUARTERLY),
+      class: "xs #{'active' if @period.eql?(Stat::QUARTERLY)}"%>
   </div>
-  <div class="col-2 py-3 text-center">
-    <%= link_to 'Last 1 Year', income_expense_path(start: (Time.zone.now.beginning_of_month - 1.year), 
-      end: Time.zone.now, period: Stat::YEARLY),
-      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::YEARLY)}"%>
+  <div class="col px-1 text-center">
+    <%= link_to '1Y', income_expense_path(period: Stat::YEARLY),
+      class: "xs #{'active' if @period.eql?(Stat::YEARLY)}"%>
   </div>
-  <div class="col-2 py-3 text-center">
-    <%= link_to 'All Time', income_expense_path(start: (Time.zone.now.beginning_of_month - 10.years), 
-      end: Time.zone.now, period: Stat::ALL),
-      class: "time-slice med fw-bold #{'active' if @period.eql?(Stat::ALL)}"%>
+  <div class="col px-1 text-center">
+    <%= link_to 'ALL', income_expense_path(period: Stat::ALL),
+      class: "xs #{'active' if @period.eql?(Stat::ALL)}"%>
   </div>
 </div>

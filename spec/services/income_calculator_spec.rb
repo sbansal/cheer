@@ -10,17 +10,17 @@ RSpec.describe IncomeCalculator do
 
   it 'calculates the income historical trend' do
     historical_trend_data = IncomeCalculator.call(@account)[:historical_trend_data]
-    expect(historical_trend_data.keys.count).to eq(25)
-    expect(historical_trend_data.keys.first).to eq @account.first_transaction_occured_at.beginning_of_month
-    this_month = Date.today.beginning_of_month
-    expect(historical_trend_data[this_month]).to eq(100)
-    expect(historical_trend_data[this_month - 1.month]).to eq(100)
-    expect(historical_trend_data[this_month - 2.month]).to eq(0)
-    expect(historical_trend_data[this_month - 3.month]).to eq(100)
-    expect(historical_trend_data[this_month - 4.month]).to eq(400)
-    expect(historical_trend_data[this_month - 5.month]).to eq(0)
-    expect(historical_trend_data[this_month - 1.year]).to eq(500)
-    expect(historical_trend_data[this_month - 2.year]).to eq(0)
+    expect(historical_trend_data.keys.count).to eq(732)
+    expect(historical_trend_data.keys.first).to eq @account.first_transaction_occured_at
+    today = Date.today
+    expect(historical_trend_data[today]).to eq(100)
+    expect(historical_trend_data[today - 1.month]).to eq(100)
+    expect(historical_trend_data[today - 2.month]).to eq(0)
+    expect(historical_trend_data[today - 3.month]).to eq(100)
+    expect(historical_trend_data[today - 4.month]).to eq(400)
+    expect(historical_trend_data[today - 5.month]).to eq(0)
+    expect(historical_trend_data[today - 1.year]).to eq(500)
+    expect(historical_trend_data[today - 2.year]).to eq(0)
   end
 
   it 'has a current value' do

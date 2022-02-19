@@ -391,7 +391,7 @@ ul.basic {
   }
   .form-check-input {
     border-color: var(--default-border-color);
-    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(217,226,236,0.8)'/></svg>");
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 48'%3e%3ccircle r='3' fill='rgba(217,226,236,0.8)'/></svg>");
   }
   .form-check-input:checked, .form-check-input:focus {
     border-color: var(--purple-600);
@@ -740,6 +740,21 @@ ul.submenu {
     color: var(--purple-600);
     font-weight: 600;
     border-bottom: 3px solid var(--purple-600);
+  }
+}
+
+.time-scale {
+  color: var(--primary-grey);
+  background-color: var(--secondary-bg);
+  a {
+    text-decoration: none;
+    &:hover {
+      color: var(--purple-600);
+      text-decoration: none;
+    }
+    &.active {
+      color: var(--purple-600);
+    }
   }
 }
 

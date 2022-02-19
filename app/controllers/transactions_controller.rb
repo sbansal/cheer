@@ -1,15 +1,9 @@
 class TransactionsController < ApplicationController
   include Pagy::Backend
   def index
-    if params[:search_query].blank?
-      @transactions = current_account.transactions.includes([:category])
-    else
-      @transactions = Transaction.where('custom_description ILIKE ? OR description ILIKE ? OR merchant_name ILIKE ?',
-        "%#{params[:search_query]}%", "%#{params[:search_query]}%", "%#{params[:search_query]}%")
-        .and(Transaction.where(user_id: current_account.user_ids))
-        .includes([:category])
-        .order('occured_at desc')
-    end
+    period = params[:period] || Stat::ALL
+    fetcher = TransactionsFetcher.call(current_account, period, params)
+    @transactions = fetcher.aggregated_transactions&.transactions
     @pagy, @transactions = pagy(@transactions, items: 50)
     respond_to do |format|
       format.html

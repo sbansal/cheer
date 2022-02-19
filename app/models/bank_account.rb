@@ -182,7 +182,7 @@ class BankAccount < ApplicationRecord
   end
 
   def last_balance_value_on(date)
-    balances_on_date = balances&.where('created_at < ?', date)
+    balances_on_date = balances&.where('created_at < ?', date.to_datetime.end_of_day.utc)
     if balances_on_date.empty?
       balances&.last&.current || 0
     else

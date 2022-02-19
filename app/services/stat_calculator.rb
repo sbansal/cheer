@@ -14,11 +14,11 @@ class StatCalculator < ApplicationService
 
   def generate_value_over_time_data
     {
-      Stat::THIS_MONTH => calculate_value_in_range(Time.zone.now.beginning_of_month, Time.zone.now),
-      Stat::LAST_MONTH => calculate_value_in_range(Time.zone.now.beginning_of_month - 1.month, Time.zone.now.end_of_month - 1.month),
-      Stat::QUARTERLY => calculate_value_in_range(3.months.ago, Time.zone.now),
-      Stat::YEARLY => calculate_value_in_range(1.year.ago, Time.zone.now),
-      Stat::ALL => calculate_value_in_range(30.year.ago, Time.zone.now),
+      Stat::THIS_MONTH => calculate_value_in_range(Date.today.beginning_of_month, Date.today),
+      Stat::LAST_MONTH => calculate_value_in_range((Date.today - 1.month).beginning_of_month, (Date.today - 1.month).end_of_month),
+      Stat::QUARTERLY => calculate_value_in_range((Date.today - 3.month), Date.today),
+      Stat::YEARLY => calculate_value_in_range(Date.today - 1.year, Date.today),
+      Stat::ALL => calculate_value_in_range(@account.first_transaction_occured_at, Date.today),
     }
   end
 
@@ -28,11 +28,11 @@ class StatCalculator < ApplicationService
 
   def generate_last_change_data
     {
-      Stat::WEEKLY => calculate_change_as_of(1.week.ago),
-      Stat::MONTHLY => calculate_change_as_of(1.month.ago),
-      Stat::QUARTERLY => calculate_change_as_of(3.months.ago),
-      Stat::YEARLY => calculate_change_as_of(1.year.ago),
-      Stat::ALL => calculate_change_as_of(30.year.ago),
+      Stat::WEEKLY => calculate_change_as_of(Date.today - 1.week),
+      Stat::MONTHLY => calculate_change_as_of(Date.today - 1.month),
+      Stat::QUARTERLY => calculate_change_as_of(Date.today - 3.months),
+      Stat::YEARLY => calculate_change_as_of(Date.today - 1.year),
+      Stat::ALL => calculate_change_as_of(@account.first_transaction_occured_at),
     }
   end
 
@@ -58,16 +58,14 @@ class StatCalculator < ApplicationService
     0
   end
 
-  def generate_aggregated_transactions_by_month_trend(transactions)
-    transactions_by_month = transactions.group_by { |tx| tx.occured_at.beginning_of_month }
-    start_month = @account.first_transaction_occured_at.beginning_of_month
+  def generate_daily_aggregated_transactions_trend(transactions)
+    transactions_by_day = transactions.group_by { |tx| tx.occured_at }
+    start_day = @account.first_transaction_occured_at
     trend_data = {}
-    if start_month
-      while(start_month <= Date.today.beginning_of_month)
-        total_income_for_month = transactions_by_month[start_month]&.inject(0) { |sum, tx| sum + tx.amount } || 0
-        trend_data[start_month] = total_income_for_month.abs
-        start_month = start_month + 1.month
-      end
+    while(start_day <= Date.today)
+      total_income_for_day = transactions_by_day[start_day]&.inject(0) { |sum, tx| sum + tx.amount } || 0
+      trend_data[start_day] = total_income_for_day.abs
+      start_day = start_day + 1.day
     end
     trend_data
   end

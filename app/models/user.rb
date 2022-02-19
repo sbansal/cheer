@@ -111,5 +111,9 @@ class User < ApplicationRecord
   def after_database_authentication
     Sentry.set_user(id: id)
   end
+
+  def time_scale
+    Stat::WEEKLY
+  end
 end
 

@@ -1,0 +1,22 @@
+<div class="row time-scale py-1 border rounded-3" >
+  <div class="col px-1 text-center">
+    <%= link_to '1W', '',
+      class: "xs #{'active' if current_user.time_scale.eql?(Stat::WEEKLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to '1M', '',
+      class: "xs #{'active' if current_user.time_scale.eql?(Stat::MONTHLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to '3M', '',
+      class: "xs #{'active' if current_user.time_scale.eql?(Stat::QUARTERLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to '1Y', '',
+      class: "xs #{'active' if current_user.time_scale.eql?(Stat::YEARLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to 'ALL', '',
+      class: "xs #{'active' if current_user.time_scale.eql?(Stat::ALL)}"%>
+  </div>
+</div>

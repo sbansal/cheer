@@ -32,8 +32,7 @@ class DashboardController < ApplicationController
   end
 
   def income_expense
-    @start_date, @end_date = parse_params(params)
-    @period = params[:period] || Stat::THIS_MONTH
+    @period = params[:period] || Stat::WEEKLY
     @period_description = Stat::SUPPORTED_PERIODS[@period]
 
     @income_stat = compute_stat_value_for_period(Stat::INCOME_STAT, @period)
@@ -44,7 +43,7 @@ class DashboardController < ApplicationController
   end
 
   private
-  
+
   def parse_params(params)
     start_date = params[:start].blank? ? Time.zone.now.beginning_of_month : Time.zone.parse(params[:start])
     end_date = params[:end].blank? ? Time.zone.now : Time.zone.parse(params[:end])

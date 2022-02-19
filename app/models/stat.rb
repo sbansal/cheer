@@ -53,4 +53,10 @@ class Stat < ApplicationRecord
     self.historical_trend_data.map { |key, value| [Time.zone.parse(key), value] }.to_h
   end
 
+  def sanitized_historical_trend_data_between(start_time, end_time)
+    self.historical_trend_data.filter { |key, value| Time.zone.parse(key).between?(start_time, end_time) }.map do |key, value|
+      [Time.zone.parse(key), value]
+    end.to_h
+  end
+
 end
