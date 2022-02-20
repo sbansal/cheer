@@ -2,7 +2,7 @@ class TransactionsFetcher < ApplicationService
   attr_reader :aggregated_transactions, :start_date, :end_date
   def initialize(account, period, params={})
     @account = account
-    @initial_scope = Transaction.includes(:category).where(user_id: @account.user_ids)
+    @initial_scope = @account.transactions.includes(:category).order('occured_at desc')
     calculate_occured_at_boundary(period)
     @params = params
   end
@@ -35,7 +35,12 @@ class TransactionsFetcher < ApplicationService
 
   def calculate_occured_at_boundary(period)
     @start_date, @end_date = Date.today
-    case(period)
+    case period
+    when Stat::THIS_MONTH
+      @start_date = start_date.beginning_of_month
+    when Stat::LAST_MONTH
+      @start_date = (start_date - 1.month).beginning_of_month
+      @end_date = start_date.end_of_month
     when Stat::WEEKLY
       @start_date = start_date - 7.days
     when Stat::MONTHLY

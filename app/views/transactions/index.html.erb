@@ -1,7 +1,13 @@
 <% title "Transactions" %>
-<div class="">
-  <div class="row m-0">
-    <div class="col-sm-8 pt-4" data-controller="transactions">
+<div class="mt-2">
+  <div class="row mb-2 mx-2">
+    <div class="col-sm-4 ms-auto m-0">
+      <%= render 'shared/time_period_scale' %>
+    </div>
+  </div>
+  <div class="row mx-2 mt-3">
+    <div class="col-sm-8 pt-4" data-controller="transactions"
+      data-transactions-period-value="<%= @period %>">
       <div class="row mb-2 px-2">
         <div class="col-sm-6 mb-3 mx-0 bold-2" id="tx-label">
           <div class="row">
@@ -40,6 +46,33 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4" id="transaction-details"></div>
+    <div class="col-sm-4">
+      <div class="border rounded-3 mb-4 primary-900-bg">
+        <div class="bold-2 p-3 border-bottom">Transactions by category</div>
+        <% if @transactions_by_category.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_category.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="border rounded-3 primary-900-bg">
+        <div class="bold-2 p-3 border-bottom">Transactions by merchant</div>
+        <% if @transactions_by_merchant.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_merchant.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

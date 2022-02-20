@@ -4,6 +4,9 @@ import {triggerToast} from "../utils.js"
 
 export default class extends Controller {
   static targets = [ "essentialMenuItem", "bulkEssentialMenuItem"]
+  static values = {
+    period: String,
+  }
 
   showTransactions(event) {
     console.debug("#showTransactions")
@@ -31,9 +34,9 @@ export default class extends Controller {
       transactionContainer.innerHTML = ""
       transactionContainer.style.opacity = 0
       document.getElementById('spinner-container').classList.toggle('hide')
-      var transactionUrl = "/transactions"
+      var transactionUrl = `/transactions?period=${this.periodValue}`
       if(event.target.value.length > 0) {
-        transactionUrl = "/transactions?search_query=" + event.target.value
+        transactionUrl = `/transactions?period=${this.periodValue}&search_query=${event.target.value}`
       }
       Rails.ajax({
         url: transactionUrl,

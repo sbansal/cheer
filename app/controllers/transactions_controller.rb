@@ -1,9 +1,16 @@
 class TransactionsController < ApplicationController
   include Pagy::Backend
   def index
-    period = params[:period] || Stat::ALL
-    fetcher = TransactionsFetcher.call(current_account, period, params)
+    @period = params[:period] || Stat::THIS_MONTH
+    @start_date, @end_date = parse_time_boundary(params)
+    fetcher = TransactionsFetcher.call(current_account, @period, params)
     @transactions = fetcher.aggregated_transactions&.transactions
+    @transactions_by_category = @transactions.group_by(&:category).map {
+      |category, transactions| CategorizedTransaction.new(category.name, transactions)
+    }.sort_by { |item| item.total_spend }
+    @transactions_by_merchant = @transactions.group_by(&:merchant_name).map {
+      |merchant_name, transactions| CategorizedTransaction.new(merchant_name, transactions)
+    }.sort_by { |item| item.total_spend }
     @pagy, @transactions = pagy(@transactions, items: 50)
     respond_to do |format|
       format.html
