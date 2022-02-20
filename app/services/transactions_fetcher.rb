@@ -10,6 +10,7 @@ class TransactionsFetcher < ApplicationService
   def call
     scoped = filter_by_date(@initial_scope)
     scoped = filter_by_search_query(scoped, @params[:search_query]) if @params[:search_query].present?
+    scoped = filter_by_bank_accounts(scoped, @params[:bank_account_id]) if @params[:bank_account_id].present?
     OpenStruct.new(
       aggregated_transactions: AggregatedTransactions.new(scoped),
       start_date: @start_date,
@@ -26,6 +27,10 @@ class TransactionsFetcher < ApplicationService
   def filter_by_search_query(scoped, query)
     wildcard_query = "%#{query}%"
     scoped.where('custom_description ILIKE ? OR description ILIKE ? OR merchant_name ILIKE ?', wildcard_query, wildcard_query, wildcard_query)
+  end
+
+  def filter_by_bank_accounts(scoped, bank_account_ids=[])
+    scoped.where(bank_account_id: bank_account_ids)
   end
 
   def calculate_occured_at_boundary(period)

@@ -4,7 +4,7 @@ class HistoricalTrendCalculator < ApplicationService
   end
 
   def call
-    if @time_series_data.keys.length > 30
+    if @time_series_data.keys.length > 100
       @time_series_data.group_by { |k, v| k.beginning_of_week }.to_h.map { |key, value| [key, value[0][1]]}.to_h
     else
       @time_series_data

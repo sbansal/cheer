@@ -355,7 +355,7 @@ export default class extends Controller {
   balancesChartTargetConnected(element) {
     console.debug("Balance Chart connected.")
     let self = this
-    fetch(`/bank_accounts/${this.bankAccountIdValue}/balances.json`, {
+    fetch(`/bank_accounts/${this.bankAccountIdValue}/balances.json?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
