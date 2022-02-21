@@ -3,7 +3,7 @@ import Rails from "@rails/ujs"
 import {triggerToast} from "../utils.js"
 
 export default class extends Controller {
-  static targets = [ "essentialMenuItem", "bulkEssentialMenuItem"]
+  static targets = [ "essentialMenuItem", "bulkEssentialMenuItem", "timePeriodPicker", "accountsPicker"]
   static values = {
     period: String,
   }

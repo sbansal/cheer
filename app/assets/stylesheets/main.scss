@@ -985,3 +985,18 @@ div.intro {
   animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
 }
+
+.hoverable {
+  &:hover {
+    background-color: var(--grey-900);
+  }
+}
+
+.searchable-list {
+  input {
+    background-color: var(--tertiary-bg) !important;
+    &:active, &:focus {
+      outline: none;
+    };
+  }
+}
