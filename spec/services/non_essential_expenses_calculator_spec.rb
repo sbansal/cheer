@@ -2,22 +2,23 @@ require 'rails_helper'
 
 RSpec.describe NonEssentialExpensesCalculator do
   before('all') do
-    @user = create(:user)
+    @account = create(:account)
+    @user = create(:user, account: @account)
     @category = create(:category, plaid_category_id: Category::CC_PAYMENT_PLAID_ID)
     build_historical_transactions
   end
 
   it 'calculates the income historical trend' do
-    historical_trend_data = NonEssentialExpensesCalculator.call(@user.account)[:historical_trend_data]
-    expect(historical_trend_data.keys.count).to eq(13)
-    this_month = Date.today.beginning_of_month
-    expect(historical_trend_data[this_month]).to eq(100)
-    expect(historical_trend_data[this_month - 1.month]).to eq(0)
-    expect(historical_trend_data[this_month - 2.month]).to eq(0)
-    expect(historical_trend_data[this_month - 3.month]).to eq(0)
-    expect(historical_trend_data[this_month - 4.month]).to eq(0)
-    expect(historical_trend_data[this_month - 5.month]).to eq(0)
-    expect(historical_trend_data[this_month - 1.year]).to eq(500)
+    historical_trend_data = NonEssentialExpensesCalculator.call(@account)[:historical_trend_data]
+    expect(historical_trend_data.keys.count).to eq(366)
+    today = Date.today
+    expect(historical_trend_data[today]).to eq(100)
+    expect(historical_trend_data[today - 1.month]).to eq(0)
+    expect(historical_trend_data[today - 2.month]).to eq(0)
+    expect(historical_trend_data[today - 3.month]).to eq(0)
+    expect(historical_trend_data[today - 4.month]).to eq(0)
+    expect(historical_trend_data[today - 5.month]).to eq(0)
+    expect(historical_trend_data[today - 1.year]).to eq(500)
   end
 
   it 'has a current value' do

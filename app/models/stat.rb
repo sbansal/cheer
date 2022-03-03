@@ -43,6 +43,14 @@ class Stat < ApplicationRecord
     LAST_MONTH => 'Last Month',
   }
 
+  TX_FILTER_PERIODS = {
+    THIS_MONTH => OpenStruct.new({ icon: Date.today.strftime('%b'), text: 'This Month' }),
+    LAST_MONTH => OpenStruct.new({ icon: (Date.today - 1.month).strftime('%b'), text: 'Last Month' }),
+    QUARTERLY => OpenStruct.new({ icon: '3M', text: 'Past 3 Months' }),
+    YEARLY => OpenStruct.new({ icon: '1Y', text: 'Past Year' }),
+    ALL => OpenStruct.new({ icon: 'ALL', text: 'All Time' }),
+  }
+
   def fetch_historical_trend_since(date)
     self.historical_trend_data.filter { |key, value| Date.parse(key) >= date }.map do |key, value|
       [Date.parse(key).to_time.utc.to_i*1000, value]
@@ -51,6 +59,12 @@ class Stat < ApplicationRecord
 
   def sanitized_historical_trend_data
     self.historical_trend_data.map { |key, value| [Time.zone.parse(key), value] }.to_h
+  end
+
+  def sanitized_historical_trend_data_between(start_time, end_time)
+    self.historical_trend_data.filter { |key, value| Time.zone.parse(key).between?(start_time, end_time) }.map do |key, value|
+      [Time.zone.parse(key), value]
+    end.to_h
   end
 
 end

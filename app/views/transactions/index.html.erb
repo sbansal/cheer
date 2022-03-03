@@ -1,9 +1,11 @@
 <% title "Transactions" %>
-<div class="">
-  <div class="row m-0">
-    <div class="col-sm-8 pt-4" data-controller="transactions">
+<div class="mt-2">
+  <div class="row mx-2 mt-3">
+    <div class="col-sm-8" data-controller="transactions"
+      data-transactions-period-value="<%= @period %>"
+      data-action="filterChanged->transactions#handleEvent">
       <div class="row mb-2 px-2">
-        <div class="col-sm-6 mb-3 mx-0 bold-2" id="tx-label">
+        <div class="col-sm-6 py-2 mx-0 bold-2 px-0" id="tx-label">
           <div class="row">
             <div class="col">View Transactions</div>
             <div class="col text-end d-sm-none">
@@ -15,14 +17,19 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6 mb-3 mx-0 text-end">
-          <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
-            <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
-            data: {action: 'input->transactions#search'}, autofocus: true %>
-          <% end %>
+        <div class="col-sm-6 py-2 mx-0 text-end px-0">
+          <div class="row">
+            <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
+              <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
+              data: {action: 'input->transactions#search', transactions_target: 'search'}, autofocus: true %>
+            <% end %>
+          </div>
         </div>
-        <div class="row mx-0">
-          <div class="row py-2 px-0 border-bottom mx-0">
+        <div class="py-2 filters border-bottom px-0" data-controller="dropdown">
+          <%= render 'shared/time_period_links' %>
+        </div>
+        <div class="row mx-0 px-0">
+          <div class="row py-2 px-0 border-bottom mx-0 primary-900-bg">
             <div class="col-3 text-uppercase small grey-100">Date</div>
             <div class="col-6 text-uppercase small grey-100">Description</div>
             <div class="col-3 text-uppercase small grey-100 text-end">Amount</div>
@@ -40,6 +47,33 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4" id="transaction-details"></div>
+    <div class="col-sm-4">
+      <div class="border rounded-3 mb-4 primary-900-bg">
+        <div class="bold-2 p-3 border-bottom">Transactions by category</div>
+        <% if @transactions_by_category.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_category.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="border rounded-3 primary-900-bg">
+        <div class="bold-2 p-3 border-bottom">Transactions by merchant</div>
+        <% if @transactions_by_merchant.empty? %>
+          <div class="med grey-50 p-3">No transactions found.</div>
+        <% else %>
+          <% @transactions_by_merchant.each do |categorized_transaction|%>
+            <div class="row small m-2 border-bottom">
+              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
