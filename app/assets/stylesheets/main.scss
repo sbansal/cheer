@@ -995,8 +995,16 @@ div.intro {
 .searchable-list {
   input {
     background-color: var(--tertiary-bg) !important;
+    border-color: var(--grey-600);
     &:active, &:focus {
       outline: none;
     };
+  }
+}
+
+@media (max-width: 600px) {
+  .searchable-list {
+    min-width: 90%;
+    left:5%;
   }
 }

@@ -2,7 +2,8 @@
 <div class="mt-2">
   <div class="row mx-2 mt-3">
     <div class="col-sm-8" data-controller="transactions"
-      data-transactions-period-value="<%= @period %>">
+      data-transactions-period-value="<%= @period %>"
+      data-action="filterChanged->transactions#handleEvent">
       <div class="row mb-2 px-2">
         <div class="col-sm-6 py-2 mx-0 bold-2 px-0" id="tx-label">
           <div class="row">
@@ -20,7 +21,7 @@
           <div class="row">
             <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
               <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
-              data: {action: 'input->transactions#search'}, autofocus: true %>
+              data: {action: 'input->transactions#search', transactions_target: 'search'}, autofocus: true %>
             <% end %>
           </div>
         </div>

@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
     @start_date, @end_date = parse_time_boundary(params)
     fetcher = TransactionsFetcher.call(current_account, @period, params)
     @accounts_metadata = current_account.bank_accounts.map { |acc| [acc.id, acc.display_name] }.to_h
-    @transactions = fetcher.aggregated_transactions&.transactions
+    @transactions = fetcher.aggregated_transactions&.transactions.includes([:bank_account])
     @transactions_by_category = @transactions.group_by(&:category).map {
       |category, transactions| CategorizedTransaction.new(category.name, transactions)
     }.sort_by { |item| item.total_spend }
@@ -14,8 +14,8 @@ class TransactionsController < ApplicationController
     }.sort_by { |item| item.total_spend }
     @pagy, @transactions = pagy(@transactions, items: 50)
     respond_to do |format|
-      format.html
       format.js
+      format.html
     end
   end
 

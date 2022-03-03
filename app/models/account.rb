@@ -4,7 +4,7 @@ class Account < ApplicationRecord
 
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, through: :users
   has_many :login_items, ->{ order(:created_at => 'DESC') }, through: :users
-  has_many :bank_accounts, through: :users
+  has_many :bank_accounts, ->{ order(:name => 'ASC') }, through: :users
   has_many :subscriptions, ->{ order(:updated_at => 'DESC') }, through: :users
   has_many :stats, dependent: :destroy
 
