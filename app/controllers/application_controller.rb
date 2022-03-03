@@ -26,6 +26,30 @@ class ApplicationController < ActionController::Base
     current_user.account
   end
 
+  def parse_time_boundary(params)
+    start_date = Date.today
+    end_date = Date.today
+    case params[:period]
+    when Stat::THIS_MONTH
+      start_date = start_date.beginning_of_month
+    when Stat::LAST_MONTH
+      start_date = (start_date - 1.month).beginning_of_month
+      end_date = start_date.end_of_month
+    when Stat::MONTHLY
+      start_date = start_date - 1.month
+    when Stat::QUARTERLY
+      start_date = start_date - 3.month
+    when Stat::YEARLY
+      start_date = start_date - 1.year
+    when Stat::ALL
+      start_date = current_account.first_transaction_occured_at
+    else
+      start_date = start_date - 7.days
+    end
+    Rails.logger.info("start = #{start_date}, end = #{end_date}")
+    return start_date, end_date
+  end
+
   private
 
   def layout_by_resource

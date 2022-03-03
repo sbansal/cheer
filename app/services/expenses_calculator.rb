@@ -9,7 +9,7 @@ class ExpensesCalculator < StatCalculator
   end
 
   def generate_historical_trend_data
-    generate_aggregated_transactions_by_month_trend(@transactions.reverse)
+    generate_daily_aggregated_transactions_trend(@transactions.reverse)
   end
 
   def calculate_value_in_range(start_date, end_date)

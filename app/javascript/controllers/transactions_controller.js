@@ -3,7 +3,47 @@ import Rails from "@rails/ujs"
 import {triggerToast} from "../utils.js"
 
 export default class extends Controller {
-  static targets = [ "essentialMenuItem", "bulkEssentialMenuItem"]
+  static targets = [ "essentialMenuItem", "bulkEssentialMenuItem", "timePeriodPicker", "accountsPicker", "search"]
+  static values = {
+    period: String,
+    query: String,
+    accountIds: Array,
+  }
+
+  handleEvent(event) {
+    console.log("#handleEvent")
+    console.log(event)
+    let data = event.detail.data
+    const type = event.detail.type
+    if (type === 'period') {
+      this.periodValue = data.params[0].period
+    } else if (type === 'account') {
+      let accountIds = new Set()
+      for (const key in data.params) {
+        const param = data.params[key]
+        if (param.accountId) {
+          accountIds.add(param.accountId)
+        }
+      }
+      this.accountIdsValue = Array.from(accountIds)
+      console.log("accountIds="+this.accountIdsValue)
+    }
+  }
+
+  periodValueChanged(value, prevValue) {
+    console.log('periodValueChanged,value='+value+',prevValue='+prevValue)
+    if (prevValue) {
+      this.search()
+    }
+  }
+
+  accountIdsValueChanged(value, prevValue) {
+    console.log('accountIdsValueChanged,value='+value+',prevValue='+prevValue)
+    if (prevValue) {
+      this.search()
+    }
+  }
+
 
   showTransactions(event) {
     console.debug("#showTransactions")
@@ -23,6 +63,18 @@ export default class extends Controller {
     }
   }
 
+  buildSearchParams(data) {
+    const params = new URLSearchParams()
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach(value => params.append(key+'[]', value.toString()))
+      } else {
+        params.append(key, value.toString())
+      }
+    })
+    return params.toString()
+  }
+
   search(event) {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
@@ -30,11 +82,17 @@ export default class extends Controller {
       var transactionContainer = document.getElementById('transactions-container')
       transactionContainer.innerHTML = ""
       transactionContainer.style.opacity = 0
-      document.getElementById('spinner-container').classList.toggle('hide')
-      var transactionUrl = "/transactions"
-      if(event.target.value.length > 0) {
-        transactionUrl = "/transactions?search_query=" + event.target.value
+      this.queryValue = this.searchTarget.value
+      let data = {
+        period: this.periodValue,
+        search_query: this.queryValue,
+        bank_account_id: this.accountIdsValue,
       }
+      const params = this.buildSearchParams(data)
+      console.log(params)
+      document.getElementById('spinner-container').classList.toggle('hide')
+      let transactionUrl = `/transactions?${params}`
+      console.log(transactionUrl)
       Rails.ajax({
         url: transactionUrl,
         type: "GET",
@@ -48,7 +106,9 @@ export default class extends Controller {
         },
       })
     }, 500)
-    event.preventDefault()
+    if (event) {
+      event.preventDefault()
+    }
   }
 
   updateTransactions(transactionId, formData) {

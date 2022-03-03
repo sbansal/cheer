@@ -67,11 +67,15 @@ class BankAccountsController < ApplicationController
   end
 
   def show
-    @bank_account = current_account.bank_accounts.includes([transactions: [:category]]).find(params[:id])
-    @transactions_by_category = @bank_account.transactions.includes([:category]).group_by(&:category).map {
+    @period = params[:period] || Stat::THIS_MONTH
+    @start_date, @end_date = parse_time_boundary(params)
+    @bank_account = current_account.bank_accounts.find(params[:id])
+    fetcher = TransactionsFetcher.call(current_account, @period, params.merge(bank_account_id: [@bank_account.id]))
+    @transactions = fetcher.aggregated_transactions&.transactions
+    @transactions_by_category = @transactions.group_by(&:category).map {
       |category, transactions| CategorizedTransaction.new(category.name, transactions)
     }.sort_by { |item| item.total_spend }
-    @transactions_by_merchant = @bank_account.transactions.includes([:category]).group_by(&:merchant_name).map {
+    @transactions_by_merchant = @transactions.group_by(&:merchant_name).map {
       |merchant_name, transactions| CategorizedTransaction.new(merchant_name, transactions)
     }.sort_by { |item| item.total_spend }
   end

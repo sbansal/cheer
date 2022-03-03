@@ -1,5 +1,5 @@
 <% title "Cashflow" %>
-<div class="mt-4 px-3">
+<div class="px-3">
   <% if current_user.new_account? %>
   <div class="intro">
     <h1>Hello there, Welcome to Cheer!</h1>
@@ -14,6 +14,11 @@
   </div>
   <% else %>
   <div class="row border-bottom px-3 py-3">
+    <div class="col-sm-12 mb-3">
+      <div class="col-sm-3 ms-auto">
+        <%= render 'shared/cashflow_time_periods' %>
+      </div>
+    </div>
     <div class="col-sm-3">
       <div class="mb-5">
         <div class="primary text-uppercase small bold-2">Net Worth</div>
@@ -40,12 +45,12 @@
     <div class="col-sm-9" data-controller="charts"
     data-charts-default-net-worth-value="<%= number_to_currency(@net_worth_stat.current_value)%>"
     data-charts-default-assets-value="<%= number_to_currency(@assets_stat.current_value)%>"
-    data-charts-default-liabilities-value="<%= number_to_currency(@liabilities_stat.current_value)%>">
+    data-charts-default-liabilities-value="<%= number_to_currency(@liabilities_stat.current_value)%>"
+    data-charts-period-value="<%= @period %>">
       <div class="px-2 py-2 my-3 fade-in" data-charts-target="cashflowChart">
         <canvas id="cashflow-chart"></canvas>
       </div>
     </div>
-    <div><%= render 'shared/cashflow_time_periods' %></div>
   </div>
   <div class="row">
     <div class="col-sm-6 mt-5">
