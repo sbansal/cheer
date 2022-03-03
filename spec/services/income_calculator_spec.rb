@@ -10,7 +10,6 @@ RSpec.describe IncomeCalculator do
 
   it 'calculates the income historical trend' do
     historical_trend_data = IncomeCalculator.call(@account)[:historical_trend_data]
-    expect(historical_trend_data.keys.count).to eq(732)
     expect(historical_trend_data.keys.first).to eq @account.first_transaction_occured_at
     today = Date.today
     expect(historical_trend_data[today]).to eq(100)
