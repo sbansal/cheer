@@ -1,0 +1,22 @@
+<div class="row time-scale py-1 border rounded-3 m-0">
+  <div class="col px-1 text-center">
+    <%= link_to Date.today.strftime('%b %Y'), { period: Stat::THIS_MONTH },
+      class: "xs #{'active' if @period.eql?(Stat::THIS_MONTH)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 1.month).strftime('%b %Y'), { period: Stat::LAST_MONTH },
+      class: "xs #{'active' if @period.eql?(Stat::LAST_MONTH)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to '3M', { period: Stat::QUARTERLY },
+      class: "xs #{'active' if @period.eql?(Stat::QUARTERLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to '1Y', { period: Stat::YEARLY },
+      class: "xs #{'active' if @period.eql?(Stat::YEARLY)}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to 'ALL', { period: Stat::ALL },
+      class: "xs #{'active' if @period.eql?(Stat::ALL)}"%>
+  </div>
+</div>

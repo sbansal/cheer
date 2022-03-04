@@ -1,19 +1,25 @@
 <% title "Accounts" %>
 <div class="mt-4 px-3">
-  <div class="row">
-    <div class="col-sm-12">
+  <div class="row mb-5">
+    <div class="col-sm-6">
       <div class="px-2 py-2 small mb-2">
         <%= link_to 'Accounts', bank_accounts_url, {class: 'xs grey-100 text-decoration-underline'} %> >
         <span class='xs grey-50'><%= @bank_account.descriptive_name %> </span>
       </div>
     </div>
+    <div class="col-sm-4 ms-auto">
+      <%= render 'shared/time_period_scale' %>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm-8">
       <div class="px-2 py-2 mb-5 border rounded-3">
         <%= render 'account_details', account: @bank_account %>
         <div class="px-2 pt-5" data-controller="charts"
         data-charts-balance-value="<%= number_to_currency(@bank_account.current_balance)%>"
         data-charts-currency-value="<%= @bank_account.balance_currency_code %>"
-        data-charts-bank-account-id-value="<%= @bank_account.id %>">
+        data-charts-bank-account-id-value="<%= @bank_account.id %>"
+        data-charts-period-value="<%= @period %>">
           <% if @bank_account.balances.count > 0 %>
             <div class="fw-bold small">Balance</div>
             <div class="bold-2 lg-18" id="balance-value">
@@ -52,9 +58,9 @@
         </div>
       </div>
       <div class="fw-bold">Recent Transactions</div>
-      <% if @bank_account.transactions.count > 0 %>
+      <% if @transactions.count > 0 %>
         <div class="px-2 py-2 mb5 small">
-         <% @bank_account.transactions.each do |transaction| %>
+         <% @transactions.each do |transaction| %>
            <%= render 'transactions/transaction_summary', transaction: transaction %>
          <% end %>
         </div>

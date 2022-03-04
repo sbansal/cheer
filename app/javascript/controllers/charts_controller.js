@@ -65,7 +65,8 @@ export default class extends Controller {
     defaultExpenses: String,
     defaultSavings: String,
     darkMode: Boolean,
-    tickColor: String
+    tickColor: String,
+    period: String,
   }
 
   intlFormat(num, currency = null) {
@@ -104,7 +105,7 @@ export default class extends Controller {
   }
 
   initAnimation(delayBetweenPoints=2) {
-    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps(['y'], true).y;
     const animation = {
       x: {
         type: 'number',
@@ -354,7 +355,7 @@ export default class extends Controller {
   balancesChartTargetConnected(element) {
     console.debug("Balance Chart connected.")
     let self = this
-    fetch(`/bank_accounts/${this.bankAccountIdValue}/balances.json`, {
+    fetch(`/bank_accounts/${this.bankAccountIdValue}/balances.json?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -378,7 +379,7 @@ export default class extends Controller {
   cashflowChartTargetConnected(element) {
     console.debug("Cashflow Chart connected.")
     let self = this
-    fetch("/accounts/cashflow_trend", {
+    fetch(`/accounts/cashflow_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -404,7 +405,7 @@ export default class extends Controller {
   incomeExpenseChartTargetConnected(element) {
     console.debug("Income expense Chart connected.")
     let self = this
-    fetch("/accounts/income_expense_trend", {
+    fetch(`/accounts/income_expense_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

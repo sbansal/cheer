@@ -1,18 +1,25 @@
 <%= turbo_frame_tag dom_id(transaction) do %>
-  <%= link_to transaction_path(transaction), class: 'no-bubble', 
+  <%= link_to transaction_path(transaction), class: 'no-bubble',
     data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal' } do %>
     <div class="row py-3 border-bottom tx-row med">
       <div class="col-3">
         <div><%= transaction.formatted_occurred_at %></div>
       </div>
       <div class="col-6">
-        <span class="custom-desc"><%= transaction.custom_description %></span>
-        <% if transaction.pending? %>
-        <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>"><%= transaction.status.humanize %></span>
-        <% end %>
-        <div class="grey-100 category-list"><%= transaction.category.category_list%></div>
+        <div class="custom-desc text-truncate">
+          <%= transaction.custom_description %>
+          <% if transaction.pending? %>
+            <span class="status rounded-pill px-2 py-1 xs <%= transaction.status %>">
+              <%= transaction.status.humanize %>
+            </span>
+          <% end %>
+        </div>
+        <div class="grey-100 category-list xs text-truncate"><%= transaction.category.category_list%></div>
       </div>
-      <div class="col-3 text-end"><%= signed_number_to_currency(transaction.amount)%></div>
+      <div class="col-3 text-end">
+        <div><%= signed_number_to_currency(transaction.amount)%></div>
+        <div class="grey-100 xs text-truncate"><%= transaction.bank_account.display_name%></div>
+      </div>
     </div>
   <% end %>
 <% end %>

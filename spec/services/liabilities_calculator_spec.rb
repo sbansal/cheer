@@ -14,12 +14,12 @@ RSpec.describe LiabilitiesCalculator do
     user = create(:user, account: account)
     depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].count).to eq(366)
+    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(1.year.ago.beginning_of_day)
     account = create(:account, created_at: 2.year.ago)
     user = create(:user, account: account)
     depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].count).to eq(366*2)
+    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(2.year.ago.beginning_of_day)
   end
 
   it 'calculates the liabilities historical trend' do

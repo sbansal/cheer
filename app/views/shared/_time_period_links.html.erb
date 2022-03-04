@@ -1,0 +1,54 @@
+<div class="xs py-1 fw-bold m-2 float-start"> FILTER BY: </div>
+<div class="float-start m-2">
+  <%= link_to '', data: { action: 'click->dropdown#showList', dropdown_target_param: 'timePeriodList'}, class: 'px-2 py-2 border rounded-2 xs text-center' do %>
+    <div class="d-inline mx-1">
+      <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+      </svg>
+    </div>
+    <div class="d-inline align-middle" id="selected-period" data-value="<%= @period %>"><%= Stat::SUPPORTED_PERIODS[@period] %></div>
+  <% end %>
+  <div data-controller="dropdown" class="border rounded-3 xs primary-900-bg searchable-list hide position-absolute z-1000 my-1 mx-0"
+    data-dropdown-list-search-class="time-period-item" data-dropdown-selected-target-value="selected-period"
+    data-dropdown-target='timePeriodList'>
+    <div class="row m-0 px-1 border-bottom">
+      <%= text_field_tag 'time_period', '', placeholder: 'Set time period..', class: 'border-0 py-2 px-1 primary-900-bg', size: 25,
+        data: { action: 'input->dropdown#updateTimePeriodsPicker keydown->dropdown#keyboardActions' }%>
+    </div>
+    <% Stat::TX_FILTER_PERIODS.each do |key, item| %>
+      <%= link_to '', data: {action: 'click->dropdown#selectTimePeriod', value: item.text, period: key}, class: 'time-period-item' do %>
+        <div class="small p-2 border-bottom hoverable "><%= item.text %></div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div class="float-start m-2">
+  <%= link_to '', data: { action: 'click->dropdown#showList', dropdown_target_param: 'accountList'}, class: 'px-2 py-2 border rounded-2 xs text-center' do %>
+    <div class="d-inline mx-1">
+      <svg class="align-middle" xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.277.084a.5.5 0 0 0-.554 0l-7.5 5A.5.5 0 0 0 .5 6h1.875v7H1.5a.5.5 0 0 0 0 1h13a.5.5 0 1 0 0-1h-.875V6H15.5a.5.5 0 0 0 .277-.916l-7.5-5zM12.375 6v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zm-2.5 0v7h-1.25V6h1.25zM8 4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM.5 15a.5.5 0 0 0 0 1h15a.5.5 0 1 0 0-1H.5z"/>
+      </svg>
+      <div class="d-inline align-middle mx-1" id="accounts-list">
+        <span id='selected-account' class="xs px-1 py-1">All accounts</span>
+      </div>
+    </div>
+  <% end %>
+  <div data-controller="dropdown" class="border rounded-3 xs text-start primary-900-bg searchable-list hide position-absolute z-1000 my-1 mx-0"
+    data-dropdown-list-search-class="account-item" data-dropdown-selected-target-value="selected-account"
+    data-dropdown-target='accountList'>
+    <div class="row m-0 px-1 border-bottom">
+      <%= text_field_tag 'time_period', '', placeholder: 'Set account..', class: 'border-0 py-2 px-1 w-100 primary-900-bg',
+        data: { action: 'input->dropdown#updateAccountsPicker keydown->dropdown#keyboardActions' }%>
+    </div>
+    <% @accounts_metadata.each do |id, display_name| %>
+      <% if display_name.present? %>
+          <div class="m-0 px-2 py-2 border-bottom hoverable account-item med">
+            <%= label_tag display_name, {class: 'w-100'} do %>
+              <%= check_box_tag display_name, id, false, {class: 'form-check-input me-2', data: { action: 'change->dropdown#selectAccountItems', value: display_name, account_id: id } } %>
+              <%= display_name %>
+            <% end %>
+          </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
