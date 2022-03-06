@@ -20,11 +20,11 @@
           <span><%= image_tag('plaid-logo-mark-dark.png', class: 'partner-logo')%></span>
           <span class="lg-18 mx-2">Link your bank accounts via Plaid</span>
           <p class="grey-500 mt-3 small">
-            We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank" %> to securely connect your bank accounts to Cheer. 
+            We use <%= link_to 'Plaid', 'https://plaid.com', target: "_blank" %> to securely connect your bank accounts to Cheer.
             We only do this to read transaction and balance information.
           </p>
-          <%= link_to 'Connect bank account', '', class: 'btn btn-primary my-3 med', 
-            data: {controller: 'plaid', action: 'click->plaid#createLoginItem'}, id: 'plaid-link' %>
+          <%= link_to 'Connect bank account', '', class: 'btn btn-primary my-3 med',
+            data: {controller: 'plaid', action: 'click->plaid#createLoginItem', remote: true}, id: 'plaid-link' %>
         </div>
         <div class="med py-3" data-controller='accounts'>
           <span class="pe-2 manual-entry-logo">
