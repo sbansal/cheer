@@ -54,11 +54,13 @@ class LoginItemsController < ApplicationController
   def destroy
     @login_item = current_account.login_items.find(params[:id])
     begin
-      response = PlaidLinkDeleter.call(@login_item.plaid_access_token)
+      @login_item.revoke_access
       @login_item.destroy
       StatsCreatorJob.perform_later(current_account.id)
+      flash[:notice_header] = 'Link deleted'
+      flash[:notice] = "You have successfully deleted your #{@login_item.institution.name} accounts from Cheer."
       respond_to do |format|
-        format.html { redirect_to login_items_path }
+        format.html { redirect_to login_items_path, flash: {} }
         format.json { head :no_content }
       end
     rescue => e

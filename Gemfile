@@ -21,6 +21,7 @@ gem "jsbundling-rails"
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+gem 'httparty', '~> 0.20.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -85,6 +86,7 @@ gem 'textacular'
 #ui
 gem 'pagy', '~> 3.5'
 gem 'plaid'
+gem 'coinbase'
 
 #monitoring
 gem 'sentry-ruby'

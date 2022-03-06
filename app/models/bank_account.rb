@@ -19,6 +19,7 @@ class BankAccount < ApplicationRecord
   OTHER_ASSET = "other asset"
   OTHER_LIABILITY = "other liability"
   BROKERAGE = "brokerage"
+  CRYPTO = "crypto"
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
@@ -93,7 +94,10 @@ class BankAccount < ApplicationRecord
     self.account_type = params['account_type']
     self.account_subtype = params['account_subtype']
     self.classification = params['account_category']
-    self.balance_currency_code = 'USD'
+    self.balance_currency_code = params['currency'] || 'USD'
+    self.provider_item_id = params['provider_item_id']
+    self.login_item_id = params['login_item_id']
+    self.institution_id = params['institution_id']
     current_value = sanitize_balance(params['balance'])
     self.current_balance = current_value
     self.current_balance_updated_at = Time.zone.now
@@ -125,7 +129,7 @@ class BankAccount < ApplicationRecord
   end
 
   def asset?
-    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET].include?(account_type)
+    [DEPOSITORY_TYPE, INVESTMENT_TYPE, REAL_ESTATE, COLLECTIBLE, CASH, OTHER_ASSET, CRYPTO].include?(account_type)
   end
 
   def real_estate?

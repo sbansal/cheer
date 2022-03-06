@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_26_033435) do
+ActiveRecord::Schema.define(version: 2022_03_06_172846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -101,6 +101,9 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.datetime "current_balance_updated_at"
     t.text "address_line_1"
     t.text "address_line_2"
+    t.string "provider_item_id"
+    t.float "native_balance"
+    t.string "native_currency"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -153,6 +156,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.datetime "expired_at"
     t.string "link_token"
     t.datetime "link_token_expires_at"
+    t.string "provider_access_token"
+    t.string "provider_refresh_token"
   end
 
   create_table "posts", force: :cascade do |t|

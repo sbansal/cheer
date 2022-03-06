@@ -26,6 +26,18 @@
           <%= link_to 'Connect bank account', '', class: 'btn btn-primary my-3 med',
             data: {controller: 'plaid', action: 'click->plaid#createLoginItem', remote: true}, id: 'plaid-link' %>
         </div>
+        <div class="med py-3 border-bottom">
+          <span><%= image_tag('bitcoin-btc-logo.svg', class: 'partner-logo-crypto')%></span>
+          <span class="lg-18 mx-2">Link your crypto accounts</span>
+          <p class="grey-500 mt-3 small">
+            Currently we support connecting your Crypto accounts via Coinbase. We will only read your account balance and transactions information.
+          </p>
+          <div id="name">
+            <%= link_to CoinbaseOauthCreator.new.oauth_url, class: 'btn btn-primary my-3 med py-0' do %>
+              <span>Connect to </span><span><%= image_tag('coinbase_logo_white.svg', class: 'partner-logo-coinbase')%></span>
+            <% end %>
+          </div>
+        </div>
         <div class="med py-3" data-controller='accounts'>
           <span class="pe-2 manual-entry-logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">

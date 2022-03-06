@@ -1,5 +1,4 @@
 class PlaidClientCreator < ApplicationService
-  require 'plaid'
 
   def call
     configuration = Plaid::Configuration.new

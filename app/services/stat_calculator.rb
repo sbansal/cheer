@@ -69,5 +69,4 @@ class StatCalculator < ApplicationService
     end
     trend_data
   end
-
 end

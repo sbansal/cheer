@@ -86,6 +86,24 @@ class LoginItem < ApplicationRecord
     end
   end
 
+  def update_oauth_info(response)
+    update(
+      provider_access_token: response['access_token'],
+      provider_refresh_token: response['refresh_token'],
+    )
+    activate
+  end
+
+  def revoke_access
+    if self.plaid_access_token.present?
+      response = PlaidLinkDeleter.call(self.plaid_access_token)
+      Rails.logger.info("Revoking access for the plaid account, response=#{response}")
+    elsif self.provider_access_token.present?
+      response = CoinbaseOauthCreator.new.revoke_token(provider_access_token, provider_refresh_token)
+      Rails.logger.info("Revoking access for the coinbase account, response=#{response}")
+    end
+  end
+
   def should_display_plaid_renew_link?(current_user)
     self.plaid_access_token? && expired? && self.user == current_user && fetch_link_token.present?
   end
