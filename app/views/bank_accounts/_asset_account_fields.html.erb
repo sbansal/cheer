@@ -1,33 +1,35 @@
-<div class="row py-1 my-2">
-  <div class="col-sm-6">
-    <%= label_tag :name, 'Account Nickname', class: 'med bold-2 mb-2' %>
-    <div>
-      <%= text_field_tag :name, nil, class: 'form-control med', placeholder: 'e.g. My checking account',
-      data: {action: 'input->accounts#validateSubmit'} %>
+<div class="account-fields <%= display%>" id="asset-fields" >
+  <div class="row py-1 my-2 <%= display%>">
+    <div class="col-sm-12">
+      <%= label_tag :name, 'Account name', class: 'med bold-2 mb-2' %>
+      <div>
+        <%= text_field_tag :name, nil, class: 'form-control med', placeholder: 'e.g. My checking account',
+        data: {action: 'input->accounts#validateSubmit'} %>
+      </div>
     </div>
   </div>
-</div>
-<div class="row py-1 my-2">
-  <div class="col-sm-6" data-action="mouseenter->accounts#trackIn mouseleave->accounts#trackOut">
-    <%= label_tag :account_type, 'Asset type', class: 'med bold-2 mb-2'%>
-    <div>
-      <%= text_field_tag :account_type_field, nil, class: 'form-control med', placeholder: 'Enter asset type',
-      data: {action: 'focus->accounts#toggleDropdown blur->accounts#toggleDropdown'}, autocomplete: 'off' %>
-    </div>
-    <%= render 'accounts_dropdown'%>
-  </div>
-</div>
-<div class="row py-1 my-2">
-  <div class="col-sm-6">
-    <%=label_tag :balance, 'Current Value', class: 'med bold-2 mb-2' %>
-    <div>
-      <%= text_field_tag :balance, nil, class: 'form-control med', placeholder: 'Enter amount e.g. 10,000',
-      data: { action: 'keyup->accounts#allowNumbersOnly input->accounts#validateSubmit'} %>
+  <div class="row py-1 my-2">
+    <div class="col-sm-12" data-action="mouseenter->accounts#trackIn mouseleave->accounts#trackOut">
+      <%= label_tag :account_type, 'Asset type', class: 'med bold-2 mb-2'%>
+      <div>
+        <%= text_field_tag :account_type_field, nil, class: 'form-control med', placeholder: 'Enter asset type',
+        data: {action: 'focus->accounts#toggleDropdown blur->accounts#toggleDropdown'}, autocomplete: 'off' %>
+      </div>
+      <%= render 'accounts_dropdown'%>
     </div>
   </div>
-</div>
-<div class="btn-container row py-1">
-  <div class="col-sm-6">
-    <%= button_tag "Add account", :class => 'btn btn-primary bold-2', disabled: true, id: 'submit-button' %>
+  <div class="row py-1 my-2">
+    <div class="col-sm-12">
+      <%=label_tag :balance, 'Current value', class: 'med bold-2 mb-2' %>
+      <div>
+        <%= text_field_tag :balance, nil, class: 'form-control med', placeholder: 'Enter amount e.g. 10,000',
+        data: { action: 'keyup->accounts#allowNumbersOnly input->accounts#validateSubmit'} %>
+      </div>
+    </div>
+  </div>
+  <div class="btn-container row py-1">
+    <div class="col-sm-12">
+      <%= button_tag "Add account", :class => 'btn btn-primary bold-2', disabled: true, id: 'submit-button' %>
+    </div>
   </div>
 </div>

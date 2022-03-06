@@ -66,23 +66,27 @@ class LoginItem < ApplicationRecord
   end
 
   def fetch_link_token
-    link_token = nil
-    begin
-      response = PlaidLinkTokenCreator.call(self.user_id, self.plaid_access_token, true)
-      link_token = response.link_token
-      update(
-        link_token_expires_at: response.expiration,
-        link_token: link_token,
-      )
-    rescue => e
-      Rails.logger.error(e)
-      raise e
-    ensure
-      return link_token
+    if self.link_token.present?
+      return self.link_token
+    else
+      begin
+        response = PlaidLinkTokenCreator.call(self.user_id, self.plaid_access_token, true)
+        link_token = response.link_token
+        update(
+          link_token_expires_at: response.expiration,
+          link_token: link_token,
+        )
+      rescue => e
+        Rails.logger.error("Error creating plaid link token")
+        Rails.logger.error(e)
+        raise e
+      ensure
+        return link_token
+      end
     end
   end
 
   def should_display_plaid_renew_link?(current_user)
-    expired? && self.user == current_user && fetch_link_token.present?
+    self.plaid_access_token? && expired? && self.user == current_user && fetch_link_token.present?
   end
 end

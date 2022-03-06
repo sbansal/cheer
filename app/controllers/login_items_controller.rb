@@ -6,9 +6,9 @@ class LoginItemsController < ApplicationController
   def status
     @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
-    response = client.item.get(@login_item.plaid_access_token)
-    @item_status = response['status']
-    @item_metadata = response['item']
+    response = client.item_get(Plaid::ItemGetRequest.new({ access_token: @login_item.plaid_access_token }))
+    @item_status = response.status
+    @item_metadata = response.item
     respond_to do |format|
       format.json { render json: {item: @item_metadata, item_status: @item_status} }
     end
@@ -53,7 +53,6 @@ class LoginItemsController < ApplicationController
 
   def destroy
     @login_item = current_account.login_items.find(params[:id])
-    client = PlaidClientCreator.call
     begin
       response = PlaidLinkDeleter.call(@login_item.plaid_access_token)
       @login_item.destroy
@@ -62,10 +61,13 @@ class LoginItemsController < ApplicationController
         format.html { redirect_to login_items_path }
         format.json { head :no_content }
       end
-    rescue Exception => e
+    rescue => e
+      Rails.logger.error("Error destroying login item")
       Rails.logger.error(e)
+      flash[:alert_header] = 'Link could not be deleted.'
+      flash[:alert] = "We were not able to remove #{@login_item.institution.name} link from Cheer. Please try again."
       respond_to do |format|
-        format.html { redirect_to login_items_path, flash: { error: 'Login item could not be deleted.' } }
+        format.html { redirect_to login_items_path, flash: { error: 'Link could not be deleted.' } }
         format.json { head :unprocessable_entity }
       end
     end
