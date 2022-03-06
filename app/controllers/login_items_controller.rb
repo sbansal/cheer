@@ -6,9 +6,9 @@ class LoginItemsController < ApplicationController
   def status
     @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
-    response = client.item.get(@login_item.plaid_access_token)
-    @item_status = response['status']
-    @item_metadata = response['item']
+    response = client.item_get(Plaid::ItemGetRequest.new({ access_token: @login_item.plaid_access_token }))
+    @item_status = response.status
+    @item_metadata = response.item
     respond_to do |format|
       format.json { render json: {item: @item_metadata, item_status: @item_status} }
     end
