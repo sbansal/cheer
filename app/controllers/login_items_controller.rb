@@ -64,7 +64,8 @@ class LoginItemsController < ApplicationController
         format.json { head :no_content }
       end
     rescue => e
-      Rails.logger.error("Error destroying login item, error=#{e.inspect}")
+      Rails.logger.error("Error destroying login item")
+      Rails.logger.error(e)
       flash[:alert_header] = 'Link could not be deleted'
       flash[:alert] = "We were not able to remove #{@login_item.institution.name} link from Cheer. Please try again."
       respond_to do |format|

@@ -8,14 +8,17 @@
         these accounts.
       </div>
       <% if @login_items.empty? %>
-        <%= link_to('Link your first account', '', class: 'btn btn-primary fw-bold', data: {controller: 'plaid',
-        action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+        <%= link_to 'Link your first account', new_bank_account_path(account_category: 'asset'), 
+          {data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'},
+          class: 'btn btn-sm btn-primary fw-bold' }%>
       <% else %>
         <div class="border rounded-3">
           <% @login_items.each do |login_item|%>
             <div class="row border-bottom py-3 m-0 px-2">
               <% if login_item&.institution&.logo.present? %>
-                <div class="p-2 col-1 d-none d-xl-block"><%= image_tag login_item&.institution&.logo_source, size: "30x30" %></div>
+                <div class="p-2 col-1 d-none d-xl-block">
+                  <%= image_tag login_item&.institution&.logo_source, size: "30x30" %>
+                </div>
               <% else %>
                 <div class="p-2 col-1 d-none d-xl-block placeholder-logo">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
@@ -49,7 +52,7 @@
         </div>
       <% end %>
     </div>
-    <div class="col-sm-4" id="link-details-container"></div>
+    <div class="col-sm-4" id="link-details-container" data-controller="plaid"></div>
   </div>
 </div>
 
