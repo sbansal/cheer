@@ -87,6 +87,6 @@ class LoginItem < ApplicationRecord
   end
 
   def should_display_plaid_renew_link?(current_user)
-    oauth_provider == 'plaid' && expired? && self.user == current_user && fetch_link_token.present?
+    self.plaid_access_token? && expired? && self.user == current_user && fetch_link_token.present?
   end
 end
