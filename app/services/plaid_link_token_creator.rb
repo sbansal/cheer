@@ -24,6 +24,7 @@ class PlaidLinkTokenCreator < ApplicationService
           language: Rails.application.credentials[:plaid][:language],
           webhook: Rails.application.credentials[:login_item_webhook],
           access_token: @access_token,
+          redirect_uri: Rails.application.credentials[:plaid][:redirect_uri],
         }
       )
     else
@@ -37,6 +38,7 @@ class PlaidLinkTokenCreator < ApplicationService
           language: Rails.application.credentials[:plaid][:language],
           webhook: Rails.application.credentials[:login_item_webhook],
           products: Rails.application.credentials[:plaid][:products],
+          redirect_uri: Rails.application.credentials[:plaid][:redirect_uri],
         }
       )
     end
