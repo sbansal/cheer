@@ -95,7 +95,7 @@ class BankAccount < ApplicationRecord
     self.account_subtype = params['account_subtype']
     self.classification = params['account_category']
     self.balance_currency_code = params['currency'] || 'USD'
-    self.coinbase_account_id = params['coinbase_account_id']
+    self.provider_item_id = params['provider_item_id']
     self.login_item_id = params['login_item_id']
     self.institution_id = params['institution_id']
     current_value = sanitize_balance(params['balance'])

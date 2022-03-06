@@ -1,5 +1,5 @@
+require 'coinbase/wallet'
 class CoinbaseClient < ApplicationService
-  require 'coinbase/wallet'
 
   def initialize(access_token, refresh_token)
     @access_token = access_token

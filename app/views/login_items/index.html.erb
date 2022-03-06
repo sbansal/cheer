@@ -38,7 +38,7 @@
                   <% if login_item.should_display_plaid_renew_link?(current_user) %>
                     <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
                     action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
-                  <% elsif login_item.oauth_provider == 'coinbase' %>
+                  <% elsif login_item.provider_access_token.present? %>
                     <%= link_to('Renew link', CoinbaseOauthCreator.new.oauth_url, class: 'primary small text-decoration-underline') %> |
                   <% end %>
                   <%= link_to 'Delete Link', login_item_path(login_item),

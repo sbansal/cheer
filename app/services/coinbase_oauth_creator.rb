@@ -1,6 +1,9 @@
+require 'coinbase/wallet'
 class CoinbaseOauthCreator
+
   AUTHORIZATION_CODE = 'authorization_code'
   COINBASE_OAUTH_PROVIDER = 'coinbase'
+  PERMISSION_SCOPES = %w(wallet:accounts:read wallet:transactions:read)
 
   def initialize
     @coinbase_client_id = Rails.application.credentials[:coinbase][:client_id]
@@ -9,7 +12,7 @@ class CoinbaseOauthCreator
   end
 
   def oauth_url
-    url = 'https://www.coinbase.com/oauth/authorize?response_type=code&scope=wallet:accounts:read'
+    url = "https://www.coinbase.com/oauth/authorize?response_type=code&scope=#{PERMISSION_SCOPES.join(',')}"
     url = url + "&client_id=#{@coinbase_client_id}&state=#{@state}"
   end
 
@@ -32,18 +35,17 @@ class CoinbaseOauthCreator
     Rails.logger.info("Response = #{response}")
     login_item = user.login_items.find_or_initialize_by(
       institution_id: institution.id,
-      oauth_provider: COINBASE_OAUTH_PROVIDER,
     )
     login_item.update_oauth_info(response)
     CoinbaseAccountsCreator.call(login_item)
     login_item
   end
 
-  def create_accounts(login_item)
-    client = CoinbaseDataProvider.new(login_item.oauth_access_token, login_item.oauth_refresh_token)
-    accounts_array = client.accounts
-    BankAccount.create_from_params(accounts_array_json, login_item.id, @user.id, login_item.institution_id)
-  end
+  # def create_accounts(login_item)
+  #   client = CoinbaseDataProvider.new(login_item.provider_access_token, login_item.provider_refresh_token)
+  #   accounts_array = client.accounts
+  #   BankAccount.create_from_params(accounts_array_json, login_item.id, @user.id, login_item.institution_id)
+  # end
 
   def revoke_token(access_token, refresh_token)
     Coinbase::Wallet::OAuthClient.new(
@@ -58,8 +60,8 @@ class CoinbaseOauthCreator
 
   def refresh_tokens(login_item)
     response = Coinbase::Wallet::OAuthClient.new(
-      access_token: login_item.oauth_access_token,
-      refresh_token: login_item.oauth_refresh_token,
+      access_token: login_item.provider_access_token,
+      refresh_token: login_item.provider_refresh_token,
     ).refresh!
     login_item.update_oauth_info(response)
     Rails.logger.info("Updated the access token for coinbase login item #{login_item.id}")
