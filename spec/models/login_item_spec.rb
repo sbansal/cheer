@@ -74,4 +74,26 @@ RSpec.describe LoginItem, type: :model do
       expect(login_item.should_display_plaid_renew_link?(create(:user))).to be false
     end
   end
+
+  describe '#link_token_valid?' do
+    it 'returns false if the link token or link token expiry is nil' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, link_token: 'token', user: user)
+      expect(login_item.link_token_valid?).to be false
+      login_item = create(:login_item, expired: true, link_token_expires_at: Time.zone.now, user: user)
+      expect(login_item.link_token_valid?).to be false
+    end
+
+    it 'returns true if the link token is not expired' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, link_token: 'token', link_token_expires_at: Time.zone.now, user: user)
+      expect(login_item.link_token_valid?).to be false
+    end
+
+    it 'returns false if the link token is expired' do
+      user = create(:user)
+      login_item = create(:login_item, expired: true, link_token: 'token', link_token_expires_at: Time.zone.now + 1.day, user: user)
+      expect(login_item.link_token_valid?).to be true
+    end
+  end
 end
