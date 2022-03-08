@@ -66,7 +66,7 @@ class LoginItem < ApplicationRecord
   end
 
   def fetch_link_token
-    if self.link_token.present?
+    if link_token_valid?
       return self.link_token
     else
       begin
@@ -84,6 +84,10 @@ class LoginItem < ApplicationRecord
         return link_token
       end
     end
+  end
+
+  def link_token_valid?
+    self.link_token? && self.link_token_expires_at? && self.link_token_expires_at.after?(Time.zone.now)
   end
 
   def should_display_plaid_renew_link?(current_user)
