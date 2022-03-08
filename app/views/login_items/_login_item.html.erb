@@ -1,0 +1,52 @@
+<% if login_item&.institution&.logo.present? %>
+  <div class="p-2 col-1 d-none d-xl-block">
+    <%= image_tag login_item&.institution&.logo_source, size: "30x30" %>
+  </div>
+<% else %>
+  <div class="p-2 col-1 d-none d-xl-block placeholder-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="teal" class="icon-item teal">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+    </svg>
+  </div>
+<% end %>
+<div class="col-6">
+  <div><%= login_item&.institution&.name %></div>
+  <div class="small grey-100">
+    Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
+  </div>
+</div>
+<div class="col-5 text-end">
+  <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
+  <div>
+    <% if login_item.should_display_plaid_renew_link?(current_user) %>
+      <%= link_to('Renew link', '', class: 'primary small text-decoration-underline ', data: {controller: 'plaid',
+      action: 'click->plaid#updateLoginItem', token: login_item.fetch_link_token}, id: 'update-link') %> |
+    <% end %>
+    <%= link_to 'Delete Link', login_item_path(login_item),
+      :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
+      :method => :delete,
+      class: 'danger small text-decoration-underline ' %>
+  </div>
+</div>
+<div class="row mt-2 mb-0 mx-0 pt-3 primary-900-bg rounded-3 hide" id="link-details-<%= login_item.id%>">
+  <div class="col-4 border-bottom py-3">
+    <div class="fw-bold small">Status </div>
+    <div class=" med"><%= login_item.status.capitalize %></div>
+  </div>
+  <div class="col-4 border-bottom py-3">
+    <div class="fw-bold small">Data Provider</div>
+    <div class=" med"><%= login_item.data_provider %></div>
+  </div>
+  <div class="col-4 border-bottom py-3">
+    <div class="fw-bold small">Linked on</div>
+    <div class=" med"><%= login_item.created_at.strftime('%m/%d/%Y') || '-' %></div>
+  </div>
+  <div class="col-4 py-3">
+    <div class="fw-bold small">Link expires on</div>
+    <div class=" med"><%= login_item.consent_expires_at || '-' %></div>
+  </div>
+  <div class="col-4 py-3">
+    <div class="fw-bold small">Last successful </div>
+    <div class=" med"><%= login_item.consent_expires_at || '-' %></div>
+  </div>
+</div>

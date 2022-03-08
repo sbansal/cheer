@@ -28,10 +28,9 @@ Rails.application.routes.draw do
     post '/plaid/create_link_token', to: 'plaid#create_link_token'
 
     #login items resources
-    resources :login_items, only: [:index, :destroy]
+    resources :login_items, only: [:index, :destroy, :show]
     get '/login_items/:id/refresh_transactions/', to: 'login_items#refresh_transactions', as: :refresh_transactions
     get '/login_items/:id/refresh_historical_transactions', to: 'login_items#refresh_historical_transactions', as: :refresh_historical_transactions
-    get '/login_items/:id/status', to: 'login_items#status'
 
     #events resources
     post '/events/login_item_callback', to: 'events#login_item_callback'

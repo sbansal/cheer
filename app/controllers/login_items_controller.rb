@@ -3,7 +3,7 @@ class LoginItemsController < ApplicationController
     @login_items = current_account.login_items.includes([:institution, :user])
   end
 
-  def status
+  def show
     @login_item = current_account.login_items.find(params[:id])
     client = PlaidClientCreator.call
     response = client.item_get(Plaid::ItemGetRequest.new({ access_token: @login_item.plaid_access_token }))
