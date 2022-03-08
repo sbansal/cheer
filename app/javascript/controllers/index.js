@@ -43,3 +43,6 @@ application.register("transactions", TransactionsController)
 import ChartsController from "./charts_controller.js"
 application.register("charts", ChartsController)
 
+import LinksController from "./links_controller.js"
+application.register("links", LinksController)
+
