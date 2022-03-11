@@ -101,9 +101,9 @@ RSpec.describe Transaction, type: :model do
     create(:transaction, description: 'Amazon Tips*ASDAKSK', category: @category, merchant_name: merchant, user: @user)
     create(:transaction, description: 'Amazon Tips*DAKSJAK', category: @category, merchant_name: merchant, user: @user)
     create(:transaction, description: 'Amazon Tips*2V5DA0EL3', category: @category, merchant_name: merchant, user: @user)
-    create(:transaction, description: 'Amazon', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazon.com', category: @category, merchant_name: merchant, user: @user)
     tx = create(:transaction, description: 'Amazon Tips', category: @category, merchant_name: merchant, user: @user)
-    expect(tx.related_transactions.size).to eq 6
+    expect(tx.related_transactions.size).to eq 5
   end
 
   it 'updates related transactions' do
@@ -114,10 +114,10 @@ RSpec.describe Transaction, type: :model do
     create(:transaction, description: 'Doordash Tips*2V5DA0EL3', category: @category, merchant_name: merchant, user: @user)
     tx = create(:transaction, description: 'Doordash Tips', category: @category, merchant_name: merchant, user: @user)
     ids = tx.related_transactions.map(&:id)
-    expect(tx.update_related({custom_description: custom_description}, ids).count).to eq 4
+    expect(tx.update_related({custom_description: custom_description}, ids).count).to eq 3
     expect(Transaction.where(id: ids).pluck(:custom_description).uniq).to eq [custom_description]
     another_category = create(:category)
-    expect(tx.update_related({category_id: another_category.id}, ids).count).to eq 4
+    expect(tx.update_related({category_id: another_category.id}, ids).count).to eq 3
     expect(Transaction.where(id: ids).pluck(:category_id).uniq).to eq [another_category.id]
   end
 
