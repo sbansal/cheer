@@ -50,29 +50,15 @@
     <div class="col-sm-4">
       <div class="border rounded-3 mb-4 primary-900-bg">
         <div class="bold-2 p-3 border-bottom">Transactions by category</div>
-        <% if @transactions_by_category.empty? %>
-          <div class="med grey-50 p-3">No transactions found.</div>
-        <% else %>
-          <% @transactions_by_category.each do |categorized_transaction|%>
-            <div class="row small m-2 border-bottom">
-              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
-              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
-            </div>
-          <% end %>
-        <% end %>
+        <div id="transactions-by-categories">
+          <%= render 'transactions_by_categories' %>
+        </div>
       </div>
       <div class="border rounded-3 primary-900-bg">
         <div class="bold-2 p-3 border-bottom">Transactions by merchant</div>
-        <% if @transactions_by_merchant.empty? %>
-          <div class="med grey-50 p-3">No transactions found.</div>
-        <% else %>
-          <% @transactions_by_merchant.each do |categorized_transaction|%>
-            <div class="row small m-2 border-bottom">
-              <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
-              <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
-            </div>
-          <% end %>
-        <% end %>
+        <div id="transactions-by-merchants">
+          <%= render 'transactions_by_merchants' %>
+        </div>
       </div>
     </div>
   </div>
