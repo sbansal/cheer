@@ -9,7 +9,6 @@ export default class extends Controller {
       url: "/transactions/" + this.idValue + "/related",
       type: "GET",
       success: function(data) {
-        console.log(data)
         document.getElementById('related-transactions-container').innerHTML = data.body.innerHTML
       },
       error: function(data) {},

@@ -11,8 +11,6 @@ export default class extends Controller {
   }
 
   handleEvent(event) {
-    console.log("#handleEvent")
-    console.log(event)
     let data = event.detail.data
     const type = event.detail.type
     if (type === 'period') {
@@ -26,19 +24,16 @@ export default class extends Controller {
         }
       }
       this.accountIdsValue = Array.from(accountIds)
-      console.log("accountIds="+this.accountIdsValue)
     }
   }
 
   periodValueChanged(value, prevValue) {
-    console.log('periodValueChanged,value='+value+',prevValue='+prevValue)
     if (prevValue) {
       this.search()
     }
   }
 
   accountIdsValueChanged(value, prevValue) {
-    console.log('accountIdsValueChanged,value='+value+',prevValue='+prevValue)
     if (prevValue) {
       this.search()
     }
@@ -89,19 +84,21 @@ export default class extends Controller {
         bank_account_id: this.accountIdsValue,
       }
       const params = this.buildSearchParams(data)
-      console.log(params)
       document.getElementById('spinner-container').classList.toggle('hide')
       let transactionUrl = `/transactions?${params}`
-      console.log(transactionUrl)
       Rails.ajax({
         url: transactionUrl,
         type: "GET",
         dataType: 'script',
-        success: function(data) {},
-        error: function(data) {},
+        success: function(data) {
+          document.getElementById('spinner-container').classList.add('hide')
+        },
+        error: function(data) {
+          document.getElementById('spinner-container').classList.add('hide')
+        },
         complete: function(data) {
           console.debug("hiding spinner - search TX")
-          document.getElementById('spinner-container').classList.toggle('hide')
+          document.getElementById('spinner-container').classList.add('hide')
           transactionContainer.style.opacity = 1
         },
       })

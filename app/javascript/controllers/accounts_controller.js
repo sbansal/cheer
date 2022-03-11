@@ -10,8 +10,6 @@ export default class extends Controller {
   loadFields(event) {
     const value = document.querySelector("input[name=account_category]:checked").value
     for(let element of document.getElementsByClassName('account-fields')) {
-      console.log(element.id)
-      console.log(`${value}-fields`)
       if(element.id == `${value}-fields`) {
         element.classList.remove('hide')
       } else {
