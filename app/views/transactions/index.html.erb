@@ -19,7 +19,7 @@
         </div>
         <div class="col-sm-6 py-2 mx-0 text-end px-0">
           <div class="row">
-            <%= form_tag '/transactions', method: :get, id: 'tx-search-form' do %>
+            <%= form_tag '/transactions', method: :get, id: 'tx-search-form', remote: true do %>
               <%= text_field_tag 'search_query', params[:search_query], cols: 50,  class: 'form-control xs', placeholder: 'Search...',
               data: {action: 'input->transactions#search', transactions_target: 'search'}, autofocus: true %>
             <% end %>
