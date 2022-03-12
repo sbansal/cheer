@@ -69,15 +69,6 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def related
-    @transaction = current_account.transactions.find(params[:id])
-    @related_transactions = @transaction.related_transactions
-    @aggregated_transactions = AggregatedTransactions.new(@related_transactions)
-    respond_to do |format|
-      format.html { render layout: false }
-    end
-  end
-
   private
 
   def transaction_params

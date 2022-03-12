@@ -52,12 +52,12 @@ class Transaction < ApplicationRecord
 
   def related_transactions
     if self.merchant_name
-      Transaction.advanced_search(description: self.description)
+      Transaction.fuzzy_search(description: self.description)
         .where(user: self.user, category: self.category, merchant_name: self.merchant_name)
         .where.not(id: id)
         .order('occured_at desc')
     else
-      Transaction.advanced_search(description: self.description)
+      Transaction.fuzzy_search(description: self.description)
         .where(user: self.user, category: self.category)
         .where.not(id: id)
         .order('occured_at desc')
