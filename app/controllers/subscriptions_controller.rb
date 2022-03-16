@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
 
   def show
     @subscription = current_account.subscriptions.find(params[:id])
-    @aggregated_transactions = AggregatedTransactions.new(@subscription.all_transactions)
+    @aggregated_transactions = Transaction::AggregatedTransactions.new(@subscription.description, @subscription.all_transactions)
   end
 
   def update

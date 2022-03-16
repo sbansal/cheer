@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  include Categorizeable
+
   belongs_to :bank_account
   belongs_to :user
   belongs_to :category

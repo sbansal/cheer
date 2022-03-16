@@ -13,7 +13,7 @@ class TransactionsFetcher < ApplicationService
     scoped = filter_by_bank_accounts(scoped, @params[:bank_account_id]) if @params[:bank_account_id].present?
     scoped = filter_by_categories(scoped, @params[:categories]) if @params[:categories].present?
     OpenStruct.new(
-      aggregated_transactions: AggregatedTransactions.new(scoped),
+      aggregated_transactions: Transaction::AggregatedTransactions.new('transactions', scoped),
       start_date: @start_date,
       end_date: @end_date,
     )

@@ -4,10 +4,12 @@
 <% else %>
 <%= turbo_frame_tag "transactions" do %>
   <% @transactions.each do |transaction| %>
-    <%= render 'transaction_summary', transaction: transaction %>
+    <%= render 'transactions/transaction_summary', transaction: transaction %>
   <% end %>
 <% end %>
 <% end %>
-<div class="my-3 mx-auto justify-content-center med primary">
-  <%== render 'shared/pagy_nav', pagy: @pagy %>
-</div>
+<% if @pagy %>
+  <div class="my-3 mx-auto justify-content-center med primary">
+    <%== render 'shared/pagy_nav', pagy: @pagy %>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<% title "Transactions" %>
+<div class="mt-2">
+  <div class="row mx-2 mt-1 p-2">
+    <div class="col-12 ms-0">
+      <%= link_to 'Transactions', transactions_path, class: 'xs grey-100 text-decoration-underline' %>
+      <span class="xs">→ Transactions by category</span>
+    </div>
+    <div class="col-sm-9 mt-4">
+      <div class="d-flex flex-wrap">
+        <div class="p-1 small m-2 ms-0">Showing <%= pluralize(@count, 'transaction') %></div>
+        <div class="border rounded-3 primary-900-bg py-1 px-2 small m-2 ms-0">Category is '<%= @category_name %>'</div>
+        <div class="border rounded-3 primary-900-bg py-1 px-2 small m-2 ms-0">Time Period is '<%= @period_description %>'</div>
+      </div>
+    </div>
+  </div>
+  <div class="row mx-2 p-2">
+    <%= render 'transactions/transactions'%>
+  </div>
+</div>

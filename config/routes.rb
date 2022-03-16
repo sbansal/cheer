@@ -14,7 +14,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :categories, only: [:index, :show]
+    resources :categories, only: [:index, :show] do
+      scope module: 'categories' do
+        resources :transactions, only: [:index]
+      end
+    end
 
     resources :subscriptions, only: [:index, :destroy]
     # search resources
