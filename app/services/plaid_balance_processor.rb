@@ -15,9 +15,24 @@ class PlaidBalanceProcessor < ApplicationService
         accounts_json = response.accounts
         BankAccount.update_balances(accounts_json)
       end
+    rescue Plaid::ApiError => e
+      Rails.logger.error("[PlaidBalanceProcessor] Unable to retrieve balance for login item with ID=#{@login_item.id}")
+      Rails.logger.error(e.response_body)
+      if item_expired?(e)
+        Rails.logger.info("[PlaidBalanceProcessor] Expiring login item with ID=#{@login_item.id}.")
+        @login_item.expire
+      end
     rescue => e
       Rails.logger.error("[PlaidBalanceProcessor] Unable to retrieve balance for login item with ID=#{@login_item.id}")
       Rails.logger.error(e)
     end
+  end
+
+  private
+  ITEM_LOGIN_REQUIRED = 'ITEM_LOGIN_REQUIRED'
+
+  def item_expired?(error)
+    error_body = OpenStruct.new(JSON.parse(error.response_body))
+    error_body.error_code == ITEM_LOGIN_REQUIRED
   end
 end

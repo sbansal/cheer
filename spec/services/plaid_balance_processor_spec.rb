@@ -23,11 +23,21 @@ RSpec.describe PlaidBalanceProcessor do
   it 'does not update balance if item is expired' do
     @login_item = create(:login_item, user: @user, expired: true)
     @bank_account = create(:bank_account, user: @user, login_item: @login_item)
-    client = double("client", accounts: double('accounts', balance: double('balance', get: accounts_response )))
-    allow(PlaidClientCreator).to receive(:call) { client }
     expect(@bank_account.balances.count).to eq 0
     PlaidBalanceProcessor.call(@bank_account.login_item.plaid_access_token)
     expect(@bank_account.balances.count).to eq 0
+  end
+
+  it 'marks the item as expired if the link is expired' do
+    @login_item = create(:login_item, user: @user)
+    @bank_account = create(:bank_account, user: @user, login_item: @login_item)
+    client = double("client", accounts_balance_get: 'get account balances')
+    allow(client).to receive(:accounts_balance_get).and_raise(api_error)
+    allow(PlaidClientCreator).to receive(:call) { client }
+    expect(@login_item.expired?).to be false
+    PlaidBalanceProcessor.call(@login_item.plaid_access_token)
+    @login_item.reload
+    expect(@login_item.expired?).to be true
   end
 
   private
@@ -57,5 +67,21 @@ RSpec.describe PlaidBalanceProcessor do
       subtype: "checking",
       type: "depository"
     })
+  end
+
+  def api_error
+    Plaid::ApiError.new(
+      :code => 400,
+      :response_headers => {},
+      :response_body =>
+        '{
+          "display_message": null,
+          "error_code": "ITEM_LOGIN_REQUIRED",
+          "error_message": "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link\'s update mode to restore the item to a good state",
+          "error_type": "ITEM_ERROR",
+          "request_id": "UatSQfXA8Y6ada",
+          "suggested_action": null
+        }'
+    )
   end
 end
