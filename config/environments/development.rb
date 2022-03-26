@@ -70,8 +70,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :resque
 
   config.action_mailer.default_url_options = { host: 'app.usecheer.test' }
-
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
     :port           => Rails.application.credentials[:sendgrid][:smtp_port],
     :address        => Rails.application.credentials[:sendgrid][:smtp_server],
     :user_name      => Rails.application.credentials[:sendgrid][:smtp_username],
@@ -79,7 +79,6 @@ Rails.application.configure do
     :domain         => 'usecheer.test',
     :authentication => :plain,
   }
-  ActionMailer::Base.delivery_method = :smtp
 
   config.hosts << /.*\.usecheer\.test/
   config.hosts << /[a-z0-9]+\.ngrok\.io/
