@@ -440,7 +440,7 @@ DEPENDENCIES
   plaid
   puma (~> 5.6.2)
   rails (~> 7.0.2.3)
-  redis (~> 4.0)
+  redis (~> 4.6)
   resque
   rotp
   rqrcode
