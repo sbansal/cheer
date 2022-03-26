@@ -8,10 +8,17 @@ Rails.application.routes.draw do
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#cashflow'
-    resources :transactions, only: [:index, :show, :destroy, :edit, :update]
-    get '/transactions/:id/related', to: 'transactions#related', as: :related_transactions
+    resources :transactions, only: [:index, :show, :destroy, :edit, :update] do
+      scope module: 'transactions' do
+        resources :related, only: [:index]
+      end
+    end
 
-    resources :categories, only: [:index, :show]
+    resources :categories, only: [:index, :show] do
+      scope module: 'categories' do
+        resources :transactions, only: [:index]
+      end
+    end
 
     resources :subscriptions, only: [:index, :destroy]
     # search resources

@@ -2,9 +2,12 @@
   <div class="med grey-50 p-3">No transactions found.</div>
 <% else %>
   <% @transactions_by_category.each do |categorized_transaction|%>
-    <div class="row small m-2 border-bottom">
-      <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
-      <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
-    </div>
+    <%= link_to category_transactions_path(categorized_transaction.category,
+      category_name: categorized_transaction.category_name, period: @period) do %>
+      <div class="row small m-2 border-bottom hoverable">
+        <div class="col-6 p-2"><%= categorized_transaction.category_name || 'Unknown' %></div>
+        <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

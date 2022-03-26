@@ -101,7 +101,7 @@ RSpec.describe Transaction, type: :model do
     create(:transaction, description: 'Amazon Tips*ASDAKSK', category: @category, merchant_name: merchant, user: @user)
     create(:transaction, description: 'Amazon Tips*DAKSJAK', category: @category, merchant_name: merchant, user: @user)
     create(:transaction, description: 'Amazon Tips*2V5DA0EL3', category: @category, merchant_name: merchant, user: @user)
-    create(:transaction, description: 'Amazon.com', category: @category, merchant_name: merchant, user: @user)
+    create(:transaction, description: 'Amazing.com', category: @category, merchant_name: merchant, user: @user)
     tx = create(:transaction, description: 'Amazon Tips', category: @category, merchant_name: merchant, user: @user)
     expect(tx.related_transactions.size).to eq 5
   end

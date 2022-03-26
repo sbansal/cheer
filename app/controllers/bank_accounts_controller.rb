@@ -73,10 +73,10 @@ class BankAccountsController < ApplicationController
     fetcher = TransactionsFetcher.call(current_account, @period, params.merge(bank_account_id: [@bank_account.id]))
     @transactions = fetcher.aggregated_transactions&.transactions
     @transactions_by_category = @transactions.group_by(&:category).map {
-      |category, transactions| CategorizedTransaction.new(category.name, transactions)
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by { |item| item.total_spend }
     @transactions_by_merchant = @transactions.group_by(&:merchant_name).map {
-      |merchant_name, transactions| CategorizedTransaction.new(merchant_name, transactions)
+      |merchant_name, transactions| Transaction::AggregatedTransactions.new(merchant_name, transactions)
     }.sort_by { |item| item.total_spend }
   end
 

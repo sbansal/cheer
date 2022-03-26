@@ -10,21 +10,21 @@ class Account < ApplicationRecord
 
   def money_in_by_categories(start_date, end_date)
     txs = transactions.includes(:category).occured_between(start_date, end_date).filter(&:credit?)
-    txs.group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
+    txs.group_by(&:category).map {
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by(&:total_spend)
   end
 
   def spend_by_categories(start_date, end_date)
     essential_txs = transactions.where(essential: true).includes(:category).occured_between(start_date, end_date).filter(&:debit?)
-    essentials_by_categories = essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
+    essentials_by_categories = essential_txs.group_by(&:category).map {
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by(&:total_spend).reverse
     essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
 
     non_essential_txs = transactions.where(essential: false).includes(:category).occured_between(start_date, end_date).filter(&:debit?)
-    extras_by_categories = non_essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
+    extras_by_categories = non_essential_txs.group_by(&:category).map {
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by(&:total_spend).reverse
     extras_total = extras_by_categories.map { |spend| spend.total_spend }.sum
 
@@ -38,8 +38,8 @@ class Account < ApplicationRecord
 
   def essential_spend_by_categories(start_date, end_date)
     essential_txs = transactions.where(essential: true).includes(:category).occured_between(start_date, end_date).filter(&:debit?)
-    essentials_by_categories = essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
-      |descriptive_name, transactions| CategorizedTransaction.new(descriptive_name, transactions)
+    essentials_by_categories = essential_txs.group_by(&:category).map {
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by(&:total_spend).reverse
     essentials_total = essentials_by_categories.map { |spend| spend.total_spend }.sum
     {
@@ -50,8 +50,8 @@ class Account < ApplicationRecord
 
   def non_essential_spend_by_categories(start_date, end_date)
     non_essential_txs = transactions.where(essential: false).includes(:category).occured_between(start_date, end_date).filter(&:debit?)
-    non_essential_txs_by_categories = non_essential_txs.group_by { |tx| tx.category.descriptive_name }.map {
-      |category_name, transactions| CategorizedTransaction.new(category_name, transactions)
+    non_essential_txs_by_categories = non_essential_txs.group_by(&:category).map {
+      |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
     }.sort_by(&:total_spend).reverse
     non_essential_total = non_essential_txs_by_categories.map { |spend| spend.total_spend }.sum
     {
