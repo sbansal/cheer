@@ -113,14 +113,13 @@ Rails.application.configure do
   config.active_storage.service = :amazon
   config.force_ssl = true
   config.action_mailer.default_url_options = { host: 'app.usecheer.com' }
-
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
     :port           => Rails.application.credentials[:sendgrid][:smtp_port],
     :address        => Rails.application.credentials[:sendgrid][:smtp_server],
     :user_name      => Rails.application.credentials[:sendgrid][:smtp_username],
     :password       => Rails.application.credentials[:sendgrid][:smtp_password],
-    :domain         => 'usecheer.test',
+    :domain         => 'usecheer.com',
     :authentication => :plain,
   }
-  ActionMailer::Base.delivery_method = :smtp
 end
