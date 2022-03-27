@@ -1,2 +1,3 @@
-var modal = document.getElementById("cheer-modal");
-modal.innerHTML = "<%= j (render 'form', account_category: @account_category) %>";
+var container = document.getElementById("new-account");
+container.innerHTML = "";
+container.innerHTML = "<%= j (render 'form') %>";

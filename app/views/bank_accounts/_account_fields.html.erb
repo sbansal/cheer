@@ -1,5 +1,8 @@
-<%= render 'real_estate_account_fields', display: (@account_category == 'realty' ? '' : 'hide')  %>
-<%= render 'liability_account_fields', display: (@account_category == 'liability' ? '' : 'hide') %>
-<%= render 'asset_account_fields', display: (@account_category == 'asset' ? '' : 'hide') %>
-
+<% if @account_category == 'real_estate' %>
+  <%= render 'real_estate_account_fields'  %>
+<% elsif @account_category == 'liability' %>
+  <%= render 'liability_account_fields' %>
+<% else %>
+  <%= render 'asset_account_fields' %>
+<% end %>
 

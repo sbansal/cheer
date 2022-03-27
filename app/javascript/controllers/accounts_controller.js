@@ -1,22 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 import Rails from "@rails/ujs"
-import Chart from 'chart.js/auto'
-import { getRelativePosition } from 'chart.js/helpers';
-import {LineController} from 'chart.js'
 
 export default class extends Controller {
   static targets = [ "source", "errorMessage", "destination", "dropdown"]
 
   loadFields(event) {
     const value = document.querySelector("input[name=account_category]:checked").value
-    for(let element of document.getElementsByClassName('account-fields')) {
-      if(element.id == `${value}-fields`) {
-        element.classList.remove('hide')
-      } else {
-        element.classList.add('hide')
-      }
-    }
-    event.preventDefault()
+    console.debug("Account type = " + value)
+    Rails.ajax({
+      url: `/bank_accounts/new?account_category=${value}`,
+      type: 'GET',
+      dataType: 'script',
+      success: function(data) {},
+      error: function(data) {}
+    })
   }
 
   trackIn(event) {
@@ -28,6 +25,7 @@ export default class extends Controller {
   }
 
   toggleDropdown(event) {
+    console.debug("#toggleDropdown")
     if (event.type == 'focus') {
       this.dropdownTarget.classList.remove('hide')
     } else {
@@ -89,7 +87,7 @@ export default class extends Controller {
     document.getElementById('account_type').value = event.target.parentElement.dataset['accountTypeName']
     const accountTypeDesc = event.target.parentElement.dataset['accountTypeDescription']
     const subTypeDesc = event.target.dataset['subtypeDescription']
-    document.getElementById('account_type_field').value = accountTypeDesc + " > " + subTypeDesc
+    document.getElementById('account_type_field').value = accountTypeDesc + " → " + subTypeDesc
     event.preventDefault()
   }
 }
