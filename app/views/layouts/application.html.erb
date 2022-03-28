@@ -32,8 +32,7 @@
               </div>
             </div>
             <div class="col-6 p-0 text-end">
-              <%= link_to 'Link account', new_bank_account_path(account_category: 'asset'), {data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'},
-                class: 'btn btn-sm btn-primary fw-bold' }%>
+              <%= link_to 'Link account', new_bank_account_path(account_category: 'asset'), { class: 'btn btn-sm btn-primary fw-bold' }%>
             </div>
           </div>
           <div><%= yield %></div>
