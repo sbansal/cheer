@@ -1,9 +1,8 @@
 var accountInfo = document.getElementById("account-row-<%= params[:id]%>")
 accountInfo.outerHTML = "<%= j (render 'account_info', account: @bank_account) %>";
-
 document.getElementsByTagName('body')[0].classList.remove('modal-open');
+document.getElementsByTagName('body')[0].style = '';
 document.getElementById('cheer-modal').outerHTML = "<%= j render 'shared/cheer_modal' %>";
 var backdrop = document.querySelector('.modal-backdrop');
 backdrop.parentNode.removeChild(backdrop);
-
 

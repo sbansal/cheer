@@ -10,7 +10,7 @@
           <div class="col-sm-6 mb-2 med">Current Account Value</div>
           <div class="col-sm-6 mb-2">
             <%= f.text_field :current_balance,  class: 'form-control med', placeholder: '$1000', autofocus: true,
-            data: { action: 'input->accounts#validateFormFields'}, required: true,
+            data: { action: 'keyup->accounts#allowNumbersOnly input->accounts#validateFormFields'}, required: true,
             value: "#{number_to_currency(@bank_account.current_balance)}" %>
           </div>
         </div>
