@@ -73,5 +73,10 @@ Rails.application.routes.draw do
     #expenses
     resources :expenses, only: [:index]
     resources :earnings, only: [:index]
+    
+    #billing
+    resources :billing, only: [:create]
+    get '/billing/success', to: 'billing#success'
+    get '/billing/cancel', to: 'billing#cancel'
   end
 end

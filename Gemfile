@@ -89,3 +89,6 @@ gem 'plaid'
 #monitoring
 gem 'sentry-ruby'
 gem 'sentry-rails'
+
+#payments
+gem 'stripe'

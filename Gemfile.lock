@@ -376,6 +376,7 @@ GEM
       net-ssh (>= 2.8.0)
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
+    stripe (5.48.0)
     strscan (3.0.1)
     textacular (5.5.1)
       activerecord (>= 5.0, < 7.1)
@@ -453,6 +454,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails
   stimulus-rails
+  stripe
   textacular
   turbo-rails
   tzinfo-data
