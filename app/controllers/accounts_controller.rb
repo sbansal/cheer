@@ -22,13 +22,13 @@ class AccountsController < ApplicationController
 
   def income_expense_trend
     @start_date, @end_date = parse_time_boundary(params)
-    income_trend = HistoricalTrendCalculator.call(
+    income_trend = HistoricalTrendAggregator.call(
       current_account.stats.find_by_name(Stat::INCOME_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
     )
-    expense_trend = HistoricalTrendCalculator.call(
+    expense_trend = HistoricalTrendAggregator.call(
       current_account.stats.find_by_name(Stat::EXPENSES_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
     )
-    saving_trend = HistoricalTrendCalculator.call(
+    saving_trend = HistoricalTrendAggregator.call(
       current_account.stats.find_by_name(Stat::SAVINGS_STAT).sanitized_historical_trend_data_between(@start_date, @end_date)
     )
 
