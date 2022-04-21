@@ -275,11 +275,11 @@ export default class extends Controller {
             },
             ticks: {
               callback: function(value, index, values) {
-                if (values.length > 30) {
+                if (self.periodValue === 'last_month' || self.periodValue === 'this_month') {
+                  return this.getLabelForValue(value);
+                } else {
                   const label = this.getLabelForValue(value);
                   return self.formatDate(new Date(label));
-                } else {
-                  return this.getLabelForValue(value);
                 }
               },
               font: {
