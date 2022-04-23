@@ -16,7 +16,7 @@ body {
   transition: opacity 140ms ease 0s;
 }
 
-div, table, p, section, h1, h2, h3, h4, a, ul, li{
+div, table, p, section, h1, h2, h3, h4, a, ul, li, td{
   color: var(--default-color);
 }
 
@@ -585,6 +585,8 @@ ul.submenu {
   background-repeat: no-repeat;
   background-size: 1.5rem 1.5rem;
   margin-top: 3px;
+  width: 24px;
+  height: 24px;
 }
 
 .slide-in {
