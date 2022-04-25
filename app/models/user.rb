@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  belongs_to :account
+  belongs_to :company
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
 

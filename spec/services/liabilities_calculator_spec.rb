@@ -2,28 +2,28 @@ require 'rails_helper'
 
 RSpec.describe LiabilitiesCalculator do
   before(:all) do
-    @account = create(:account, created_at: 1.year.ago)
-    @user = create(:user, account: @account)
+    @company = create(:company, created_at: 1.year.ago)
+    @user = create(:user, company: @company)
     @credit = create(:bank_account, account_type: 'credit', user: @user, current_balance: 500)
     loan = create(:bank_account, account_type: 'loan', user: @user, current_balance: 5000)
     build_historical_balances(@credit)
   end
 
   it 'creates historical trend since the beginning of the account creation' do
-    account = create(:account, created_at: 1.year.ago)
-    user = create(:user, account: account)
+    company = create(:company, created_at: 1.year.ago)
+    user = create(:user, company: company)
     depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(1.year.ago.beginning_of_day)
-    account = create(:account, created_at: 2.year.ago)
-    user = create(:user, account: account)
+    expect(LiabilitiesCalculator.call(user.company)[:historical_trend_data].keys.first).to eq(1.year.ago.beginning_of_day)
+    company = create(:company, created_at: 2.year.ago)
+    user = create(:user, company: company)
     depository = create(:bank_account, account_type: 'loan', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(LiabilitiesCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(2.year.ago.beginning_of_day)
+    expect(LiabilitiesCalculator.call(user.company)[:historical_trend_data].keys.first).to eq(2.year.ago.beginning_of_day)
   end
 
   it 'calculates the liabilities historical trend' do
-    historical_trend = LiabilitiesCalculator.call(@user.account)[:historical_trend_data]
+    historical_trend = LiabilitiesCalculator.call(@user.company)[:historical_trend_data]
     expect(historical_trend.count).to eq(366)
     expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
     expect(historical_trend.values[0]).to eq(10500)
@@ -34,11 +34,11 @@ RSpec.describe LiabilitiesCalculator do
   end
 
   it 'calculates the current value' do
-    expect(LiabilitiesCalculator.call(@user.account)[:current_value]).to eq(5500)
+    expect(LiabilitiesCalculator.call(@user.company)[:current_value]).to eq(5500)
   end
 
   it 'calculates the liabilities historical trend' do
-    last_change_data = LiabilitiesCalculator.call(@user.account)[:last_change_data]
+    last_change_data = LiabilitiesCalculator.call(@user.company)[:last_change_data]
     expect(last_change_data).not_to be_nil
     expect(last_change_data).to have_key('all')
     expect(last_change_data).to have_key('weekly')

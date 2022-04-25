@@ -49,10 +49,10 @@ Rails.application.routes.draw do
     get '/bank_accounts/:id/refresh/', to: 'bank_accounts#refresh', as: :refresh_balance
 
     #accounts resources
-    resources :accounts, only: [:new, :create]
-    get 'accounts/settings'
-    get 'accounts/cashflow_trend'
-    get 'accounts/income_expense_trend'
+    resources :companies, only: [:new, :create]
+    get 'companies/settings'
+    get 'companies/cashflow_trend'
+    get 'companies/income_expense_trend'
 
     #users resources
     resources :users, only: [:update]

@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def current_account
-    current_user.account
+  def current_company
+    current_user.company
   end
 
   def parse_time_boundary(params)
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     when Stat::YEARLY
       start_date = start_date - 1.year
     when Stat::ALL
-      start_date = current_account.first_transaction_occured_at
+      start_date = current_company.first_transaction_occured_at
     else
       start_date = start_date - 7.days
     end

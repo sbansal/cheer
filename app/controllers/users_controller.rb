@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def invite_person
-    @user = current_account.users.build
+    @user = current_company.users.build
     @user.invite_person(params[:email], params[:full_name])
     if @user.save
       @user.send_invitation_message(current_user.full_name)

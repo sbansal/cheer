@@ -3,8 +3,8 @@ class TransactionsController < ApplicationController
   def index
     @period = params[:period] || Stat::THIS_MONTH
     @start_date, @end_date = parse_time_boundary(params)
-    fetcher = TransactionsFetcher.call(current_account, @period, params)
-    @accounts_metadata = current_account.bank_accounts.map { |acc| [acc.id, acc.display_name] }.to_h
+    fetcher = TransactionsFetcher.call(current_company, @period, params)
+    @accounts_metadata = current_company.bank_accounts.map { |acc| [acc.id, acc.display_name] }.to_h
     @transactions = fetcher.aggregated_transactions&.transactions.includes([:bank_account])
     @transactions_by_category = @transactions.group_by(&:category).map {
       |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
@@ -20,7 +20,7 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    @transaction = current_account.transactions.find(params[:id])
+    @transaction = current_company.transactions.find(params[:id])
     respond_to do |format|
       format.html
       format.js
@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    @transaction = current_account.transactions.find(params[:id])
+    @transaction = current_company.transactions.find(params[:id])
     @attribute = params[:attribute]
     respond_to do |format|
       format.html { render layout: false }
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    @transaction = current_account.transactions.find(params[:id])
+    @transaction = current_company.transactions.find(params[:id])
     if params[:bulk_update]
       related_ids = @transaction.related_transactions.map(&:id)
       RelatedTransactionsCreatorJob.perform_later(
@@ -58,7 +58,7 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
-    @transaction = current_account.transactions.find(params[:id])
+    @transaction = current_company.transactions.find(params[:id])
     if @transaction.destroy
       respond_to do |format|
         format.html { redirect_to transactions_path }
