@@ -104,6 +104,10 @@ export default class extends Controller {
     return `${month} ${year}`
   }
 
+  shouldShowFullDate = () => {
+    return this.periodValue == 'last_month' || this.periodValue == 'this_month' || this.periodValue == 'weekly' || this.periodValue == 'monthly'
+  }
+
   initAnimation(delayBetweenPoints=2) {
     const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps(['y'], true).y;
     const animation = {
@@ -275,7 +279,7 @@ export default class extends Controller {
             },
             ticks: {
               callback: function(value, index, values) {
-                if (self.periodValue === 'last_month' || self.periodValue === 'this_month') {
+                if (self.shouldShowFullDate()) {
                   return this.getLabelForValue(value);
                 } else {
                   const label = this.getLabelForValue(value);
