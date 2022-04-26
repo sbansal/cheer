@@ -379,7 +379,7 @@ export default class extends Controller {
   cashflowChartTargetConnected(element) {
     console.debug("Cashflow Chart connected.")
     let self = this
-    fetch(`/accounts/cashflow_trend?period=${this.periodValue}`, {
+    fetch(`/companies/cashflow_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -405,7 +405,7 @@ export default class extends Controller {
   incomeExpenseChartTargetConnected(element) {
     console.debug("Income expense Chart connected.")
     let self = this
-    fetch(`/accounts/income_expense_trend?period=${this.periodValue}`, {
+    fetch(`/companies/income_expense_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

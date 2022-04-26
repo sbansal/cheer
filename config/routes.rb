@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
     #accounts resources
     resources :companies, only: [:new, :create]
-    get 'companies/settings'
+    get 'settings', to: 'companies#settings'
     get 'companies/cashflow_trend'
     get 'companies/income_expense_trend'
 
