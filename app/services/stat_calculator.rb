@@ -1,6 +1,6 @@
 class StatCalculator < ApplicationService
-  def initialize(account)
-    @account = account
+  def initialize(company)
+    @company = company
   end
 
   def call
@@ -18,7 +18,7 @@ class StatCalculator < ApplicationService
       Stat::LAST_MONTH => calculate_value_in_range((Date.today - 1.month).beginning_of_month, (Date.today - 1.month).end_of_month),
       Stat::QUARTERLY => calculate_value_in_range((Date.today - 3.month), Date.today),
       Stat::YEARLY => calculate_value_in_range(Date.today - 1.year, Date.today),
-      Stat::ALL => calculate_value_in_range(@account.first_transaction_occured_at, Date.today),
+      Stat::ALL => calculate_value_in_range(@company.first_transaction_occured_at, Date.today),
     }
   end
 
@@ -32,7 +32,7 @@ class StatCalculator < ApplicationService
       Stat::MONTHLY => calculate_change_as_of(Date.today - 1.month),
       Stat::QUARTERLY => calculate_change_as_of(Date.today - 3.months),
       Stat::YEARLY => calculate_change_as_of(Date.today - 1.year),
-      Stat::ALL => calculate_change_as_of(@account.first_transaction_occured_at),
+      Stat::ALL => calculate_change_as_of(@company.first_transaction_occured_at),
     }
   end
 
@@ -60,7 +60,7 @@ class StatCalculator < ApplicationService
 
   def generate_daily_aggregated_transactions_trend(transactions)
     transactions_by_day = transactions.group_by { |tx| tx.occured_at }
-    start_day = @account.first_transaction_occured_at
+    start_day = @company.first_transaction_occured_at
     trend_data = {}
     while(start_day <= Date.today)
       total_income_for_day = transactions_by_day[start_day]&.inject(0) { |sum, tx| sum + tx.amount } || 0

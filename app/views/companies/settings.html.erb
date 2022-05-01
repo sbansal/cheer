@@ -38,7 +38,7 @@
     </div>
     <div class="col-sm-8">
       <ul class="basic">
-        <% current_user.account.users.each do |user| %>
+        <% current_user.company.users.each do |user| %>
           <%= render 'users/user_info', user: user %>
         <% end %>
       </ul>

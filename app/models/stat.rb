@@ -1,5 +1,5 @@
 class Stat < ApplicationRecord
-  belongs_to :account
+  belongs_to :company
 
   NET_WORTH_STAT = 'net_worth'
   ASSETS_STAT = 'assets'

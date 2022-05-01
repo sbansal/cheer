@@ -1,10 +1,10 @@
 class LoginItemsController < ApplicationController
   def index
-    @login_items = current_account.login_items.includes([:institution, :user])
+    @login_items = current_company.login_items.includes([:institution, :user])
   end
 
   def show
-    @login_item = current_account.login_items.find(params[:id])
+    @login_item = current_company.login_items.find(params[:id])
     client = PlaidClientCreator.call
     response = client.item_get(Plaid::ItemGetRequest.new({ access_token: @login_item.plaid_access_token }))
     @item_status = response.status
@@ -15,7 +15,7 @@ class LoginItemsController < ApplicationController
   end
 
   def refresh_transactions
-    @login_item = current_account.login_items.find(params[:id])
+    @login_item = current_company.login_items.find(params[:id])
     begin
       PlaidTransactionsCreator.call(
         @login_item.plaid_access_token,
@@ -33,7 +33,7 @@ class LoginItemsController < ApplicationController
   end
 
   def refresh_historical_transactions
-    @login_item = current_account.login_items.find(params[:id])
+    @login_item = current_company.login_items.find(params[:id])
     begin
       end_date = @login_item.transactions_history_period[0] || Date.today
       PlaidTransactionsCreator.call(
@@ -52,11 +52,11 @@ class LoginItemsController < ApplicationController
   end
 
   def destroy
-    @login_item = current_account.login_items.find(params[:id])
+    @login_item = current_company.login_items.find(params[:id])
     begin
       response = PlaidLinkDeleter.call(@login_item.plaid_access_token)
       @login_item.destroy
-      StatsCreatorJob.perform_later(current_account.id)
+      StatsCreatorJob.perform_later(current_company.id)
       respond_to do |format|
         format.html { redirect_to login_items_path }
         format.json { head :no_content }

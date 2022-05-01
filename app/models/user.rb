@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  belongs_to :account
+  belongs_to :company
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
 
@@ -27,8 +27,8 @@ class User < ApplicationRecord
     sign_in_count > 0
   end
 
-  def new_account?
-    sign_in_count < 2 || account.login_items.empty?
+  def new_company?
+    sign_in_count == 1 || company.bank_accounts.empty?
   end
 
   def invite_person(email, full_name)

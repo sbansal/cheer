@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="px-2 py-2 mb-5">
-        <div class="fw-bold lg-18">Cash - <%= number_to_currency(current_user.account.total_cash_assets)%></div>
+        <div class="fw-bold lg-18">Cash - <%= number_to_currency(current_user.company.total_cash_assets)%></div>
         <div class="mt-2 mb-4 grey-500 med">
           Your total liquid cash that you have available at hand.
         </div>
@@ -20,7 +20,7 @@
         <% end %>
       </div>
       <div class="px-2 py-2 mb-5">
-        <div class="fw-bold lg-18">Investments - <%= number_to_currency(current_user.account.total_non_cash_assets)%></div>
+        <div class="fw-bold lg-18">Investments - <%= number_to_currency(current_user.company.total_non_cash_assets)%></div>
         <div class="mt-2 mb-4 grey-500 med">
           All your investments, collectibles and the real estate properties you are currently tracking.
         </div>
@@ -37,7 +37,7 @@
         <% end %>
       </div>
       <div class="px-2 py-2 mb-5">
-        <div class="fw-bold lg-18">Liabilities - <%= number_to_currency(current_user.account.total_liabilities)%></div>
+        <div class="fw-bold lg-18">Liabilities - <%= number_to_currency(current_user.company.total_liabilities)%></div>
         <div class="mt-2 mb-4 grey-500 med">
           Your liabilities include all of the credit cards, loans, or any other liabilities you are currently tracking.
         </div>

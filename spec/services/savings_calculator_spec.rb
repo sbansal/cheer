@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe SavingsCalculator do
   before('all') do
-    @account = create(:account)
-    @user = create(:user, account: @account)
+    @company = create(:company)
+    @user = create(:user, company: @company)
     @category = create(:category, plaid_category_id: Category::CC_PAYMENT_PLAID_ID)
     build_historical_transactions
   end
 
   it 'calculates the income historical trend' do
-    historical_trend_data = SavingsCalculator.call(@account)[:historical_trend_data]
+    historical_trend_data = SavingsCalculator.call(@company)[:historical_trend_data]
     expect(historical_trend_data.keys.count).to eq(366)
     today = Date.today
     expect(historical_trend_data[today]).to eq(-100)
@@ -22,15 +22,15 @@ RSpec.describe SavingsCalculator do
   end
 
   it 'has a current value' do
-    expect(SavingsCalculator.call(@account)[:current_value]).to eq(590)
+    expect(SavingsCalculator.call(@company)[:current_value]).to eq(590)
   end
 
   it 'calculates the income last change trend' do
-    expect(SavingsCalculator.call(@account)[:last_change_data]).to be_empty
+    expect(SavingsCalculator.call(@company)[:last_change_data]).to be_empty
   end
 
   it 'has value over time data' do
-    value_over_time_data = SavingsCalculator.call(@account)[:value_over_time_data]
+    value_over_time_data = SavingsCalculator.call(@company)[:value_over_time_data]
     expect(value_over_time_data[Stat::THIS_MONTH]).to eq(-100)
     expect(value_over_time_data[Stat::LAST_MONTH]).to eq(100)
     expect(value_over_time_data[Stat::QUARTERLY]).to eq(500)

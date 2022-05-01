@@ -1,5 +1,5 @@
-class Account < ApplicationRecord
-  has_many :users, ->{ order(:created_at => 'ASC') }, dependent: :destroy, inverse_of: :account
+class Company < ApplicationRecord
+  has_many :users, ->{ order(:created_at => 'ASC') }, dependent: :destroy, inverse_of: :company
   accepts_nested_attributes_for :users
 
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, through: :users
