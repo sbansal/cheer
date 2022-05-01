@@ -1,5 +1,5 @@
 namespace :companies do
-  desc "Backfill account information for users that don't have an account"
+  desc "Backfill company information for users that don't have an account"
   task backfill: :environment do
     User.all.each do |user|
       if user.company.nil?
