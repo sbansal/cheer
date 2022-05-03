@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe TransactionsFetcher do
   before('all') do
-    @account = create(:account, created_at: 1.year.ago)
-    @user = create(:user, account: @account)
+    @company = create(:company, created_at: 1.year.ago)
+    @user = create(:user, company: @company)
     @category = create(:category, plaid_category_id: Category::CC_PAYMENT_PLAID_ID)
     @category_1 = create(:category, plaid_category_id: Category::INVESTMENTS_FINANCIAL_PLANNING_PLAID_ID)
     @bank_account = create(:bank_account, user: @user)
@@ -13,35 +13,35 @@ RSpec.describe TransactionsFetcher do
 
   describe 'with no params' do
     it 'queries transactions for all time' do
-      fetcher = TransactionsFetcher.call(@account, Stat::ALL)
+      fetcher = TransactionsFetcher.call(@company, Stat::ALL)
       expect(fetcher.aggregated_transactions.count).to eq(7)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1200)
-      expect(fetcher.start_date).to eq(@account.first_transaction_occured_at)
+      expect(fetcher.start_date).to eq(@company.first_transaction_occured_at)
     end
 
     it 'queries transactions for the past week' do
-      fetcher = TransactionsFetcher.call(@account, Stat::WEEKLY)
+      fetcher = TransactionsFetcher.call(@company, Stat::WEEKLY)
       expect(fetcher.aggregated_transactions.count).to eq(3)
       expect(fetcher.aggregated_transactions.total_spend).to eq(100)
       expect(fetcher.start_date).to eq(Date.today - 1.week)
     end
 
     it 'queries transactions for the past month' do
-      fetcher = TransactionsFetcher.call(@account, Stat::MONTHLY)
+      fetcher = TransactionsFetcher.call(@company, Stat::MONTHLY)
       expect(fetcher.aggregated_transactions.count).to eq(4)
       expect(fetcher.aggregated_transactions.total_spend).to eq(200)
       expect(fetcher.start_date).to eq(Date.today - 1.month)
     end
 
     it 'queries transactions for the past 3 months' do
-      fetcher = TransactionsFetcher.call(@account, Stat::QUARTERLY)
+      fetcher = TransactionsFetcher.call(@company, Stat::QUARTERLY)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(300)
       expect(fetcher.start_date).to eq(Date.today - 3.months)
     end
 
     it 'queries transactions for the past year' do
-      fetcher = TransactionsFetcher.call(@account, Stat::YEARLY)
+      fetcher = TransactionsFetcher.call(@company, Stat::YEARLY)
       expect(fetcher.aggregated_transactions.count).to eq(7)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1200)
       expect(fetcher.start_date).to eq(Date.today - 1.year)
@@ -55,31 +55,31 @@ RSpec.describe TransactionsFetcher do
       }
     }
     it 'queries transactions for all time' do
-      fetcher = TransactionsFetcher.call(@account, Stat::ALL, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::ALL, params)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1000)
     end
 
     it 'queries transactions for the past week' do
-      fetcher = TransactionsFetcher.call(@account, Stat::WEEKLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::WEEKLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(1)
       expect(fetcher.aggregated_transactions.total_spend).to eq(-100)
     end
 
     it 'queries transactions for the past month' do
-      fetcher = TransactionsFetcher.call(@account, Stat::MONTHLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::MONTHLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(2)
       expect(fetcher.aggregated_transactions.total_spend).to eq(0)
     end
 
     it 'queries transactions for the past 3 months' do
-      fetcher = TransactionsFetcher.call(@account, Stat::QUARTERLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::QUARTERLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(3)
       expect(fetcher.aggregated_transactions.total_spend).to eq(100)
     end
 
     it 'queries transactions for the past year' do
-      fetcher = TransactionsFetcher.call(@account, Stat::YEARLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::YEARLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1000)
     end
@@ -97,46 +97,46 @@ RSpec.describe TransactionsFetcher do
       }
     }
     it 'queries transactions for all time' do
-      fetcher = TransactionsFetcher.call(@account, Stat::ALL, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::ALL, params)
       expect(fetcher.aggregated_transactions.count).to eq(6)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1300)
-      fetcher = TransactionsFetcher.call(@account, Stat::ALL, alternate_params)
+      fetcher = TransactionsFetcher.call(@company, Stat::ALL, alternate_params)
       expect(fetcher.aggregated_transactions.count).to eq(7)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1200)
     end
 
     it 'queries transactions for the past week' do
-      fetcher = TransactionsFetcher.call(@account, Stat::WEEKLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::WEEKLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(2)
       expect(fetcher.aggregated_transactions.total_spend).to eq(200)
-      fetcher = TransactionsFetcher.call(@account, Stat::WEEKLY, alternate_params)
+      fetcher = TransactionsFetcher.call(@company, Stat::WEEKLY, alternate_params)
       expect(fetcher.aggregated_transactions.count).to eq(3)
       expect(fetcher.aggregated_transactions.total_spend).to eq(100)
     end
 
     it 'queries transactions for the past month' do
-      fetcher = TransactionsFetcher.call(@account, Stat::MONTHLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::MONTHLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(3)
       expect(fetcher.aggregated_transactions.total_spend).to eq(300)
-      fetcher = TransactionsFetcher.call(@account, Stat::MONTHLY, alternate_params)
+      fetcher = TransactionsFetcher.call(@company, Stat::MONTHLY, alternate_params)
       expect(fetcher.aggregated_transactions.count).to eq(4)
       expect(fetcher.aggregated_transactions.total_spend).to eq(200)
     end
 
     it 'queries transactions for the past 3 months' do
-      fetcher = TransactionsFetcher.call(@account, Stat::QUARTERLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::QUARTERLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(4)
       expect(fetcher.aggregated_transactions.total_spend).to eq(400)
-      fetcher = TransactionsFetcher.call(@account, Stat::QUARTERLY, alternate_params)
+      fetcher = TransactionsFetcher.call(@company, Stat::QUARTERLY, alternate_params)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(300)
     end
 
     it 'queries transactions for the past year' do
-      fetcher = TransactionsFetcher.call(@account, Stat::YEARLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::YEARLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(6)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1300)
-      fetcher = TransactionsFetcher.call(@account, Stat::YEARLY, alternate_params)
+      fetcher = TransactionsFetcher.call(@company, Stat::YEARLY, alternate_params)
       expect(fetcher.aggregated_transactions.count).to eq(7)
       expect(fetcher.aggregated_transactions.total_spend).to eq(1200)
     end
@@ -149,31 +149,31 @@ RSpec.describe TransactionsFetcher do
       }
     }
     it 'queries transactions for all time' do
-      fetcher = TransactionsFetcher.call(@account, Stat::ALL, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::ALL, params)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(700)
     end
 
     it 'queries transactions for the past week' do
-      fetcher = TransactionsFetcher.call(@account, Stat::WEEKLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::WEEKLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(2)
       expect(fetcher.aggregated_transactions.total_spend).to eq(0)
     end
 
     it 'queries transactions for the past month' do
-      fetcher = TransactionsFetcher.call(@account, Stat::MONTHLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::MONTHLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(3)
       expect(fetcher.aggregated_transactions.total_spend).to eq(100)
     end
 
     it 'queries transactions for the past 3 months' do
-      fetcher = TransactionsFetcher.call(@account, Stat::QUARTERLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::QUARTERLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(4)
       expect(fetcher.aggregated_transactions.total_spend).to eq(200)
     end
 
     it 'queries transactions for the past year' do
-      fetcher = TransactionsFetcher.call(@account, Stat::YEARLY, params)
+      fetcher = TransactionsFetcher.call(@company, Stat::YEARLY, params)
       expect(fetcher.aggregated_transactions.count).to eq(5)
       expect(fetcher.aggregated_transactions.total_spend).to eq(700)
     end

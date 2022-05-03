@@ -1,5 +1,5 @@
 <h2 style="font-size: 1.5rem;padding: 10px 0;border-bottom: 1px solid #EEE;font-weight: 500;">Weekly summary of your finances.</h2>
-<%= render partial: 'mailer_trend_summary', locals: { title: 'Your Net Worth', value: @account.net_worth,
+<%= render partial: 'mailer_trend_summary', locals: { title: 'Your Net Worth', value: @company.net_worth,
   url: cashflow_url, trend: @net_worth_change, size: 'xl' } %>
 <table style="width: 100%;table-layout: fixed;">
   <tbody>
@@ -19,13 +19,13 @@
     </tr>
   </tbody>
 </table>
-<%= render partial: 'mailer_trend_summary', locals: { title: 'Assets', value: @account.total_assets,
+<%= render partial: 'mailer_trend_summary', locals: { title: 'Assets', value: @company.total_assets,
   url: cashflow_url, trend: @assets_change, size: 'lg' } %>
-<%= render partial: 'mailer_trend_summary', locals: { title: 'Cash', value: @account.total_cash_assets,
+<%= render partial: 'mailer_trend_summary', locals: { title: 'Cash', value: @company.total_cash_assets,
   url: cashflow_url, trend: @cash_change, size: 'med' } %>
-<%= render partial: 'mailer_trend_summary', locals: { title: 'Investments', value: @account.total_non_cash_assets,
+<%= render partial: 'mailer_trend_summary', locals: { title: 'Investments', value: @company.total_non_cash_assets,
   url: cashflow_url, trend: @investments_change, size: 'med' } %>
-<%= render partial: 'mailer_trend_summary', locals: { title: 'Liabilities', value: @account.total_liabilities,
+<%= render partial: 'mailer_trend_summary', locals: { title: 'Liabilities', value: @company.total_liabilities,
   url: cashflow_url, trend: @liabilities_change, size: 'lg' } %>
 <table style="width: 100%;table-layout: fixed; padding-top: 40px; border-top: 1px solid #EEE;">
   <tbody>

@@ -1,12 +1,12 @@
 class BankAccountsController < ApplicationController
   def index
-    @cash_assets = current_account.bank_accounts.includes([:institution]).assets.liquid_accounts
-    @non_cash_asset_accounts = current_account.bank_accounts.includes([:institution]).assets.illiquid_accounts
-    @liability_accounts = current_account.bank_accounts.includes([:institution]).liabilities
+    @cash_assets = current_company.bank_accounts.includes([:institution]).assets.liquid_accounts
+    @non_cash_asset_accounts = current_company.bank_accounts.includes([:institution]).assets.illiquid_accounts
+    @liability_accounts = current_company.bank_accounts.includes([:institution]).liabilities
   end
 
   def refresh
-    @bank_account = current_account.bank_accounts.find(params[:id])
+    @bank_account = current_company.bank_accounts.find(params[:id])
     begin
       response = PlaidBalanceProcessor.call(@bank_account.login_item.plaid_access_token)
       respond_to do |format|
@@ -23,7 +23,7 @@ class BankAccountsController < ApplicationController
   end
 
   def destroy
-    @bank_account = current_account.bank_accounts.find(params[:id])
+    @bank_account = current_company.bank_accounts.find(params[:id])
     if @bank_account.destroy
       respond_to do |format|
         format.html { redirect_to bank_accounts_path }
@@ -69,8 +69,8 @@ class BankAccountsController < ApplicationController
   def show
     @period = params[:period] || Stat::THIS_MONTH
     @start_date, @end_date = parse_time_boundary(params)
-    @bank_account = current_account.bank_accounts.find(params[:id])
-    fetcher = TransactionsFetcher.call(current_account, @period, params.merge(bank_account_id: [@bank_account.id]))
+    @bank_account = current_company.bank_accounts.find(params[:id])
+    fetcher = TransactionsFetcher.call(current_company, @period, params.merge(bank_account_id: [@bank_account.id]))
     @transactions = fetcher.aggregated_transactions&.transactions
     @transactions_by_category = @transactions.group_by(&:category).map {
       |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)

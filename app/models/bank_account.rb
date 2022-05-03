@@ -22,8 +22,8 @@ class BankAccount < ApplicationRecord
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
-      user_account = User.find(user_id)&.account
-      existing_bank_accounts = user_account.bank_accounts.where(
+      company = User.find(user_id)&.company
+      existing_bank_accounts = company.bank_accounts.where(
         name: account_json.name,
         mask: account_json.mask,
         institution_id: institution_id,
@@ -195,7 +195,7 @@ class BankAccount < ApplicationRecord
     balance_by_created = balances.reverse.map {|balance| [balance.created_at.to_datetime.beginning_of_day, balance.current]}.to_h
     unless balance_by_created.empty?
       last_value = 0
-      user.account.created_at.to_datetime.beginning_of_day.upto(end_datetime).each do |ref_datetime|
+      user.company.created_at.to_datetime.beginning_of_day.upto(end_datetime).each do |ref_datetime|
         if balance_by_created[ref_datetime]
           last_value = balance_by_created[ref_datetime]
         else

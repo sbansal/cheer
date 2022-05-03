@@ -4,12 +4,12 @@ FactoryBot.define do
     subtype_array { '[{"name": "credit card", "description": "Bank issued credit card"}]' }
   end
 
-  factory :account do
-    name { "SB account" }
+  factory :company do
+    name { "SB company" }
 
-    factory :account_with_users do
-      after(:create) do |account|
-        create_list(:user, 1, account: account)
+    factory :company_with_users do
+      after(:create) do |company|
+        create_list(:user, 1, company: company)
       end
     end
   end
@@ -29,7 +29,7 @@ FactoryBot.define do
       "#{SecureRandom.hex(8)}@example.com"
     end
     password { "blahblah" }
-    account
+    company
 
     factory :user_with_transactions do
       transient do
@@ -137,7 +137,7 @@ FactoryBot.define do
   factory :stat do
     name { Stat::NET_WORTH_STAT }
     description { Stat::SUPPORTED_STATS[Stat::NET_WORTH_STAT] }
-    account
+    company
     current_value { 100000 }
     last_change_data {}
     historical_trend_data do 

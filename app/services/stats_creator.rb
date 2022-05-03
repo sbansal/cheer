@@ -1,8 +1,8 @@
 class StatsCreator < ApplicationService
-  attr_reader :account_id, :stat_name
-  def initialize(account_id, stat_name)
+  attr_reader :company_id, :stat_name
+  def initialize(company_id, stat_name)
     @stat_name = stat_name
-    @account_id = account_id
+    @company_id = company_id
   end
 
   def call
@@ -22,9 +22,9 @@ class StatsCreator < ApplicationService
   end
 
   def create_stat(name, description)
-    Rails.logger.info("Updating stat: #{name} for account_id:#{account_id}")
+    Rails.logger.info("Updating stat: #{name} for company_id:#{company_id}")
     stat = Stat.find_or_create_by(
-      account_id: @account_id,
+      company_id: @company_id,
       name: name,
       description: description,
     )
@@ -35,27 +35,27 @@ class StatsCreator < ApplicationService
   end
 
   def build_calculations(name)
-    account = Account.find(@account_id)
+    company = Company.find(@company_id)
     if name.eql?(Stat::NET_WORTH_STAT)
-      NetWorthCalculator.call(account)
+      NetWorthCalculator.call(company)
     elsif name.eql?(Stat::ASSETS_STAT)
-      AssetsCalculator.call(account)
+      AssetsCalculator.call(company)
     elsif name.eql?(Stat::LIABILITIES_STAT)
-      LiabilitiesCalculator.call(account)
+      LiabilitiesCalculator.call(company)
     elsif name.eql?(Stat::CASH_STAT)
-      CashCalculator.call(account)
+      CashCalculator.call(company)
     elsif name.eql?(Stat::INVESTMENTS_STAT)
-      InvestmentsCalculator.call(account)
+      InvestmentsCalculator.call(company)
     elsif name.eql?(Stat::INCOME_STAT)
-      IncomeCalculator.call(account)
+      IncomeCalculator.call(company)
     elsif name.eql?(Stat::EXPENSES_STAT)
-      ExpensesCalculator.call(account)
+      ExpensesCalculator.call(company)
     elsif name.eql?(Stat::SAVINGS_STAT)
-      SavingsCalculator.call(account)
+      SavingsCalculator.call(company)
     elsif name.eql?(Stat::ESSENTIAL_EXPENSES_STAT)
-      EssentialExpensesCalculator.call(account)
+      EssentialExpensesCalculator.call(company)
     elsif name.eql?(Stat::NON_ESSENTIAL_EXPENSES_STAT)
-      NonEssentialExpensesCalculator.call(account)
+      NonEssentialExpensesCalculator.call(company)
     end
   end
 

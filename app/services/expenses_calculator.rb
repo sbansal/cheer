@@ -1,7 +1,7 @@
 class ExpensesCalculator < StatCalculator
-  def initialize(account)
-    super(account)
-    @transactions = @account.transactions.debits
+  def initialize(company)
+    super(company)
+    @transactions = @company.transactions.debits
   end
 
   def calculate_current_value

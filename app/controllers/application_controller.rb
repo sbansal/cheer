@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if current_user.new_account?
+    if current_user.new_company?
       root_path
     else
       stored_location_for(resource) || root_path
@@ -17,13 +17,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:full_name, :email, :password, :avatar)}
-    devise_parameter_sanitizer.permit(:account_update) {
+    devise_parameter_sanitizer.permit(:company_update) {
       |u| u.permit(:full_name, :email, :password, :current_password, :password_confirmation, :avatar, :time_zone)
     }
   end
 
-  def current_account
-    current_user.account
+  def current_company
+    current_user.company
   end
 
   def parse_time_boundary(params)
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     when Stat::YEARLY
       start_date = start_date - 1.year
     when Stat::ALL
-      start_date = current_account.first_transaction_occured_at
+      start_date = current_company.first_transaction_occured_at
     else
       start_date = start_date - 7.days
     end

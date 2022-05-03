@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Stat, type: :model do
-  it 'has a unique name for an account' do
-    account = create(:account)
+  it 'has a unique name for a company' do
+    company = create(:company)
     name = 'cashflow'
-    create(:stat, name: name, account: account)
+    create(:stat, name: name, company: company)
     expect {
-      create(:stat, name: name, account: account)
+      create(:stat, name: name, company: company)
     }.to raise_exception(ActiveRecord::RecordNotUnique)
   end
 

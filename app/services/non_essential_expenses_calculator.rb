@@ -1,6 +1,6 @@
 class NonEssentialExpensesCalculator < ExpensesCalculator
-  def initialize(account)
-    super(account)
-    @transactions = @account.transactions.where(essential: false).debits
+  def initialize(company)
+    super(company)
+    @transactions = @company.transactions.where(essential: false).debits
   end
 end

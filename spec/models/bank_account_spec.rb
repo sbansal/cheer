@@ -4,8 +4,8 @@ RSpec.describe BankAccount, type: :model do
 
   before(:all) do
     @time_in_past = 5.days.ago
-    @acc = create(:account, created_at: @time_in_past)
-    @user = create(:user_with_transactions, account: @acc)
+    @company = create(:company, created_at: @time_in_past)
+    @user = create(:user_with_transactions, company: @company)
     @login_item = create(:login_item, user: @user)
     @category = create(:category)
   end

@@ -1,8 +1,8 @@
 class TransactionsFetcher < ApplicationService
   attr_reader :aggregated_transactions, :start_date, :end_date
-  def initialize(account, period, params={})
-    @account = account
-    @initial_scope = @account.transactions.includes(:category).order('occured_at desc')
+  def initialize(company, period, params={})
+    @company = company
+    @initial_scope = @company.transactions.includes(:category).order('occured_at desc')
     calculate_occured_at_boundary(period)
     @params = params
   end
@@ -55,7 +55,7 @@ class TransactionsFetcher < ApplicationService
     when Stat::YEARLY
       @start_date = start_date - 1.year
     when Stat::ALL
-      @start_date = @account.first_transaction_occured_at
+      @start_date = @company.first_transaction_occured_at
     end
   end
 end

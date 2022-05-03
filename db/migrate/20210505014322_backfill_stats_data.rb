@@ -1,7 +1,7 @@
 class BackfillStatsData < ActiveRecord::Migration[6.1]
   def up
-    Account.all.each do |account|
-      StatsCreator.call(account.id, 'ALL')
+    Company.all.each do |company|
+      StatsCreator.call(company.id, 'ALL')
     end
   end
 

@@ -104,6 +104,10 @@ export default class extends Controller {
     return `${month} ${year}`
   }
 
+  shouldShowFullDate = () => {
+    return this.periodValue == 'last_month' || this.periodValue == 'this_month' || this.periodValue == 'weekly' || this.periodValue == 'monthly'
+  }
+
   initAnimation(delayBetweenPoints=2) {
     const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1]?.getProps(['y'], true).y;
     const animation = {
@@ -275,7 +279,7 @@ export default class extends Controller {
             },
             ticks: {
               callback: function(value, index, values) {
-                if (self.periodValue === 'last_month' || self.periodValue === 'this_month') {
+                if (self.shouldShowFullDate()) {
                   return this.getLabelForValue(value);
                 } else {
                   const label = this.getLabelForValue(value);
@@ -379,7 +383,7 @@ export default class extends Controller {
   cashflowChartTargetConnected(element) {
     console.debug("Cashflow Chart connected.")
     let self = this
-    fetch(`/accounts/cashflow_trend?period=${this.periodValue}`, {
+    fetch(`/companies/cashflow_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -405,7 +409,7 @@ export default class extends Controller {
   incomeExpenseChartTargetConnected(element) {
     console.debug("Income expense Chart connected.")
     let self = this
-    fetch(`/accounts/income_expense_trend?period=${this.periodValue}`, {
+    fetch(`/companies/income_expense_trend?period=${this.periodValue}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

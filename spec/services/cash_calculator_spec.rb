@@ -2,28 +2,28 @@ require 'rails_helper'
 
 RSpec.describe CashCalculator do
   before('all') do
-    @account = create(:account, created_at: 1.year.ago)
-    @user = create(:user, account: @account)
+    @company = create(:company, created_at: 1.year.ago)
+    @user = create(:user, company: @company)
     @depository = create(:bank_account, account_type: 'depository', user: @user, current_balance: 5500)
     investment = create(:bank_account, account_type: 'investment', user: @user, current_balance: 5000)
     build_historical_balances(@depository)
   end
 
   it 'creates historical trend since the beginning of the account creation' do
-    account = create(:account, created_at: 1.year.ago)
-    user = create(:user, account: account)
+    company = create(:company, created_at: 1.year.ago)
+    user = create(:user, company: company)
     depository = create(:bank_account, account_type: 'depository', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(CashCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(1.year.ago.beginning_of_day)
-    account = create(:account, created_at: 2.year.ago)
-    user = create(:user, account: account)
+    expect(CashCalculator.call(user.company)[:historical_trend_data].keys.first).to eq(1.year.ago.beginning_of_day)
+    company = create(:company, created_at: 2.year.ago)
+    user = create(:user, company: company)
     depository = create(:bank_account, account_type: 'depository', user: user, current_balance: 500)
     create(:balance, current: 10500, bank_account: depository, user: user)
-    expect(CashCalculator.call(user.account)[:historical_trend_data].keys.first).to eq(2.year.ago.beginning_of_day)
+    expect(CashCalculator.call(user.company)[:historical_trend_data].keys.first).to eq(2.year.ago.beginning_of_day)
   end
 
   it 'calculates the cash historical trend' do
-    historical_trend = CashCalculator.call(@user.account)[:historical_trend_data]
+    historical_trend = CashCalculator.call(@user.company)[:historical_trend_data]
     expect(historical_trend.keys[0]).to eq(1.year.ago.beginning_of_day)
     expect(historical_trend.values[0]).to eq(10500)
     expect(historical_trend.values[1]).to eq(10500)
@@ -32,11 +32,11 @@ RSpec.describe CashCalculator do
   end
 
   it 'calculates the current value' do
-    expect(CashCalculator.call(@user.account)[:current_value]).to eq(5500)
+    expect(CashCalculator.call(@user.company)[:current_value]).to eq(5500)
   end
 
   it 'calculates the cash last change trend' do
-    last_change_data = CashCalculator.call(@user.account)[:last_change_data]
+    last_change_data = CashCalculator.call(@user.company)[:last_change_data]
     expect(last_change_data).not_to be_nil
     expect(last_change_data).to have_key('all')
     expect(last_change_data).to have_key('weekly')

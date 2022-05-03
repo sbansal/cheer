@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_26_033435) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_04_25_004808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
@@ -22,14 +21,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "description"
     t.boolean "asset_category"
     t.jsonb "subtype_array"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "accounts", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -37,8 +30,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.text "body"
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
@@ -47,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -59,7 +52,7 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -77,8 +70,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "currency_code"
     t.integer "bank_account_id"
     t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "bank_accounts", force: :cascade do |t|
@@ -93,14 +86,17 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "balance_currency_code"
     t.integer "login_item_id"
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "institution_id"
     t.string "classification"
     t.float "current_balance"
-    t.datetime "current_balance_updated_at"
+    t.datetime "current_balance_updated_at", precision: nil
     t.text "address_line_1"
     t.text "address_line_2"
+    t.string "provider_item_id"
+    t.float "native_balance"
+    t.string "native_currency"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -108,13 +104,19 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.jsonb "hierarchy"
     t.string "plaid_category_id"
     t.integer "rank"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "descriptive_name"
     t.boolean "essential"
     t.string "name"
     t.text "hierarchy_string"
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -123,8 +125,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.jsonb "metadata"
     t.integer "user_id"
     t.string "source"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -132,55 +134,57 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "name"
     t.string "url"
     t.string "logo"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "login_items", force: :cascade do |t|
     t.string "plaid_item_id"
     t.string "plaid_access_token"
     t.integer "institution_id"
-    t.datetime "consent_expires_at"
+    t.datetime "consent_expires_at", precision: nil
     t.jsonb "error_json"
-    t.datetime "last_successful_transaction_update_at"
-    t.datetime "last_failed_transaction_update_at"
-    t.datetime "last_webhook_sent_at"
+    t.datetime "last_successful_transaction_update_at", precision: nil
+    t.datetime "last_failed_transaction_update_at", precision: nil
+    t.datetime "last_webhook_sent_at", precision: nil
     t.string "last_webhook_code_sent"
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "expired", default: false
-    t.datetime "expired_at"
+    t.datetime "expired_at", precision: nil
     t.string "link_token"
-    t.datetime "link_token_expires_at"
+    t.datetime "link_token_expires_at", precision: nil
+    t.string "provider_access_token"
+    t.string "provider_refresh_token"
   end
 
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "stats", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "account_id"
+    t.integer "company_id"
     t.float "current_value"
     t.jsonb "last_change_data"
     t.jsonb "historical_trend_data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "value_over_time_data", default: {}
-    t.index ["account_id", "name"], name: "index_stats_on_account_id_and_name", unique: true
+    t.index ["company_id", "name"], name: "index_stats_on_company_id_and_name", unique: true
   end
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer "last_transaction_id"
     t.integer "user_id"
     t.string "frequency"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "bank_account_id"
     t.string "description"
     t.float "amount"
@@ -204,8 +208,8 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "transaction_code"
     t.integer "user_id"
     t.integer "bank_account_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "category_id"
     t.text "custom_description"
     t.string "merchant_name"
@@ -219,21 +223,21 @@ ActiveRecord::Schema.define(version: 2021_12_26_033435) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "full_name"
     t.boolean "admin"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
-    t.integer "account_id"
+    t.integer "company_id"
     t.boolean "account_owner"
     t.integer "sign_in_count", default: 1, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.text "otp_secret_ciphertext"
