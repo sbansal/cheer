@@ -41,6 +41,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec', require: false
   gem 'bullet'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc3', require: 'stripe_mock'
 end
 
 group :development do

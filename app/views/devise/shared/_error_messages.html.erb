@@ -2,7 +2,11 @@
   <div id="error_explanation" class="alert">
     <ul class="basic">
       <% resource.errors.each do |error| %>
-        <li><%= error.attribute %> - <%= error.message %></li>
+        <% if error.full_message == 'Confirmation token is invalid'%>
+          <li><%= t('devise.failure.confirmation_token_invalid') %></li>
+        <% else %>
+          <li><%= error.full_message %></li>
+        <% end %>
       <% end %>
     </ul>
   </div>

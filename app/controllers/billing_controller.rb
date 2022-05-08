@@ -2,9 +2,9 @@ class BillingController < ApplicationController
   def create
     Stripe.api_key = Rails.application.credentials[:stripe][:api_key]
     subscription_identifier = find_subscription_plan(params[:plan])
-    session = session = Stripe::Checkout::Session.create(
+    session = Stripe::Checkout::Session.create(
       {
-        customer_email: current_user.email,
+        customer: current_user.stripe_customer_id,
         success_url: Rails.application.credentials[:stripe][:success_url],
         cancel_url: Rails.application.credentials[:stripe][:cancel_url],
         mode: 'subscription',
@@ -19,21 +19,37 @@ class BillingController < ApplicationController
     redirect_to(session.url, status: 303, allow_other_host: true)
   end
 
+  def new
+    respond_to do |format|
+      format.html { render layout: 'billing' }
+    end
+  end
+
   def success
-    redirect_to accounts_settings_path
+    redirect_to root_path
+  end
+
+  def cancel
+    redirect_to new_billing_path
+  end
+
+  def manage
+    Stripe.api_key = Rails.application.credentials[:stripe][:api_key]
+    subscription_identifier = find_subscription_plan(params[:plan])
+    session = Stripe::BillingPortal::Session.create({
+      customer: current_user.stripe_customer_id,
+      return_url: settings_url,
+    })
+    redirect_to(session.url, status: 303, allow_other_host: true)
   end
 
   private
 
   def find_subscription_plan(type)
-    plan = nil
     if type == 'monthly'
-      plan = Rails.application.credentials[:stripe][:monthly_plan]
-    elsif type == 'annual'
-      plan = Rails.application.credentials[:stripe][:annual_plan]
+      Rails.application.credentials[:stripe][:monthly_plan]
     else
-      Rails.logger.error("Unknown subscription plan")
+      Rails.application.credentials[:stripe][:annual_plan]
     end
-    plan
   end
 end

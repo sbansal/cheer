@@ -58,6 +58,7 @@ $default-grey: #829AB1;
 
 .primary {color: var(--purple-600);}
 .primary-bg {background-color: var(--purple-600);}
+.secondary-bg { background-color: var(--secondary-bg);}
 .primary-dark {color: $primary-dark;}
 .grey-500 {color: var(--grey-500);}
 .grey-900 {color: var(--grey-900);}
@@ -67,3 +68,4 @@ $default-grey: #829AB1;
 .primary-900 {color: $primary-900;}
 .primary-900-bg {background-color: var(--tertiary-bg);}
 .default-grey { color: $default-grey;}
+.primary-700 { color: $purple-700;}

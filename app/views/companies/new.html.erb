@@ -6,30 +6,38 @@
 
     <%= form_for(@company, method: :post, html: {'data-turbo': 'false'}) do |company_form| %>
     <%= render "shared/error_messages", object: @company %>
-      <%= company_form.hidden_field :name %>
+      <% if @company_type == 'company' %>
+      <div class="mb-3">
+        <%= company_form.label :name, "Your #{@company_type.humanize} Name",  class: 'control-label form-label med' %>
+        <div>
+          <%= company_form.text_field :name, placeholder: 'James Family', class: 'form-control' %>
+        </div>
+      </div>
+      <% end %>
+
       <%= company_form.fields_for :users do |f| %>
         <div class="mb-3">
-          <%= f.label :full_name, class: 'control-label form-label' %>
+          <%= f.label :full_name, 'Your Full Name',  class: 'control-label form-label med' %>
           <div>
-            <%= f.text_field :full_name, class: 'form-control' %>
+            <%= f.text_field :full_name, class: 'form-control', placeholder: 'William James' %>
           </div>
         </div>
 
         <div class="mb-3">
-          <%= f.label :email, class: 'control-label form-label' %>
+          <%= f.label :email, class: 'control-label form-label med' %>
           <div>
             <%= f.text_field :email, class: 'form-control' %>
           </div>
         </div>
 
         <div class="mb-3">
-          <%= f.label :password, class: 'control-label form-label' %>
+          <%= f.label :password, class: 'control-label form-label med' %>
           <div>
             <%= f.password_field :password, class: 'form-control' %>
           </div>
         </div>
 
-        <div class="btn-container d-grid gap-2">
+        <div class="btn-container d-grid gap-2 mt-5">
           <%= f.submit "Create your account", :class => 'btn btn-primary' %>
           <p class="small grey-500 text-center mt-3">
             By clicking, you agree to our <%= link_to 'terms of service', '', class: 'grey-500 text-decoration-underline' %>.

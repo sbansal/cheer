@@ -3,7 +3,7 @@ require 'resque/server'
 Rails.application.routes.draw do
   constraints subdomain: 'app' do
     devise_scope :user do
-        get "/sign_up" => "accounts#new"
+        get "/register" => "companies#new"
       end
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
@@ -75,8 +75,9 @@ Rails.application.routes.draw do
     resources :earnings, only: [:index]
     
     #billing
-    resources :billing, only: [:create]
+    resources :billing, only: [:create, :new, :index]
     get '/billing/success', to: 'billing#success'
     get '/billing/cancel', to: 'billing#cancel'
+    post '/billing/manage', to: 'billing#manage'
   end
 end

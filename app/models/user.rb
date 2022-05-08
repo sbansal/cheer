@@ -5,7 +5,6 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable, :trackable, :timeoutable
 
   attr_accessor :otp_attempt
-  has_one_attached :avatar
   has_many :login_items, dependent: :destroy
   has_many :bank_accounts, ->{ order(:created_at => 'DESC') }, dependent: :destroy
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
@@ -14,6 +13,9 @@ class User < ApplicationRecord
   belongs_to :company
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
+
+  #callback
+  before_destroy :delete_stripe_customer_link
 
   def friendly_name
     full_name&.split(' ')&.first || 'there'
@@ -114,6 +116,14 @@ class User < ApplicationRecord
 
   def time_scale
     Stat::WEEKLY
+  end
+
+  private
+
+  def delete_stripe_customer_link
+    if self.stripe_customer_id
+      StripeCustomerDeleter.call(self.stripe_customer_id)
+    end
   end
 end
 

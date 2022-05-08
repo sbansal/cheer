@@ -3,7 +3,7 @@
 en:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
+      confirmed: "Your email address has been confirmed. Please sign in to your Cheer account below."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
@@ -16,6 +16,7 @@ en:
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "Please sign in before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
+      confirmation_token_invalid: 'The confirmation link is no longer valid. You can request a new confirmation email below.'
     mailer:
       confirmation_instructions:
         subject: "Welcome to Cheer! Please confirm your email"

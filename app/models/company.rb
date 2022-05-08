@@ -104,6 +104,10 @@ class Company < ApplicationRecord
     transactions&.last&.occured_at || self.created_at.to_date
   end
 
+  def subscribed?
+    stripe_subscription_id.present?
+  end
+
   private
 
   def aggregated_daily_balances_for_accounts(accounts)

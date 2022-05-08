@@ -54,7 +54,7 @@
       <div class="grey-500 med pe-5">All the details about your subscription plans.</div>
     </div>
     <div class="col-sm-8">
-      <%= render 'billing/plan' %>
+      <%= render 'billing/plan', subscription: @subscription %>
     </div>
   </div>
   <div class="row border-bottom pb-4 mb-4">
@@ -68,7 +68,7 @@
       <ul>
         <li>Your account will be closed immediately.</li>
         <li>All your data including your linked accounts, transactions will be deleted right away.</li>
-        <li>We will not be able to restore your account and you would need to create a new account after that.</li>
+        <li>We will not be able to restore your account and you would need to set up a new account after that.</li>
       </ul>
       <p><%= link_to "Yes, cancel my account.", registration_path(:user),
         :data => { :confirm => "You are about to delete your account permanently. All your data will be deleted and your account will be closed." }, :method => :delete, class: 'btn btn-sm btn-outline-danger med' %>
