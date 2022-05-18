@@ -54,6 +54,7 @@ input[type='checkbox'], {
   font-weight: 700;
 }
 .danger { color: $danger;}
+.warning { color: $yellow;}
 .default-color { color: var(--default-color);}
 .default-bg {
   background: var(--default-bg);

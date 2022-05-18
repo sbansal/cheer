@@ -1,0 +1,20 @@
+<table style="width: 100%;table-layout: fixed; padding-top: 10px; border-top: 1px solid #EEE;">
+  <tbody>
+    <tr>
+      <td style="padding: 10px 0;">
+        <p style="line-height: 20px">Hey <%= @user.friendly_name %>,</p>
+        <div style="padding: 10px 0;">
+          <span>Your Cheer premium subscription has been canceled. Thanks for giving us a shot, we really appreciate it.</span>
+        </div>
+        <p>
+          You will continue to have access to your subscription until <%= Time.at(@subscription.cancel_at).to_date.strftime('%b %d, %Y')%>.
+          After that date, you can still view your existing data. However, we will stop fetching any new transactions and balance information.
+        </p>
+        <p>
+          If you would like to continue using Cheer premium without any disruption, you can purchase a new subscription from your
+          <a href="https://app.usecheer.com/settings">account settings</a> page.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>

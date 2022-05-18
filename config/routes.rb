@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
     #events resources
     post '/events/login_item_callback', to: 'events#login_item_callback'
+    post '/events/stripe_callback', to: 'events#stripe_callback'
 
     #bank accounts resources
     resources :bank_accounts do
@@ -73,7 +74,7 @@ Rails.application.routes.draw do
     #expenses
     resources :expenses, only: [:index]
     resources :earnings, only: [:index]
-    
+
     #billing
     resources :billing, only: [:create, :new, :index]
     get '/billing/success', to: 'billing#success'

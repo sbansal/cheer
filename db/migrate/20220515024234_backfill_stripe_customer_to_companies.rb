@@ -1,4 +1,4 @@
-class BackfillStripeCustomerInfo < ActiveRecord::Migration[7.0]
+class BackfillStripeCustomerToCompanies < ActiveRecord::Migration[7.0]
   def up
     User.all.each do |user|
       StripeCustomerCreator.call(user.id) unless user.stripe_customer_id.present?

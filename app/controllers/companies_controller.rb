@@ -2,8 +2,10 @@ class CompaniesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
 
   def settings
-    Stripe.api_key = Rails.application.credentials[:stripe][:api_key]
-    @subscription =Stripe::Subscription.retrieve(current_company.stripe_subscription_id)
+    @subscription = StripeSubscriptionFetcher.call(current_user.stripe_subscription_id)
+    if @subscription
+      current_user.update_subscription_details(@subscription)
+    end
     respond_to do |format|
       format.html
     end
@@ -53,7 +55,6 @@ class CompaniesController < ApplicationController
     @user = @company.users.first
     @company.name = "#{@user.full_name} Account"
     @user.account_owner = true
-    Rails.logger.info("Creating company with params = #{@company.inspect} and @user = #{@user.inspect}")
 
     if @company.save
       StripeCustomerCreatorJob.perform_later(@user.id)

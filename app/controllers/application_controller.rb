@@ -2,14 +2,15 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_subscription_active?, unless: :devise_controller?
 
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if !current_company.subscribed?
+    if current_user.has_expired_subscription?
+      || current_user.has_pending_subscription?
+      || current_user.has_no_subscription?
       new_billing_path
-    elsif current_user.new_company?
-      root_path
     else
       stored_location_for(resource) || root_path
     end
@@ -50,6 +51,10 @@ class ApplicationController < ActionController::Base
     end
     Rails.logger.info("start = #{start_date}, end = #{end_date}")
     return start_date, end_date
+  end
+
+  def check_subscription_active?
+    redirect_to new_billing_path unless current_user.has_active_subscription?
   end
 
   private
