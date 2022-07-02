@@ -104,6 +104,38 @@ class Company < ApplicationRecord
     transactions&.last&.occured_at || self.created_at.to_date
   end
 
+  ACTIVE_STRIPE_SUBSCRIPTION_STATES = ['trialing', 'active']
+  PENDING_STRIPE_SUBSCRIPTION_STATES = [ 'past_due', 'unpaid']
+  EXPIRED_STRIPE_SUBSCRIPTION_STATES = ['canceled', 'incomplete', 'incomplete_expired']
+
+  def has_no_subscription?
+    !self.free_account? && self.subscription_status.nil?
+  end
+
+  def has_expired_subscription?
+    !self.free_account? && EXPIRED_STRIPE_SUBSCRIPTION_STATES.include?(self.subscription_status)
+  end
+
+  def has_pending_subscription?
+    !self.free_account? && PENDING_STRIPE_SUBSCRIPTION_STATES.include?(self.subscription_status)
+  end
+
+  def has_active_subscription?
+    self.free_account? || ACTIVE_STRIPE_SUBSCRIPTION_STATES.include?(self.subscription_status)
+  end
+
+  def update_subscription_details(subscription)
+    update({
+      stripe_subscription_id: subscription.id,
+      stripe_pricing_plan: subscription.items.data.first.price.id,
+      last_payment_processed_at: Time.at(subscription.current_period_start),
+      next_payment_at: Time.at(subscription.current_period_end),
+      subscription_status: subscription.status,
+      subscription_cancel_at: subscription.cancel_at ? Time.at(subscription.cancel_at) : nil,
+      subscription_canceled_at: subscription.canceled_at ? Time.at(subscription.canceled_at) : nil,
+    })
+  end
+
   private
 
   def aggregated_daily_balances_for_accounts(accounts)

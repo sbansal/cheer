@@ -16,7 +16,7 @@ class GenericMailerPreview < ActionMailer::Preview
   end
 
   def customer_subscription_deleted_notification
-    user = User.where('stripe_subscription_id is not null').first
+    user = Company.where('stripe_subscription_id is not null').users.first
     GenericMailer.customer_subscription_deleted_notification('sub_1KzXUML3IISqheXWnF4eFiPx', user.id)
   end
 end

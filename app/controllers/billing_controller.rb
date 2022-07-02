@@ -11,7 +11,7 @@ class BillingController < ApplicationController
       flash[:notice] = "You already have an active subscription."
       redirect_to(root_path)
     else
-      @subscription = StripeSubscriptionFetcher.call(current_user.stripe_subscription_id)
+      @subscription = StripeSubscriptionFetcher.call(current_company.stripe_subscription_id)
       respond_to do |format|
         format.html { render layout: 'billing' }
       end

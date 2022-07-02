@@ -57,14 +57,14 @@ RSpec.describe StripeWebhookEventProcessor do
       event = create_mock_stripe_event('customer.subscription.created')
       subscription = event.data.object
       user = create(:user, stripe_customer_id: subscription.customer)
-      expect(user.stripe_subscription_id).to be_nil
+      expect(user.company.stripe_subscription_id).to be_nil
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to eq subscription.id
-      expect(User.find(user.id).stripe_subscription_id).to eq subscription.id
-      expect(User.find(user.id).stripe_pricing_plan).to eq subscription.items.data.first.price.id
-      expect(User.find(user.id).last_payment_processed_at).to eq Time.at(subscription.current_period_start)
-      expect(User.find(user.id).next_payment_at).to eq Time.at(subscription.current_period_end)
-      expect(User.find(user.id).subscription_status).to eq subscription.status
+      expect(User.find(user.id).company.stripe_subscription_id).to eq subscription.id
+      expect(User.find(user.id).company.stripe_subscription_id).to eq subscription.id
+      expect(User.find(user.id).company.stripe_pricing_plan).to eq subscription.items.data.first.price.id
+      expect(User.find(user.id).company.last_payment_processed_at).to eq Time.at(subscription.current_period_start)
+      expect(User.find(user.id).company.next_payment_at).to eq Time.at(subscription.current_period_end)
+      expect(User.find(user.id).company.subscription_status).to eq subscription.status
       expect {
         StripeWebhookEventProcessor.call(request)
       }.to have_enqueued_job(
@@ -77,12 +77,12 @@ RSpec.describe StripeWebhookEventProcessor do
       subscription = event.data.object
       user = create(:user)
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to be_nil
-      expect(User.find(user.id).stripe_subscription_id).to be_nil
-      expect(User.find(user.id).stripe_pricing_plan).to be_nil
-      expect(User.find(user.id).last_payment_processed_at).to be_nil
-      expect(User.find(user.id).next_payment_at).to be_nil
-      expect(User.find(user.id).subscription_status).to be_nil
+      expect(User.find(user.id).company.stripe_subscription_id).to be_nil
+      expect(User.find(user.id).company.stripe_subscription_id).to be_nil
+      expect(User.find(user.id).company.stripe_pricing_plan).to be_nil
+      expect(User.find(user.id).company.last_payment_processed_at).to be_nil
+      expect(User.find(user.id).company.next_payment_at).to be_nil
+      expect(User.find(user.id).company.subscription_status).to be_nil
     end
   end
 
@@ -91,14 +91,14 @@ RSpec.describe StripeWebhookEventProcessor do
       event = create_mock_stripe_event('customer.subscription.updated')
       subscription = event.data.object
       user = create(:user, stripe_customer_id: subscription.customer)
-      expect(user.stripe_subscription_id).to be_nil
+      expect(user.company.stripe_subscription_id).to be_nil
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to eq subscription.id
-      expect(User.find(user.id).stripe_subscription_id).to eq subscription.id
-      expect(User.find(user.id).stripe_pricing_plan).to eq subscription.items.data.first.price.id
-      expect(User.find(user.id).last_payment_processed_at).to eq Time.at(subscription.current_period_start)
-      expect(User.find(user.id).next_payment_at).to eq Time.at(subscription.current_period_end)
-      expect(User.find(user.id).subscription_status).to eq subscription.status
+      expect(User.find(user.id).company.stripe_subscription_id).to eq subscription.id
+      expect(User.find(user.id).company.stripe_subscription_id).to eq subscription.id
+      expect(User.find(user.id).company.stripe_pricing_plan).to eq subscription.items.data.first.price.id
+      expect(User.find(user.id).company.last_payment_processed_at).to eq Time.at(subscription.current_period_start)
+      expect(User.find(user.id).company.next_payment_at).to eq Time.at(subscription.current_period_end)
+      expect(User.find(user.id).company.subscription_status).to eq subscription.status
     end
 
     it 'processes event and does not update user' do
@@ -106,7 +106,7 @@ RSpec.describe StripeWebhookEventProcessor do
       subscription = event.data.object
       user = create(:user)
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to be_nil
+      expect(User.find(user.id).company.stripe_subscription_id).to be_nil
     end
   end
 
@@ -115,13 +115,13 @@ RSpec.describe StripeWebhookEventProcessor do
       event = create_mock_stripe_event('customer.subscription.deleted')
       subscription = event.data.object
       user = create(:user, stripe_customer_id: subscription.customer)
-      expect(user.stripe_subscription_id).to be_nil
+      expect(user.company.stripe_subscription_id).to be_nil
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to eq subscription.id
-      expect(User.find(user.id).stripe_pricing_plan).to eq subscription.items.data.first.price.id
-      expect(User.find(user.id).last_payment_processed_at).to eq Time.at(subscription.current_period_start)
-      expect(User.find(user.id).next_payment_at).to eq Time.at(subscription.current_period_end)
-      expect(User.find(user.id).subscription_status).to eq subscription.status
+      expect(User.find(user.id).company.stripe_subscription_id).to eq subscription.id
+      expect(User.find(user.id).company.stripe_pricing_plan).to eq subscription.items.data.first.price.id
+      expect(User.find(user.id).company.last_payment_processed_at).to eq Time.at(subscription.current_period_start)
+      expect(User.find(user.id).company.next_payment_at).to eq Time.at(subscription.current_period_end)
+      expect(User.find(user.id).company.subscription_status).to eq subscription.status
       expect {
         StripeWebhookEventProcessor.call(request)
       }.to have_enqueued_job(
@@ -134,11 +134,11 @@ RSpec.describe StripeWebhookEventProcessor do
       subscription = event.data.object
       user = create(:user)
       StripeWebhookEventProcessor.call(request)
-      expect(User.find(user.id).stripe_subscription_id).to be_nil
-      expect(User.find(user.id).stripe_pricing_plan).to be_nil
-      expect(User.find(user.id).last_payment_processed_at).to be_nil
-      expect(User.find(user.id).next_payment_at).to be_nil
-      expect(User.find(user.id).subscription_status).to be_nil
+      expect(User.find(user.id).company.stripe_subscription_id).to be_nil
+      expect(User.find(user.id).company.stripe_pricing_plan).to be_nil
+      expect(User.find(user.id).company.last_payment_processed_at).to be_nil
+      expect(User.find(user.id).company.next_payment_at).to be_nil
+      expect(User.find(user.id).company.subscription_status).to be_nil
       expect {
         StripeWebhookEventProcessor.call(request)
       }.not_to have_enqueued_job(

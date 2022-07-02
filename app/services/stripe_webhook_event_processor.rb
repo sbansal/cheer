@@ -48,7 +48,7 @@ class StripeWebhookEventProcessor < ApplicationService
       subscription = event.data.object
       user = User.find_by(stripe_customer_id: subscription.customer)
       if user
-        user.update_subscription_details(subscription)
+        user.company.update_subscription_details(subscription)
         GenericMailer.customer_subscription_created_notification(user.id).deliver_later
       end
       return true
@@ -56,14 +56,14 @@ class StripeWebhookEventProcessor < ApplicationService
       subscription = event.data.object
       user = User.find_by(stripe_customer_id: subscription.customer)
       if user
-        user.update_subscription_details(subscription)
+        user.company.update_subscription_details(subscription)
       end
       return true
     when 'customer.subscription.deleted'
       subscription = event.data.object
       user = User.find_by(stripe_customer_id: subscription.customer)
       if user
-        user.update_subscription_details(subscription)
+        user.company.update_subscription_details(subscription)
         GenericMailer.customer_subscription_deleted_notification(subscription.id, user.id).deliver_later
       end
       return true

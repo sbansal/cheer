@@ -7,12 +7,10 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if current_user.has_expired_subscription?
-      || current_user.has_pending_subscription?
-      || current_user.has_no_subscription?
-      new_billing_path
-    else
+    if current_company.has_active_subscription?
       stored_location_for(resource) || root_path
+    else
+      new_billing_path
     end
   end
 
@@ -23,6 +21,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:company_update) {
       |u| u.permit(:full_name, :email, :password, :current_password, :password_confirmation, :avatar, :time_zone)
     }
+  end
+
+  def check_subscription_active?
+    redirect_to new_billing_path unless current_company.has_active_subscription?
   end
 
   def current_company
@@ -51,10 +53,6 @@ class ApplicationController < ActionController::Base
     end
     Rails.logger.info("start = #{start_date}, end = #{end_date}")
     return start_date, end_date
-  end
-
-  def check_subscription_active?
-    redirect_to new_billing_path unless current_user.has_active_subscription?
   end
 
   private

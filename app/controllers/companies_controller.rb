@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
 
   def settings
-    @subscription = StripeSubscriptionFetcher.call(current_user.stripe_subscription_id)
+    @subscription = StripeSubscriptionFetcher.call(current_company.stripe_subscription_id)
     if @subscription
       current_user.update_subscription_details(@subscription)
     end
