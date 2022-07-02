@@ -7,7 +7,7 @@ class BillingController < ApplicationController
   end
 
   def new
-    if current_user.has_active_subscription?
+    if current_company.has_active_subscription?
       flash[:notice] = "You already have an active subscription."
       redirect_to(root_path)
     else

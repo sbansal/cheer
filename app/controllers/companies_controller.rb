@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
   def settings
     @subscription = StripeSubscriptionFetcher.call(current_company.stripe_subscription_id)
     if @subscription
-      current_user.update_subscription_details(@subscription)
+      current_company.update_subscription_details(@subscription)
     end
     respond_to do |format|
       format.html

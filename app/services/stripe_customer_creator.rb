@@ -12,6 +12,7 @@ class StripeCustomerCreator < ApplicationService
       email: @user.email,
     })
     @user.update(stripe_customer_id: customer.id)
+    return @user.stripe_customer_id
   end
 
 end

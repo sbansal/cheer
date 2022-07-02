@@ -4,8 +4,12 @@ class StripeCheckoutSessionCreator < ApplicationService
   def initialize(stripe_plan_id, user_email, stripe_customer_id)
     @stripe_plan_id = stripe_plan_id
     @user_email = user_email
-    @stripe_customer_id = stripe_customer_id
     @user = User.find_by(email: user_email)
+    if stripe_customer_id
+      @stripe_customer_id = stripe_customer_id
+    else
+      @stripe_customer_id = StripeCustomerCreator.call(@user.id)
+    end
   end
 
   def call
@@ -28,7 +32,7 @@ class StripeCheckoutSessionCreator < ApplicationService
         }
       ],
     }
-    if @user.has_no_subscription?
+    if @user.company.has_no_subscription?
       # add 15 day trial
       checkout_hash[:subscription_data] = {
         trial_period_days: SUBSCRIPTION_TRIAL_PERIOD,

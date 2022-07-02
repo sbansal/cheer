@@ -1,10 +1,10 @@
 <div class="px-3 py-5 text-center billing-form" >
   <div class="mb-5">
-    <% if current_user.has_pending_subscription? %>
+    <% if current_user.company.has_pending_subscription? %>
       <%= render 'activate_plan' %>
-    <% elsif current_user.has_expired_subscription? %>
+    <% elsif current_user.company.has_expired_subscription? %>
       <%= render 'renew_plan' %>
-    <% elsif current_user.has_no_subscription? %>
+    <% elsif current_user.company.has_no_subscription? %>
       <%= render 'select_plan' %>
     <% else %>
       <p>You already have an active subscription. <%= link_to 'Access my account', root_path %></p>
