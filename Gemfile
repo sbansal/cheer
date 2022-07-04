@@ -89,4 +89,5 @@ gem 'plaid'
 #monitoring
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem "sentry-resque"
 gem 'newrelic_rpm'
