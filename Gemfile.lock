@@ -348,6 +348,9 @@ GEM
     sentry-rails (5.3.1)
       railties (>= 5.0)
       sentry-ruby-core (~> 5.3.1)
+    sentry-resque (5.3.1)
+      resque (>= 1.24)
+      sentry-ruby-core (~> 5.3.1)
     sentry-ruby (5.3.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       sentry-ruby-core (= 5.3.1)
@@ -448,6 +451,7 @@ DEPENDENCIES
   seed_dump
   selenium-webdriver
   sentry-rails
+  sentry-resque
   sentry-ruby
   spring
   spring-watcher-listen (~> 2.0.0)
