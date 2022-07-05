@@ -14,31 +14,21 @@ class TransactionsEventProcessor < EventProcessor
   def process_event
     case event_code
     when INITIAL_UPDATE_CODE
-      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
-        Rails.logger.info("Intial pull complete. Total new transactions=#{metadata['new_transactions']}")
-      }
+      Rails.logger.info("[WebhookEvent:TransactionsEvent] Initial pull complete. Total new transactions=#{metadata['new_transactions']}")
       fetch_new_transactions(30)
     when HISTORICAL_UPDATE_CODE
       transactions_count = metadata['new_transactions']
-      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
-        Rails.logger.info("Historical pull complete. Total new transactions=#{transactions_count}")
-      }
+      Rails.logger.info("[WebhookEvent:TransactionsEvent] Historical pull complete. Total new transactions=#{transactions_count}")
       fetch_historical_transactions(transactions_count)
     when DEFAULT_UPDATE_CODE
-      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
-        Rails.logger.info("New transaction data available. Total new transactions=#{metadata['new_transactions']}")
-      }
+      Rails.logger.info("[WebhookEvent:TransactionsEvent] New transaction data available. Total new transactions=#{metadata['new_transactions']}")
       fetch_new_transactions
     when TRANSACTIONS_REMOVED_CODE
       removed_transactions = metadata['removed_transactions']
-      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
-        Rails.logger.info("#{removed_transactions.count} transactions removed. Deleting from the database.")
-      }
+      Rails.logger.info("[WebhookEvent:TransactionsEvent] #{removed_transactions.count} transactions removed. Deleting from the database.")
       remove_transactions(removed_transactions)
     else
-      Rails.logger.tagged("WebhookEvent:TransactionsEvent") {
-        Rails.logger.error("Unable to process transactions event code = #{event_code}")
-      }
+      Rails.logger.error("[WebhookEvent:TransactionsEvent] Unable to process transactions event code = #{event_code}")
     end
   end
 

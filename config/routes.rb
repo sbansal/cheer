@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
     #events resources
     post '/events/login_item_callback', to: 'events#login_item_callback'
+    post '/events/ping', to: 'events#ping'
 
     #bank accounts resources
     resources :bank_accounts do
