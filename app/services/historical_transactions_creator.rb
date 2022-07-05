@@ -25,9 +25,7 @@ class HistoricalTransactionsCreator < ApplicationService
     end_date = Date.today
     back_off_date = Date.today - 3.years
     until transactions_fetched_count >= @transaction_count  do
-      Rails.logger.tagged("TransactionPull") {
-        Rails.logger.info { "Total #{transactions_fetched_count}/#{@transaction_count} transactions pulled from Plaid."}
-      }
+      Rails.logger.info("[TransactionPull] Total #{transactions_fetched_count}/#{@transaction_count} transactions pulled from Plaid.")
       fetch_transactions_and_accounts_data(end_date)
       transactions_fetched_count = @transactions_json_array.length
       if end_date.before?(back_off_date)
@@ -36,23 +34,17 @@ class HistoricalTransactionsCreator < ApplicationService
         end_date = end_date - 3.month
       end
     end
-    Rails.logger.tagged("TransactionPull") {
-      Rails.logger.info { "Saving #{transactions_fetched_count} transactions from Plaid into the DB."}
-    }
+    Rails.logger.info("[TransactionPull] Saving #{transactions_fetched_count} transactions from Plaid into the DB.")
   end
 
   def fetch_transactions_and_accounts_data(end_date)
     start_date = (end_date - 2.month).iso8601
-    Rails.logger.tagged("TransactionPull") {
-      Rails.logger.info("Fetching transactions for start_date: #{start_date}, end_date: #{end_date}")
-    }
+    Rails.logger.info("[TransactionPull] Fetching transactions for start_date: #{start_date}, end_date: #{end_date}")
     transactions_response = @client.transactions_get(create_transaction_request(start_date, end_date, 0))
     transactions_json = transactions_response.transactions
     total_tx_count = transactions_response.total_transactions
     accounts_json = transactions_response.accounts
-    Rails.logger.tagged("TransactionPull") {
-      Rails.logger.info "Total transactions that need to be fetched - #{total_tx_count}"
-    }
+    Rails.logger.info("[TransactionPull] Total transactions that need to be fetched - #{total_tx_count}")
     while transactions_json.length < total_tx_count
       transactions_response = @client.transactions_get(
         create_transaction_request(
@@ -64,9 +56,7 @@ class HistoricalTransactionsCreator < ApplicationService
       transactions_json += transactions_response.transactions
       accounts_json += transactions_response.accounts
     end
-    Rails.logger.tagged("TransactionPull") {
-      Rails.logger.info "#{transactions_json.count}/#{total_tx_count} transactions fetched from Plaid."
-    }
+    Rails.logger.info("[TransactionPull] #{transactions_json.count}/#{total_tx_count} transactions fetched from Plaid.")
     @transactions_json_array += transactions_json
     @accounts_json_array += accounts_json
   end

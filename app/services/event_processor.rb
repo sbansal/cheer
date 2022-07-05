@@ -2,9 +2,7 @@ class EventProcessor < ApplicationService
   attr_reader :login_item, :event_code, :metadata
 
   def initialize(event_code, item_id, metadata={})
-    Rails.logger.tagged("WebhookEvent") { 
-      Rails.logger.info("Processing event with code=#{event_code}, item_id=#{item_id}, metadata=#{metadata}")
-    }
+    Rails.logger.info("[WebhookEvent] Processing event with code=#{event_code}, item_id=#{item_id}, metadata=#{metadata}")
     @event_code = event_code
     @metadata = metadata
     @login_item = load_login_item(item_id)
@@ -29,9 +27,7 @@ class EventProcessor < ApplicationService
   end
   
   def process_event
-    Rails.logger.tagged("event") { 
-      Rails.logger.error("Unsupported operation and event processing.")
-    }
+    Rails.logger.error("[WebhookEvent] Unsupported operation and event processing.")
     false
   end
 end

@@ -36,14 +36,10 @@ class PlaidWebhookEventProcessor < ApplicationService
       elsif event_type == ITEM_TYPE
         LoginItemEventProcessor.call(event_code, item_id, metadata)
       else
-        Rails.logger.tagged("WebhookEvent") {
-          Rails.logger.error("Unknown webhook event received with metadata=#{metadata}")
-        }
+        Rails.logger.error("[WebhookEvent] Unknown webhook event received with metadata=#{metadata}")
       end
     rescue => e
-      Rails.logger.tagged("WebhookEvent") {
-        Rails.logger.error(e)
-      }
+      Rails.logger.error(e)
       raise InvalidWebhookEventError.new(e)
     end
   end
@@ -51,9 +47,7 @@ class PlaidWebhookEventProcessor < ApplicationService
   require 'json/jwt'
   def verify_request
     begin
-      Rails.logger.tagged("WebhookEvent") {
-        Rails.logger.info("Verifying the webhook request...")
-      }
+      Rails.logger.info("[WebhookEvent] Verifying the Webhook request.")
       token_data = JSON::JWT.decode(@plaid_header, :skip_verification)
       if token_data.alg == JWT_ALG
         key_id = token_data.kid
@@ -68,11 +62,9 @@ class PlaidWebhookEventProcessor < ApplicationService
         unless webhook_body_authentic?(token['request_body_sha256'])
           raise InvalidWebhookEventError.new("[PlaidWebhookEventProcessor] Webhook body could not be verified. Rejecting the webhook.")
         end
-        Rails.logger.tagged("WebhookEvent") {
-          Rails.logger.info("Verification complete for the webhook request.")
-        }
+        Rails.logger.info("[WebhookEvent] Verification complete for the webhook request.")
       else
-        raise InvalidWebhookEventError.new("[PlaidWebhookEventProcessor] Unsupported JWT Algo = #{header['alg']}. Rejecting the webhook.")
+        raise InvalidWebhookEventError.new("[PlaidWebhookEventProcessor] Unsupported JWT Algo = #{token_data.alg}. Rejecting the webhook.")
       end
     rescue => e
       Rails.logger.tagged("WebhookEvent") {
