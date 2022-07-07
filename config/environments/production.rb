@@ -110,6 +110,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.hosts << /.*\.usecheer\.com/
+  config.hosts << Rails.application.credentials[:plaid][:ips_allowlist]
   config.active_storage.service = :amazon
   config.force_ssl = true
   config.action_mailer.default_url_options = { host: 'app.usecheer.com' }

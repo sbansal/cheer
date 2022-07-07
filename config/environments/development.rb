@@ -82,6 +82,7 @@ Rails.application.configure do
 
   config.hosts << /.*\.usecheer\.test/
   config.hosts << /[a-z0-9]+\.ngrok\.io/
+  config.hosts << Rails.application.credentials[:plaid][:ips_allowlist]
   config.force_ssl = true
 
   logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
