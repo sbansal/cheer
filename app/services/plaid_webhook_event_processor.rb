@@ -19,6 +19,7 @@ class PlaidWebhookEventProcessor < ApplicationService
       return true
     rescue InvalidWebhookEventError => e
       Rails.logger.error(e)
+      Rails.logger.error(e.backtrace.join("\n"))
       return false
     end
   end
