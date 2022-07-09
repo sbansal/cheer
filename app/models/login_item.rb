@@ -42,6 +42,11 @@ class LoginItem < ApplicationRecord
     Rails.logger.info("Webhook updated for login_item=#{self.inspect} and response=#{response}")
   end
 
+  def refresh_transactions
+    PlaidTransactionsRefresher.call(plaid_access_token)
+    Rails.logger.info("Requesting transactions refresh for login_item=#{self.gid}....")
+  end
+
   def transactions_history_period
     min_date = bank_accounts.map { |account| account.transactions&.last&.occured_at }.compact.min
     max_date = bank_accounts.map { |account| account.transactions&.first&.occured_at }.compact.max
