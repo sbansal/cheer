@@ -1,7 +1,6 @@
 class PlaidTransactionsRefresher < ApplicationService
-  def initialize(access_token, login_item_gid)
+  def initialize(access_token)
     @access_token = access_token
-    @login_item_gid = login_item_gid
   end
 
   def call
