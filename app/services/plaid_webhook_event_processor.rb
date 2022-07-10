@@ -70,6 +70,7 @@ class PlaidWebhookEventProcessor < ApplicationService
     rescue => e
       Rails.logger.tagged("WebhookEvent") {
         Rails.logger.error(e)
+        Rails.logger.error(e.backtrace.join("\n"))
       }
       raise InvalidWebhookEventError.new(e)
     end
