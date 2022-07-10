@@ -197,7 +197,7 @@ GEM
     jmespath (1.6.1)
     jsbundling-rails (1.0.3)
       railties (>= 6.0.0)
-    json-jwt (1.13.0)
+    json-jwt (1.14.0)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
@@ -434,7 +434,7 @@ DEPENDENCIES
   guard-rspec
   jbuilder (~> 2.7)
   jsbundling-rails
-  json-jwt
+  json-jwt (~> 1.14.0)
   listen (>= 3.0.5, < 3.2)
   lockbox
   newrelic_rpm

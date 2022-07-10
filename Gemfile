@@ -75,7 +75,7 @@ gem 'rqrcode'
 gem 'lockbox'
 gem 'devise'
 gem 'aws-sdk-s3', require: false
-gem 'json-jwt'
+gem 'json-jwt', '~>1.14.0'
 
 
 # jobs
