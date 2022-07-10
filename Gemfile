@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.2.4'
+gem 'rails', '~> 7.0.3'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 5.6.4'
 
@@ -76,7 +76,7 @@ gem 'rqrcode'
 gem 'lockbox'
 gem 'devise'
 gem 'aws-sdk-s3', require: false
-gem 'json-jwt'
+gem 'json-jwt', '~>1.14.0'
 
 
 # jobs
@@ -90,6 +90,8 @@ gem 'plaid'
 #monitoring
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem "sentry-resque"
+gem 'newrelic_rpm'
 
 #payments
 gem 'stripe'

@@ -4,4 +4,5 @@ config_file = rails_root + '/config/resque.yml'
 
 resque_config = YAML::load(ERB.new(IO.read(config_file)).result)
 Resque.redis = resque_config[rails_env]
+Redis.silence_deprecations = true
 Rails.logger.info("Started up resque in #{rails_env}")

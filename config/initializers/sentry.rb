@@ -10,8 +10,4 @@ Sentry.init do |config|
   config.traces_sampler = lambda do |context|
     true
   end
-
-  config.async = lambda do |event, hint|
-    Sentry::SendEventJob.perform_later(event, hint)
-  end
 end

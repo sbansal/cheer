@@ -82,6 +82,11 @@ Rails.application.configure do
 
   config.hosts << /.*\.usecheer\.test/
   config.hosts << /[a-z0-9]+\.ngrok\.io/
+
+  #whitelist plaid IP addresses for webhooks
+  Rails.application.credentials[:plaid][:ips_allowlist].each do |ip_address|
+    config.hosts << ip_address
+  end
   config.force_ssl = true
 
   logger           = ActiveSupport::Logger.new("log/#{Rails.env}.log")
