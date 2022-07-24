@@ -7,11 +7,20 @@ import { application } from "./application"
 import AccountsController from "./accounts_controller.js"
 application.register("accounts", AccountsController)
 
+import BillingController from "./billing_controller.js"
+application.register("billing", BillingController)
+
 import CategoriesController from "./categories_controller.js"
 application.register("categories", CategoriesController)
 
+import ChartsController from "./charts_controller.js"
+application.register("charts", ChartsController)
+
 import DropdownController from "./dropdown_controller.js"
 application.register("dropdown", DropdownController)
+
+import LinksController from "./links_controller.js"
+application.register("links", LinksController)
 
 import NavigationController from "./navigation_controller.js"
 application.register("navigation", NavigationController)
@@ -39,10 +48,4 @@ application.register("tfa", TfaController)
 
 import TransactionsController from "./transactions_controller.js"
 application.register("transactions", TransactionsController)
-
-import ChartsController from "./charts_controller.js"
-application.register("charts", ChartsController)
-
-import LinksController from "./links_controller.js"
-application.register("links", LinksController)
 

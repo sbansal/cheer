@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
-  skip_before_action :authenticate_user!, :only => [:login_item_callback, :ping]
-  protect_from_forgery except: :login_item_callback
+
+  skip_before_action :authenticate_user!, only: [:login_item_callback, :stripe_callback, :ping]
+  protect_from_forgery except: [:login_item_callback, :stripe_callback]
+  skip_before_action :check_subscription_active?, only: [:login_item_callback, :stripe_callback]
 
   def ping
     Rails.logger.info("EventsController/ping was queried with with headers=#{request.headers.to_h}")
@@ -10,6 +12,15 @@ class EventsController < ApplicationController
   def login_item_callback
     Rails.logger.info("Received plaid webhook with headers=#{request.headers.to_h}")
     callback_processed = PlaidWebhookEventProcessor.call(request.headers['Plaid-Verification'], request.raw_post)
+    if callback_processed
+      head :accepted
+    else
+      head :bad_request
+    end
+  end
+
+  def stripe_callback
+    callback_processed = StripeWebhookEventProcessor.call(request)
     if callback_processed
       head :accepted
     else

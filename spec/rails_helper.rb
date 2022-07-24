@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'support/factory_bot'
 require 'support/plaid_helpers'
+require 'support/generic_helpers'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
@@ -69,4 +70,5 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :view
   config.include PlaidHelpers
+  config.include GenericHelpers
 end

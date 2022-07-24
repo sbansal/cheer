@@ -54,6 +54,7 @@ input[type='checkbox'], {
   font-weight: 700;
 }
 .danger { color: $danger;}
+.warning { color: $yellow;}
 .default-color { color: var(--default-color);}
 .default-bg {
   background: var(--default-bg);
@@ -101,17 +102,25 @@ a {
 }
 
 .btn-outline-primary {
-  color: var(--purple-600);
-  background-color: $white;
-  border-color: var(--purple-600);
+  color: var(--default-color);
+  background-color: var(--default-bg);
+  border-color: var(--default-border-color);
   &:hover, &:focus {
     color: $white;
-    background-color: var(--purple-600);
+    background-color: var(--secondary-bg);
+    border-color: var(--default-border-color);
   }
   &:disabled {
     background-color: $default-grey;
     cursor: auto;
   }
+}
+
+.btn-check:checked+.btn-outline-primary, .btn-check:active+.btn-outline-primary, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show {
+  color: var(--default-color);
+  background-color: var(--secondary-bg);
+  border-color: var(--default-border-color);
+  box-shadow: none !important;
 }
 
 .main {
@@ -158,6 +167,8 @@ ul.simple-list {
 .auth-form {
   max-width: 400px;
   margin: 0 auto;
+  background-color: var(--grey-900);
+  padding: 20px;
 }
 
 .hide {
@@ -1031,5 +1042,18 @@ div.intro {
   .searchable-list {
     min-width: 90%;
     left:5%;
+  }
+}
+
+.billing-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: var(--grey-900);
+}
+
+.pricing-info {
+  input[type='radio'] {
+    width: 16px;
+    height: 16px;
   }
 }

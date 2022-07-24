@@ -24,4 +24,15 @@ class GenericMailer < ApplicationMailer
     @institution_name = @login_item.institution.name
     mail(:to =>  @user.email, :subject => "Successfully connected to your #{@institution_name} account.")
   end
+
+  def customer_subscription_created_notification(user_id)
+    @user = User.find(user_id)
+    mail(to: @user.email, subject: "Thank you for subscribing to Cheer premium.")
+  end
+
+  def customer_subscription_deleted_notification(subscription_id, user_id)
+    @user = User.find(user_id)
+    @subscription = StripeSubscriptionFetcher.call(subscription_id)
+    mail(to: @user.email, subject: "Your Cheer subscription is canceled.")
+  end
 end

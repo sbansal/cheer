@@ -1,0 +1,11 @@
+<div class="text-center lg-24">Please activate your subscription.</div>
+<div class="py-4 px-2 text-start grey-500">You tried to subscribe to the Cheer premium plan on <%= Time.at(@subscription.created).to_date.strftime('%b %d, %Y')%>. However, there was an issue processing your subscription. Please update your billing details below to finish your subscription setup.</div>
+<p>
+  <div class="xs text-uppercase grey-500">Your cheer premium plan</div>
+  <div class="lg-24 fw-bold">
+    <%= number_to_currency(@subscription.items.data.first.plan.amount/100) %> per <%= @subscription.items.data.first.plan.interval %>
+  </div>
+</p>
+<%= form_tag '/billing/manage', method: :post,  class: 'form-inline', 'data-turbo': 'false' do %>
+  <%= button_tag "Update your billing details", class: 'btn btn-primary fw-bold' %>
+<% end %>

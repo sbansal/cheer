@@ -2,6 +2,10 @@ class CompaniesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
 
   def settings
+    @subscription = StripeSubscriptionFetcher.call(current_company.stripe_subscription_id)
+    if @subscription
+      current_company.update_subscription_details(@subscription)
+    end
     respond_to do |format|
       format.html
     end
@@ -38,7 +42,8 @@ class CompaniesController < ApplicationController
   end
 
   def new
-    @company = Company.new(name: 'New Account')
+    @company_type = params[:company_type] || 'household'
+    @company = Company.new
     @user = @company.users.build
     respond_to do |format|
       format.html { render layout: 'devise' }
@@ -50,9 +55,9 @@ class CompaniesController < ApplicationController
     @user = @company.users.first
     @company.name = "#{@user.full_name} Account"
     @user.account_owner = true
-    Rails.logger.info("Creating company with params = #{@company.inspect} and @user = #{@user.inspect}")
 
     if @company.save
+      StripeCustomerCreatorJob.perform_later(@user.id)
       flash[:notice_header] = 'Cheer account successfully created.'
       flash[:notice] = 'We sent a confirmation link to your email address. Please follow the link to activate your Cheer account.'
       redirect_to new_user_session_path
@@ -61,7 +66,6 @@ class CompaniesController < ApplicationController
         format.html { render action: "new", layout: 'devise'}
       end
     end
-
   end
 
   private

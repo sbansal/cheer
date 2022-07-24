@@ -2,14 +2,15 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_subscription_active?, unless: :devise_controller?
 
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if current_user.new_company?
-      root_path
-    else
+    if current_company.has_active_subscription?
       stored_location_for(resource) || root_path
+    else
+      new_billing_path
     end
   end
 
@@ -20,6 +21,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:company_update) {
       |u| u.permit(:full_name, :email, :password, :current_password, :password_confirmation, :avatar, :time_zone)
     }
+  end
+
+  def check_subscription_active?
+    redirect_to new_billing_path unless current_company.has_active_subscription?
   end
 
   def current_company

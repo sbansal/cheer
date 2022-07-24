@@ -4,6 +4,7 @@ RSpec.describe "LoginItemControllers", type: :request do
   before(:each) do
     @user = FactoryBot.create(:user)
     @user.confirm
+    allow(@user.company).to receive(:has_active_subscription?).and_return(true)
     sign_in @user
   end
 
@@ -25,6 +26,13 @@ RSpec.describe "LoginItemControllers", type: :request do
       login_item = create(:login_item, user: @user, expired: true)
       get login_items_url
       expect(response).to be_successful
+    end
+
+    it 'should redirect to the billing page if no active subscription' do
+      allow(@user.company).to receive(:has_active_subscription?).and_return(false)
+      login_item = create(:login_item, user: @user, expired: true)
+      get login_items_url
+      expect(response).to redirect_to(new_billing_url)
     end
   end
 

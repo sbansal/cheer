@@ -1,0 +1,24 @@
+<div class="text-center lg-24">Choose your subscription.</div>
+<div class="grey-500 py-4">
+  Simple, honest pricing. You pay a single subscription price and you get all the latest features plus unlimited accounts, unlimited family members and no ads ever!
+</div>
+<div class="fw-bold primary-700">
+  Your first 15 days are on us, risk-free.
+</div>
+<%= form_tag '/billing', class: 'form-inline', 'data-turbo': 'false' do %>
+  <div class="btn-group pt-5" role="group" aria-label="Select cheer subscription option" data-controller='billing'>
+    <input type="radio" class="btn-check" name="plan_type" value="yearly" id="yearly-plan" autocomplete="off" data-action="change->billing#togglePricing" checked>
+    <label class="btn btn-outline-primary small" for="yearly-plan">Pay yearly</label>
+    <input type="radio" class="btn-check" name="plan_type" value="monthly" id="monthly-plan" autocomplete="off" data-action="change->billing#togglePricing">
+    <label class="btn btn-outline-primary small" for="monthly-plan">Pay monthly</label>
+  </div>
+  <div class="py-3">
+    <div id="price" class="lg-28 fw-bold d-inline align-middle px-2 py-1">$190 per year</div>
+    <div class="border rounded-3 xs d-inline primary-teal secondary-bg align-middle px-2 py-1 fw-bold" id="discount-info">2 months on us!</div>
+  </div>
+  <div class="py-4">
+      <%= button_tag "Start your 15 day free trial →", class: 'btn btn-primary lg-18' %>
+  </div>
+<% end %>
+<div class="xs grey-500">Your card will be charged on <%= (Date.today + 15.days).strftime('%b %d') %>.</div>
+<div class="xs grey-500">Cancel anytime, no questions asked.</div>
