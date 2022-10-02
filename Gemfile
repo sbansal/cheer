@@ -79,7 +79,7 @@ gem 'json-jwt', '~>1.14.0'
 
 
 # jobs
-gem 'resque'
+gem 'resque', '~> 2.4'
 gem 'textacular'
 
 #ui
