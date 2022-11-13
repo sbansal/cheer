@@ -84,7 +84,8 @@ export default class extends Controller {
     let minWidth = 175;
     if (targetList) {
       targetList.classList.remove('hide')
-      targetList.style.top = `${boundingArea.top + boundingArea.height}px`;
+      targetList.style.top = `${10 + boundingArea.top + boundingArea.height}px`;
+      targetList.style.left = `${boundingArea.left - 10}px`;
       targetList.querySelector('input').focus()
     }
     event.preventDefault();

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_09_192105) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_30_222501) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
@@ -247,6 +247,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_09_192105) do
     t.text "custom_description"
     t.string "merchant_name"
     t.boolean "essential"
+    t.integer "duplicate_transaction_id"
+    t.boolean "duplicate", default: false
     t.index ["custom_description"], name: "index_transactions_on_custom_description"
     t.index ["description"], name: "trgm_description_indx", opclass: :gist_trgm_ops, using: :gist
     t.index ["plaid_transaction_id"], name: "index_transactions_on_plaid_transaction_id", unique: true

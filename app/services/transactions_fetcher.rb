@@ -1,5 +1,5 @@
 class TransactionsFetcher < ApplicationService
-  attr_reader :aggregated_transactions, :start_date, :end_date
+  attr_reader :aggregated_transactions, :start_date, :end_date, :duplicates_count
   def initialize(company, period, params={})
     @company = company
     @initial_scope = @company.transactions.includes(:category).order('occured_at desc')
@@ -12,10 +12,13 @@ class TransactionsFetcher < ApplicationService
     scoped = filter_by_search_query(scoped, @params[:search_query]) if @params[:search_query].present?
     scoped = filter_by_bank_accounts(scoped, @params[:bank_account_id]) if @params[:bank_account_id].present?
     scoped = filter_by_categories(scoped, @params[:categories]) if @params[:categories].present?
+    @duplicates_count = duplicates_count(scoped)
+    scoped = filter_by_duplicate_transactions(scoped, @params[:show_duplicates]) if @params[:show_duplicates].present?
     OpenStruct.new(
       aggregated_transactions: Transaction::AggregatedTransactions.new('transactions', scoped),
       start_date: @start_date,
       end_date: @end_date,
+      duplicates_count: @duplicates_count,
     )
   end
 
@@ -36,6 +39,14 @@ class TransactionsFetcher < ApplicationService
 
   def filter_by_categories(scoped, category_ids=[])
     scoped.where(category: category_ids)
+  end
+
+  def filter_by_duplicate_transactions(scoped, show_duplicates)
+    scoped.where(duplicate: show_duplicates) if show_duplicates
+  end
+
+  def duplicates_count(scoped)
+    scoped.where(duplicate: true).count
   end
 
   def calculate_occured_at_boundary(period)

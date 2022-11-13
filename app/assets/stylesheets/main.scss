@@ -37,6 +37,14 @@ input[type='checkbox'], {
   border-color: var(--default-border-color) !important;
 }
 
+.border-danger {
+  border-color: $danger !important;
+}
+
+.border-danger-subtle {
+  border-color: $danger-subtle !important;
+}
+
 .dropdown-menu, .list-group, .list-group-item {
   background-color: var(--default-bg);
   color: var(--default-color);
@@ -54,6 +62,7 @@ input[type='checkbox'], {
   font-weight: 700;
 }
 .danger { color: $danger;}
+.warning { color: $yellow;}
 .default-color { color: var(--default-color);}
 .default-bg {
   background: var(--default-bg);
@@ -111,6 +120,17 @@ a {
   &:disabled {
     background-color: $default-grey;
     cursor: auto;
+  }
+}
+
+.btn-outline-danger {
+  &.subtle {
+    border-color: $danger-subtle !important;
+    color: $danger-subtle;
+  }
+  &:hover, &:focus, &.active {
+    color: $white;
+    background-color: $danger-subtle;
   }
 }
 

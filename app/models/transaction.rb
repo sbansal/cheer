@@ -4,6 +4,7 @@ class Transaction < ApplicationRecord
   belongs_to :bank_account
   belongs_to :user
   belongs_to :category
+  belongs_to :duplicate_transaction, class_name: 'Transaction', foreign_key: 'duplicate_transaction_id', optional: true
 
   validates :custom_description, :category_id, presence: true
 
@@ -77,6 +78,23 @@ class Transaction < ApplicationRecord
       Transaction.where(id: related_ids, user_id: self.user_id)
         .update(essential: transactions_params[:essential], updated_at: Time.zone.now.utc)
     end
+  end
+
+  def find_duplicates
+    return [] unless plaid_pending_transaction_id
+    duplicate_txs = Transaction.where(plaid_transaction_id: plaid_pending_transaction_id).where.not(id: id)
+    if duplicate_txs.empty?
+      duplicate_txs = Transaction.where(description: description, occured_at: occured_at, amount: amount).where.not(id: id)
+    end
+    duplicate_txs.map(&:id)
+  end
+
+  def mark_duplicate(transaction_id)
+    update(duplicate: true, duplicate_transaction_id: transaction_id)
+  end
+
+  def resolve_duplicate
+    update(duplicate: false, duplicate_transaction_id: nil)
   end
 
   private

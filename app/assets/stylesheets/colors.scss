@@ -7,6 +7,7 @@ $primary-1000: #F8F9FB;
 $primary-teal: #3EBD93;
 $teal-1000: #EFFCF6;
 $danger: #EF4E4E;
+$danger-subtle: #E66A6A;
 $red: #FF5000;
 $red-800: #FF9B9B;
 $white: #FFF;
@@ -48,7 +49,7 @@ $default-grey: #829AB1;
     --grey-10: #F0F4F8;
     --green: #14F219;
     --purple-600: #5D55FA;
-    --secondary-bg: #2d2e30;
+    --secondary-bg: #232426b3;
     --tertiary-bg: #2d2d30;
     --default-border-color: #383c3f;
     --navbar-toggler-icon-bg: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgba(190, 190, 190, 0.75)" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/></svg>');
@@ -58,6 +59,7 @@ $default-grey: #829AB1;
 
 .primary {color: var(--purple-600);}
 .primary-bg {background-color: var(--purple-600);}
+.secondary-bg {background-color: var(--secondary-bg);}
 .primary-dark {color: $primary-dark;}
 .grey-500 {color: var(--grey-500);}
 .grey-900 {color: var(--grey-900);}

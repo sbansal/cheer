@@ -19,5 +19,10 @@ document.addEventListener("turbo:load", function() {
   toastElList.map(function (toastEl) {
     triggerToast(toastEl)
   })
+
+  var tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  tooltipList.map(function (tooltipEl) {
+    return new bootstrap.Tooltip(tooltipEl)
+  })
 })
 

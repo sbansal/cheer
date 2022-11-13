@@ -4,6 +4,7 @@ class TransactionsController < ApplicationController
     @period = params[:period] || Stat::THIS_MONTH
     @start_date, @end_date = parse_time_boundary(params)
     fetcher = TransactionsFetcher.call(current_company, @period, params)
+    @duplicates_count = fetcher.duplicates_count
     @accounts_metadata = current_company.bank_accounts.map { |acc| [acc.id, acc.display_name] }.to_h
     @transactions = fetcher.aggregated_transactions&.transactions.includes([:bank_account])
     @transactions_by_category = @transactions.group_by(&:category).map {

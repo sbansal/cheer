@@ -17,6 +17,9 @@
     </div>
     <div class="modal-body">
       <div id="transaction-detail-<%= transaction.id %>" class="med px-3">
+        <% if transaction.duplicate? %>
+          <%= render 'duplicate_transaction', transaction: transaction.duplicate_transaction %>
+        <% end %>
         <div class="py-3">
           <div class="grey-100 small">Description</div>
           <div id="custom-description-<%=transaction.id%>">
