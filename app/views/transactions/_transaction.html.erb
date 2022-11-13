@@ -1,4 +1,4 @@
-<div class="modal-dialog med" id="transaction-details">
+<div class="modal-dialog med secondary-bg" id="transaction-details">
   <div class="modal-content big-shadow border-0" data-controller="transactions">
     <div class="modal-header d-block">
       <div class="row">
@@ -19,6 +19,14 @@
       <div id="transaction-detail-<%= transaction.id %>" class="med px-3">
         <% if transaction.duplicate? %>
           <%= render 'duplicate_transaction', transaction: transaction.duplicate_transaction %>
+        <% elsif transaction.pending? %>
+          <div class="px-3 py-2 border rounded-2 xs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle warning" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+            </svg>
+            <span>This transaction is pending and has not been settled.</span>
+          </div>
         <% end %>
         <div class="py-3">
           <div class="grey-100 small">Description</div>

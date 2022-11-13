@@ -12,17 +12,28 @@ import {Toast} from 'bootstrap'
 import {triggerToast} from "./utils.js"
 import "chart.js"
 
-
-document.addEventListener("turbo:load", function() {
-  console.debug("turbo!")
+initializeToast() {
   var toastElList = [].slice.call(document.querySelectorAll('.toast'))
   toastElList.map(function (toastEl) {
     triggerToast(toastEl)
   })
+}
 
+initializeToolTip() {
   var tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   tooltipList.map(function (tooltipEl) {
     return new bootstrap.Tooltip(tooltipEl)
   })
+}
+
+document.addEventListener("turbo:load", function() {
+  console.debug("turbo!")
+  initializeToolTip()
+  initializeToast()
+})
+
+document.addEventListener("tooltip:reload", function() {
+  console.debug("tooltip:reload")
+  initializeToolTip()
 })
 

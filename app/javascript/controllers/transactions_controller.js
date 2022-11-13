@@ -107,6 +107,7 @@ export default class extends Controller {
           console.debug("hiding spinner - search TX")
           document.getElementById('spinner-container').classList.add('hide')
           transactionContainer.style.opacity = 1
+          document.dispatchEvent(new Event('tooltip:reload'))
         },
       })
     }, 500)
