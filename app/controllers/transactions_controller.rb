@@ -54,37 +54,50 @@ class TransactionsController < ApplicationController
       flash[:alert] = 'Transaction update failed. Please try again.'
     end
     respond_to do |format|
+      format.json { render json: {status: :updated}, status: 201}
       format.js
     end
   end
 
   def destroy
     @transaction = current_company.transactions.find(params[:id])
-    if @transaction.destroy
+    if @transaction.destroy && @transaction.remove_duplicates
+      flash[:notice_header] = 'Transaction deleted.'
+      flash[:notice] = "#{@transaction.custom_description} has been deleted."
       respond_to do |format|
-        format.html { redirect_to transactions_path }
         format.json { render json: {status: :destroyed}, status: 200}
+        format.js
       end
     else
-      render json: {status: 'not found'}, status: :not_found
+      flash[:alert_header] = 'Transaction not deleted.'
+      flash[:alert] = "#{@transaction.custom_description} could not be deleted. Please try again."
+      respond_to do |format|
+        format.json { render json: {status: 'not found'}, status: :not_found }
+        format.js
+      end
     end
   end
 
   private
 
   def transaction_params
-    params.require(:transaction).permit(:custom_description, :category_id, :essential)
+    params.require(:transaction).permit(:custom_description, :category_id, :essential, :duplicate, :duplicate_transaction_id, :duplicate_resolved_at)
   end
 
   def set_flash_message(transaction_params)
-    @notice_header = 'Transaction updated.'
     if transaction_params[:custom_description]
-      @notice = "Successfully updated the transaction description."
+      @notice_header = 'Transaction description updated.'
+      @notice = "The transaction description is now #{transaction_params[:custom_description]}"
     elsif transaction_params[:category_id]
-      @notice = "Successfully updated the transaction category."
+      @notice_header = 'Transaction category updated.'
+      @notice = "Category for #{@transaction.custom_description} is now #{@transaction.category.category_list}"
     elsif transaction_params[:essential]
       essentiality = transaction_params[:essential] == 'true' ? 'essential' : 'non-essential'
-      @notice = "Successfully marked the transaction as #{essentiality}."
+      @notice_header = "Transaction marked as #{essentiality}."
+      @notice = "#{@transaction.custom_description} is now being tracked as part of your #{essentiality} spend."
+    elsif transaction_params[:duplicate]
+      @notice_header = 'Resolved duplicate transaction.'
+      @notice = "#{@transaction.custom_description} is not a duplicate anymore."
     end
   end
 end

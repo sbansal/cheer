@@ -22,6 +22,7 @@ class Transaction < ApplicationRecord
     Rails.logger.info("Total transactions to be saved in the DB = #{transactions.compact.count}")
     if transactions.compact.empty?
       Rails.logger.info("No transactions saved to the DB.")
+      []
     else
       begin
         result = Transaction.upsert_all(transactions.compact, unique_by: [:plaid_transaction_id])
@@ -84,7 +85,11 @@ class Transaction < ApplicationRecord
     return [] unless plaid_pending_transaction_id
     duplicate_txs = Transaction.where(plaid_transaction_id: plaid_pending_transaction_id).where.not(id: id)
     if duplicate_txs.empty?
-      duplicate_txs = Transaction.where(description: description, occured_at: occured_at, amount: amount).where.not(id: id)
+      duplicate_txs = Transaction.where(
+        description: description,
+        occured_at: occured_at,
+        amount: amount,
+      ).where.not(id: id)
     end
     duplicate_txs.map(&:id)
   end
@@ -94,7 +99,16 @@ class Transaction < ApplicationRecord
   end
 
   def resolve_duplicate
-    update(duplicate: false, duplicate_transaction_id: nil)
+    update(duplicate: false, duplicate_transaction_id: nil, duplicate_resolved_at: Time.zone.now)
+  end
+
+  def remove_duplicates
+    duplicate = Transaction.find_by(duplicate_transaction_id: id)
+    if duplicate
+      duplicate.resolve_duplicate
+    else
+      true
+    end
   end
 
   private

@@ -40,12 +40,15 @@ namespace :plaid do
   desc "Tag duplicate transactions"
   task tag_duplicate_transactions: :environment do |task, args|
     Transaction.all.each do |tx|
-      duplicate_txs = tx.find_duplicates
-      unless duplicate_txs.empty?
-        if duplicate_txs.count > 1
-          Rails.logger.error("Multiple duplicate transactions for transaction id #{tx.id} found. Duplicates - #{duplicate_txs}")
-        else
-          tx.mark_duplicate(duplicate_txs.first)
+      unless tx.duplicate_resolved_at
+        duplicate_txs = tx.find_duplicates
+        unless duplicate_txs.empty?
+          if duplicate_txs.count > 1
+            puts("[tag_duplicate_transactions] Multiple duplicate transactions for transaction id #{tx.id} found. Duplicates - #{duplicate_txs}")
+          else
+            puts "[tag_duplicate_transactions] Marking transaction as duplicate with id=#{duplicate_txs.first}"
+            tx.mark_duplicate(duplicate_txs.first)
+          end
         end
       end
     end

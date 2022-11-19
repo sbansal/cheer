@@ -16,9 +16,9 @@
       </div>
     </div>
     <div class="modal-body">
-      <div id="transaction-detail-<%= transaction.id %>" class="med px-3">
+      <div id="transaction-detail-<%= transaction.id %>" class="med px-2">
         <% if transaction.duplicate? %>
-          <%= render 'duplicate_transaction', transaction: transaction.duplicate_transaction %>
+          <%= render 'duplicate_transaction', duplicate_transaction: transaction.duplicate_transaction, original_transaction: transaction %>
         <% elsif transaction.pending? %>
           <div class="px-3 py-2 border rounded-2 xs">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle warning" viewBox="0 0 16 16">

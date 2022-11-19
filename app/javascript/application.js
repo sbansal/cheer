@@ -12,14 +12,14 @@ import {Toast} from 'bootstrap'
 import {triggerToast} from "./utils.js"
 import "chart.js"
 
-initializeToast() {
+function initializeToast() {
   var toastElList = [].slice.call(document.querySelectorAll('.toast'))
   toastElList.map(function (toastEl) {
     triggerToast(toastEl)
   })
 }
 
-initializeToolTip() {
+function initializeToolTip() {
   var tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   tooltipList.map(function (tooltipEl) {
     return new bootstrap.Tooltip(tooltipEl)
@@ -37,3 +37,13 @@ document.addEventListener("tooltip:reload", function() {
   initializeToolTip()
 })
 
+document.addEventListener("show.toast", function() {
+  console.debug("show.toast")
+  initializeToast()
+})
+
+document.addEventListener('hide.cheer.modal', function(event) {
+  console.debug("hide.cheer.modal")
+  var modal = bootstrap.Modal.getInstance(document.getElementById('cheer-modal'))
+  modal.hide()
+})
