@@ -195,7 +195,7 @@ RSpec.describe TransactionsFetcher do
   describe 'with duplicates' do
     let(:params) {
       {
-        show_duplicates: true
+        show_duplicates: 'true'
       }
     }
     it 'queries transactions for all time' do

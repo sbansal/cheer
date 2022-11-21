@@ -121,6 +121,42 @@ RSpec.describe Transaction, type: :model do
     expect(Transaction.where(id: ids).pluck(:category_id).uniq).to eq [another_category.id]
   end
 
+  it 'checks for duplicates' do
+    expect(create(:transaction).duplicate?).to eq false
+    tx = create(:transaction, duplicate: true)
+    expect(tx.duplicate?).to eq true
+  end
+
+  it 'tags duplicate transactions' do
+    plaid_tx_id = '1234567890'
+    tx = create(:transaction, plaid_pending_transaction_id: plaid_tx_id)
+    tx_dup = create(:transaction, plaid_transaction_id: plaid_tx_id)
+    expect(tx.duplicate?).to eq false
+    tx.tag_duplicates
+    expect(tx.duplicate?).to eq true
+    expect(tx.duplicate_transaction).to eq tx_dup
+  end
+
+  it 'resolves duplicates' do
+    plaid_tx_id = '1234567890'
+    tx = create(:transaction, plaid_pending_transaction_id: plaid_tx_id)
+    tx_dup = create(:transaction, plaid_transaction_id: plaid_tx_id)
+    tx.tag_duplicates
+    expect(tx.duplicate?).to eq true
+    tx.duplicate_transaction.send(:resolve_duplicate)
+    expect(tx.reload.duplicate?).to eq false
+  end
+
+  it 'resolves duplicates on transaction destroy' do
+    plaid_tx_id = '1234567890'
+    tx = create(:transaction, plaid_pending_transaction_id: plaid_tx_id)
+    tx_dup = create(:transaction, plaid_transaction_id: plaid_tx_id)
+    tx.tag_duplicates
+    expect(tx.duplicate?).to eq true
+    tx.duplicate_transaction.destroy
+    expect(tx.reload.duplicate?).to eq false
+  end
+
   after(:all) do
     Category.destroy_all
     BankAccount.destroy_all

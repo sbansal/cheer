@@ -8,7 +8,9 @@ class Transaction < ApplicationRecord
 
   validates :custom_description, :category_id, presence: true
 
+  # callbacks
   after_update_commit { broadcast_replace_to "transactions", partial: 'transactions/transaction_summary', locals: {transaction: self} }
+  after_destroy :cleanup_after_destroy
 
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
@@ -94,24 +96,46 @@ class Transaction < ApplicationRecord
     duplicate_txs.map(&:id)
   end
 
-  def mark_duplicate(transaction_id)
-    update(duplicate: true, duplicate_transaction_id: transaction_id)
+  def tag_duplicates
+    if self.duplicate_resolved_at.nil?
+      duplicate_txs = find_duplicates
+      unless duplicate_txs.empty?
+        if duplicate_txs.count > 1
+          Rails.logger.error("Multiple duplicate transactions for transaction id #{id} found. Duplicates - #{duplicate_txs}")
+        else
+          Rails.logger.info("Marking transaction as duplicate with id=#{duplicate_txs.first}")
+          update(duplicate: true, duplicate_transaction_id: duplicate_txs.first)
+        end
+      end
+    end
+  end
+
+  def refund?
+    amount < 0 && !category.payroll?
+  end
+
+  def payroll?
+    amount < 0 && category.payroll?
+  end
+
+  def fee_charged?
+    amount > 0 && category.bank_fee_charged?
+  end
+
+  private
+
+  def cleanup_after_destroy
+    resolve_duplicate
   end
 
   def resolve_duplicate
-    update(duplicate: false, duplicate_transaction_id: nil, duplicate_resolved_at: Time.zone.now)
-  end
-
-  def remove_duplicates
     duplicate = Transaction.find_by(duplicate_transaction_id: id)
     if duplicate
-      duplicate.resolve_duplicate
+      duplicate.update(duplicate: false, duplicate_transaction_id: nil, duplicate_resolved_at: Time.zone.now)
     else
       true
     end
   end
-
-  private
 
   def self.process_transactions_json(transactions_json_array, user_id)
     transactions_json_array.map do |transactions_json|

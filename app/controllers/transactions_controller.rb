@@ -61,7 +61,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction = current_company.transactions.find(params[:id])
-    if @transaction.destroy && @transaction.remove_duplicates
+    if @transaction.destroy
       flash[:notice_header] = 'Transaction deleted.'
       flash[:notice] = "#{@transaction.custom_description} has been deleted."
       respond_to do |format|

@@ -56,4 +56,14 @@ class Category < ApplicationRecord
     hierarchy.last
   end
 
+  BANK_FEES = 'Bank Fees'
+  def bank_fee_charged?
+    hierarchy.include?(BANK_FEES)
+  end
+
+  PAYROLL = 'Payroll'
+  def payroll?
+    hierarchy.include?(PAYROLL)
+  end
+
 end

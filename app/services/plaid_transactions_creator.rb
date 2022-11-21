@@ -14,9 +14,10 @@ class PlaidTransactionsCreator < ApplicationService
       add_transactions
     ensure
       upserter_result = Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
-      BankAccount.update_balances(@account_json_array.uniq { |item| item.account_id })
-      StatsCreatorJob.perform_later(@user.company_id)
       upserted_transaction_ids = upserter_result.map {|result| result["id"]}
+      BankAccount.update_balances(@account_json_array.uniq { |item| item.account_id })
+      DuplicateTransactionsProcessor.call(upserted_transaction_ids)
+      StatsCreatorJob.perform_later(@user.company_id)
       NotificationsCreatorJob.perform_later(upserted_transaction_ids)
     end
   end

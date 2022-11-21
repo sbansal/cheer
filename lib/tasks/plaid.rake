@@ -31,7 +31,13 @@ namespace :plaid do
 
   desc "Pull duplicate transactions"
   task pull_duplicate_transactions: :environment do |task, args|
-    Transaction.all.each do |tx|
+    created_at = args[:created_at]
+    if created_at
+      tx_ids = Transaction.where('created_at > ?', created_at).pluck(:id)
+    else
+      tx_ids = Transaction.all.pluck(:id)
+    end
+    Transaction.where(id: tx_ids).each do |tx|
       duplicate_txs = tx.find_duplicates
       puts "Found duplicates for tx id: #{tx.id} - #{duplicate_txs} " unless duplicate_txs.empty?
     end
@@ -39,17 +45,18 @@ namespace :plaid do
 
   desc "Tag duplicate transactions"
   task tag_duplicate_transactions: :environment do |task, args|
-    Transaction.all.each do |tx|
-      unless tx.duplicate_resolved_at
-        duplicate_txs = tx.find_duplicates
-        unless duplicate_txs.empty?
-          if duplicate_txs.count > 1
-            puts("[tag_duplicate_transactions] Multiple duplicate transactions for transaction id #{tx.id} found. Duplicates - #{duplicate_txs}")
-          else
-            puts "[tag_duplicate_transactions] Marking transaction as duplicate with id=#{duplicate_txs.first}"
-            tx.mark_duplicate(duplicate_txs.first)
-          end
-        end
+    created_at = args[:created_at]
+    if created_at
+      tx_ids = Transaction.where('created_at > ?', created_at).pluck(:id)
+    else
+      tx_ids = Transaction.all.pluck(:id)
+    end
+    duplicates = DuplicateTransactionsProcessor.call(tx_ids)
+    if duplicates.count == 0
+      puts "No duplicates found"
+    else
+      duplicates.each do |tx|
+        puts "Tagged tx id: #{tx.id} with duplicate #{tx.duplicate_transaction_id}"
       end
     end
   end
