@@ -25,23 +25,23 @@ RSpec.describe NotificationsCreator do
   def build_notification_templates
     NotificationTemplate.create([
       {
-        title: 'When duplicate transactions are found.',
+        frequency: 'daily',
+        template_type: NotificationTemplate::DUPLICATE_TEMPLATE_TYPE,
+      },
+      {
+        template_type: NotificationTemplate::REFUNDS_TEMPLATE_TYPE,
         frequency: 'daily',
       },
       {
-        title: 'When refunds are issued.',
+        template_type: NotificationTemplate::FEE_CHARGED_TEMPLATE_TYPE,
         frequency: 'daily',
       },
       {
-        title: 'When a fee is charged to your account.',
+        template_type: NotificationTemplate::SALARY_POSTED_TEMPLATE_TYPE,
         frequency: 'daily',
       },
       {
-        title: 'When your salary is posted to your account.',
-        frequency: 'daily',
-      },
-      {
-        title: 'Weekly email summary of your Net Worth and Cashflow.',
+        template_type: NotificationTemplate::EMAIL_SUMMARY_TEMPLATE_TYPE,
         frequency: 'weekly',
       },
     ])
