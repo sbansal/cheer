@@ -13,7 +13,16 @@ RSpec.describe "PlaidTransactionsRequests", type: :request do
 
     it "builds transactions" do
       expect(@user.transactions.count).to eq 0
-      PlaidLoginItemCreator.call(@access_token, @user)
+      retries = 0
+      begin
+        PlaidLoginItemCreator.call(@access_token, @user)
+      rescue Plaid::ApiError => e
+        if retries <= 3
+          retries += 1
+          sleep 3 ** retries
+        end
+        retry
+      end
       expect(@user.transactions.count).to be > 0
     end
 

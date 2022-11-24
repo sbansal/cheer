@@ -2,6 +2,7 @@ class CompaniesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
 
   def settings
+    @notification_templates = NotificationTemplate.all
     respond_to do |format|
       format.html
     end

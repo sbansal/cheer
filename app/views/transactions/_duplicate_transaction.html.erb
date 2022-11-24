@@ -1,0 +1,25 @@
+<div class="px-3 py-3 border rounded-2 xs faded-grey">
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-exclamation-octagon danger" viewBox="0 0 16 16">
+    <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+  </svg>
+  <span class="small">This is a duplicate of another transaction on <%= duplicate_transaction.formatted_occurred_at %>.</span>
+  <div class="row py-3 small mx-0 mt-2">
+    <div class="col-8">
+      <div><%= duplicate_transaction.custom_description %></div>
+    </div>
+    <div class="col-4 text-end">
+      <div><%= signed_number_to_currency(duplicate_transaction.amount)%></div>
+    </div>
+  </div>
+  <div class="row mx-0">
+    <%= link_to 'Delete this transaction', transaction_path(duplicate_transaction), remote: true,
+      method: :delete, class: 'btn btn-outline-danger subtle xs my-1'%>
+    <%= form_with model: original_transaction, method: :put, class: 'd-grid gap-2 p-0', local: false do |f| %>
+      <%= f.hidden_field :duplicate, {value: false} %>
+      <%= f.hidden_field :duplicate_transaction_id, {value: nil} %>
+      <%= f.hidden_field :duplicate_resolved_at, {value: Time.zone.now} %>
+      <%= f.submit 'No, this is not a duplicate.', class: 'btn btn-outline-secondary xs my-1'%>
+    <% end %>
+  </div>
+</div>

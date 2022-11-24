@@ -1,0 +1,26 @@
+<% title "Notification Templates" %>
+<div class="p-3 m-0">
+  <section class="form-background">
+    <div class="fw-bold small">Add new template here.</div>
+    <%= render 'form' %>
+  </section>
+</div>
+<div class="p-3 m-0">
+  <% @notification_templates.each do |template|%>
+    <div class="row border-bottom med m-0 py-2">
+      <div class="col-6">
+        <div><%= template.title %></div>
+      </div>
+      <div class="col-2">
+        <div><%= template.frequency.humanize %></div>
+      </div>
+      <div class="col-1">
+        <div><%= template.hidden? ? 'Hidden' : 'Enabled' %></div>
+      </div>
+      <div class="col-3 text-end">
+        <u class="px-2 small"><%= link_to 'Edit Template', edit_notification_template_path(template), {class: 'purple-linky'} %></u>
+      </div>
+    </div>
+  <% end %>
+</div>
+

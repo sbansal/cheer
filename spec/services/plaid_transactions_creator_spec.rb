@@ -46,6 +46,22 @@ RSpec.describe PlaidTransactionsCreator do
     PlaidTransactionsCreator.call(access_token, @user, @start_date, @end_date)
   end
 
+  it 'calls the notification creator job' do
+    client = double("client", transactions_get: 'list of transactions')
+    allow(client).to receive(:transactions_get) { create_transactions }
+    allow(PlaidClientCreator).to receive(:call) { client }
+    expect(NotificationsCreatorJob).to receive(:perform_later)
+    PlaidTransactionsCreator.call(access_token, @user, @start_date, @end_date)
+  end
+
+  it 'calls the duplicate transactions processor' do
+    client = double("client", transactions_get: 'list of transactions')
+    allow(client).to receive(:transactions_get) { create_transactions }
+    allow(PlaidClientCreator).to receive(:call) { client }
+    expect(DuplicateTransactionsProcessor).to receive(:call)
+    PlaidTransactionsCreator.call(access_token, @user, @start_date, @end_date)
+  end
+
   private
 
   def create_transactions

@@ -4,10 +4,13 @@ class Transaction < ApplicationRecord
   belongs_to :bank_account
   belongs_to :user
   belongs_to :category
+  belongs_to :duplicate_transaction, class_name: 'Transaction', foreign_key: 'duplicate_transaction_id', optional: true
 
   validates :custom_description, :category_id, presence: true
 
+  # callbacks
   after_update_commit { broadcast_replace_to "transactions", partial: 'transactions/transaction_summary', locals: {transaction: self} }
+  after_destroy :cleanup_after_destroy
 
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
@@ -21,6 +24,7 @@ class Transaction < ApplicationRecord
     Rails.logger.info("Total transactions to be saved in the DB = #{transactions.compact.count}")
     if transactions.compact.empty?
       Rails.logger.info("No transactions saved to the DB.")
+      []
     else
       begin
         result = Transaction.upsert_all(transactions.compact, unique_by: [:plaid_transaction_id])
@@ -79,7 +83,59 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def find_duplicates
+    return [] unless plaid_pending_transaction_id
+    duplicate_txs = Transaction.where(plaid_transaction_id: plaid_pending_transaction_id).where.not(id: id)
+    if duplicate_txs.empty?
+      duplicate_txs = Transaction.where(
+        description: description,
+        occured_at: occured_at,
+        amount: amount,
+      ).where.not(id: id)
+    end
+    duplicate_txs.map(&:id)
+  end
+
+  def tag_duplicates
+    if self.duplicate_resolved_at.nil?
+      duplicate_txs = find_duplicates
+      unless duplicate_txs.empty?
+        if duplicate_txs.count > 1
+          Rails.logger.error("Multiple duplicate transactions for transaction id #{id} found. Duplicates - #{duplicate_txs}")
+        else
+          Rails.logger.info("Marking transaction as duplicate with id=#{duplicate_txs.first}")
+          update(duplicate: true, duplicate_transaction_id: duplicate_txs.first)
+        end
+      end
+    end
+  end
+
+  def refund?
+    amount < 0 && !category.payroll?
+  end
+
+  def payroll?
+    amount < 0 && category.payroll?
+  end
+
+  def fee_charged?
+    amount > 0 && category.bank_fee_charged?
+  end
+
   private
+
+  def cleanup_after_destroy
+    resolve_duplicate
+  end
+
+  def resolve_duplicate
+    duplicate = Transaction.find_by(duplicate_transaction_id: id)
+    if duplicate
+      duplicate.update(duplicate: false, duplicate_transaction_id: nil, duplicate_resolved_at: Time.zone.now)
+    else
+      true
+    end
+  end
 
   def self.process_transactions_json(transactions_json_array, user_id)
     transactions_json_array.map do |transactions_json|

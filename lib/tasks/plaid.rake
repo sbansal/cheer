@@ -28,5 +28,37 @@ namespace :plaid do
       )
     end
   end
+
+  desc "Pull duplicate transactions"
+  task pull_duplicate_transactions: :environment do |task, args|
+    created_at = args[:created_at]
+    if created_at
+      tx_ids = Transaction.where('created_at > ?', created_at).pluck(:id)
+    else
+      tx_ids = Transaction.all.pluck(:id)
+    end
+    Transaction.where(id: tx_ids).each do |tx|
+      duplicate_txs = tx.find_duplicates
+      puts "Found duplicates for tx id: #{tx.id} - #{duplicate_txs} " unless duplicate_txs.empty?
+    end
+  end
+
+  desc "Tag duplicate transactions"
+  task tag_duplicate_transactions: :environment do |task, args|
+    created_at = args[:created_at]
+    if created_at
+      tx_ids = Transaction.where('created_at > ?', created_at).pluck(:id)
+    else
+      tx_ids = Transaction.all.pluck(:id)
+    end
+    duplicates = DuplicateTransactionsProcessor.call(tx_ids)
+    if duplicates.count == 0
+      puts "No duplicates found"
+    else
+      duplicates.each do |tx|
+        puts "Tagged tx id: #{tx.id} with duplicate #{tx.duplicate_transaction_id}"
+      end
+    end
+  end
 end
 

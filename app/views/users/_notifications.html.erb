@@ -1,4 +1,4 @@
-<div class="col-sm-7">
+<div class="col-sm-7 mb-3">
   <div class="med">Receive weekly email summary of your Net Worth and Cashflow.</div>
 </div>
 <div class="col-sm-1 form-check form-switch" data-controller="notifications">
@@ -6,3 +6,19 @@
     <%= form.check_box :weekly_summary, {class: 'primary-switch form-check-input', data: {action: 'change->notifications#toggleWeeklySummary' }} %>
   <% end %>
 </div>
+<% @notification_templates.each do |notification_template| %>
+  <% unless notification_template.hidden? %>
+    <div class="col-sm-7 py-3">
+      <div class="med"><%= notification_template.title %></div>
+    </div>
+    <div class="col-sm-1 form-check form-switch py-3" data-controller="notifications">
+      <%= form_with url: notification_subscriptions_path, id: "notification-template-#{notification_template.id}",  remote: true do |form| %>
+        <%= hidden_field_tag :notification_template, notification_template.id %>
+        <%= check_box_tag :notify_via_email,  '', NotificationSubscription.active?(current_user, notification_template),
+          {class: 'primary-switch form-check-input', data: { action: 'change->notifications#toggleSubscription',
+            notifications_template_id_param: notification_template.id}} %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+

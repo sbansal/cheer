@@ -38,6 +38,19 @@ RSpec.describe Category, type: :model do
     expect(@category_root.secondary_names).to eq []
   end
 
+  it 'checks for bank fees charged' do
+    create(:category, hierarchy: ["Bank Fees"])
+    create(:category, hierarchy: ["Bank Fees", "ATM"])
+    create(:category, hierarchy: ["Bank Fees", "Cash Advance"])
+    create(:category, hierarchy: ["Cash Advance"])
+    expect(Category.all.select(&:bank_fee_charged?).count).to eq(3)
+  end
+
+  it 'checks for payroll payments' do
+    cat = create(:category, hierarchy: ["Payroll"])
+    expect(cat.payroll?).to eq true
+  end
+
   after(:all) do
     Category.destroy_all
   end

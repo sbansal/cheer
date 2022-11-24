@@ -1,0 +1,19 @@
+<%= form_for @notification_template, class: 'form-inline', 'data-turbo': 'false' do |form| %>
+  <div class="row m-0">
+    <div class="col-sm-6 my-2 p-0 pe-2">
+      <%= form.text_field 'title', { class: 'form-control med', placeholder: 'Title', size: 40 } %>
+    </div>
+    <div class="col-sm-2 my-2">
+      <%= form.select 'frequency', options_for_select([["Weekly", "weekly"], ["Daily", "daily"], ["Now", "now"]], @notification_template.frequency), {},
+      { class: 'form-control med'} %>
+    </div>
+    <div class="col-sm-1 my-2 p-0 pe-2 text-end">
+      <%= form.check_box 'hidden', { class: ''} %>
+      <%= form.label 'Hidden', class: 'small'%>
+    </div>
+    <div class="col-sm-3 my-2 text-end">
+      <%= form.button 'Save template', class: 'btn btn-primary med'%>
+      <%= link_to 'Cancel', notification_templates_path, class: 'btn btn-outline-primary med' %>
+    </div>
+  </div>
+<% end %>
