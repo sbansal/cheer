@@ -1,7 +1,10 @@
 class NotificationsController < ApplicationController
+  include Pagy::Backend
+
   def index
     @notifications = current_company.notifications.where(read: false)
     @notifications_count = @notifications.count
+    @pagy, @notifications = pagy(@notifications, items: 25)
   end
 
   def update

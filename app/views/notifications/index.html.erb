@@ -4,14 +4,16 @@
     <div class="px-2 py-2">
       <div class="row">
         <% if @notifications_count > 0 %>
-          <div class="lg-18 col mb-4">Showing <%= pluralize(@notifications_count, 'notification')%></div>
+          <div class="lg-18 col mb-4 bold-2">Showing <%= pluralize(@notifications_count, 'unread notification')%></div>
           <div class="col mb-4 text-end">
             <%= form_tag '/notifications', method: :post do %>
               <%= button_tag 'Mark all as read', class: 'btn btn-sm btn-outline-secondary'%>
             <% end %>
           </div>
         <% else %>
-          <div class="lg-18 col mb-4">You have 0 unread notifications.</div>
+          <div class="med p-2">
+            You have 0 unread notifications.
+          </div>
         <% end %>
       </div>
     </div>
@@ -20,5 +22,10 @@
         <%= render notification %>
       <% end %>
     </div>
+    <% if @pagy && @notifications_count > 0 %>
+      <div class="my-3 mx-auto justify-content-center med primary">
+        <%== render 'shared/pagy_nav', pagy: @pagy %>
+      </div>
+    <% end %>
   </div>
 </div>

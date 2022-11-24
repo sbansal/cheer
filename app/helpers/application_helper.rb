@@ -19,6 +19,8 @@ module ApplicationHelper
       "active " if (controller_name == "companies" && action_name == "settings")
     when "subscriptions"
       "active " if (controller_name == "subscriptions")
+    when "notifications"
+      "active " if (controller_name == "notifications")
     else
       ""
     end
