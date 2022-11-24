@@ -1,0 +1,24 @@
+<% title "Notifications" %>
+<div class="row m-0">
+  <div class="col-sm-12 my-4">
+    <div class="px-2 py-2">
+      <div class="row">
+        <% if @notifications_count > 0 %>
+          <div class="lg-18 col mb-4">Showing <%= pluralize(@notifications_count, 'notification')%></div>
+          <div class="col mb-4 text-end">
+            <%= form_tag '/notifications', method: :post do %>
+              <%= button_tag 'Mark all as read', class: 'btn btn-sm btn-outline-secondary'%>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="lg-18 col mb-4">You have 0 unread notifications.</div>
+        <% end %>
+      </div>
+    </div>
+    <div id="notifications">
+      <% @notifications.each do |notification|%>
+        <%= render notification %>
+      <% end %>
+    </div>
+  </div>
+</div>

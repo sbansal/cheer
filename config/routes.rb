@@ -78,5 +78,8 @@ Rails.application.routes.draw do
 
     #notifications
     resources :notification_subscriptions, only: [:create]
+    resources :notifications, only: [:index, :update] do
+      post :update, on: :collection
+    end
   end
 end

@@ -38,4 +38,12 @@ module ApplicationHelper
       end
     end
   end
+
+  def formatted_date(some_date)
+    if Date.today.year == some_date.year
+      some_date.strftime('%b %-d')
+    else
+      some_date.strftime('%b %-d, %Y')
+    end
+  end
 end
