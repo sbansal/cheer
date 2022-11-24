@@ -55,9 +55,7 @@ namespace :plaid do
     if duplicates.count == 0
       puts "No duplicates found"
     else
-      duplicates.each do |tx|
-        puts "Tagged tx id: #{tx.id} with duplicate #{tx.duplicate_transaction_id}"
-      end
+      puts "Total transactions marked as duplicates: #{duplicates.count}"
     end
   end
 end
