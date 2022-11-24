@@ -11,6 +11,9 @@ class Transaction < ApplicationRecord
   # callbacks
   after_update_commit { broadcast_replace_to "transactions", partial: 'transactions/transaction_summary', locals: {transaction: self} }
   after_destroy :cleanup_after_destroy
+  after_destroy_commit do
+    broadcast_remove_to("transactions")
+  end
 
   scope :occured_between, ->(start_date, end_date) { where(occured_at: start_date..end_date)}
   scope :with_category, ->(category_name) { joins(:category).where("hierarchy @> ?", '' + "#{category_name}" + '') }
@@ -126,6 +129,7 @@ class Transaction < ApplicationRecord
 
   def cleanup_after_destroy
     resolve_duplicate
+    StatsCreatorJob.perform_later(self.user.company_id)
   end
 
   def resolve_duplicate
