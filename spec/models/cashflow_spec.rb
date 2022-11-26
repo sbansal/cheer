@@ -23,9 +23,9 @@ RSpec.describe Cashflow, type: :model do
   end
 
   after(:all) do
-    Category.destroy_all
-    BankAccount.destroy_all
-    Transaction.destroy_all
-    User.destroy_all
+    Category.delete_all
+    BankAccount.delete_all
+    Transaction.delete_all
+    User.delete_all
   end
 end
