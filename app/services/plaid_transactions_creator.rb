@@ -7,11 +7,22 @@ class PlaidTransactionsCreator < ApplicationService
     @end_date_iso8601_str = end_date
     @transactions_json_array = []
     @account_json_array = []
+    @login_item = LoginItem.find_by(plaid_access_token: @access_token)
   end
 
   def call
     begin
       add_transactions
+    rescue Plaid::ApiError => e
+      Rails.logger.error("[PlaidTransactionsCreator] Unable to add transactions for login item with ID=#{@login_item&.id}")
+      Rails.logger.error(e.response_body)
+      if item_expired?(e)
+        Rails.logger.info("[PlaidTransactionsCreator] Expiring login item with ID=#{@login_item&.id}.")
+        @login_item&.expire
+      end
+    rescue => e
+      Rails.logger.error("[PlaidTransactionsCreator] Unable to add transactions for login item with ID=#{@login_item&.id}")
+      Rails.logger.error(e)
     ensure
       upserter_result = Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
       upserted_transaction_ids = upserter_result.map {|result| result["id"]}
@@ -47,5 +58,13 @@ class PlaidTransactionsCreator < ApplicationService
         offset: offset,
       }
     )
+  end
+
+  private
+  ITEM_LOGIN_REQUIRED = 'ITEM_LOGIN_REQUIRED'
+
+  def item_expired?(error)
+    error_body = OpenStruct.new(JSON.parse(error.response_body))
+    error_body.error_code == ITEM_LOGIN_REQUIRED
   end
 end
