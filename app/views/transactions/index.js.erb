@@ -2,3 +2,8 @@ document.getElementById('transactions-container').innerHTML = "<%= j (render 'tr
 document.getElementById('tx-label').innerHTML = "Displaying <%= pluralize(@transactions.size, 'transaction') %>"
 document.getElementById('transactions-by-categories').innerHTML = " <%= j (render 'transactions_by_categories')%>"
 document.getElementById('transactions-by-merchants').innerHTML = " <%= j (render 'transactions_by_merchants')%>"
+<% if @duplicates_count > 0 %>
+  document.getElementById('toggle-duplicates').classList.remove('hide')
+<% else %>
+  document.getElementById('toggle-duplicates').classList.add('hide')
+<% end %>

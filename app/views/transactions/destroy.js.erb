@@ -1,0 +1,4 @@
+var toast = document.getElementById("toaster")
+toast.innerHTML = "<%= j(render 'shared/toast_messages') %>"
+document.dispatchEvent(new Event('show.toast'))
+document.dispatchEvent(new Event('hide.cheer.modal'))

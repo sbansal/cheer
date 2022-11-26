@@ -1,0 +1,17 @@
+<% if notification.transaction_reference %>
+  <%= link_to transaction_path(notification.transaction_reference), class: 'no-bubble', data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal' } do %>
+    <div class="row m-0 border-bottom py-3 med hoverable">
+      <div class="col-sm-3">
+        <span><%= formatted_date(notification.created_at) %></span>
+      </div>
+      <div class="col-sm-8"><%= expanded_description(notification) %></div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="row m-0 border-bottom py-2 small hoverable">
+    <div class="col-sm-3">
+      <span><%= formatted_date(notification.created_at) %></span>
+    </div>
+    <div class="col-sm-8"><%= expanded_description(notification) %></div>
+  </div>
+<% end %>

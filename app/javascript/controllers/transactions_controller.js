@@ -8,6 +8,7 @@ export default class extends Controller {
     period: String,
     query: String,
     accountIds: Array,
+    showDuplicates: Boolean,
   }
 
   handleEvent(event) {
@@ -39,6 +40,11 @@ export default class extends Controller {
     }
   }
 
+  showDuplicatesValueChanged(value, prevValue) {
+    if (prevValue != null && value !== prevValue) {
+      this.search()
+    }
+  }
 
   showTransactions(event) {
     console.debug("#showTransactions")
@@ -82,6 +88,7 @@ export default class extends Controller {
         period: this.periodValue,
         search_query: this.queryValue,
         bank_account_id: this.accountIdsValue,
+        show_duplicates: this.showDuplicatesValue,
       }
       const params = this.buildSearchParams(data)
       document.getElementById('spinner-container').classList.toggle('hide')
@@ -100,12 +107,19 @@ export default class extends Controller {
           console.debug("hiding spinner - search TX")
           document.getElementById('spinner-container').classList.add('hide')
           transactionContainer.style.opacity = 1
+          document.dispatchEvent(new Event('tooltip:reload'))
         },
       })
     }, 500)
     if (event) {
       event.preventDefault()
     }
+  }
+
+  toggleDuplicates(event) {
+    console.log("toggleDuplicates")
+    this.showDuplicatesValue = event.currentTarget.checked
+    event.preventDefault()
   }
 
   updateTransactions(transactionId, formData) {

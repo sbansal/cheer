@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     authenticate :user, lambda {|u| u.admin? } do
       mount Resque::Server.new, :at => "/resque"
       get '/users', to: 'users#index'
+      resources :notification_templates
     end
 
     #two factor authentication routes
@@ -74,5 +75,11 @@ Rails.application.routes.draw do
     #expenses
     resources :expenses, only: [:index]
     resources :earnings, only: [:index]
+
+    #notifications
+    resources :notification_subscriptions, only: [:create]
+    resources :notifications, only: [:index, :update] do
+      post :update, on: :collection
+    end
   end
 end

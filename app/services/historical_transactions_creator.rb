@@ -12,9 +12,12 @@ class HistoricalTransactionsCreator < ApplicationService
     begin
       fetch_historical_transactions
     ensure
-      Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
+      upserter_result = Transaction.create_transactions_from_json(@transactions_json_array.flatten, @user.id)
+      upserted_transaction_ids = upserter_result.map {|result| result["id"]}
       BankAccount.update_balances(@accounts_json_array.uniq { |item| item.account_id })
+      DuplicateTransactionsProcessor.call(upserted_transaction_ids)
       StatsCreatorJob.perform_later(@user.company_id)
+      NotificationsCreatorJob.perform_later(upserted_transaction_ids)
     end
   end
 

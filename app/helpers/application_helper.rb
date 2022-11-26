@@ -19,6 +19,8 @@ module ApplicationHelper
       "active " if (controller_name == "companies" && action_name == "settings")
     when "subscriptions"
       "active " if (controller_name == "subscriptions")
+    when "notifications"
+      "active " if (controller_name == "notifications")
     else
       ""
     end
@@ -36,6 +38,14 @@ module ApplicationHelper
       else
         number_to_currency(amount.abs)
       end
+    end
+  end
+
+  def formatted_date(some_date)
+    if Date.today.year == some_date.year
+      some_date.strftime('%b %-d')
+    else
+      some_date.strftime('%b %-d, %Y')
     end
   end
 end
