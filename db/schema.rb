@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_23_164325) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_28_033439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_23_164325) do
     t.string "provider_item_id"
     t.float "native_balance"
     t.string "native_currency"
+    t.boolean "archived", default: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -165,6 +166,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_23_164325) do
     t.datetime "link_token_expires_at", precision: nil
     t.string "provider_access_token"
     t.string "provider_refresh_token"
+    t.text "plaid_cursor"
+    t.boolean "new_accounts_available", default: false
   end
 
   create_table "notification_subscriptions", force: :cascade do |t|
@@ -225,6 +228,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_23_164325) do
     t.float "amount"
     t.boolean "active", default: false
     t.index ["bank_account_id", "frequency", "description", "amount"], name: "unique_subscriptions_by_frequency", unique: true
+  end
+
+  create_table "transaction_errors", force: :cascade do |t|
+    t.jsonb "transaction_json"
+    t.integer "user_id"
+    t.text "error_message"
+    t.string "error_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", force: :cascade do |t|

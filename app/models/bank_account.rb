@@ -22,13 +22,10 @@ class BankAccount < ApplicationRecord
 
   def self.create_accounts_from_json(accounts_json_array, login_item_id, user_id, institution_id)
     banks_accounts = accounts_json_array.filter_map do |account_json|
-      company = User.find(user_id)&.company
-      existing_bank_accounts = company.bank_accounts.where(
-        name: account_json.name,
-        mask: account_json.mask,
-        institution_id: institution_id,
-      )
-      if existing_bank_accounts.empty?
+      if self.bank_account_already_exists?(account_json, institution_id, user_id)
+        Rails.logger.warn("Account already exists for account data: #{account_json}")
+        next
+      else
         {
           plaid_account_id: account_json.account_id,
           name: account_json.name,
@@ -45,9 +42,6 @@ class BankAccount < ApplicationRecord
           user_id: user_id,
           institution_id: institution_id,
         }
-      else
-        Rails.logger.warn("Account already exists for account data: #{account_json}")
-        next
       end
     end
     create!(banks_accounts)
@@ -233,6 +227,20 @@ class BankAccount < ApplicationRecord
 
   def sanitize_balance(balance)
     balance&.gsub(',',"")&.gsub('$',"") || 0
+  end
+
+  def self.bank_account_already_exists?(account_json, institution_id, user_id)
+    company = User.find(user_id)&.company
+    bank_account = BankAccount.find_by(plaid_account_id: account_json.account_id)
+    if bank_account
+      true
+    else
+      company.bank_accounts.where(
+        name: account_json.name,
+        mask: account_json.mask,
+        institution_id: institution_id,
+      ).count > 0
+    end
   end
 
 end

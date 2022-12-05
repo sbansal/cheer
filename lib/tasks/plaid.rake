@@ -58,5 +58,16 @@ namespace :plaid do
       puts "Total transactions marked as duplicates: #{duplicates.count}"
     end
   end
+
+  desc "Update all login items"
+  task sync_login_items: :environment do |task, args|
+    LoginItem.all.each do |login_item|
+      if login_item.expired?
+        puts "Not updating expired login item #{login_item.id}"
+      else
+        PlaidLoginItemUpdater.call(login_item.id, false)
+      end
+    end
+  end
 end
 

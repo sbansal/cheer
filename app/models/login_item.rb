@@ -59,15 +59,20 @@ class LoginItem < ApplicationRecord
   end
 
   def activate
-    update(expired: false, expired_at: nil, link_token: nil, link_token_expires_at: nil)
+    update(expired: false, expired_at: nil, link_token: nil, link_token_expires_at: nil, new_accounts_available: false)
     GenericMailer.login_item_activated_notification(self.user_id, self.id).deliver_later
   end
 
-  def enqueue_transaction_fetch
+  def request_new_account_linking
+    update(new_accounts_available: true)
+    GenericMailer.new_accounts_available_notification(self.user_id, self.id).deliver_later
+  end
+
+  def fetch_transactions
     last_transaction_date = transactions_history_period[1] || self.created_at.to_date
     last_webhook_date = self.last_webhook_sent_at&.to_date || self.created_at.to_date
     start_date = [last_webhook_date, last_transaction_date].min
-    RefreshTransactionsJob.perform_later(self.plaid_access_token, self.user_id, start_date.iso8601, Date.today.iso8601)
+    PlaidTransactionsCreator.call(self.plaid_access_token, self.user, start_date.iso8601, Date.today.iso8601)
   end
 
   def fetch_link_token
@@ -96,7 +101,7 @@ class LoginItem < ApplicationRecord
   end
 
   def should_display_plaid_renew_link?(current_user)
-    self.plaid_access_token? && expired? && self.user == current_user && fetch_link_token.present?
+    self.plaid_access_token? && self.user == current_user && fetch_link_token.present? && (expired? || new_accounts_available?)
   end
 
   def data_provider

@@ -1,4 +1,11 @@
 FactoryBot.define do
+  factory :transaction_error do
+    transaction_json { "" }
+    user_id { 1 }
+    error_message { "MyText" }
+    error_type { "MyString" }
+  end
+
   factory :account_type do
     name { "credit" }
     subtype_array { '[{"name": "credit card", "description": "Bank issued credit card"}]' }

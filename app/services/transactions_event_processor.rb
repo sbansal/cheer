@@ -4,6 +4,7 @@ class TransactionsEventProcessor < EventProcessor
   HISTORICAL_UPDATE_CODE = 'HISTORICAL_UPDATE'
   DEFAULT_UPDATE_CODE = 'DEFAULT_UPDATE'
   TRANSACTIONS_REMOVED_CODE = 'TRANSACTIONS_REMOVED'
+  SYNC_UPDATES_AVAILABLE = 'SYNC_UPDATES_AVAILABLE'
 
   def initialize(event_code, item_id, metadata={})
     super(event_code, item_id, metadata)
@@ -23,6 +24,9 @@ class TransactionsEventProcessor < EventProcessor
     when DEFAULT_UPDATE_CODE
       Rails.logger.info("[WebhookEvent:TransactionsEvent] New transaction data available. Total new transactions=#{metadata['new_transactions']}")
       fetch_new_transactions
+    when SYNC_UPDATES_AVAILABLE
+      Rails.logger.info("[WebhookEvent:TransactionsEvent] Transaction sync updates available. Initial update complete=#{metadata['initial_update_complete']}, historical update complete=#{metadata['historical_update_complete']}")
+      # sync_transactions
     when TRANSACTIONS_REMOVED_CODE
       removed_transactions = metadata['removed_transactions']
       Rails.logger.info("[WebhookEvent:TransactionsEvent] #{removed_transactions.count} transactions removed. Deleting from the database.")
@@ -30,6 +34,10 @@ class TransactionsEventProcessor < EventProcessor
     else
       Rails.logger.error("[WebhookEvent:TransactionsEvent] Unable to process transactions event code = #{event_code}")
     end
+  end
+
+  def sync_transactions
+    PlaidTransactionsSyncProcessor.call(login_item.plaid_access_token)
   end
 
   def remove_transactions(removed_transactions)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TransactionsFetcher do
-  before('all') do
+  before(:all) do
     @company = create(:company, created_at: 1.year.ago)
     @user = create(:user, company: @company)
     @category = create(:category, plaid_category_id: Category::CC_PAYMENT_PLAID_ID)

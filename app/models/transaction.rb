@@ -129,7 +129,9 @@ class Transaction < ApplicationRecord
 
   def cleanup_after_destroy
     resolve_duplicate
-    StatsCreatorJob.perform_later(self.user.company_id)
+    unless self.user.nil?
+      StatsCreatorJob.perform_later(self.user.company_id)
+    end
   end
 
   def resolve_duplicate
@@ -177,6 +179,12 @@ class Transaction < ApplicationRecord
       rescue => e
         Rails.logger.error("Unable to process transaction with payload: #{transactions_json}, exception - #{e}")
         Rails.logger.error(e.backtrace.join("\n"))
+        TransactionError.create(
+          user_id: user_id,
+          transaction_json: transactions_json,
+          error_message: e.full_message,
+          error_type: e.class.name,
+        )
         next
       end
     end
