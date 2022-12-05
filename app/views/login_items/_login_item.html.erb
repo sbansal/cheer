@@ -12,8 +12,19 @@
 <div class="col-6">
   <div><%= login_item&.institution&.name %></div>
   <div class="small grey-100">
-    Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %>
+    <% if login_item.expired? %>
+      <span class="danger d-inline-block">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+          <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+        </svg>
+      </span>
+      <span class='px-1 d-inline-block'>Expired as of <%= login_item.expired_at&.strftime('%m/%d/%Y') || Date.today.strftime('%m/%d/%Y') %></span>
+    <% else %>
+      <span>Linked by <%= login_item.user.friendly_name %> on <%= login_item.created_at.strftime('%m/%d/%Y') %></span>
+    <% end %>
   </div>
+  <div class="small grey-100">Last updated on <%= login_item.last_successful_transaction_update_at&.strftime('%m/%d/%Y') || '-' %></div>
 </div>
 <div class="col-5 text-end">
   <div><%= pluralize(login_item.bank_accounts.count, 'account') %></div>
@@ -26,27 +37,5 @@
       :data => { :confirm => "We will delete all accounts and transactions related to this linked account." },
       :method => :delete,
       class: 'danger small text-decoration-underline ' %>
-  </div>
-</div>
-<div class="row mt-2 mb-0 mx-0 pt-3 primary-900-bg rounded-3 hide" id="link-details-<%= login_item.id%>">
-  <div class="col-4 border-bottom py-3">
-    <div class="fw-bold small">Status </div>
-    <div class=" med"><%= login_item.status.capitalize %></div>
-  </div>
-  <div class="col-4 border-bottom py-3">
-    <div class="fw-bold small">Data Provider</div>
-    <div class=" med"><%= login_item.data_provider %></div>
-  </div>
-  <div class="col-4 border-bottom py-3">
-    <div class="fw-bold small">Linked on</div>
-    <div class=" med"><%= login_item.created_at.strftime('%m/%d/%Y') || '-' %></div>
-  </div>
-  <div class="col-4 py-3">
-    <div class="fw-bold small">Link expires on</div>
-    <div class=" med"><%= login_item.consent_expires_at || '-' %></div>
-  </div>
-  <div class="col-4 py-3">
-    <div class="fw-bold small">Last successful </div>
-    <div class=" med"><%= login_item.consent_expires_at || '-' %></div>
   </div>
 </div>

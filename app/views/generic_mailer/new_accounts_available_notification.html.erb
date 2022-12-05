@@ -1,0 +1,21 @@
+<table style="width: 100%;table-layout: fixed; padding-top: 10px; border-top: 1px solid #EEE;">
+  <tbody>
+    <tr>
+      <td>
+        <p style="line-height: 20px">Hey <%= @user.friendly_name %>,</p>
+        <p style="line-height: 25px">
+          Looks like there are new accounts that are available to be linked to your <%= @institution_name %> connection. Please reconnect your account so that we can
+          keep all your accounts information updated. This way you will be able to track transactions and balances across all your accounts.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px 0">
+        <a style="text-decoration: none;cursor: pointer; padding: 15px 20px; background-color: #7069FA; color: #FFF;
+        font-size: 1rem;border-radius: 5px;" href="https://app.usecheer.com/login_items">
+          Reconnect your <%= @institution_name %> account
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

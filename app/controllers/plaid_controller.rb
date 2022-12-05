@@ -4,7 +4,7 @@ class PlaidController < ApplicationController
   def update_link
     @login_item = current_user.login_items.find_by(link_token: params['link_token'])
     @login_item.activate
-    @login_item.enqueue_transaction_fetch
+    PlaidLoginItemUpdaterJob.perform_later(@login_item.id)
     flash[:notice_header] = 'Link updated'
     flash[:notice] = "Your link to #{@login_item.institution.name} has been renewed successfully."
   end

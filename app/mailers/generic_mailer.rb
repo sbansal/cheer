@@ -24,4 +24,11 @@ class GenericMailer < ApplicationMailer
     @institution_name = @login_item.institution.name
     mail(:to =>  @user.email, :subject => "Successfully connected to your #{@institution_name} account.")
   end
+
+  def new_accounts_available_notification(user_id, login_item_id)
+    @user = User.find(user_id)
+    @login_item = LoginItem.find(login_item_id)
+    @institution_name = @login_item.institution.name
+    mail(:to =>  @user.email, :subject => "Cheer - Updated account information available for your #{@institution_name} account.")
+  end
 end

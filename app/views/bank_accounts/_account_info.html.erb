@@ -1,5 +1,5 @@
 <div class="row border-bottom py-3 m-0 px-2" id="account-row-<%= account.id%>">
-  <div class="col-8 p-0">
+  <div class="col-9 p-0">
     <div class="row m-0">
       <div class="p-2 col-4 mw60">
         <% if account.institution&.logo.present? %>
@@ -15,11 +15,17 @@
           <% end %>
           <%= account.account_subtype&.upcase %>
         </div>
-        <div class="med"><%= link_to account.descriptive_name, bank_account_url(account) %></div>
+        <div class="med">
+          <span><%= link_to account.descriptive_name, bank_account_url(account) %></span>
+          <% if account.archived? %>
+            <span class="xs px-2 py-1 rounded-2 border border-danger pointer secondary-bg col-2" href="#" data-bs-toggle="tooltip" 
+              data-bs-title="This account is inactive. Transaction and balances are not going to be updated. ">INACTIVE</span>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-4 text-end p-0">
+  <div class="col-3 text-end p-0">
     <div class="grey-100 med"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
     <div><%= number_to_currency(account.current_balance)%></div>
     <div class="small">
