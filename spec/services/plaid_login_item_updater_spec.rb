@@ -17,7 +17,7 @@ RSpec.describe PlaidLoginItemUpdater do
     allow(client).to receive(:accounts_get) { accounts_json(@bank_account) }
     allow(PlaidClientCreator).to receive(:call) { client }
     PlaidLoginItemUpdater.call(@login_item.id, false)
-    @login_item = @login_item.reload
+    @login_item = LoginItem.find(@login_item.id)
     expect(@login_item.consent_expires_at).to eq nil
     expect(@login_item.last_successful_transaction_update_at).to eq time
     expect(@login_item.bank_accounts.count).to eq 1
@@ -31,7 +31,7 @@ RSpec.describe PlaidLoginItemUpdater do
     allow(client).to receive(:accounts_get) { accounts_json(bank_account) }
     allow(PlaidClientCreator).to receive(:call) { client }
     PlaidLoginItemUpdater.call(@login_item.id, false)
-    @login_item = @login_item.reload
+    @login_item = LoginItem.find(@login_item.id)
     expect(@login_item.consent_expires_at).to eq nil
     expect(@login_item.last_successful_transaction_update_at).to eq time
     expect(@login_item.bank_accounts.count).to eq 2

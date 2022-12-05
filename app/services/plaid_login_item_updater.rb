@@ -10,7 +10,6 @@ class PlaidLoginItemUpdater < ApplicationService
       update_login_item
       create_or_update_accounts
       if @fetch_transactions
-        puts "fetch #{@login_item.id}"
         @login_item.fetch_transactions
       end
     rescue Plaid::ApiError => e
