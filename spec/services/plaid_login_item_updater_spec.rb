@@ -19,7 +19,7 @@ RSpec.describe PlaidLoginItemUpdater do
     PlaidLoginItemUpdater.call(@login_item.id, false)
     @login_item = LoginItem.find(@login_item.id)
     expect(@login_item.consent_expires_at).to eq nil
-    expect(@login_item.last_successful_transaction_update_at).to eq time
+    expect(@login_item.last_successful_transaction_update_at.to_s).to eq time.to_s
     expect(@login_item.bank_accounts.count).to eq 1
     expect(@bank_account.reload.archived?).to eq false
   end
@@ -33,7 +33,7 @@ RSpec.describe PlaidLoginItemUpdater do
     PlaidLoginItemUpdater.call(@login_item.id, false)
     @login_item = LoginItem.find(@login_item.id)
     expect(@login_item.consent_expires_at).to eq nil
-    expect(@login_item.last_successful_transaction_update_at).to eq time
+    expect(@login_item.last_successful_transaction_update_at.to_s).to eq time.to_s
     expect(@login_item.bank_accounts.count).to eq 2
     expect(@bank_account.reload.archived?).to eq true
   end
