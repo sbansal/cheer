@@ -44,6 +44,12 @@ class DashboardController < ApplicationController
     end
   end
 
+  def export
+    @login_items = current_company.login_items
+    @bank_accounts = @login_items.includes([bank_accounts: [:institution]]).flat_map(&:bank_accounts)
+    @bank_accounts_count = @bank_accounts.count
+  end
+
   private
 
   def compute_stat_value_for_period(stat, period)

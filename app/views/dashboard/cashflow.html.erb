@@ -81,7 +81,7 @@
         </div>
         <div class="">
           <% @cash_asset_accounts.each do |account|%>
-            <%= render 'bank_accounts/account_details', account: account %>
+            <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
           <% end %>
         </div>
         <div class="row m-0 my-4 p-2 bold-2">
@@ -98,7 +98,7 @@
         </div>
         <div>
           <% @non_cash_asset_accounts.each do |account|%>
-            <%= render 'bank_accounts/account_details', account: account %>
+            <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
           <% end %>
         </div>
       </div>
@@ -118,7 +118,7 @@
           </div>
         </div>
         <% @liability_accounts.each do |account|%>
-          <%= render 'bank_accounts/account_details', account: account %>
+          <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
         <% end %>
       </div>
     </div>

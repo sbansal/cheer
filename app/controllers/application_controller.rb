@@ -1,12 +1,14 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :check_product_type
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if current_user.new_company?
+    if current_company.personal_product?
+      export_path
+    elsif current_user.new_company?
       root_path
     else
       stored_location_for(resource) || root_path
@@ -20,6 +22,12 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:company_update) {
       |u| u.permit(:full_name, :email, :password, :current_password, :password_confirmation, :avatar, :time_zone)
     }
+  end
+
+  def check_product_type
+    # if current_user && current_company.personal_product? && request.path != '/personal'
+    #   redirect_to personal_path
+    # end
   end
 
   def current_company
@@ -52,9 +60,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+
   def layout_by_resource
     if devise_controller?
       "devise"
+    elsif current_company.personal_product?
+      "personal"
     else
       "application"
     end

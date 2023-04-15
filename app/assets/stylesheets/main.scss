@@ -41,6 +41,10 @@ input[type='checkbox'], {
   border-color: $danger !important;
 }
 
+.border-purple {
+  border-color: var(--purple-600) !important;
+}
+
 .border-danger-subtle {
   border-color: $danger-subtle !important;
 }
@@ -827,6 +831,38 @@ div.intro {
   div.connect {
     a {
       margin-top: 20px;
+    }
+  }
+}
+
+div.personal-intro {
+  h1 {
+    margin: 20px 0;
+    font-weight: 800;
+    font-size: 36px;
+  }
+  p.subtext {
+    margin: 20px 0;
+  }
+  div.connect {
+    a {
+      margin-top: 20px;
+    }
+  }
+}
+
+.stages {
+  h1 {
+    margin: 10px 0;
+    font-weight: 700;
+    font-size: 24px;
+  }
+  p.subtext {
+    margin: 10px 0;
+  }
+  div.connect {
+    a {
+      margin-top: 10px;
     }
   }
 }

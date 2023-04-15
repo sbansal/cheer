@@ -26,7 +26,7 @@
     </div>
   </div>
   <div class="col-3 text-end p-0">
-    <div class="grey-100 med"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
+    <div class="grey-100 med">Updated <%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
     <div><%= number_to_currency(account.current_balance)%></div>
     <div class="small">
       <% if account.manually_tracked? %>

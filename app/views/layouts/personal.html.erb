@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cheer - Generate your financial summary.</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <%= favicon_link_tag 'favicon.ico', rel: 'apple-touch-icon' %>
+    <%= favicon_link_tag 'favicon.ico' %>
+    <%= stylesheet_link_tag "application", "main", media: "all", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+  <body class="body">
+    <div class="personal-intro container">
+      <h1 class="lg-18">Welcome to Cheer <%= current_user.friendly_name%>!</h1>
+      <% if current_user.new_company? %>
+        <div class="p-2 med">
+          We are going to help you get a financial summary across all your accounts. Let's get started.
+        </div>
+      <% end %>
+    </div>
+
+    <main class="container"><%= yield %></main>
+  </body>
+</html>

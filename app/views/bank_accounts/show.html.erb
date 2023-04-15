@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="px-2 py-2 mb-5 border rounded-3">
-        <%= render 'account_details', account: @bank_account %>
+        <%= render 'account_details', account: @bank_account, show_balance_updated_at: true %>
         <div class="px-2 pt-5" data-controller="charts"
         data-charts-balance-value="<%= number_to_currency(@bank_account.current_balance)%>"
         data-charts-currency-value="<%= @bank_account.balance_currency_code %>"

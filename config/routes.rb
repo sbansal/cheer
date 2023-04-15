@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     #dashboard resources
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
+    get '/export', to: 'dashboard#export', as: :export
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'

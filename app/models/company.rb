@@ -104,6 +104,11 @@ class Company < ApplicationRecord
   def first_transaction_occured_at
     transactions&.last&.occured_at || self.created_at.to_date
   end
+  
+  PERSONAL_PRODUCT = 'PERSONAL'
+  def personal_product?
+    enabled_product == PERSONAL_PRODUCT
+  end
 
   private
 
