@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     #dashboard resources
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
-    get '/export', to: 'dashboard#export', as: :export
+    get '/privatefi', to: 'dashboard#privatefi'
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
@@ -81,6 +81,10 @@ Rails.application.routes.draw do
     resources :notification_subscriptions, only: [:create]
     resources :notifications, only: [:index, :update] do
       post :update, on: :collection
+    end
+
+    resources :chats, only: [:show, :destroy] do
+      resources :messages, only: [:create]
     end
   end
 end

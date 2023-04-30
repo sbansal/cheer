@@ -44,10 +44,10 @@ class DashboardController < ApplicationController
     end
   end
 
-  def export
-    @login_items = current_company.login_items
-    @bank_accounts = @login_items.includes([bank_accounts: [:institution]]).flat_map(&:bank_accounts)
-    @bank_accounts_count = @bank_accounts.count
+  def privatefi
+    @chat = current_user.chats.first || current_user.chats.create(message: 'PrivateFi chat')
+    @message = @chat.messages.new
+    redirect_to chat_path(@chat)
   end
 
   private

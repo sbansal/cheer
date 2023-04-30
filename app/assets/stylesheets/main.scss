@@ -23,7 +23,7 @@ div, table, p, section, h1, h2, h3, h4, a, ul, li, td{
 input[type='text'],
 input[type='email'],
 input[type='password'],
-input[type='checkbox'], {
+input[type='checkbox'] {
   background-color: var(--default-bg) !important;
   color: var(--default-color) !important;
   border-color: var(--default-border-color);
@@ -1088,4 +1088,41 @@ div.personal-intro {
     min-width: 90%;
     left:5%;
   }
+}
+
+@keyframes text-generate {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+span.generated-text {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: text-generate 8s linear forwards;
+}
+
+.generated-text::after {
+  content: "_";
+  display: inline-block;
+  animation: cursor-blink 0.5s linear infinite;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.prompt {
+  color: var(--purple-600) !important;
 }

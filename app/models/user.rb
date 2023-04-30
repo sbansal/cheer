@@ -11,10 +11,16 @@ class User < ApplicationRecord
   has_many :transactions, ->{ order(:occured_at => 'DESC') }, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :chats, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   belongs_to :company
 
   validates :full_name, presence: { message: 'Please provide your full name.' }
+
+  def self.privatefi
+    User.find_by(email: 'privatefi@usecheer.com')
+  end
 
   def friendly_name
     full_name&.split(' ')&.first || 'there'
