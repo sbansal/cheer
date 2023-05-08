@@ -2,6 +2,7 @@
   <ul class="basic">
     <div class="col-1 nav-toggler me-2 d-lg-none" data-action="click->navigation#toggle"></div>
     <li class="nav-item mb-5"><%= link_to 'Cheer', root_path, class: 'logo lg-32' %></li>
+    <% if current_user.admin? %>
     <li class="nav-item med icon">
       <a href="/privatefi" class="<%= active_menu_item('privatefi')%>">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
@@ -11,6 +12,7 @@
         <span>PrivateFi</span>
       </a>
     </li>
+    <% end %>
     <li class="nav-item med icon">
       <a href="/cashflow" class="<%= active_menu_item('cashflow')%>">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon-item d-none d-xl-inline">
