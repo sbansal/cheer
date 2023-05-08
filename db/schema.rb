@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_223752) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_07_175551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
@@ -185,6 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_223752) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "query_type", default: "prompt"
+    t.integer "role"
   end
 
   create_table "notification_subscriptions", force: :cascade do |t|

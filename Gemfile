@@ -91,3 +91,6 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 gem "sentry-resque"
 gem 'newrelic_rpm'
+
+#openai
+gem "ruby-openai", "~> 4.0.0"

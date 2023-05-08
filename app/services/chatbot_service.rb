@@ -1,12 +1,37 @@
 class ChatbotService < ApplicationService
-  attr_reader :chat, :message
+  attr_reader :chat
 
-  def initialize(message)
-    @message = message
+  def initialize(chat_id)
+    @chat = Chat.find(chat_id)
   end
 
-  def fetch_response
-    "PrivateFi is here to help you manage your finances."
+  def call
+    call_openai
+  end
+
+  private
+  require 'openai'
+
+  def call_openai
+    message = @chat.messages.create(role: "assistant", content: "", user: User.privatefi, query_type: Message::BOT_RESPONSE)
+    message.broadcast_created
+
+    client = OpenAI::Client.new(access_token: Rails.application.credentials[:openai][:api_access_token])
+    client.chat(
+      parameters: {
+        model: "gpt-3.5-turbo",
+        messages: @chat.messages_for_openai,
+        temperature: 0.1,
+        stream: stream_proc(message: message)
+      }
+    )
+  end
+
+  def stream_proc(message:)
+    proc do |chunk, _bytesize|
+      new_content = chunk.dig("choices", 0, "delta", "content")
+      message.update(content: message.content + new_content) if new_content
+    end
   end
 end
 
