@@ -41,6 +41,15 @@ export default class extends Controller {
     form.reset();
   }
 
-
+  connect() {
+    window.scrollTo(0, document.body.scrollHeight);
+    const observer = new MutationObserver((mutationsList, observer) => {
+      // Check if new content has been added to the div element
+      if (mutationsList[0].addedNodes.length > 0) {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    });
+    const observerConfig = { childList: true, subtree: true };
+    observer.observe(this.element, observerConfig);
+  }
 }
-  

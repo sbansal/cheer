@@ -16,15 +16,20 @@ class ChatbotService < ApplicationService
     message = @chat.messages.create(role: "assistant", content: "", user: User.privatefi, query_type: Message::BOT_RESPONSE)
     message.broadcast_created
 
-    client = OpenAI::Client.new(access_token: Rails.application.credentials[:openai][:api_access_token])
-    client.chat(
-      parameters: {
-        model: "gpt-3.5-turbo",
-        messages: @chat.messages_for_openai,
-        temperature: 0.1,
-        stream: stream_proc(message: message)
-      }
-    )
+    begin
+      client = OpenAI::Client.new(access_token: Rails.application.credentials[:openai][:api_access_token])
+      client.chat(
+        parameters: {
+          model: "gpt-3.5-turbo",
+          messages: @chat.messages_for_openai,
+          temperature: 0.1,
+          stream: stream_proc(message: message)
+        }
+      )
+    rescue => e
+      Rails.logger.error(e)
+      message.update(content: "Sorry, I'm having trouble understanding you. Please try again.")
+    end
   end
 
   def stream_proc(message:)

@@ -1,10 +1,8 @@
 <% title "PrivateFi" %>
-<div class="p-2 w-75 m-auto pt-4 mb-2 h-90">
-  <div id="messages" class="scroller">
+<div class="p-2 w-75 m-auto pt-4 mb-2" data-controller="messages" style="min-width: 400px">
+  <div id="messages" class="messages-container">
     <%= turbo_stream_from "#{@chat.broadcast_tag}" %>
-    <%= turbo_frame_tag "messages" do %>
-      <%= render @messages %>
-    <% end %>
+    <%= render @messages %>
   </div>
 </div>
 <div class="p-2 pt-4 sticky-bottom default-bg border-top" style="max-height: 100px">
@@ -13,5 +11,4 @@
       <%= form.text_area :content, class: 'form-control xs', autofocus: true, placeholder: 'Ask me anything...' %>
     <% end %>
   </div>
-</div>
 </div>
