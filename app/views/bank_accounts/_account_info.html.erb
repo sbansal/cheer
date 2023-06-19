@@ -1,15 +1,15 @@
-<div class="row border-bottom py-3 m-0 px-2" id="account-row-<%= account.id%>">
-  <div class="col-9 p-0">
+<div class="row border-bottom py-2 m-0 px-2" id="account-row-<%= account.id%>">
+  <div class="col-8 p-0">
     <div class="row m-0">
-      <div class="p-2 col-4 mw60">
+      <div class="py-2 col-3 mw60 px-0">
         <% if account.institution&.logo.present? %>
-          <div class="text-center"><%= image_tag account&.institution&.logo_source, size: "30x30" %></div>
+          <div><%= image_tag account&.institution&.logo_source, size: "30x30" %></div>
         <% else %>
           <%= render 'placeholder_logo', account: account %>
         <% end %>
       </div>
-      <div class="col-8 p-0">
-        <div class="med grey-100">
+      <div class="col-9 p-0">
+        <div class="xs grey-100">
           <% if account.institution %>
           <%= account.institution.name.upcase %> -
           <% end %>
@@ -18,20 +18,22 @@
         <div class="med">
           <span><%= link_to account.descriptive_name, bank_account_url(account) %></span>
           <% if account.archived? %>
-            <span class="xs px-2 py-1 rounded-2 border border-danger pointer secondary-bg col-2" href="#" data-bs-toggle="tooltip" 
-              data-bs-title="This account is inactive. Transaction and balances are not going to be updated. ">INACTIVE</span>
+            <span class="xs px-1 py-1 rounded-4 border border-danger pointer secondary-bg" href="#" data-bs-toggle="tooltip" 
+              data-bs-title="This account is inactive. Transaction and balances are not going to be updated. ">Inactive</span>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-3 text-end p-0">
-    <div class="grey-100 med">Updated <%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
-    <div><%= number_to_currency(account.current_balance)%></div>
-    <div class="small">
+  <div class="col-4 text-end p-0">
+    <div class="grey-100 xs"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
+    <div class="med"><%= number_to_currency(account.current_balance)%></div>
+    <div class="xs">
       <% if account.manually_tracked? %>
       <%= link_to 'Update', edit_bank_account_path(account), {data: {remote: true, bs_toggle: 'modal', bs_target: '#cheer-modal'},
-        class: 'xs grey-100 text-decoration-underline'}%>
+        class: 'xs grey-100 text-decoration-underline'}%> | 
+      <%= link_to 'Delete', bank_account_path(account), method: :delete, data: {confirm: 'Deleting this account will delete all transaction and balances.'},
+        class: 'xs grey-100 text-decoration-underline'%>  
       <% end %>
     </div>
   </div>

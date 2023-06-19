@@ -25,6 +25,8 @@ module ApplicationHelper
       "active " if (controller_name == "notifications")
     when "privatefi"
       "active " if (controller_name == "chats")
+    when "reports"
+      "active " if (controller_name == "reports")  
     else
       ""
     end

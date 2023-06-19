@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
     get '/privatefi', to: 'dashboard#privatefi'
+    get '/personal', to: 'dashboard#personal'
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
@@ -83,8 +84,12 @@ Rails.application.routes.draw do
       post :update, on: :collection
     end
 
+    # chats
     resources :chats, only: [:show, :destroy] do
       resources :messages
     end
+
+    #reports
+    resources :reports, only: [:index]
   end
 end

@@ -53,13 +53,8 @@ class DashboardController < ApplicationController
     redirect_to chat_path(@chat)
   end
 
-  private
-
-  def compute_stat_value_for_period(stat, period)
-    if value_over_time_data = current_company.stats.find_by(name: stat)&.value_over_time_data
-      value_over_time_data[period]
-    else
-      0
-    end
+  def personal
+    @accounts = current_company.bank_accounts
+    @accounts_count = @accounts.count
   end
 end

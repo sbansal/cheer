@@ -85,6 +85,10 @@ class Company < ApplicationRecord
     total_assets - total_liabilities
   end
 
+  def total_investments(start_date=Time.zone.now.beginning_of_month, end_date=Time.zone.now)
+    transactions.occured_between(start_date, end_date).investments.sum(:amount)
+  end
+
   def assets_trend
     aggregated_daily_balances_for_accounts(bank_accounts.assets.includes([:balances]))
   end

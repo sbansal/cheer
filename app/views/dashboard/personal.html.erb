@@ -1,0 +1,24 @@
+<% title "Cheer Personal" %>
+<div class="px-3">
+  <% if current_user.new_company? || @accounts_count == 0 %>
+  <div class="intro">
+    <h1>Hello there, Welcome to Cheer!</h1>
+    <p class="subtext">
+      To get you started, let's connect your accounts first.
+    </p>
+    <div class="connect">
+      <%= link_to('Link account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+  <% else %>
+    <div class="py-4">
+      <p class=""><%= pluralize(@accounts_count, 'account')%> connected.</div>
+      <% @accounts.each do |account| %>
+        <div class="row sm m-0">
+          <div class="border-bottom p-2"><%= account.descriptive_name%></div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

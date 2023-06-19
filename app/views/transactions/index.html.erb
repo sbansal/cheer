@@ -51,7 +51,7 @@
       <div class="border rounded-3 mb-4 primary-900-bg">
         <div class="bold-2 p-3 border-bottom">Transactions by category</div>
         <div id="transactions-by-categories">
-          <%= render 'transactions_by_categories' %>
+          <%= render 'transactions_by_categories', transactions_by_category: @transactions_by_category %>
         </div>
       </div>
       <div class="border rounded-3 primary-900-bg">

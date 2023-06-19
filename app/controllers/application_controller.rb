@@ -58,6 +58,14 @@ class ApplicationController < ActionController::Base
     return start_date, end_date
   end
 
+  def compute_stat_value_for_period(stat, period)
+    if value_over_time_data = current_company.stats.find_by(name: stat)&.value_over_time_data
+      value_over_time_data[period] || 0
+    else
+      0
+    end
+  end
+
   private
 
 
