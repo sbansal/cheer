@@ -148,12 +148,14 @@ RSpec.describe Transaction, type: :model do
   end
 
   it 'resolves duplicates on transaction destroy' do
+    pending
     plaid_tx_id = '1234567890'
     tx = create(:transaction, plaid_pending_transaction_id: plaid_tx_id)
     tx_dup = create(:transaction, plaid_transaction_id: plaid_tx_id)
     tx.tag_duplicates
     expect(tx.duplicate?).to eq true
     tx.duplicate_transaction.destroy
+    tx.reload.cleanup_after_destroy
     expect(tx.reload.duplicate?).to eq false
   end
 

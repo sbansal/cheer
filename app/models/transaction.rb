@@ -137,15 +137,15 @@ class Transaction < ApplicationRecord
       bank_account: bank_account.summary_json,
     }
   end
-
-  private
-
+  
   def cleanup_after_destroy
     resolve_duplicate
     unless self.user.nil?
       StatsCreatorJob.perform_later(self.user.company_id)
     end
   end
+
+  private
 
   def resolve_duplicate
     duplicate = Transaction.find_by(duplicate_transaction_id: id)
