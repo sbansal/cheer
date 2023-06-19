@@ -10,7 +10,6 @@ class Transaction < ApplicationRecord
 
   # callbacks
   after_update_commit { broadcast_replace_to "transactions", partial: 'transactions/transaction_summary', locals: {transaction: self} }
-  after_destroy :cleanup_after_destroy
   after_destroy_commit do
     broadcast_remove_to("transactions")
   end
@@ -21,6 +20,8 @@ class Transaction < ApplicationRecord
   scope :debits, -> {joins(:category).where('amount >= 0 and plaid_category_id not in (?)', Category::IGNORE_LIST)}
   scope :credits, -> {joins(:category).where('amount < 0 and plaid_category_id not in (?)',
     Category::IGNORE_LIST.concat(Category::CREDIT_IGNORE_LIST).uniq)}
+  scope :investments, -> {joins(:category).where('plaid_category_id in (?)', Category::INVESTMENT_CATEGORIES_LIST)}
+  
 
   def self.create_transactions_from_json(transactions_json_array, user_id)
     transactions = process_transactions_json(transactions_json_array, user_id)
@@ -125,14 +126,26 @@ class Transaction < ApplicationRecord
     amount > 0 && category.bank_fee_charged?
   end
 
-  private
-
+  def summary_json
+    {
+      amount: amount,
+      custom_description: custom_description,
+      merchant_name: merchant_name,
+      occured_at: occured_at,
+      category: category.category_list,
+      essential: essential,
+      bank_account: bank_account.summary_json,
+    }
+  end
+  
   def cleanup_after_destroy
     resolve_duplicate
     unless self.user.nil?
       StatsCreatorJob.perform_later(self.user.company_id)
     end
   end
+
+  private
 
   def resolve_duplicate
     duplicate = Transaction.find_by(duplicate_transaction_id: id)

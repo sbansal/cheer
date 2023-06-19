@@ -44,13 +44,17 @@ class DashboardController < ApplicationController
     end
   end
 
-  private
-
-  def compute_stat_value_for_period(stat, period)
-    if value_over_time_data = current_company.stats.find_by(name: stat)&.value_over_time_data
-      value_over_time_data[period]
-    else
-      0
+  def privatefi
+    @chat = current_user.chats.last
+    unless @chat
+      @chat = current_user.chats.create(message: 'PrivateFi chat')
+      @chat.messages.create(user: current_user, content: 'Hi, I am PrivateFi. How can I help you?', query_type: Message::BOT_RESPONSE, role: :assistant)
     end
+    redirect_to chat_path(@chat)
+  end
+
+  def personal
+    @accounts = current_company.bank_accounts
+    @accounts_count = @accounts.count
   end
 end

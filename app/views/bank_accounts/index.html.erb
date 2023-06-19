@@ -1,8 +1,8 @@
 <% title "Accounts" %>
-<div class="mt-4 px-3">
+<div class="mt-2 px-3">
   <div class="row">
     <div class="col-sm-8">
-      <div class="px-2 py-2 mb-5">
+      <div class="px-2 py-2 mb-2">
         <div class="fw-bold lg-18">Cash - <%= number_to_currency(current_user.company.total_cash_assets)%></div>
         <div class="mt-2 mb-4 grey-500 med">
           Your total liquid cash that you have available at hand.
@@ -19,7 +19,7 @@
           </div>
         <% end %>
       </div>
-      <div class="px-2 py-2 mb-5">
+      <div class="px-2 py-2 mb-2">
         <div class="fw-bold lg-18">Investments - <%= number_to_currency(current_user.company.total_non_cash_assets)%></div>
         <div class="mt-2 mb-4 grey-500 med">
           All your investments, collectibles and the real estate properties you are currently tracking.
@@ -55,6 +55,17 @@
         <% end %>
       </div>
     </div>
-    <div class="col-sm-4"></div>
+    <div class="col-sm-4 border-start">
+      <div class="fw-bold my-2 lg-18">Asset allocation report</div>
+
+      <div class="my-2">Your total Asset Balance is <code><%= number_to_currency(@asset_allocation[:total_balance])%></code></div>
+      <div class="px-3">
+        <% @asset_allocation[:report_data].each do |item| %>
+          <div>
+            <%= item[:account_type].humanize %> = <%= number_to_percentage(item[:percentage])%>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

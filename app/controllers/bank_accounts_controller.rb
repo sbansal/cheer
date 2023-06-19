@@ -3,6 +3,7 @@ class BankAccountsController < ApplicationController
     @cash_assets = current_company.bank_accounts.includes([:institution]).assets.liquid_accounts
     @non_cash_asset_accounts = current_company.bank_accounts.includes([:institution]).assets.illiquid_accounts
     @liability_accounts = current_company.bank_accounts.includes([:institution]).liabilities
+    @asset_allocation = AssetAllocationCalculator.call(@cash_assets + @non_cash_asset_accounts)
   end
 
   def refresh
@@ -26,7 +27,7 @@ class BankAccountsController < ApplicationController
     @bank_account = current_company.bank_accounts.find(params[:id])
     if @bank_account.destroy
       respond_to do |format|
-        format.html { redirect_to bank_accounts_path }
+        format.html { redirect_to bank_accounts_path, flash: { notice: "#{@bank_account.name} removed successfully. " } }
         format.json { head :no_content }
       end
     else

@@ -46,3 +46,5 @@ application.register("charts", ChartsController)
 import LinksController from "./links_controller.js"
 application.register("links", LinksController)
 
+import MessagesController from "./messages_controller.js"
+application.register("messages", MessagesController)

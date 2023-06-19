@@ -223,6 +223,17 @@ class BankAccount < ApplicationRecord
     end
   end
 
+  def summary_json
+    {
+      account_type: account_type,
+      account_subtype: account_subtype,
+      balance: current_balance,
+      balance_currency_code: balance_currency_code,
+      institution: institution&.name,
+      official_name: official_name,
+    }
+  end
+
   private
 
   def sanitize_balance(balance)

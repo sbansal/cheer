@@ -3,22 +3,22 @@ namespace :institutions do
   task pull_from_plaid: :environment do
     client = PlaidClientCreator.call
     country_codes = Rails.application.credentials[:plaid][:country_codes]
-    institutions_response = client.institutions.get(count: 500, offset: 0, country_codes: country_codes)
-    institutions = institutions_response['institutions']
-    total = institutions_response['total']
+    institutions_response = client.institutions_get(count: 500, offset: 0, country_codes: country_codes)
+    institutions = institutions_response.institutions
+    total = institutions_response.total
     while institutions.length < total
       puts "Fetched institutions #{institutions.length}/#{total}"
-      institutions_response = client.institutions.get(
+      institutions_response = client.institutions_get(
         count: 500,
         offset: institutions.length,
         country_codes: country_codes,
       )
-      institutions += institutions_response['institutions']
+      institutions += institutions_response.institutions
     end
     puts "Fetched institutions #{institutions.length}/#{total}"
     institution_ids = Institution.pluck(:plaid_institution_id)
     create_institutions_array = institutions.flatten.filter_map do |institution_json|
-      unless institution_ids.include?(institution_json['institution_id'])
+      unless institution_ids.include?(institution_json.institution_id)
         {
           plaid_institution_id: institution_json.institution_id,
           name: institution_json.name,

@@ -1,4 +1,14 @@
 FactoryBot.define do
+  factory :message do
+    content { "MyText" }
+    user_id { 1 }
+  end
+
+  factory :chat do
+    message { "MyText" }
+    user_id { 1 }
+  end
+
   factory :transaction_error do
     transaction_json { "" }
     user_id { 1 }

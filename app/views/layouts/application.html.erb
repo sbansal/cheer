@@ -16,8 +16,8 @@
 
   <body class="body">
     <div id="page-container" class="container-fluid p-0" data-controller="page">
-      <div class="row m-0">
-        <div class="col-2 border-end side-nav-hidden" id="nav-container">
+      <div class="row m-0 h-100">
+        <div class="col-2 border-end side-nav-hidden h-100 sticky-top" id="nav-container">
           <%= render 'layouts/side_nav' %>
         </div>
         <div class="col px-0">
@@ -35,7 +35,7 @@
               <%= link_to 'Link account', new_bank_account_path(account_category: 'asset'), { class: 'btn btn-sm btn-primary fw-bold' }%>
             </div>
           </div>
-          <div><%= yield %></div>
+          <%= yield %>
         </div>
       </div>
     </div>

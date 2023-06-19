@@ -11,7 +11,6 @@ export default class extends Controller {
   processPlaidEvent(eventName, metadata) {
     if (eventName === 'HANDOFF') {
       this.clearPlaidLocalCache()
-      location.href = '/login_items'
     } else if (eventName === 'OPEN_OAUTH') {
       console.debug('Initiating oauth flow')
       localStorage.setItem('plaid_oauth_initiated', 'true')

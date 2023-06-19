@@ -1,0 +1,115 @@
+<% title "Reports" %>
+<div class="px-3">
+  <% if current_user.new_company? || @accounts_count == 0 %>
+  <div class="intro">
+    <h1>Hello there, Welcome to Cheer!</h1>
+    <p class="subtext">
+      To get you started, let's connect your accounts first.
+    </p>
+    <div class="connect">
+      <%= link_to('Link account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
+      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    </div>
+  </div>
+  <% else %>
+    <div class="row border-bottom px-3 py-3">
+      <div class="col-sm-3 mb-4 offset-sm-9">
+        <div class="ms-auto">
+          <%= render 'shared/time_period_scale' %>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="py-2">
+          <h1 class="lg-24 py-4">Cashflow Summary</h1>
+          <div class="border rounded-3">
+            <div class="header px-2 py-3 row m-0 fw-bold">
+              <div class="col">Income</div>
+              <div class="col text-end"><%= number_to_currency(@income_stat) %></div>
+            </div>
+            <div class="row m-0 my-4">
+              <%= render 'transactions/transactions_by_categories', transactions_by_category: @income_transactions_by_category  %>
+            </div>
+            <div class="header px-2 py-3 row m-0 fw-bold">
+              <div class="col">Investment Transactions</div>
+              <div class="col text-end"><%= number_to_currency(@investments_stat) %></div>
+            </div>
+            <div class="row m-0 my-4">
+              <%= render 'transactions/transactions_by_categories', transactions_by_category: @investment_transactions_by_category  %>
+            </div>
+            <div class="header px-2 py-3 row m-0 fw-bold">
+              <div class="col">Expenses</div>
+              <div class="col text-end"><%= number_to_currency(@expenses_stat) %></div>
+            </div>
+            <div class="row m-0 my-4 secondary">
+              <%= render 'transactions/transactions_by_categories', transactions_by_category: @expense_transactions_by_category %>
+            </div>
+            <div class="header px-2 py-3 row m-0 fw-bold">
+              <div class="col">Total Money left Over</div>
+              <div class="col text-end"><%= number_to_currency(@savings_stat) %></div>
+            </div>
+          </div>
+        </div>
+        <div class="py-2 mt-5">
+          <h1 class="lg-24 py-4">Balance Sheet Summary</h1>
+          <div class="border rounded-3">
+            <div class="header px-2 py-3 row m-0 fw-bold">
+              <div class="col">
+                <div>Assets</div>
+              </div>
+              <div class="col text-end">
+                <%= number_to_currency(@assets_stat)%>
+              </div>
+            </div>
+            <div class="row m-0 my-4 p-2 bold-2">
+              <div class="col">
+                <div>Cash</div>
+              </div>
+              <div class="col text-end">
+                <%= number_to_currency(@cash_stat)%>
+              </div>
+            </div>
+            <div class="">
+              <% @cash_asset_accounts.each do |account|%>
+                <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
+              <% end %>
+            </div>
+            <div class="row m-0 my-4 p-2 bold-2">
+              <div class="col">
+                <div>Investments</div>
+              </div>
+              <div class="col text-end">
+                <%= number_to_currency(@investments_stat)%>
+              </div>
+            </div>
+            <div>
+              <% @non_cash_asset_accounts.each do |account|%>
+                <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
+              <% end %>
+            </div>
+            <div class="header px-2 p-3 row m-0 fw-bold mt-5">
+              <div class="col fw-bold ">
+                <div>Liabilities</div>
+              </div>
+              <div class="col text-end">
+                <%= number_to_currency(@liabilities_stat)%>
+              </div>
+            </div>
+            <div>
+              <% @liability_accounts.each do |account|%>
+                <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: true %>
+              <% end %>
+            </div>
+            <div class="row m-0 my-4 p-2 bold-2 mt-5">
+              <div class="col lg-18">
+                <div>Total Net Worth</div>
+              </div>
+              <div class="col text-end lg-18">
+                <%= number_to_currency(@net_worth_stat)%>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -25,7 +25,9 @@
     </div>
   </div>
   <div class="col-4 text-end">
-    <div class="grey-100 small"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
+    <% if show_balance_updated_at %>
+      <div class="grey-100 small"><%= time_ago_in_words(account.current_balance_updated_at) %> ago</div>
+    <% end %>
     <div class="med"><%= number_to_currency(account.current_balance) %></div>
   </div>
 </div>

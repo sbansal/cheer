@@ -1,0 +1,14 @@
+<% title "PrivateFi" %>
+<div class="p-2 w-75 m-auto pt-4 mb-2" data-controller="messages" style="min-width: 400px">
+  <div id="messages" class="messages-container">
+    <%= turbo_stream_from "#{@chat.broadcast_tag}" %>
+    <%= render @messages %>
+  </div>
+</div>
+<div class="p-2 pt-4 sticky-bottom default-bg border-top" style="max-height: 100px">
+  <div class="w-50 m-auto chat-form">
+    <%= form_with(model: [ @chat, @chat.messages.new ], data: { controller: 'messages', messages_target: 'form', action: 'keydown->messages#submitOnEnter'}) do |form| %>
+      <%= form.text_area :content, class: 'form-control xs', autofocus: true, placeholder: 'Ask me anything...' %>
+    <% end %>
+  </div>
+</div>

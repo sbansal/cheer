@@ -7,6 +7,8 @@ module ApplicationHelper
       "active " if (controller_name == "dashboard" && action_name == "index")
     when "cashflow"
       "active " if (controller_name == "dashboard" && action_name == "cashflow")
+    when "export"
+      "active " if (controller_name == "dashboard" && action_name == "export")
     when "income_expense"
       "active " if (controller_name == "dashboard" && action_name == "income_expense")
     when "transactions"
@@ -21,6 +23,10 @@ module ApplicationHelper
       "active " if (controller_name == "subscriptions")
     when "notifications"
       "active " if (controller_name == "notifications")
+    when "privatefi"
+      "active " if (controller_name == "chats")
+    when "reports"
+      "active " if (controller_name == "reports")  
     else
       ""
     end

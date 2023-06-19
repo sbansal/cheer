@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_28_033439) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_07_175551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
@@ -114,6 +114,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_033439) do
     t.index ["plaid_category_id"], name: "index_categories_on_plaid_category_id", unique: true
   end
 
+  create_table "chats", force: :cascade do |t|
+    t.text "message"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -126,6 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_033439) do
     t.datetime "subscription_cancel_at"
     t.datetime "subscription_canceled_at"
     t.boolean "free_account"
+    t.string "enabled_product", default: "ALL"
   end
 
   create_table "events", force: :cascade do |t|
@@ -168,6 +176,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_033439) do
     t.string "provider_refresh_token"
     t.text "plaid_cursor"
     t.boolean "new_accounts_available", default: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id"
+    t.integer "chat_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "query_type", default: "prompt"
+    t.integer "role"
   end
 
   create_table "notification_subscriptions", force: :cascade do |t|
