@@ -35,8 +35,8 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_time_boundary(params)
-    start_date = Date.today
-    end_date = Date.today
+    start_date = params[:start_date] ? Date.parse(params[:start_date]) : Date.today
+    end_date = params[:end_date] ? Date.parse(params[:end_date]) : Date.today
     case params[:period]
     when Stat::THIS_MONTH
       start_date = start_date.beginning_of_month
@@ -51,8 +51,6 @@ class ApplicationController < ActionController::Base
       start_date = start_date - 1.year
     when Stat::ALL
       start_date = current_company.first_transaction_occured_at
-    else
-      start_date = start_date - 7.days
     end
     Rails.logger.info("start = #{start_date}, end = #{end_date}")
     return start_date, end_date

@@ -16,4 +16,10 @@
   <div class="row mx-2 p-2">
     <%= render 'transactions/transactions'%>
   </div>
+  <div class="row mt-4 m-0 mx-2 p-0 ">
+    <div class="col-sm-12 med text-end">
+      <%= signed_number_to_currency(@total_spend) %>
+      <span class="grey-100 xs"><%= 'total'.upcase %></span>
+    </div>
+  </div>
 </div>

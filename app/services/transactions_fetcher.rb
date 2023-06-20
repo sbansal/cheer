@@ -3,8 +3,9 @@ class TransactionsFetcher < ApplicationService
   def initialize(company, period, params={})
     @company = company
     @initial_scope = @company.transactions.includes(:category).order('occured_at desc')
-    calculate_occured_at_boundary(period)
     @params = params
+    calculate_occured_at_boundary(period)
+    Rails.logger.info("@start_date, @end_date = #{@start_date}, #{@end_date}")
   end
 
   def call
@@ -13,7 +14,6 @@ class TransactionsFetcher < ApplicationService
     scoped = filter_by_bank_accounts(scoped, @params[:bank_account_id]) if @params[:bank_account_id].present?
     scoped = filter_by_categories(scoped, @params[:categories]) if @params[:categories].present?
     scoped = filter_by_duplicate_transactions(scoped, @params[:show_duplicates]) if @params[:show_duplicates].present?
-    @duplicates_count = duplicates_count(scoped)
     OpenStruct.new(
       aggregated_transactions: Transaction::AggregatedTransactions.new('transactions', scoped),
       start_date: @start_date,
@@ -45,9 +45,9 @@ class TransactionsFetcher < ApplicationService
     Rails.logger.info("Show duplicate = #{show_duplicates}")
     if show_duplicates == 'true'
       scoped.where(duplicate: show_duplicates)
-    else
-      scoped
+      @duplicates_count = duplicates_count(scoped)
     end
+    scoped
   end
 
   def duplicates_count(scoped)
@@ -55,7 +55,8 @@ class TransactionsFetcher < ApplicationService
   end
 
   def calculate_occured_at_boundary(period)
-    @start_date, @end_date = Date.today
+    start_date = @params[:start_date] ? Date.parse(@params[:start_date]) : Date.today
+    end_date = @params[:end_date] ? Date.parse(@params[:end_date]) : Date.today
     case period
     when Stat::THIS_MONTH
       @start_date = start_date.beginning_of_month

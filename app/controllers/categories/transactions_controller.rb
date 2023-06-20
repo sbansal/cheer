@@ -2,7 +2,7 @@ class Categories::TransactionsController < ApplicationController
   include Pagy::Backend
   def index
     @period = params[:period] || Stat::ALL
-    @period_description = Stat::SUPPORTED_PERIODS[@period]
+    @period_description = Stat::SUPPORTED_PERIODS[@period] || @period
     @start_date, @end_date = parse_time_boundary(params)
     @category = Category.find(params[:category_id])
     @category_name = params[:category_name]
