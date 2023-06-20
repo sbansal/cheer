@@ -55,8 +55,8 @@ class TransactionsFetcher < ApplicationService
   end
 
   def calculate_occured_at_boundary(period)
-    start_date = @params[:start_date] ? Date.parse(@params[:start_date]) : Date.today
-    end_date = @params[:end_date] ? Date.parse(@params[:end_date]) : Date.today
+    @start_date = @params[:start_date] ? Date.parse(@params[:start_date]) : Date.today
+    @end_date = @params[:end_date] ? Date.parse(@params[:end_date]) : Date.today
     case period
     when Stat::THIS_MONTH
       @start_date = start_date.beginning_of_month
