@@ -1,8 +1,9 @@
 class ReportsController < ApplicationController
   def index
-    params[:period] ||= Stat::THIS_MONTH
+    params[:period] ||= Date.today.strftime('%b %Y')
     @period = params[:period]
-    @start_date, @end_date = parse_time_boundary(params)
+    @start_date = params[:start_date] || Date.today.beginning_of_month
+    @end_date = params[:end_date] || Date.today
     @transactions = current_company.transactions.occured_between(@start_date, @end_date).includes(:category)
     unless current_user.new_company?
       @income_transactions = @transactions.credits

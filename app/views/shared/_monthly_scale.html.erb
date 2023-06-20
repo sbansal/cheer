@@ -1,0 +1,26 @@
+<div class="row time-scale py-1 border rounded-3 m-0">
+  <div class="col px-1 text-center">
+    <%= link_to Date.today.strftime('%b %Y'), { period: Date.today.strftime('%b %Y'), start_date: Date.today.beginning_of_month, end_date: Date.today.end_of_month },
+      class: "xs #{'active' if @period.eql?(Date.today.strftime('%b %Y'))}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 1.month).strftime('%b %Y'), { period: (Date.today - 1.month).strftime('%b %Y'), start_date: (Date.today - 1.month).beginning_of_month, end_date: (Date.today - 1.month).end_of_month },
+      class: "xs #{'active' if @period.eql?((Date.today - 1.month).strftime('%b %Y'))}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 2.month).strftime('%b %Y'), { period: (Date.today - 2.month).strftime('%b %Y'), start_date: (Date.today - 2.month).beginning_of_month, end_date: (Date.today - 2.month).end_of_month },
+      class: "xs #{'active' if @period.eql?((Date.today - 2.month).strftime('%b %Y'))}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 3.month).strftime('%b %Y'), { period: (Date.today - 3.month).strftime('%b %Y'), start_date: (Date.today - 3.month).beginning_of_month, end_date: (Date.today - 3.month).end_of_month },
+      class: "xs #{'active' if @period.eql?((Date.today - 3.month).strftime('%b %Y'))}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 4.month).strftime('%b %Y'), { period: (Date.today - 4.month).strftime('%b %Y'), start_date: (Date.today - 4.month).beginning_of_month, end_date: (Date.today - 4.month).end_of_month },
+      class: "xs #{'active' if @period.eql?((Date.today - 4.month).strftime('%b %Y'))}"%>
+  </div>
+  <div class="col px-1 text-center">
+    <%= link_to (Date.today - 5.month).strftime('%b %Y'), { period: (Date.today - 5.month).strftime('%b %Y'), start_date: (Date.today - 5.month).beginning_of_month, end_date: (Date.today - 5.month).end_of_month },
+      class: "xs #{'active' if @period.eql?((Date.today - 5.month).strftime('%b %Y'))}"%>
+  </div>
+</div>
