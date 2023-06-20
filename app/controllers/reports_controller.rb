@@ -12,10 +12,10 @@ class ReportsController < ApplicationController
       }.sort_by { |item| item.total_spend }
       @expense_transactions_by_category = @transactions.debits.group_by(&:category).map {
         |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
-      }.sort_by { |item| item.total_spend }
+      }.sort_by { |item| -item.total_spend }
       @investment_transactions_by_category = @transactions.investments.group_by(&:category).map {
         |category, transactions| Transaction::CategorizedTransaction.new(category, transactions)
-      }.sort_by { |item| item.total_spend }
+      }.sort_by { |item| -item.total_spend }
       @income_stat = @income_transactions.sum(:amount).abs
       @expenses_transactions = @transactions.debits
       @expenses_stat = @transactions.debits.sum(:amount).abs
