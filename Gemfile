@@ -6,7 +6,7 @@ ruby '3.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.0.4.3'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 5.6.4'
+gem 'puma', '~> 5.6.7'
 
 # frontend
 # Use SCSS for stylesheets
