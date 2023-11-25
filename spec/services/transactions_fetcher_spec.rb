@@ -11,6 +11,14 @@ RSpec.describe TransactionsFetcher do
     build_historical_transactions
   end
 
+  after(:all) do
+    Category.destroy_all
+    BankAccount.destroy_all
+    Transaction.destroy_all
+    User.destroy_all
+    Company.destroy_all
+  end
+
   describe 'with no params' do
     it 'queries transactions for all time' do
       fetcher = TransactionsFetcher.call(@company, Stat::ALL)
