@@ -6,7 +6,7 @@ ruby '3.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.0.4.3'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 5.6.4'
+gem 'puma', '~> 6.4.0'
 
 # frontend
 # Use SCSS for stylesheets
@@ -50,11 +50,11 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'capistrano', require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano-rbenv', require: false
-  gem 'capistrano-rails', require: false
-  gem 'capistrano3-puma', require: false
+  # gem 'capistrano', require: false
+  # gem 'capistrano-bundler', require: false
+  # gem 'capistrano-rbenv', require: false
+  # gem 'capistrano-rails', require: false
+  # gem 'capistrano3-puma', require: false
   gem 'seed_dump'
 end
 

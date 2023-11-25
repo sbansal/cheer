@@ -13,13 +13,14 @@ class TransactionsFetcher < ApplicationService
     scoped = filter_by_search_query(scoped, @params[:search_query]) if @params[:search_query].present?
     scoped = filter_by_bank_accounts(scoped, @params[:bank_account_id]) if @params[:bank_account_id].present?
     scoped = filter_by_categories(scoped, @params[:categories]) if @params[:categories].present?
-    scoped = filter_by_duplicate_transactions(scoped, @params[:show_duplicates]) if @params[:show_duplicates].present?
+    scoped = filter_by_duplicate_transactions(scoped) if @params[:show_duplicates] == 'true'
     @duplicates_count = duplicates_count(scoped)
+
     OpenStruct.new(
       aggregated_transactions: Transaction::AggregatedTransactions.new('transactions', scoped),
       start_date: @start_date,
       end_date: @end_date,
-      duplicates_count: @duplicates_count,
+      duplicates_count: @duplicates_count || 0,
     )
   end
 
@@ -42,12 +43,8 @@ class TransactionsFetcher < ApplicationService
     scoped.where(category: category_ids)
   end
 
-  def filter_by_duplicate_transactions(scoped, show_duplicates)
-    Rails.logger.info("Show duplicate = #{show_duplicates}")
-    if show_duplicates == 'true'
-      scoped.where(duplicate: show_duplicates)
-    end
-    scoped
+  def filter_by_duplicate_transactions(scoped)
+    scoped.where(duplicate: true)
   end
 
   def duplicates_count(scoped)
