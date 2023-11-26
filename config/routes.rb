@@ -3,8 +3,8 @@ require 'resque/server'
 Rails.application.routes.draw do
   constraints subdomain: 'app' do
     devise_scope :user do
-        get "/sign_up" => "accounts#new"
-      end
+      get "/sign_up" => "companies#new"
+    end
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
     root to: 'dashboard#cashflow'

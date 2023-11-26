@@ -6,35 +6,52 @@
 
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name),
       html: {class: 'form-vertical', 'data-turbo': 'false'}) do |f| %>
-    <div class="mb-3">
-      <%= f.label :email, class: 'control-label form-label' %>
-      <div>
-        <%= f.email_field :email, class: 'form-control', autofocus: true %>
+      <div class="mb-3">
+        <%= f.label :email, class: 'control-label form-label' %>
+        <div>
+          <%= f.email_field :email, class: 'form-control', autofocus: true %>
+        </div>
       </div>
-    </div>
-    <div class="mb-3">
-      <%= f.label :password, class: 'control-label' %>
-      <div>
-        <%= f.password_field :password, :autocomplete => "off", class: 'form-control' %>
+      <div class="mb-3">
+        <%= f.label :password, class: 'control-label' %>
+        <div>
+          <%= f.password_field :password, :autocomplete => "off", class: 'form-control' %>
+        </div>
       </div>
-    </div>
-
-		<% if devise_mapping.rememberable? %>
-    <div class="mb-3 small">
-      <%= f.check_box :remember_me %> <%= f.label :remember_me %>
-      <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
-      <%= link_to 'Forgot password?', new_password_path(resource_name), class: 'float-end primary'%>
+  		<% if devise_mapping.rememberable? %>
+      <div class="mb-3 small">
+        <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
+        <%= link_to 'Forgot password?', new_password_path(resource_name), class: 'float-end primary'%>
+        <% end %>
+      </div>
       <% end %>
-    </div>
+      <div class="btn-container d-grid gap-2">
+        <%= f.submit "Sign in", :class => 'btn btn-primary fw-bold' %>
+      </div>
     <% end %>
-    <div class="btn-container d-grid gap-2">
-      <%= f.submit "Sign in", :class => 'btn btn-primary fw-bold' %>
-    </div>
+    <% if Rails.application.credentials[:registrations_enabled] %>
+      <div class="mt-5">
+        <p class="line-break"></p>
+      </div>
+      <div class="text-center my-3">
+        Don't have an account?
+      </div>
+      <div class="d-grid gap-2">
+        <%= link_to "Continue with Google", class: "btn btn-primary my-3" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
+          </svg>
+          Continue with Google
+        <% end %>
+          <%= link_to new_registration_path(resource_name), class: "btn btn-primary" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+            </svg>
+            Continue with Email
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
-  <% if Rails.application.credentials[:registrations_enabled] %>
-    <p class="text-center">
-      Don't have an account? <%= link_to 'Create New Account', new_registration_path(resource_name), class: "purple-linky" %>
-    </p>
-  <% end %>
 </div>

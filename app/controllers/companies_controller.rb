@@ -39,7 +39,7 @@ class CompaniesController < ApplicationController
   end
 
   def new
-    @company = Company.new(name: 'New Account')
+    @company = Company.new(name: 'New Account', enabled_product: Company::PERSONAL_PRODUCT)
     @user = @company.users.build
     respond_to do |format|
       format.html { render layout: 'devise' }
