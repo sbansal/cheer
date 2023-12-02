@@ -73,7 +73,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rotp'
 gem 'rqrcode'
 gem 'lockbox'
-gem 'devise'
+gem 'devise', '~>4.9.3'
 gem 'aws-sdk-s3', require: false
 gem 'json-jwt', '~>1.14.0'
 

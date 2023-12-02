@@ -4,37 +4,47 @@
     <p class="line-break"></p>
     <%= render 'devise/shared/alerts'%>
 
-    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name),
-      html: {class: 'form-vertical', 'data-turbo': 'false'}) do |f| %>
-    <div class="mb-3">
-      <%= f.label :email, class: 'control-label form-label' %>
-      <div>
-        <%= f.email_field :email, class: 'form-control', autofocus: true %>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-vertical'}) do |f| %>
+      <div class="mb-3">
+        <%= f.label :email, class: 'control-label form-label' %>
+        <div>
+          <%= f.email_field :email, class: 'form-control', autofocus: true %>
+        </div>
       </div>
-    </div>
-    <div class="mb-3">
-      <%= f.label :password, class: 'control-label' %>
-      <div>
-        <%= f.password_field :password, :autocomplete => "off", class: 'form-control' %>
+      <div class="mb-3">
+        <%= f.label :password, class: 'control-label' %>
+        <div>
+          <%= f.password_field :password, :autocomplete => "off", class: 'form-control' %>
+        </div>
       </div>
-    </div>
-
-		<% if devise_mapping.rememberable? %>
-    <div class="mb-3 small">
-      <%= f.check_box :remember_me %> <%= f.label :remember_me %>
-      <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
-      <%= link_to 'Forgot password?', new_password_path(resource_name), class: 'float-end primary'%>
+  		<% if devise_mapping.rememberable? %>
+      <div class="mb-3 small">
+        <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' %>
+        <%= link_to 'Forgot password?', new_password_path(resource_name), class: 'float-end primary'%>
+        <% end %>
+      </div>
       <% end %>
-    </div>
+      <div class="btn-container d-grid gap-2">
+        <%= f.submit "Sign in", :class => 'btn btn-primary fw-bold' %>
+      </div>
     <% end %>
-    <div class="btn-container d-grid gap-2">
-      <%= f.submit "Sign in", :class => 'btn btn-primary fw-bold' %>
-    </div>
+    <% if Rails.application.credentials[:registrations_enabled] %>
+      <div class="mt-5">
+        <p class="line-break"></p>
+      </div>
+      <div class="text-center my-3">
+        Don't have an account?
+      </div>
+      <div class="d-grid gap-2">
+          <%= link_to new_registration_path(resource_name), class: "btn btn-primary", data: {turbo: "false"} do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+            </svg>
+            Continue with Email
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
-  <% if Rails.application.credentials[:registrations_enabled] %>
-    <p class="text-center">
-      Don't have an account? <%= link_to 'Create New Account', new_registration_path(resource_name), class: "purple-linky" %>
-    </p>
-  <% end %>
 </div>
