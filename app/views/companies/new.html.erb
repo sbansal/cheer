@@ -7,6 +7,7 @@
     <%= form_for(@company, method: :post, html: {'data-turbo': 'false'}) do |company_form| %>
     <%= render "shared/error_messages", object: @company %>
       <%= company_form.hidden_field :name %>
+      <%= company_form.hidden_field :enabled_product %>
       <%= company_form.fields_for :users do |f| %>
         <div class="mb-3">
           <%= f.label :full_name, class: 'control-label form-label' %>

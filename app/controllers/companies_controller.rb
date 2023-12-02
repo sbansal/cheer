@@ -39,7 +39,7 @@ class CompaniesController < ApplicationController
   end
 
   def new
-    @company = Company.new(name: 'New Account')
+    @company = Company.new(name: 'New Account', enabled_product: Company::PERSONAL_PRODUCT)
     @user = @company.users.build
     respond_to do |format|
       format.html { render layout: 'devise' }
@@ -68,6 +68,6 @@ class CompaniesController < ApplicationController
   private
 
   def company_params
-    params.require(:company).permit(:name, users_attributes: [:full_name, :email, :password])
+    params.require(:company).permit(:name, :enabled_product, users_attributes: [:full_name, :email, :password])
   end
 end

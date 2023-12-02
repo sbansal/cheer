@@ -4,19 +4,14 @@
     <title>Cheer</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
     <%= stylesheet_link_tag "application", "main", media: "all", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body class="body">
-    <header>
-      <nav class="text-center my-3">
-        <ul class="simple-list">
-          <li class="text-center"><%= link_to 'Cheer', root_path, class: 'logo lg-36' %></li>
-        </ul>
-      </nav>
-    </header>
     <main class="container"><%= yield %></main>
   </body>
 </html>

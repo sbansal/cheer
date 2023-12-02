@@ -3,7 +3,7 @@ require 'resque/server'
 Rails.application.routes.draw do
   constraints subdomain: 'app' do
     devise_scope :user do
-        get "/sign_up" => "accounts#new"
+        get "/sign_up" => "companies#new"
       end
     devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout'},
       controllers: { registrations: 'registrations', sessions: 'sessions' }
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
     get '/privatefi', to: 'dashboard#privatefi'
-    get '/personal', to: 'dashboard#personal'
+    get '/personal', to: 'dashboard#personal', as: :personal
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
