@@ -1,24 +1,52 @@
 <% title "Cheer Personal" %>
 <div class="px-3">
   <% if current_user.new_company? || @accounts_count == 0 %>
-  <div class="intro">
-    <h1>Hello there, Welcome to Cheer!</h1>
-    <p class="subtext">
-      To get you started, let's connect your accounts first.
-    </p>
-    <div class="connect">
-      <%= link_to('Link account', '', class: 'btn btn-primary btn-lg my-3 fw-bold', data: {controller: 'plaid',
-      action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+    <div class="intro">
+      <h1>Hello there, Welcome to Cheer!</h1>
+      <p class="subtext">
+        To get you started, let's connect your accounts first.
+      </p>
+      <div class="connect">
+        <%= link_to('Link account', '', class: 'btn btn-primary my-3 fw-bold', data: {controller: 'plaid',
+        action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+      </div>
     </div>
-  </div>
   <% else %>
-    <div class="py-4">
-      <p class=""><%= pluralize(@accounts_count, 'account')%> connected.</div>
-      <% @accounts.each do |account| %>
-        <div class="row sm m-0">
-          <div class="border-bottom p-2"><%= account.descriptive_name%></div>
+    <div class="my-3">
+      <h1 class="lg-16 primary fw-bold">Hello there, Welcome to Cheer Personal.</h1>
+      <p class="subtext small">To generate your financial report, please link your bank accounts first so that we can pull in all the data.</p>
+      <div class="mt-2 py-2">
+        <div class="row">
+          <div class="col lg-16 border-bottom py-2">Connections</div>
+          <div class="connect col text-end border-bottom">
+            <%= link_to('Link another account', '', class: 'btn btn-primary btn-sm small', data: {controller: 'plaid',
+            action: 'click->plaid#createLoginItem'}, id: 'plaid-link') %>
+          </div>
         </div>
-      <% end %>
+        <% current_user.login_items.each do |login_item| %>
+          <div class="row small m-0">
+            <% if login_item&.institution&.logo.present? %>
+              <div class="p-2 col-1 d-none d-xl-block">
+                <%= image_tag login_item&.institution&.logo_source, size: "20x20" %>
+              </div>
+            <% else %>
+              <div class="p-2">
+                <span class="col small"><%= login_item&.institution&.name %></span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="mt-2 py-2">
+        <div class="row">
+          <div class="lg-16 border-bottom py-2">Accounts</div>
+        </div>
+        <% @accounts.each do |account| %>
+          <div class="row small m-0">
+            <%= render 'bank_accounts/account_details', account: account, show_balance_updated_at: false %>
+          </div>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

@@ -17,9 +17,17 @@ namespace :institutions do
     end
     puts "Fetched institutions #{institutions.length}/#{total}"
     institution_ids = Institution.pluck(:plaid_institution_id)
-    create_institutions_array = institutions.flatten.filter_map do |institution_json|
-      unless institution_ids.include?(institution_json.institution_id)
-        {
+    create_institutions_array = []
+    update_institutions_array = []
+    institutions.flatten.filter_map do |institution_json|
+      if institution_ids.include?(institution_json.institution_id)
+        Institution.find_by(plaid_institution_id: institution_json.institution_id).update(
+          name: institution_json.name,
+          logo: institution_json.logo,
+          url: institution_json.url,
+        )
+      else
+        insert_record = {
           plaid_institution_id: institution_json.institution_id,
           name: institution_json.name,
           logo: institution_json.logo,
@@ -27,6 +35,7 @@ namespace :institutions do
           created_at: Time.zone.now.utc,
           updated_at: Time.zone.now.utc,
         }
+        create_institutions_array << insert_record
       end
     end
 
