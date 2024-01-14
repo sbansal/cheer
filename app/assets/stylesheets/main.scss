@@ -1,5 +1,13 @@
 @import 'colors';
 
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
+}
+
 html {
   height: 100%;
   font-size: 16px;
@@ -7,8 +15,8 @@ html {
 
 body {
   color: var(--default-color);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", "Ubuntu", sans-serif;
-  font-weight: 400;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", "Ubuntu", sans-serif;
+  font-weight: 300;
   background: var(--default-bg);
   margin: 0;
 }
@@ -1322,4 +1330,18 @@ span.generated-text {
   p {
     margin-bottom: 5px;
   }
+}
+
+.dotted-bg {
+  padding: 6rem;
+  background-image: radial-gradient(#262655 1px, transparent 0);
+  background-size: 7px 7px;
+  background-position: -8.5px -8.5px;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1), transparent 75%);
+}
+
+#logo-new::before {
+  width: 32px;
+  height: 32px;
+  background-image: image('cheer_logo_new.png');
 }

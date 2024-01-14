@@ -1,0 +1,55 @@
+<% title "Cheer Personal" %>
+<div class="px-1">
+  <div class="my-3">
+    <p class="mt-3 med fw-bold">2023 Financial year in review</p>
+    <div data-controller="charts" class="mt-4">
+      <div class="mb-2 lg-24 fw-bold">Income</div>
+      <p class="">Your income went from <%= number_to_currency(13456)%> in January to <%= number_to_currency(16256)%> in December.
+        Your monthly average income was <%= number_to_currency(14456)%>. Your highest income of <%= number_to_currency(16256)%> was in December
+        and your lowest income of <%= number_to_currency(16256)%> was in March.
+      </p>
+      <div class="row border rounded-2 p-3 mb-5 default-bg">
+        <%= render 'dashboard/metric', title: 'total income', metric_value: '122101', element_id: 'income-value' %>
+        <div class="col-sm-8">
+          <div class="dotted-bg px-2 py-2 my-3 fade-in" data-charts-target="incomeChart">
+            <canvas id="income-chart" class="mt-5"></canvas>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="my-5">
+            <div class="med py-2">Income Sources</div>
+            <div class="">
+              <%= render 'transactions/transactions_by_categories', transactions_by_category: @income_by_category %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 lg-24 fw-bold">Expenses</div>
+      <p class="">Your expenses went from <%= number_to_currency(13456)%> in January to <%= number_to_currency(16256)%> in December.
+        Your monthly average expenses were <%= number_to_currency(14456)%>. Your highest expenses of <%= number_to_currency(16256)%> were in December
+        and your lowest expenses of <%= number_to_currency(16256)%> were in March.
+      </p>
+      <div class="row border rounded-2 p-3 mb-5 default-bg">
+        <%= render 'dashboard/metric', title: 'total expenses', metric_value: '78965', element_id: 'expense-value' %>
+        <div class="col-sm-8">
+          <div class="dotted-bg px-2 py-2 my-3 fade-in" data-charts-target="expenseChart">
+            <canvas id="expense-chart" class="mt-5"></canvas>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="my-5">
+            <div class="med py-2">Expense Sources</div>
+            <div class="">
+              <%= render 'transactions/transactions_by_categories', transactions_by_category: @expenses_by_category %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-5">
+        <div class="mb-2 lg-24 fw-bold">Net Savings</div>
+        <p class="">Based on your income and expenses, your net savings for the year were <span class="fw-bold"><%= number_to_currency(-16256)%></span>.</p>
+      </div>
+    </div>
+    <p class="line-break py-5"></p>
+  </div>
+</div>

@@ -53,7 +53,7 @@ class ToolTipLine extends BarController {
 }
 
 export default class extends Controller {
-  static targets = [ "balancesChart", "balanceValue", "cashflowChart"]
+  static targets = [ "balancesChart", "balanceValue", "cashflowChart", "incomeChart", "expenseChart", "savingsChart"]
   static values = {
     currency: String,
     balance: String,
@@ -101,7 +101,12 @@ export default class extends Controller {
   formatDate(date) {
     let month = MONTHS[date.getMonth()]
     let year = date.getFullYear()
-    return `${month} ${year}`
+    const options = { month: 'short', year: '2-digit' }
+    const formattedDate = date.toLocaleDateString('en-US', options)
+
+    const yearDigits = formattedDate.slice(-2)
+    const monthWithApostrophe = formattedDate.slice(0, 3)
+    return `${monthWithApostrophe}`
   }
 
   shouldShowFullDate = () => {
@@ -356,6 +361,21 @@ export default class extends Controller {
     return dataSet;
   }
 
+  generateLineDataSet = (dataArray) => {
+    let dataSet = []
+    for (const[i, data] of dataArray.entries()) {
+      dataSet.push({
+        borderColor: CHART_BORDER_COLORS[i],
+        borderWidth: 1.5,
+        cubicInterpolationMode: 'default',
+        tension: 0,
+        data: data['trendData'],
+        fill: false,
+      })
+    }
+    return dataSet;
+  }
+
   balancesChartTargetConnected(element) {
     console.debug("Balance Chart connected.")
     let self = this
@@ -421,11 +441,230 @@ export default class extends Controller {
       const incomeTrend = Object.entries(data_json['income_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
+      console.debug(incomeTrend)
       const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
         return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
       });
       const dataset = self.generateDataSet([{label: 'Income', trendData: incomeTrend}, {label: 'Expenses', trendData: expenseTrend}])
       self.makeChart(dataset, 'incomeExpense', 'income-expense-chart', true)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  incomeChartTargetConnected(element) {
+    console.debug("Income expense Chart connected.")
+    let self = this
+    fetch(`/companies/income_trend?period=yearly`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data_json => {
+      console.debug(data_json)
+      const incomeTrend = Object.entries(data_json['income_trend']).map(function(item) {
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
+      });
+      const dataset = self.generateLineDataSet([{trendData: incomeTrend}])
+      Chart.defaults.plugins.legend.display = false
+      Chart.defaults.elements.point.radius = 0
+      const config = {
+        type: 'line',
+        data: {
+          datasets: dataset,
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: false,
+            },
+          },
+          interaction: {
+            intersect: false,
+          },
+          scales: {
+            x: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  const label = this.getLabelForValue(value);
+                  return self.formatDate(new Date(label));
+                },
+              },
+            },
+            y: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  return self.makeFriendly(value);
+                },
+                font: {
+                  size: TICK_FONT_SIZE,
+                },
+              },
+            }
+
+          }
+        },
+      };
+      const myChart = new Chart(
+        document.getElementById('income-chart'),
+        config,
+      );
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  expenseChartTargetConnected(element) {
+    console.debug("Income expense Chart connected.")
+    let self = this
+    fetch(`/companies/expense_trend?period=yearly`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data_json => {
+      const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
+      });
+      const dataset = self.generateLineDataSet([{label: '', trendData: expenseTrend}])
+      console.debug(dataset)
+      Chart.defaults.plugins.legend.display = false
+      const config = {
+        type: 'line',
+        data: {
+          datasets: dataset,
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: false,
+            },
+          },
+          interaction: {
+            intersect: false,
+          },
+          scales: {
+            x: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  const label = this.getLabelForValue(value);
+                  return self.formatDate(new Date(label));
+                },
+              },
+            },
+            y: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  return self.makeFriendly(value);
+                },
+                font: {
+                  size: TICK_FONT_SIZE,
+                },
+              },
+            }
+          }
+        },
+      };
+      const myChart = new Chart(
+        document.getElementById('expense-chart'),
+        config,
+      );
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  savingsChartTargetConnected(element) {
+    console.debug("Savings Chart connected.")
+    let self = this
+    fetch(`/companies/expense_trend?period=yearly`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => response.json())
+    .then(data_json => {
+      const expenseTrend = Object.entries(data_json['expense_trend']).map(function(item) {
+        return { x: self.convertDate(item[0]).toDateString(), y: item[1] }
+      });
+      const dataset = self.generateLineDataSet([{label: '', trendData: expenseTrend}])
+      console.debug(dataset)
+      Chart.defaults.plugins.legend.display = false
+      const config = {
+        type: 'line',
+        data: {
+          datasets: dataset,
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: false,
+            },
+          },
+          interaction: {
+            intersect: false,
+          },
+          scales: {
+            x: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  const label = this.getLabelForValue(value);
+                  return self.formatDate(new Date(label));
+                },
+              },
+            },
+            y: {
+              display: true,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                callback: function(value, index, values) {
+                  return self.makeFriendly(value);
+                },
+                font: {
+                  size: TICK_FONT_SIZE,
+                },
+              },
+            }
+          },
+        },
+      };
+      const myChart = new Chart(
+        document.getElementById('savings-chart'),
+        config,
+      );
     })
     .catch((error) => {
       console.error('Error:', error);

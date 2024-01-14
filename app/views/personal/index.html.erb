@@ -30,7 +30,6 @@
     </div>
   <% else %>
     <div class="my-3">
-      <div class="lg-16 text-uppercase fw-bold primary-light">Cheer Personal</div>
       <p class="mt-3 med fw-bold">Here is list of your active bank connections.</p>
       <div class="p-2 border rounded-2 secondary-bg">
         <% current_user.login_items.each do |login_item| %>
@@ -79,7 +78,7 @@
     <div class="">
       <p class="pt-3 med fw-bold">Ready to generate your report?</p>
       <p class="small">We will generate a report based on the data from the beginning of 2023 for you.</p>
-      <%= link_to('Generate Report →', '', class: 'btn btn-primary small') %>
+      <%= link_to('Generate Report →', personal_path('review'), class: 'btn btn-primary small') %>
     </div>
   <% end %>
 </div>

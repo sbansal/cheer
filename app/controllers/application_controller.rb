@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   def after_sign_in_path_for(resource)
-    if current_company.personal_product?
-      export_path
+    if personal_product?
+      personal_index_path
     elsif current_user.new_company?
       root_path
     else
@@ -25,9 +25,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_product_type
-    # if current_user && current_company.personal_product? && request.path != '/personal'
-    #   redirect_to personal_path
-    # end
+    if personal_product?
+      if request.path == '/logout'
+        return
+      elsif request.path != '/personal'
+        return
+        # redirect_to personal_path
+      end
+    end
   end
 
   def current_company
@@ -66,12 +71,15 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def personal_product?
+    current_user && current_company.personal_product?
+  end
 
   def layout_by_resource
     if devise_controller?
       "devise"
-    elsif current_company.personal_product?
-      "personal"
+    elsif current_user && current_company.personal_product?
+      "intro"
     else
       "application"
     end
