@@ -1331,3 +1331,17 @@ span.generated-text {
     margin-bottom: 5px;
   }
 }
+
+.dotted-bg {
+  padding: 6rem;
+  background-image: radial-gradient(#262655 1px, transparent 0);
+  background-size: 7px 7px;
+  background-position: -8.5px -8.5px;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1), transparent 75%);
+}
+
+#logo-new::before {
+  width: 32px;
+  height: 32px;
+  background-image: image('cheer_logo_new.png');
+}

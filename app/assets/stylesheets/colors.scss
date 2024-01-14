@@ -60,8 +60,10 @@ $faded-grey: #232426b3;
 
 .primary {color: var(--purple-600);}
 .primary-bg {background-color: var(--purple-600);}
+.default-bg {background-color: var(--default-bg);}
 .secondary-bg {background-color: var(--secondary-bg);}
 .primary-dark {color: $primary-dark;}
+.primary-light {color: $purple-700;}
 .grey-500 {color: var(--grey-500);}
 .grey-900 {color: var(--grey-900);}
 .grey-50 {color: var(--grey-50);}

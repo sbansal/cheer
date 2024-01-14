@@ -54,7 +54,7 @@ class DashboardController < ApplicationController
   end
 
   def personal
-    @accounts = current_company.bank_accounts
+    @accounts = current_company.bank_accounts.where('plaid_account_id is not null').includes([:institution])
     @accounts_count = @accounts.count
   end
 end

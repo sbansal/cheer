@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     get '/cashflow', to: 'dashboard#cashflow'
     get '/income_expense', to: 'dashboard#income_expense', as: :income_expense
     get '/privatefi', to: 'dashboard#privatefi'
-    get '/personal', to: 'dashboard#personal', as: :personal
+    # get '/personal', to: 'dashboard#personal', as: :personal
 
     #plaid resources
     post '/plaid/generate_access_token', to: 'plaid#generate_access_token'
@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     get 'settings', to: 'companies#settings'
     get 'companies/cashflow_trend'
     get 'companies/income_expense_trend'
+    get 'companies/income_trend'
+    get 'companies/expense_trend'
 
     #users resources
     resources :users, only: [:update]
@@ -91,5 +93,6 @@ Rails.application.routes.draw do
 
     #reports
     resources :reports, only: [:index]
+    resources :personal
   end
 end

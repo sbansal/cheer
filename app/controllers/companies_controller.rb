@@ -38,6 +38,36 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def income_trend
+    income_by_month = {}
+    (1..12).to_a.each do |month|
+      date = Date.new(2023, month, 1)
+      if month%2 == 0
+        income_by_month[date] = (1000*month + month*225)
+      else
+        income_by_month[date] = (850*month - month*225)
+      end
+    end
+    respond_to do |format|
+      format.json { render json: { income_trend: income_by_month } }
+    end
+  end
+  
+  def expense_trend
+    expense_by_month = {}
+    (1..12).to_a.each do |month|
+      date = Date.new(2023, month, 1)
+      if month%2 == 0
+        expense_by_month[date] = (900*month + month*225)
+      else
+        expense_by_month[date] = (800*month - month*225)
+      end
+    end
+    respond_to do |format|
+      format.json { render json: { expense_trend: expense_by_month } }
+    end
+  end
+
   def new
     @company = Company.new(name: 'New Account', enabled_product: Company::PERSONAL_PRODUCT)
     @user = @company.users.build

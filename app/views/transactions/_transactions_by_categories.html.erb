@@ -6,7 +6,7 @@
       category_name: categorized_transaction.category_name, period: @period, start_date: @start_date, end_date: @end_date) do %>
       <div class="row small m-2 border-bottom hoverable">
         <div class="col-6 p-2 grey-100"><%= categorized_transaction.category_name || 'Unknown' %></div>
-        <div class="col-6 p-2 text-end"><%= signed_number_to_currency(categorized_transaction.total_spend)%></div>
+        <div class="col-6 p-2 text-end"><%= number_to_currency(categorized_transaction.total_spend.abs)%></div>
       </div>
     <% end %>
   <% end %>
